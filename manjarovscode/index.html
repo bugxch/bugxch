@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>使用linux vs code调试C&#43;&#43;程序 - Dive Into Think</title><meta name="Description" content="博观而约取，厚积而薄发"><meta property="og:title" content="使用linux vs code调试C&#43;&#43;程序" />
+<meta property="og:description" content="最近练习leetcode编程，我希望在manjaro系统的vs code上可以单步调试C&#43;&#43;代码，找了很多资料都不能正常运行，所以参考官方资料自己整好了，记录一下。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://bugxch.github.io/manjarovscode/" />
+<meta property="og:image" content="https://bugxch.github.io/static/android-chrome-512x512.png"/>
+<meta property="article:published_time" content="2020-07-26T08:12:22+08:00" />
+<meta property="article:modified_time" content="2020-07-26T08:12:22+08:00" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://bugxch.github.io/static/android-chrome-512x512.png"/>
+
+<meta name="twitter:title" content="使用linux vs code调试C&#43;&#43;程序"/>
+<meta name="twitter:description" content="最近练习leetcode编程，我希望在manjaro系统的vs code上可以单步调试C&#43;&#43;代码，找了很多资料都不能正常运行，所以参考官方资料自己整好了，记录一下。"/>
+<meta name="application-name" content="小猴子的烂笔头">
+<meta name="apple-mobile-web-app-title" content="小猴子的烂笔头"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="canonical" href="https://bugxch.github.io/manjarovscode/" /><link rel="prev" href="https://bugxch.github.io/think/" /><link rel="next" href="https://bugxch.github.io/slidingwindow/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "使用linux vs code调试C++程序",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/bugxch.github.io\/manjarovscode\/"
+        },"image": ["https:\/\/bugxch.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "manjaro, vs code","wordcount":  1895 ,
+        "url": "https:\/\/bugxch.github.io\/manjarovscode\/","datePublished": "2020-07-26T08:12:22+08:00","dateModified": "2020-07-26T08:12:22+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "xxxx","logo": "https:\/\/bugxch.github.io\/images\/avatar.png"},"author": {
+                "@type": "Person",
+                "name": "bugxch"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="auto" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Dive Into Think"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg"
+        data-srcset="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg, https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg 1.5x, https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg 2x"
+        data-sizes="auto"
+        alt="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg"
+        title="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg" />Dive Into Think</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 归档 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/collection/"> 杂记 </a><a class="menu-item" href="https://github.com/bugxch" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Dive Into Think"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg"
+        data-srcset="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg, https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg 1.5x, https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg 2x"
+        data-sizes="auto"
+        alt="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg"
+        title="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg" />Dive Into Think</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">归档</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/collection/" title="">杂记</a><a class="menu-item" href="https://github.com/bugxch" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">使用linux vs code调试C&#43;&#43;程序</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>bugxch</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%8A%80%E8%89%BA/"><i class="far fa-folder fa-fw"></i>技艺</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-07-26">2020-07-26</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1895 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#预置条件">预置条件</a></li>
+    <li><a href="#创建hello-world工程">创建Hello world工程</a>
+      <ul>
+        <li><a href="#添加源文件">添加源文件</a></li>
+        <li><a href="#构建helloworldcpp">构建helloworld.cpp</a></li>
+        <li><a href="#运行编译程序">运行编译程序</a></li>
+        <li><a href="#修改tasksjson">修改tasks.json</a></li>
+        <li><a href="#调试源程序">调试源程序</a></li>
+        <li><a href="#开始调试">开始调试</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>最近练习leetcode编程，我希望在manjaro系统的vs code上可以单步调试C++代码，找了很多资料都不能正常运行，所以参考<a href="https://code.visualstudio.com/docs/cpp/cpp-debug" target="_blank" rel="noopener noreffer">官方资料</a>自己整好了，记录一下。</p>
+<h2 id="预置条件">预置条件</h2>
+<p>首先完成如下工作</p>
+<ol>
+<li>
+<p>安装vs code;</p>
+</li>
+<li>
+<p>安装插件，如下图所示</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://code.visualstudio.com/assets/docs/cpp/cpp/cpp-extension.png"
+        data-srcset="https://code.visualstudio.com/assets/docs/cpp/cpp/cpp-extension.png, https://code.visualstudio.com/assets/docs/cpp/cpp/cpp-extension.png 1.5x, https://code.visualstudio.com/assets/docs/cpp/cpp/cpp-extension.png 2x"
+        data-sizes="auto"
+        alt="https://code.visualstudio.com/assets/docs/cpp/cpp/cpp-extension.png"
+        title="https://code.visualstudio.com/assets/docs/cpp/cpp/cpp-extension.png" /></p>
+</li>
+<li>
+<p>确认linux系统已经正确安装gcc，输入如下命令</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">gcc -v <span class="c1"># 查看gcc版本</span>
+sudo pacman -S build-essential gdb <span class="c1"># 安装必要工具軟件</span>
+</code></pre></td></tr></table>
+</div>
+</div></li>
+</ol>
+<h2 id="创建hello-world工程">创建Hello world工程</h2>
+<p>在本地创建目录，我在本地创建了leetcode的目录，所以有如下的步骤</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">mkdir project
+<span class="nb">cd</span> project
+mkdir 
+<span class="nb">cd</span> helloworld
+code . <span class="c1"># 在当前目录下打开vs code，当前打开的文件夹就是这个“工作空间”</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>阅读完本博客之后，你会在当前的目录下面创建下面的3个文件</p>
+<ul>
+<li><code>tasks.json</code> (compiler build settings)</li>
+<li><code>launch.json</code> (debugger settings)</li>
+</ul>
+<h3 id="添加源文件">添加源文件</h3>
+<p>如图所示，添加新的源文件<code>helloworld.cpp</code></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://code.visualstudio.com/assets/docs/cpp/msvc/new-file-button.png"
+        data-srcset="https://code.visualstudio.com/assets/docs/cpp/msvc/new-file-button.png, https://code.visualstudio.com/assets/docs/cpp/msvc/new-file-button.png 1.5x, https://code.visualstudio.com/assets/docs/cpp/msvc/new-file-button.png 2x"
+        data-sizes="auto"
+        alt="https://code.visualstudio.com/assets/docs/cpp/msvc/new-file-button.png"
+        title="https://code.visualstudio.com/assets/docs/cpp/msvc/new-file-button.png" /></p>
+<p>在该文件中粘贴如下的源代码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">msg</span> <span class="p">{</span><span class="s">&#34;Hello&#34;</span><span class="p">,</span> <span class="s">&#34;C++&#34;</span><span class="p">,</span> <span class="s">&#34;World&#34;</span><span class="p">,</span> <span class="s">&#34;from&#34;</span><span class="p">,</span> <span class="s">&#34;VS Code&#34;</span><span class="p">,</span> <span class="s">&#34;and the C++ extension!&#34;</span><span class="p">};</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="k">const</span> <span class="n">string</span><span class="o">&amp;</span> <span class="nl">word</span> <span class="p">:</span> <span class="n">msg</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">word</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; &#34;</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>然后保存该文件。</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://code.visualstudio.com/assets/docs/cpp/msvc/file-explorer.png"
+        data-srcset="https://code.visualstudio.com/assets/docs/cpp/msvc/file-explorer.png, https://code.visualstudio.com/assets/docs/cpp/msvc/file-explorer.png 1.5x, https://code.visualstudio.com/assets/docs/cpp/msvc/file-explorer.png 2x"
+        data-sizes="auto"
+        alt="https://code.visualstudio.com/assets/docs/cpp/msvc/file-explorer.png"
+        title="https://code.visualstudio.com/assets/docs/cpp/msvc/file-explorer.png" /></p>
+<h3 id="构建helloworldcpp">构建helloworld.cpp</h3>
+<p>接下来，你将创建一个<code>task.json</code>文件告诉VS code如何构建(编译)当前的程序。这将触发g++编译器按照源代码创建一个可执行程序。在主菜单选择<strong>终端-&gt;配置默认生成任务</strong>，然后在下拉菜单选择g++ build active file，如下图所示</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://code.visualstudio.com/assets/docs/cpp/wsl/build-active-file.png"
+        data-srcset="https://code.visualstudio.com/assets/docs/cpp/wsl/build-active-file.png, https://code.visualstudio.com/assets/docs/cpp/wsl/build-active-file.png 1.5x, https://code.visualstudio.com/assets/docs/cpp/wsl/build-active-file.png 2x"
+        data-sizes="auto"
+        alt="https://code.visualstudio.com/assets/docs/cpp/wsl/build-active-file.png"
+        title="https://code.visualstudio.com/assets/docs/cpp/wsl/build-active-file.png" /></p>
+<p>你将在<code>.vscode</code>文件夹下面看到<code>tasks.json</code>文件，我们进一步编辑这个文件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+	<span class="nt">&#34;version&#34;</span><span class="p">:</span> <span class="s2">&#34;2.0.0&#34;</span><span class="p">,</span>
+	<span class="nt">&#34;tasks&#34;</span><span class="p">:</span> <span class="p">[</span>
+		<span class="p">{</span>
+			<span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;shell&#34;</span><span class="p">,</span>
+			<span class="nt">&#34;label&#34;</span><span class="p">:</span> <span class="s2">&#34;C/C++: g++ build active file&#34;</span><span class="p">,</span>
+			<span class="nt">&#34;command&#34;</span><span class="p">:</span> <span class="s2">&#34;/usr/bin/g++&#34;</span><span class="p">,</span>
+			<span class="nt">&#34;args&#34;</span><span class="p">:</span> <span class="p">[</span>
+				<span class="s2">&#34;-g&#34;</span><span class="p">,</span>
+				<span class="s2">&#34;${file}&#34;</span><span class="p">,</span>
+				<span class="s2">&#34;-o&#34;</span><span class="p">,</span>
+				<span class="s2">&#34;${fileDirname}/${fileBasenameNoExtension}&#34;</span>
+			<span class="p">],</span>
+			<span class="nt">&#34;options&#34;</span><span class="p">:</span> <span class="p">{</span>
+				<span class="nt">&#34;cwd&#34;</span><span class="p">:</span> <span class="s2">&#34;${workspaceFolder}&#34;</span>
+			<span class="p">},</span>
+			<span class="nt">&#34;problemMatcher&#34;</span><span class="p">:</span> <span class="p">[</span>
+				<span class="s2">&#34;$gcc&#34;</span>
+			<span class="p">],</span>
+			<span class="nt">&#34;group&#34;</span><span class="p">:</span> <span class="p">{</span>
+				<span class="nt">&#34;kind&#34;</span><span class="p">:</span> <span class="s2">&#34;build&#34;</span><span class="p">,</span>
+				<span class="nt">&#34;isDefault&#34;</span><span class="p">:</span> <span class="kc">true</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+	<span class="p">]</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>关于json文件中变量的具体含义可以进一步参考<a href="https://code.visualstudio.com/docs/editor/variables-reference" target="_blank" rel="noopener noreffer">Visual Studio Code Variables Reference</a></p>
+</blockquote>
+<p>文件中的指令指定了程序如何运行，当前文件中的<code>args</code>参数指定了传输给gcc的参数，这些参数必须按照编译器期望的顺序排列。</p>
+<p>这个任务告诉g++将源文件<code>${file}</code>编译，在当前文件夹下面创建可执行文件<code>helloword</code>，注意可执行文件的名称和源文件相同，但是去掉了扩展后缀名。<code>label</code>字段表示你能看到的任务列表，你可以写成任何你想写的东西。<code>group</code>中的<code>&quot;isDefault&quot;: true</code>表示你可以使用<code>Ctrl+Shift+B</code>运行该任务，这个仅仅是为了使用上的方便，你依然可以通过菜单中的选项运行该任务。</p>
+<h3 id="运行编译程序">运行编译程序</h3>
+<p>回到原来的<code>helloworld.cpp</code>程序，按下<code>Ctrl+Shift+B</code>运行该任务，请留意编辑器下方的终端的打印，在任务运行结束之后一般会提示成功或者失败，如果运行顺利，你可以看到如下的提示</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://code.visualstudio.com/assets/docs/cpp/wsl/wsl-task-in-terminal.png"
+        data-srcset="https://code.visualstudio.com/assets/docs/cpp/wsl/wsl-task-in-terminal.png, https://code.visualstudio.com/assets/docs/cpp/wsl/wsl-task-in-terminal.png 1.5x, https://code.visualstudio.com/assets/docs/cpp/wsl/wsl-task-in-terminal.png 2x"
+        data-sizes="auto"
+        alt="https://code.visualstudio.com/assets/docs/cpp/wsl/wsl-task-in-terminal.png"
+        title="https://code.visualstudio.com/assets/docs/cpp/wsl/wsl-task-in-terminal.png" /></p>
+<p>如果留意可以看到当前的文件夹中已经生成了可执行程序<code>helloworld</code>文件，打开新的终端，即可运行该程序</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">./helloworld <span class="c1"># 运行可执行程序</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://code.visualstudio.com/assets/docs/cpp/wsl/wsl-bash-terminal.png"
+        data-srcset="https://code.visualstudio.com/assets/docs/cpp/wsl/wsl-bash-terminal.png, https://code.visualstudio.com/assets/docs/cpp/wsl/wsl-bash-terminal.png 1.5x, https://code.visualstudio.com/assets/docs/cpp/wsl/wsl-bash-terminal.png 2x"
+        data-sizes="auto"
+        alt="https://code.visualstudio.com/assets/docs/cpp/wsl/wsl-bash-terminal.png"
+        title="https://code.visualstudio.com/assets/docs/cpp/wsl/wsl-bash-terminal.png" /></p>
+<h3 id="修改tasksjson">修改tasks.json</h3>
+<p>你可以修改这个文件中的参数，比如将<code>${workspaceFolder}/*.cpp</code>替换<code>${file}</code>，或者也可以将<code>${fileDirname}/${fileBasenameNoExtension}</code>替换成一个硬编码的程序名称<code>helloworld.out</code>。</p>
+<h3 id="调试源程序">调试源程序</h3>
+<p>接下来你将创建<code>launch.json</code>文件，当按下<code>F5</code>的时候VS Code调用GDB的调试器用于调试程序。找到菜单中的<strong>运行 &gt; 添加配置</strong>，然后选择<strong>C++ (GDB/LLDB)</strong>，如下图所示</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://code.visualstudio.com/assets/docs/cpp/wsl/build-and-debug-active-file.png"
+        data-srcset="https://code.visualstudio.com/assets/docs/cpp/wsl/build-and-debug-active-file.png, https://code.visualstudio.com/assets/docs/cpp/wsl/build-and-debug-active-file.png 1.5x, https://code.visualstudio.com/assets/docs/cpp/wsl/build-and-debug-active-file.png 2x"
+        data-sizes="auto"
+        alt="https://code.visualstudio.com/assets/docs/cpp/wsl/build-and-debug-active-file.png"
+        title="https://code.visualstudio.com/assets/docs/cpp/wsl/build-and-debug-active-file.png" /></p>
+<p>我们选择<strong>g++ build and debug active file</strong>，你可以看到此处VS Code自动创建了文件<code>launch.json</code>文件，文件的内容如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+    <span class="err">//</span> <span class="err">使用</span> <span class="err">IntelliSense</span> <span class="err">了解相关属性。</span> 
+    <span class="err">//</span> <span class="err">悬停以查看现有属性的描述。</span>
+    <span class="err">//</span> <span class="err">欲了解更多信息，请访问:</span> <span class="err">https://go.microsoft.com/fwlink/?linkid=830387</span>
+    <span class="nt">&#34;version&#34;</span><span class="p">:</span> <span class="s2">&#34;0.2.0&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;configurations&#34;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;g++ - 生成和调试活动文件&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;cppdbg&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;request&#34;</span><span class="p">:</span> <span class="s2">&#34;launch&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;program&#34;</span><span class="p">:</span> <span class="s2">&#34;${fileDirname}/${fileBasenameNoExtension}&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;args&#34;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="nt">&#34;stopAtEntry&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+            <span class="nt">&#34;cwd&#34;</span><span class="p">:</span> <span class="s2">&#34;${workspaceFolder}&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;environment&#34;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="nt">&#34;externalConsole&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+            <span class="nt">&#34;MIMode&#34;</span><span class="p">:</span> <span class="s2">&#34;gdb&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;setupCommands&#34;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="nt">&#34;description&#34;</span><span class="p">:</span> <span class="s2">&#34;为 gdb 启用整齐打印&#34;</span><span class="p">,</span>
+                    <span class="nt">&#34;text&#34;</span><span class="p">:</span> <span class="s2">&#34;-enable-pretty-printing&#34;</span><span class="p">,</span>
+                    <span class="nt">&#34;ignoreFailures&#34;</span><span class="p">:</span> <span class="kc">true</span>
+                <span class="p">}</span>
+            <span class="p">],</span>
+            <span class="nt">&#34;preLaunchTask&#34;</span><span class="p">:</span> <span class="s2">&#34;C/C++: g++ build active file&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;miDebuggerPath&#34;</span><span class="p">:</span> <span class="s2">&#34;/usr/bin/gdb&#34;</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>很明显在这个文件中<code>program</code>指定了需要debug的程序，和之前的文件一样，此处就是没有后缀名的与源文件一样的程序，这个例子中就是<code>helloworld</code>。默认情况下，C++插件不会在代码中插入任何断点，所以<code>stopAtEntry</code>是<code>false</code>。如果将该项改为<code>true</code>，那么就可以让调试器停在主函数的断点处。</p>
+<h3 id="开始调试">开始调试</h3>
+<p>回到源文件，按下<code>F5</code>就可以开始调试了，在代码编辑器的上访可以看到调试的控制条，包括了单步调试，跳过调试，重启调试和停止调试的功能。稍微探索一下就可以发现，<code>F9</code>是添加断点，其他的调试方法鼠标悬停在上面都会显示快捷键，你看到的编辑器应该是这样的</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://code.visualstudio.com/assets/docs/cpp/wsl/debug-view-variables.png"
+        data-srcset="https://code.visualstudio.com/assets/docs/cpp/wsl/debug-view-variables.png, https://code.visualstudio.com/assets/docs/cpp/wsl/debug-view-variables.png 1.5x, https://code.visualstudio.com/assets/docs/cpp/wsl/debug-view-variables.png 2x"
+        data-sizes="auto"
+        alt="https://code.visualstudio.com/assets/docs/cpp/wsl/debug-view-variables.png"
+        title="https://code.visualstudio.com/assets/docs/cpp/wsl/debug-view-variables.png" /></p>
+<p>调试中可以看到每个变量的值，以及监视窗口。</p>
+<blockquote>
+<p>需要注意的是，当前的版本（2019年3月份之后）不会在单步调试模式下将cout的结果打印出来，只有程序运行完成之后才会统一打印出来。</p>
+</blockquote></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2020-07-26</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://bugxch.github.io/manjarovscode/" data-title="使用linux vs code调试C&#43;&#43;程序" data-via="hoho2006" data-hashtags="manjaro,vs code"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://bugxch.github.io/manjarovscode/" data-hashtag="manjaro"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Linkedin" data-sharer="linkedin" data-url="https://bugxch.github.io/manjarovscode/"><i class="fab fa-linkedin fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Xing" data-sharer="xing" data-url="https://bugxch.github.io/manjarovscode/" data-title="使用linux vs code调试C&#43;&#43;程序"><i class="fab fa-xing fa-fw"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://bugxch.github.io/manjarovscode/" data-title="使用linux vs code调试C&#43;&#43;程序"><i class="fab fa-weibo fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/manjaro/">manjaro</a>,&nbsp;<a href="/tags/vs-code/">vs code</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/think/" class="prev" rel="prev" title="[转载]用于深入思考的小工具"><i class="fas fa-angle-left fa-fw"></i>[转载]用于深入思考的小工具</a>
+            <a href="/slidingwindow/" class="next" rel="next" title="滑动窗口技巧">滑动窗口技巧<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="disqus_thread" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://disqus.com/?ref_noscript">Disqus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2016 - 2021</span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery.js@1.2.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.css"><script type="text/javascript" src="https://bugxch.disqus.com/embed.js" defer></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/smooth-scroll@16.1.3/dist/smooth-scroll.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.37.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.2.0/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.2.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery.js@1.2.0/dist/js/lightgallery.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lg-thumbnail.js@1.2.0/dist/lg-thumbnail.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lg-zoom.js@1.2.0/dist/lg-zoom.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.4.0/sharer.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{},"lightGallery":{"actualSize":false,"exThumbImage":"data-thumbnail","hideBarsDelay":2000,"selector":".lightgallery","speed":400,"thumbContHeight":80,"thumbWidth":80,"thumbnail":true},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"ROWPFW1USO","algoliaIndex":"index_json","algoliaSearchKey":"d0a8ab43cf24071544b25506aa08ba89","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

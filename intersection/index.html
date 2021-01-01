@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>LeetCode区间问题总结 - Dive Into Think</title><meta name="Description" content="博观而约取，厚积而薄发"><meta property="og:title" content="LeetCode区间问题总结" />
+<meta property="og:description" content="上周五考试没有过，其中专业级第二题是关于区间的问题，在leetcode上找到类似的题目，总结复习下。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://bugxch.github.io/intersection/" />
+<meta property="og:image" content="https://bugxch.github.io/static/android-chrome-512x512.png"/>
+<meta property="article:published_time" content="2020-08-16T22:31:31+08:00" />
+<meta property="article:modified_time" content="2020-08-16T22:31:31+08:00" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://bugxch.github.io/static/android-chrome-512x512.png"/>
+
+<meta name="twitter:title" content="LeetCode区间问题总结"/>
+<meta name="twitter:description" content="上周五考试没有过，其中专业级第二题是关于区间的问题，在leetcode上找到类似的题目，总结复习下。"/>
+<meta name="application-name" content="小猴子的烂笔头">
+<meta name="apple-mobile-web-app-title" content="小猴子的烂笔头"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="canonical" href="https://bugxch.github.io/intersection/" /><link rel="prev" href="https://bugxch.github.io/sort_intro/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "LeetCode区间问题总结",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/bugxch.github.io\/intersection\/"
+        },"image": ["https:\/\/bugxch.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "leetcode, c\u002b\u002b, 区间","wordcount":  1646 ,
+        "url": "https:\/\/bugxch.github.io\/intersection\/","datePublished": "2020-08-16T22:31:31+08:00","dateModified": "2020-08-16T22:31:31+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "xxxx","logo": "https:\/\/bugxch.github.io\/images\/avatar.png"},"author": {
+                "@type": "Person",
+                "name": "bugxch"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="auto" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Dive Into Think"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg"
+        data-srcset="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg, https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg 1.5x, https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg 2x"
+        data-sizes="auto"
+        alt="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg"
+        title="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg" />Dive Into Think</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 归档 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/collection/"> 杂记 </a><a class="menu-item" href="https://github.com/bugxch" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Dive Into Think"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg"
+        data-srcset="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg, https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg 1.5x, https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg 2x"
+        data-sizes="auto"
+        alt="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg"
+        title="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg" />Dive Into Think</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">归档</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/collection/" title="">杂记</a><a class="menu-item" href="https://github.com/bugxch" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">LeetCode区间问题总结</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>bugxch</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%8A%80%E8%89%BA/"><i class="far fa-folder fa-fw"></i>技艺</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-08-16">2020-08-16</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1646 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;</div>
+        </div><div class="featured-image"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://cdn.pixabay.com/photo/2013/07/18/20/26/sea-164989_960_720.jpg"
+        data-srcset="https://cdn.pixabay.com/photo/2013/07/18/20/26/sea-164989_960_720.jpg, https://cdn.pixabay.com/photo/2013/07/18/20/26/sea-164989_960_720.jpg 1.5x, https://cdn.pixabay.com/photo/2013/07/18/20/26/sea-164989_960_720.jpg 2x"
+        data-sizes="auto"
+        alt="https://cdn.pixabay.com/photo/2013/07/18/20/26/sea-164989_960_720.jpg"
+        title="https://cdn.pixabay.com/photo/2013/07/18/20/26/sea-164989_960_720.jpg" /></div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#引子">引子</a>
+      <ul>
+        <li><a href="#解题思路">解题思路</a></li>
+      </ul>
+    </li>
+    <li><a href="#通用框架">通用框架</a></li>
+    <li><a href="#典型题目">典型题目</a>
+      <ul>
+        <li><a href="#no-986-区间列表交集">No. 986 区间列表交集</a></li>
+        <li><a href="#no-452-引爆气球">No. 452 引爆气球</a></li>
+      </ul>
+    </li>
+    <li><a href="#参考资料">参考资料</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>上周五考试没有过，其中专业级第二题是关于区间的问题，在leetcode上找到类似的题目，总结复习下。</p>
+<h2 id="引子">引子</h2>
+<p>先看这道题，<a href="https://leetcode-cn.com/problems/corporate-flight-bookings/" target="_blank" rel="noopener noreffer">1109. 航班预订统计</a>，题目是这样的</p>
+<p>这里有<code>n</code> 个航班，它们分别从 1 到 n 进行编号。</p>
+<p>我们这儿有一份航班预订表，表中第 <code>i</code> 条预订记录 <code>bookings[i] = [i, j, k]</code> 意味着我们在从 <code>i</code> 到<code> j</code> 的每个航班上预订了 <code>k</code> 个座位。</p>
+<p>请你返回一个长度为 n 的数组 <code>answer</code>，按航班编号顺序返回每个航班上预订的座位数。参考示例如下，</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="err">输入：</span><span class="n">bookings</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">10</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">20</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">25</span><span class="p">]],</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="err">输出：</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">55</span><span class="p">,</span><span class="mi">45</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">25</span><span class="p">]</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="解题思路">解题思路</h3>
+<p>将这道题的示例画一张表格表示一下，就是下面的结果</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">booking</th>
+<th style="text-align:center">1</th>
+<th style="text-align:center">2</th>
+<th style="text-align:center">3</th>
+<th style="text-align:center">4</th>
+<th style="text-align:center">5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">10</td>
+<td style="text-align:center">10</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">20</td>
+<td style="text-align:center">20</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">25</td>
+<td style="text-align:center">25</td>
+<td style="text-align:center">25</td>
+<td style="text-align:center">25</td>
+</tr>
+<tr>
+<td style="text-align:center">total</td>
+<td style="text-align:center">10</td>
+<td style="text-align:center">55</td>
+<td style="text-align:center">45</td>
+<td style="text-align:center">25</td>
+<td style="text-align:center">25</td>
+</tr>
+</tbody>
+</table>
+<p>常规思路就是以航班号为基本坐标，计算每一个航班增加的座位数，然后逐项汇总相加即可。</p>
+<ol>
+<li>设置初始结果<code>vector&lt;int&gt; res(n, 0)</code>;</li>
+<li>遍历<code>bookings</code>，每次取其中的航班的预定数，添加到<code>res</code>对应的数组中，比如第1个booking，那么<code>res[0]+=10; res[1]+=10</code>，依次类推，直到遍历截止。</li>
+</ol>
+<p>上面的算法比较简单直观，但是可以分析发现，算法的复杂度有点高，两层遍历算法时间复杂度是$O(n^2)$，空间复杂度是$O(n)$不甚理想。</p>
+<p>有没有复杂度更简单的思路呢？这里有一个类比<strong>公交站的思路</strong>，可以将航班号码比作公交站牌，比如1号公交站，2号公交站，假定这些公交站是依次按顺序分布在一条直线公路上，<strong>第<code>i</code>个航班的飞机的预定数目就是公交车在第<code>i</code>个公交站发车时候的乘客数目（包括了上车和下车的乘客数</strong>）。</p>
+<p>举例说明，第1行表示，第1站交车上人数是10，说明公交车行驶到第1站时上车10人，到第2站时候车上的乘客仍然是10人，说明没有乘客上下车，到第3站时候车上乘客0人，说明此时有10人下车。如果使用长度为<code>N</code>的数组<code>count</code>表示每一站<strong>上下乘客的变化量</strong>(<code>count[i]</code> 表示第<code>i + 1</code>站上下车的乘客变化量），</p>
+<blockquote>
+<p>对于<code>booking = [i,j,k]</code>，</p>
+<ol>
+<li>表示在公交站第<code>i</code>站上车<code>k</code>人，<code>count[i - 1] += k</code>；</li>
+<li>第<code>i + 1</code>站直到第<code>j</code>站都没有乘客上下车，<code>count[i],...,count[j - 1]</code>无操作；</li>
+<li>在第<code>j + 1</code>站下车<code>k</code>人，所以<code>count[j] -= k</code></li>
+</ol>
+</blockquote>
+<p>为了方便起见，<strong>我们缩小问题的规模，以具体的数字代替抽象的代数字母</strong>，假如我们就只有3个公交站，取示例中的前2行，</p>
+<ol>
+<li>公交车刚开始上的人数是0，<code>vector&lt;int&gt; count(4, 0)</code>；</li>
+<li>读取第1行，到达第1站，公交车上10人，说明<strong>上车10人，无人下车，<code>count[0]+= 10</code></strong>，到达第2站公交车上依然是10人，说明也<strong>无人上车和下车</strong>，到达第3站，公交车上0人，说明<strong>10人下车，<code>count[2] -= 10</code></strong>；</li>
+<li>读取第2行，公交车到达第2站，公交车上20人，说明<strong>上车20人无人下车，<code>count[1] += 20</code></strong>，第3站车上20人，说明<strong>无人下车</strong>，第4站车上0人，说明<strong>有20人下车, <code>count[3]-=20</code></strong>。</li>
+</ol>
+<p>遍历结束，得到<code>count = {10, 20, -10，-20}</code>，那么最后每个站点的乘客数就很清楚了，到达第1站前车上乘客0人，到达后上车10人，所以第1站发车前车上10人，第2站到站后上车20人，所以第2站发车前车上乘客10 + 20  = 30人，第3站到站后下车10人，所以发车前车上乘客 30 - 10 = 20人。意思搞清楚之后，代码就很好写了。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">corpFlightBookings</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;&amp;</span> <span class="n">bookings</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">res</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+        <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">counter</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+        <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="o">&amp;</span><span class="nl">booking</span> <span class="p">:</span> <span class="n">bookings</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">start</span> <span class="o">=</span> <span class="n">booking</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+            <span class="kt">int</span> <span class="n">end</span> <span class="o">=</span> <span class="n">booking</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+			<span class="c1">// 记录每个booking的开始和结尾即可，中间的站点人数无变化
+</span><span class="c1"></span>            <span class="n">counter</span><span class="p">[</span><span class="n">start</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">booking</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span> <span class="c1">// start站上车
+</span><span class="c1"></span>            <span class="n">counter</span><span class="p">[</span><span class="n">end</span><span class="p">]</span> <span class="o">-=</span> <span class="n">booking</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span> <span class="c1">// end + 1站下车
+</span><span class="c1"></span>        <span class="p">}</span>
+        <span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">counter</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">res</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">counter</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+    <span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>时间复杂度为$O(n)$。</p>
+<h2 id="通用框架">通用框架</h2>
+<p>「待补充」</p>
+<h2 id="典型题目">典型题目</h2>
+<p>「待补充」</p>
+<h3 id="no-986-区间列表交集">No. 986 区间列表交集</h3>
+<p>题目的链接参考<a href="https://leetcode-cn.com/problems/interval-list-intersections/" target="_blank" rel="noopener noreffer">986. 区间列表的交集 - 力扣（LeetCode）</a>，</p>
+<h3 id="no-452-引爆气球">No. 452 引爆气球</h3>
+<p>题目链接参考<a href="https://leetcode-cn.com/problems/minimum-number-of-arrows-to-burst-balloons/" target="_blank" rel="noopener noreffer">452. 用最少数量的箭引爆气球 - 力扣（LeetCode）</a>，这道题目使用<strong>贪心法</strong>，将气球的坐标放在坐标轴上，然后从0开始从左到右逐气球扫描，查看是否有交集，图示如下。</p>
+<h2 id="参考资料">参考资料</h2>
+<p>「待补充」</p></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2020-08-16</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://bugxch.github.io/intersection/" data-title="LeetCode区间问题总结" data-via="hoho2006" data-hashtags="leetcode,c&#43;&#43;,区间"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://bugxch.github.io/intersection/" data-hashtag="leetcode"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Linkedin" data-sharer="linkedin" data-url="https://bugxch.github.io/intersection/"><i class="fab fa-linkedin fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Xing" data-sharer="xing" data-url="https://bugxch.github.io/intersection/" data-title="LeetCode区间问题总结"><i class="fab fa-xing fa-fw"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://bugxch.github.io/intersection/" data-title="LeetCode区间问题总结" data-image="https://cdn.pixabay.com/photo/2013/07/18/20/26/sea-164989_960_720.jpg"><i class="fab fa-weibo fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/leetcode/">leetcode</a>,&nbsp;<a href="/tags/c&#43;&#43;/">c&#43;&#43;</a>,&nbsp;<a href="/tags/%E5%8C%BA%E9%97%B4/">区间</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/sort_intro/" class="prev" rel="prev" title="「转载」C&#43;&#43;中的sort函数（一）"><i class="fas fa-angle-left fa-fw"></i>「转载」C&#43;&#43;中的sort函数（一）</a></div>
+</div>
+<div id="comments"><div id="disqus_thread" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://disqus.com/?ref_noscript">Disqus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2016 - 2021</span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery.js@1.2.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.css"><script type="text/javascript" src="https://bugxch.disqus.com/embed.js" defer></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/smooth-scroll@16.1.3/dist/smooth-scroll.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.37.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.2.0/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.2.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery.js@1.2.0/dist/js/lightgallery.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lg-thumbnail.js@1.2.0/dist/lg-thumbnail.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lg-zoom.js@1.2.0/dist/lg-zoom.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.4.0/sharer.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{},"lightGallery":{"actualSize":false,"exThumbImage":"data-thumbnail","hideBarsDelay":2000,"selector":".lightgallery","speed":400,"thumbContHeight":80,"thumbWidth":80,"thumbnail":true},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"ROWPFW1USO","algoliaIndex":"index_json","algoliaSearchKey":"d0a8ab43cf24071544b25506aa08ba89","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

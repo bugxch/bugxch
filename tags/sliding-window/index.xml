@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>sliding window - 标签 - Dive Into Think</title>
+        <link>https://bugxch.github.io/tags/sliding-window/</link>
+        <description>sliding window - 标签 - Dive Into Think</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>bugxch@126.com (bugxch)</managingEditor>
+            <webMaster>bugxch@126.com (bugxch)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 02 Aug 2020 15:40:45 &#43;0800</lastBuildDate><atom:link href="https://bugxch.github.io/tags/sliding-window/" rel="self" type="application/rss+xml" /><item>
+    <title>滑动窗口技巧</title>
+    <link>https://bugxch.github.io/slidingwindow/</link>
+    <pubDate>Sun, 02 Aug 2020 15:40:45 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://bugxch.github.io/slidingwindow/</guid>
+    <description><![CDATA[<p>今天主要刷leetcode的滑动窗口的题目，需要完成如下题目，本文主要记录解题思路和方法，以便加深理解记忆，答案到处都是，只有消化了才是自己的。</p>]]></description>
+</item></channel>
+</rss>

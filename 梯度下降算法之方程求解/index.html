@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>梯度下降算法之方程求解 - Dive Into Think</title><meta name="Description" content="博观而约取，厚积而薄发"><meta property="og:title" content="梯度下降算法之方程求解" />
+<meta property="og:description" content="从上个月专攻机器学习，从本篇开始，我会陆续写机器学习的内容，都是我的学习笔记。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://bugxch.github.io/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E7%AE%97%E6%B3%95%E4%B9%8B%E6%96%B9%E7%A8%8B%E6%B1%82%E8%A7%A3/" />
+<meta property="og:image" content="https://bugxch.github.io/static/android-chrome-512x512.png"/>
+<meta property="article:published_time" content="2018-07-21T20:41:31+00:00" />
+<meta property="article:modified_time" content="2018-07-21T20:41:31+00:00" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://bugxch.github.io/static/android-chrome-512x512.png"/>
+
+<meta name="twitter:title" content="梯度下降算法之方程求解"/>
+<meta name="twitter:description" content="从上个月专攻机器学习，从本篇开始，我会陆续写机器学习的内容，都是我的学习笔记。"/>
+<meta name="application-name" content="小猴子的烂笔头">
+<meta name="apple-mobile-web-app-title" content="小猴子的烂笔头"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="canonical" href="https://bugxch.github.io/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E7%AE%97%E6%B3%95%E4%B9%8B%E6%96%B9%E7%A8%8B%E6%B1%82%E8%A7%A3/" /><link rel="prev" href="https://bugxch.github.io/matplot-%E4%B9%8B-3d-%E7%BB%98%E5%9B%BE%E6%8C%87%E5%8D%97/" /><link rel="next" href="https://bugxch.github.io/%E5%88%BB%E6%84%8F%E7%BB%83%E4%B9%A0%E8%A1%8C%E5%8A%A8%E6%89%8B%E5%86%8C/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "梯度下降算法之方程求解",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/bugxch.github.io\/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E7%AE%97%E6%B3%95%E4%B9%8B%E6%96%B9%E7%A8%8B%E6%B1%82%E8%A7%A3\/"
+        },"image": ["https:\/\/bugxch.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "机器学习","wordcount":  1955 ,
+        "url": "https:\/\/bugxch.github.io\/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E7%AE%97%E6%B3%95%E4%B9%8B%E6%96%B9%E7%A8%8B%E6%B1%82%E8%A7%A3\/","datePublished": "2018-07-21T20:41:31+00:00","dateModified": "2018-07-21T20:41:31+00:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "xxxx","logo": "https:\/\/bugxch.github.io\/images\/avatar.png"},"author": {
+                "@type": "Person",
+                "name": "bugxch"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="auto" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Dive Into Think"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg"
+        data-srcset="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg, https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg 1.5x, https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg 2x"
+        data-sizes="auto"
+        alt="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg"
+        title="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg" />Dive Into Think</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 归档 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/collection/"> 杂记 </a><a class="menu-item" href="https://github.com/bugxch" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Dive Into Think"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg"
+        data-srcset="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg, https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg 1.5x, https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg 2x"
+        data-sizes="auto"
+        alt="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg"
+        title="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg" />Dive Into Think</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">归档</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/collection/" title="">杂记</a><a class="menu-item" href="https://github.com/bugxch" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">梯度下降算法之方程求解</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>bugxch</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%8A%80%E8%89%BA/"><i class="far fa-folder fa-fw"></i>技艺</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2018-07-21">2018-07-21</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1955 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#问题">问题</a></li>
+    <li><a href="#方法">方法</a></li>
+    <li><a href="#参考资料">参考资料</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>从上个月专攻机器学习，从本篇开始，我会陆续写机器学习的内容，都是我的学习笔记。</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://bigsnarf.files.wordpress.com/2016/07/fff.png?w=630"
+        data-srcset="https://bigsnarf.files.wordpress.com/2016/07/fff.png?w=630, https://bigsnarf.files.wordpress.com/2016/07/fff.png?w=630 1.5x, https://bigsnarf.files.wordpress.com/2016/07/fff.png?w=630 2x"
+        data-sizes="auto"
+        alt="https://bigsnarf.files.wordpress.com/2016/07/fff.png?w=630"
+        title="gradienet" /></p>
+<h2 id="问题">问题</h2>
+<p>梯度下降算法用于求数学方程的极大值极小值问题，这篇文章讲解如何利用梯度下降算法求解方程 $x^5+e^x+3x−3=0$ 的根；</p>
+<h2 id="方法">方法</h2>
+<p>首先来解决第一个问题，从方程的形式我们就能初步判断，它很可能没有闭式解。我能想到的最直观的解决方法就是画出函数图，函数图与 x 轴的交点就是方程的解，那先画个图看看</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://github.com/bugxch/blogpics/blob/master/201807/figure1.png?raw=true"
+        data-srcset="https://github.com/bugxch/blogpics/blob/master/201807/figure1.png?raw=true, https://github.com/bugxch/blogpics/blob/master/201807/figure1.png?raw=true 1.5x, https://github.com/bugxch/blogpics/blob/master/201807/figure1.png?raw=true 2x"
+        data-sizes="auto"
+        alt="https://github.com/bugxch/blogpics/blob/master/201807/figure1.png?raw=true"
+        title="https://github.com/bugxch/blogpics/blob/master/201807/figure1.png?raw=true" /></p>
+<p>从函数图像大体可以判断，方程的根在 0 附近，但是很明显 0 不是方程的根，看图只能猜出个大概，那怎么做才能得到更精确的解呢？</p>
+<p>有一个可行的方法在 x = 0 附近找一堆很接近的数字，比如 [−0.5:0.05:1][−0.5:0.05:1]，一个个代入方程的左边，看看<strong>它的值离 0 有多近</strong>：距离 0 越近，说明我们选取的值离方程的根也越近。数学上定义两个数距离就是绝对值，但是因为绝对值不便于计算，所以将其替换成等价的差的平方，即 F(x)=(f(x)−0)2F(x)=(f(x)−0)2，以此度量结果距离 0 的程度，称之为<strong>损失函数</strong>。</p>
+<p>我们代入计算得到如下的结果</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">x: -0.500, f(x): -3.9247, F(x): 15.4034
+x: -0.450, f(x): -3.7308, F(x): 13.9191
+x: -0.400, f(x): -3.5399, F(x): 12.5310
+x: -0.350, f(x): -3.3506, F(x): 11.2263
+x: -0.300, f(x): -3.1616, F(x): 9.9958
+x: -0.250, f(x): -2.9722, F(x): 8.8338
+x: -0.200, f(x): -2.7816, F(x): 7.7372
+x: -0.150, f(x): -2.5894, F(x): 6.7048
+x: -0.100, f(x): -2.3952, F(x): 5.7369
+x: -0.050, f(x): -2.1988, F(x): 4.8346
+x: -0.000, f(x): -2.0000, F(x): 4.0000
+x: 0.050, f(x): -1.7987, F(x): 3.2354
+x: 0.100, f(x): -1.5948, F(x): 2.5434
+x: 0.150, f(x): -1.3881, F(x): 1.9268
+x: 0.200, f(x): -1.1783, F(x): 1.3883
+x: 0.250, f(x): -0.9650, F(x): 0.9312
+x: 0.300, f(x): -0.7477, F(x): 0.5591
+x: 0.350, f(x): -0.5257, F(x): 0.2763
+x: 0.400, f(x): -0.2979, F(x): 0.0888
+x: 0.450, f(x): -0.0632, F(x): 0.0040
+x: 0.500, f(x): 0.1800, F(x): 0.0324
+x: 0.550, f(x): 0.4336, F(x): 0.1880
+x: 0.600, f(x): 0.6999, F(x): 0.4898
+x: 0.650, f(x): 0.9816, F(x): 0.9635
+x: 0.700, f(x): 1.2818, F(x): 1.6431
+x: 0.750, f(x): 1.6043, F(x): 2.5738
+x: 0.800, f(x): 1.9532, F(x): 3.8151
+x: 0.850, f(x): 2.3334, F(x): 5.4445
+x: 0.900, f(x): 2.7501, F(x): 7.5630
+x: 0.950, f(x): 3.2095, F(x): 10.3008
+</code></pre></td></tr></table>
+</div>
+</div><p>可以看出，x = 0.5，结果已经很接近 0 了，方程的根应该在 0.45~0.50 之间，而且 0.45 时，F(x) 的值更小，说明离 0.45 距离更近。接下来，一个可行的方法是将这段再细分成更小的区间，再如上面这样尝试，直到结果满意为止。但是这样做太过机械，每次需要手动调整区间和步长，有没有一种方法可以自动调整呢？</p>
+<p>再回到我们的问题，求解方程的根，就是找到一个点使得损失函数最小，我们画出来这个函数的曲线看看</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://github.com/bugxch/blogpics/blob/master/201807/f2.png?raw=true"
+        data-srcset="https://github.com/bugxch/blogpics/blob/master/201807/f2.png?raw=true, https://github.com/bugxch/blogpics/blob/master/201807/f2.png?raw=true 1.5x, https://github.com/bugxch/blogpics/blob/master/201807/f2.png?raw=true 2x"
+        data-sizes="auto"
+        alt="https://github.com/bugxch/blogpics/blob/master/201807/f2.png?raw=true"
+        title="https://github.com/bugxch/blogpics/blob/master/201807/f2.png?raw=true" /></p>
+<p>我们假定方程的根是 x0x0，**除了 x0x0，其他点的函数值都比该点处的高，而且从两边向内，越是靠近 x0x0，函数的值越接近 0。**而且可以发现，从两边向 x0x0 移动，方向刚好就是该点处切线的斜率 F′(x)F′(x) 的相反数。</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="http://www.big-data.tips/wp-content/uploads/2016/06/gradient-types.jpg"
+        data-srcset="http://www.big-data.tips/wp-content/uploads/2016/06/gradient-types.jpg, http://www.big-data.tips/wp-content/uploads/2016/06/gradient-types.jpg 1.5x, http://www.big-data.tips/wp-content/uploads/2016/06/gradient-types.jpg 2x"
+        data-sizes="auto"
+        alt="http://www.big-data.tips/wp-content/uploads/2016/06/gradient-types.jpg"
+        title="斜率" /></p>
+<p>于是得到启发，挑选一个初始点，沿着该点的斜率相反的方向迭代，必然越来越靠近方程的根，所以有下面的算法：</p>
+<blockquote>
+<ol>
+<li>对于方程 f(x)=0f(x)=0，舍设定损失函数 F(x)=(f(x)−0)2F(x)=(f(x)−0)2；</li>
+<li>设定一个初值 x0x0，代入损失函数求得结果，如果大于 0，那么找到一个新的值 x1=x0−αF′(x0)x1=x0−αF′(x0)，考察损失函数是否为 0；</li>
+<li>反复迭代第 2 步，直到达到满意的精度为止。</li>
+</ol>
+</blockquote>
+<p>上面的算法中，有三个参数需要注意：</p>
+<ul>
+<li>αα，称为学习率，代表了曲线逼近的速度，这个参数可以自己设定；</li>
+<li>迭代次数，第 2 步运行的次数，迭代次数越多，我们离理想的结果越接近；</li>
+<li>精度，定义为 |F(x)||F(x)|，表示迭代的效果</li>
+</ul>
+<p>这三个参数中，迭代次数和精度可以作为迭代的终止条件，比如迭代次数达到 10000 次或者精度达到某个很小的数值 σσ 就终止运行。</p>
+<p>下面我们使用 python 程序来演示该算法的效果：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># _*_ coding: utf-8 _*_
+import numpy as np
+
+# 定义函数f(x)
+    e = 2.71828182845904590
+    return x**5 + e**x + 3*x - 3
+
+#定义损失函数
+def loss_fun(x):
+    return (problem(x) - 0)**2
+
+#计算损失函数的斜率
+def slope_fx(x):
+    delta  = 0.0000001;
+    return (loss_fun(x+delta) - loss_fun(x-delta))/(2.0*delta)
+
+#代入f(x)，计算数值
+def calcu_loss_fun(x,maxTimes,alpha):
+        for i in range(maxTimes):
+            x = x - slope_fx(x)*alpha;
+            print &#39;times %d, x: %.13f, f(x): %.13f&#39; % (i, x, problem(x))
+alpha = 0.01
+maxTimes = 100
+x = 0.0;
+
+calcu_loss_fun(x,maxTimes,alpha)
+</code></pre></td></tr></table>
+</div>
+</div><p>其中的<code>slope_fx</code>计算方程的斜率，利用导数定义 f′(x)=f(x+Δx)−f(x)Δxf′(x)=f(x+Δx)−f(x)Δx。程序计算结果如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">times 1, x: 0.2724712244717, f(x): -0.8678788871194
+times 2, x: 0.3478163723702, f(x): -0.5354882897920
+times 3, x: 0.3958941025006, f(x): -0.3168805921512
+times 4, x: 0.4251012218626, f(x): -0.1810687680246
+times 5, x: 0.4420964369242, f(x): -0.1008566369730
+times 6, x: 0.4516717013511, f(x): -0.0552506486831
+times 7, x: 0.4569525930429, f(x): -0.0299651603458
+times 8, x: 0.4598276021739, f(x): -0.0161585445219
+times 9, x: 0.4613811940466, f(x): -0.0086856358075
+times 10, x: 0.4622172450759, f(x): -0.0046606160693
+times 11, x: 0.4626661379649, f(x): -0.0024984737671
+times 12, x: 0.4629068614830, f(x): -0.0013387061269
+times 13, x: 0.4630358664583, f(x): -0.0007170954782
+times 14, x: 0.4631049762781, f(x): -0.0003840652503
+times 15, x: 0.4631419923255, f(x): -0.0002056832476
+times 16, x: 0.4631618165349, f(x): -0.0001101474736
+times 17, x: 0.4631724329502, f(x): -0.0000589848326
+times 18, x: 0.4631781181683, f(x): -0.0000315864570
+times 19, x: 0.4631811626230, f(x): -0.0000169144811
+times 20, x: 0.4631827929259, f(x): -0.0000090576372
+times 21, x: 0.4631836659475, f(x): -0.0000048503201
+times 22, x: 0.4631841334466, f(x): -0.0000025973198
+times 23, x: 0.4631843837899, f(x): -0.0000013908497
+times 24, x: 0.4631845178473, f(x): -0.0000007447918
+times 25, x: 0.4631845896343, f(x): -0.0000003988315
+times 26, x: 0.4631846280757, f(x): -0.0000002135719
+times 27, x: 0.4631846486609, f(x): -0.0000001143664
+times 28, x: 0.4631846596842, f(x): -0.0000000612425
+times 29, x: 0.4631846655870, f(x): -0.0000000327950
+times 30, x: 0.4631846687480, f(x): -0.0000000175615
+times 31, x: 0.4631846704407, f(x): -0.0000000094041
+times 32, x: 0.4631846713471, f(x): -0.0000000050358
+times 33, x: 0.4631846718325, f(x): -0.0000000026967
+times 34, x: 0.4631846720924, f(x): -0.0000000014440
+times 35, x: 0.4631846722316, f(x): -0.0000000007733
+times 36, x: 0.4631846723061, f(x): -0.0000000004141
+times 37, x: 0.4631846723460, f(x): -0.0000000002217
+times 38, x: 0.4631846723674, f(x): -0.0000000001187
+times 39, x: 0.4631846723788, f(x): -0.0000000000636
+times 40, x: 0.4631846723850, f(x): -0.0000000000340
+times 41, x: 0.4631846723882, f(x): -0.0000000000182
+times 42, x: 0.4631846723900, f(x): -0.0000000000098
+times 43, x: 0.4631846723909, f(x): -0.0000000000052
+times 44, x: 0.4631846723914, f(x): -0.0000000000028
+times 45, x: 0.4631846723917, f(x): -0.0000000000015
+times 46, x: 0.4631846723919, f(x): -0.0000000000008
+times 47, x: 0.4631846723919, f(x): -0.0000000000004
+times 48, x: 0.4631846723920, f(x): -0.0000000000002
+times 49, x: 0.4631846723920, f(x): -0.0000000000001
+times 50, x: 0.4631846723920, f(x): -0.0000000000001
+times 51, x: 0.4631846723920, f(x): -0.0000000000000
+times 52, x: 0.4631846723920, f(x): -0.0000000000000
+times 53, x: 0.4631846723920, f(x): -0.0000000000000
+times 54, x: 0.4631846723920, f(x): -0.0000000000000
+</code></pre></td></tr></table>
+</div>
+</div><p>迭代 52 次，就已经达到了理想的效果。</p>
+<h2 id="参考资料">参考资料</h2>
+<ul>
+<li><a href="https://ctmakro.github.io/site/on_learning/gd.html" target="_blank" rel="noopener noreffer">Gradient Descent 梯度下降法</a></li>
+<li><a href="http://www.big-data.tips/gradient-descent" target="_blank" rel="noopener noreffer">Gradient Descent | Big Data Mining &amp; Machine Learning</a></li>
+</ul></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2018-07-21</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://bugxch.github.io/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E7%AE%97%E6%B3%95%E4%B9%8B%E6%96%B9%E7%A8%8B%E6%B1%82%E8%A7%A3/" data-title="梯度下降算法之方程求解" data-via="hoho2006" data-hashtags="机器学习"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://bugxch.github.io/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E7%AE%97%E6%B3%95%E4%B9%8B%E6%96%B9%E7%A8%8B%E6%B1%82%E8%A7%A3/" data-hashtag="机器学习"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Linkedin" data-sharer="linkedin" data-url="https://bugxch.github.io/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E7%AE%97%E6%B3%95%E4%B9%8B%E6%96%B9%E7%A8%8B%E6%B1%82%E8%A7%A3/"><i class="fab fa-linkedin fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Xing" data-sharer="xing" data-url="https://bugxch.github.io/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E7%AE%97%E6%B3%95%E4%B9%8B%E6%96%B9%E7%A8%8B%E6%B1%82%E8%A7%A3/" data-title="梯度下降算法之方程求解"><i class="fab fa-xing fa-fw"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://bugxch.github.io/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E7%AE%97%E6%B3%95%E4%B9%8B%E6%96%B9%E7%A8%8B%E6%B1%82%E8%A7%A3/" data-title="梯度下降算法之方程求解"><i class="fab fa-weibo fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/matplot-%E4%B9%8B-3d-%E7%BB%98%E5%9B%BE%E6%8C%87%E5%8D%97/" class="prev" rel="prev" title="matplot 之 3D 绘图指南"><i class="fas fa-angle-left fa-fw"></i>matplot 之 3D 绘图指南</a>
+            <a href="/%E5%88%BB%E6%84%8F%E7%BB%83%E4%B9%A0%E8%A1%8C%E5%8A%A8%E6%89%8B%E5%86%8C/" class="next" rel="next" title="刻意练习行动手册">刻意练习行动手册<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="disqus_thread" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://disqus.com/?ref_noscript">Disqus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2016 - 2021</span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery.js@1.2.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.css"><script type="text/javascript" src="https://bugxch.disqus.com/embed.js" defer></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/smooth-scroll@16.1.3/dist/smooth-scroll.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.37.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.2.0/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.2.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery.js@1.2.0/dist/js/lightgallery.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lg-thumbnail.js@1.2.0/dist/lg-thumbnail.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lg-zoom.js@1.2.0/dist/lg-zoom.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.4.0/sharer.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{},"lightGallery":{"actualSize":false,"exThumbImage":"data-thumbnail","hideBarsDelay":2000,"selector":".lightgallery","speed":400,"thumbContHeight":80,"thumbWidth":80,"thumbnail":true},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"ROWPFW1USO","algoliaIndex":"index_json","algoliaSearchKey":"d0a8ab43cf24071544b25506aa08ba89","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

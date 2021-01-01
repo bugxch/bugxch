@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>python文件操作 - Dive Into Think</title><meta name="Description" content="博观而约取，厚积而薄发"><meta property="og:title" content="python文件操作" />
+<meta property="og:description" content="在日常工作中，需要非常频繁地与数据打交道，将数据保存下来做数据比对，因此需要总结下python下的文本和数据的读写操作。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://bugxch.github.io/python%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" />
+<meta property="og:image" content="https://bugxch.github.io/static/android-chrome-512x512.png"/>
+<meta property="article:published_time" content="2018-11-08T07:33:12+00:00" />
+<meta property="article:modified_time" content="2018-11-08T07:33:12+00:00" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://bugxch.github.io/static/android-chrome-512x512.png"/>
+
+<meta name="twitter:title" content="python文件操作"/>
+<meta name="twitter:description" content="在日常工作中，需要非常频繁地与数据打交道，将数据保存下来做数据比对，因此需要总结下python下的文本和数据的读写操作。"/>
+<meta name="application-name" content="小猴子的烂笔头">
+<meta name="apple-mobile-web-app-title" content="小猴子的烂笔头"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="canonical" href="https://bugxch.github.io/python%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" /><link rel="prev" href="https://bugxch.github.io/shell%E7%9A%84%E8%A7%A3%E9%87%8A/" /><link rel="next" href="https://bugxch.github.io/tf%E4%B8%AD%E7%9A%84padding%E6%96%B9%E5%BC%8Fsame%E5%92%8Cvalid%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "python文件操作",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/bugxch.github.io\/python%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C\/"
+        },"image": ["https:\/\/bugxch.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "python, 文件操作","wordcount":  1832 ,
+        "url": "https:\/\/bugxch.github.io\/python%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C\/","datePublished": "2018-11-08T07:33:12+00:00","dateModified": "2018-11-08T07:33:12+00:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "xxxx","logo": "https:\/\/bugxch.github.io\/images\/avatar.png"},"author": {
+                "@type": "Person",
+                "name": "bugxch"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="auto" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Dive Into Think"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg"
+        data-srcset="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg, https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg 1.5x, https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg 2x"
+        data-sizes="auto"
+        alt="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg"
+        title="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg" />Dive Into Think</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 归档 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/collection/"> 杂记 </a><a class="menu-item" href="https://github.com/bugxch" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Dive Into Think"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg"
+        data-srcset="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg, https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg 1.5x, https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg 2x"
+        data-sizes="auto"
+        alt="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg"
+        title="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg" />Dive Into Think</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">归档</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/collection/" title="">杂记</a><a class="menu-item" href="https://github.com/bugxch" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">python文件操作</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>bugxch</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%8A%80%E8%89%BA/"><i class="far fa-folder fa-fw"></i>技艺</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2018-11-08">2018-11-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1832 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#基础知识">基础知识</a></li>
+    <li><a href="#python文件读写-1">python文件读写</a>
+      <ul>
+        <li><a href="#文本文件">文本文件</a></li>
+        <li><a href="#二进制文件">二进制文件</a></li>
+      </ul>
+    </li>
+    <li><a href="#numpy文件读写">numpy文件读写</a></li>
+    <li><a href="#参考资料">参考资料</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>在日常工作中，需要非常频繁地与数据打交道，将数据保存下来做数据比对，因此需要总结下python下的文本和数据的读写操作。</p>
+<h1 id="python文件读写">python文件读写</h1>
+<h2 id="基础知识">基础知识</h2>
+<p>在python中使用下面的语句打开一个文本</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;workfile&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>创建了一个文件对象<code>f</code>。其中的</p>
+<ul>
+<li><strong>读写方式</strong>。<code>w</code>表示文本<code>workfile</code>的创建方式为写入，当然还有其他的读写方式，可以参考如下的表格</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>&ldquo;r&rdquo;</th>
+<th><strong>read:</strong> Open file for input operations. The file must exist.</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&ldquo;w&rdquo;</td>
+<td><strong>write:</strong> Create an empty file for output operations. If a file with the same name already exists, its contents are discarded and the file is treated as a new empty file.</td>
+</tr>
+<tr>
+<td>&ldquo;a&rdquo;</td>
+<td><strong>append:</strong> Open file for output at the end of a file. Output operations always write data at the end of the file, expanding it. Repositioning operations (<a href="http://www.cplusplus.com/fseek" target="_blank" rel="noopener noreffer">fseek</a>, <a href="http://www.cplusplus.com/fsetpos" target="_blank" rel="noopener noreffer">fsetpos</a>, <a href="http://www.cplusplus.com/rewind" target="_blank" rel="noopener noreffer">rewind</a>) are ignored. The file is created if it does not exist.</td>
+</tr>
+<tr>
+<td>&ldquo;r+&rdquo;</td>
+<td><strong>read/update:</strong> Open a file for update (both for input and output). The file must exist.</td>
+</tr>
+<tr>
+<td>&ldquo;w+&rdquo;</td>
+<td><strong>write/update:</strong> Create an empty file and open it for update (both for input and output). If a file with the same name already exists its contents are discarded and the file is treated as a new empty file.</td>
+</tr>
+<tr>
+<td>&ldquo;a+&rdquo;</td>
+<td><strong>append/update:</strong> Open a file for update (both for input and output) with all output operations writing data at the end of the file. Repositioning operations (<a href="http://www.cplusplus.com/fseek" target="_blank" rel="noopener noreffer">fseek</a>, <a href="http://www.cplusplus.com/fsetpos" target="_blank" rel="noopener noreffer">fsetpos</a>, <a href="http://www.cplusplus.com/rewind" target="_blank" rel="noopener noreffer">rewind</a>) affects the next input operations, but output operations move the position back to the end of file. The file is created if it does not exist.</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>编码方式</strong>。一般而言，默认读写文件使用的是字符串，字符串的编码方式视平台而定，也可以通过参数<code>b</code>来指定读写的数据为二进制文件，该模式仅仅用于没有字符的数据。</li>
+</ul>
+<p>上面的基本语句有一个更优雅的语句方式</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;workfile&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+	<span class="n">read_data</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这样写的好处是文件可以自动关闭，即便有异常抛出也可以。</p>
+<h2 id="python文件读写-1">python文件读写</h2>
+<p>这一段介绍python本身的文件读写功能。</p>
+<h3 id="文本文件">文本文件</h3>
+<p>以之前的基础知识为例，读取文本文件很简单，使用文件对象的方法有</p>
+<ul>
+<li><code>read</code>，直接读取文本的所有内容，也可以使用<code>f.read(size)</code>读取size字节的数据</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;workfile&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+	<span class="n">read_data</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">read_data</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>readline</code>，逐行读取文件中每一行</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;workfile&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+	<span class="n">first_line</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+    <span class="n">sec_line</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>上面的语句依次读取文件的每一行。</p>
+<ul>
+<li>遍历文本的每一行</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;files\stringdata.txt&#39;</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>    
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这个会依次读取文件的每一行</p>
+<ul>
+<li>将文本中的每一行读入一个列表中，列表的每个元素是文本的一行</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;files\stringdata.txt&#39;</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>    
+    <span class="n">s</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>写入字符文本，仅仅需要一个函数<code>write</code></li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;files\stringdata.txt&#39;</span><span class="p">,</span><span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>    
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&#34;hello world</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">)</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="mf">10.255616</span><span class="p">))</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>文本内容是</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">hello world
+10.255616
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="二进制文件">二进制文件</h3>
+<p>二进制文件的读写和文本文件读写的方法类似，最大的区别是打开的选项必须要加一个<code>b</code>。</p>
+<ul>
+<li>写入二进制文件</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这个脚本将output的数字保存到filepath对应的文件里面。</p>
+<ul>
+<li>读取二进制文件</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>下面是读写二进制文件的一个例子</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="k">def</span> <span class="nf">save_bin</span><span class="p">(</span><span class="n">output</span><span class="p">,</span><span class="n">filepath</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+    <span class="k">return</span>
+
+<span class="k">def</span> <span class="nf">load_bin</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">content</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">data</span>
+
+<span class="n">data_out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">data_out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">(</span><span class="n">data_out</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">data_out</span><span class="p">)</span>
+
+<span class="n">save_bin</span><span class="p">(</span><span class="n">data_out</span><span class="p">,</span> <span class="s1">&#39;./datawrite.bin&#39;</span><span class="p">)</span>
+
+<span class="n">data_in</span> <span class="o">=</span> <span class="n">load_bin</span><span class="p">(</span><span class="s1">&#39;./datawrite.bin&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">data_in</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>其中使用numpy模块生成正态分布的10个数字，并且以float32的格式保存在文件里面，之后再读取出来。需要注意的是，<strong>读取和写入文件的数据格式必须保持一致</strong>，比如float16写入就float16数据格式读出，否则读出来的数据是错误的。我在ipython环境下随机运行的结果如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">In <span class="o">[</span>44<span class="o">]</span>: runfile<span class="o">(</span><span class="s1">&#39;C:/Users/h00437182/Desktop/python/readfile.py&#39;</span>, <span class="nv">wdir</span><span class="o">=</span><span class="s1">&#39;C:/Users/h00437182/Desktop/python&#39;</span><span class="o">)</span>
+<span class="o">[[</span> 0.5902766   0.19589928  0.12194731 -0.17657255 -0.4276924  -0.3527161
+  -1.3733053  -0.7128385  -1.1449672   1.4563532 <span class="o">]]</span>
+<span class="o">[</span> 0.5902766   0.19589928  0.12194731 -0.17657255 -0.4276924  -0.3527161
+ -1.3733053  -0.7128385  -1.1449672   1.4563532 <span class="o">]</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="numpy文件读写">numpy文件读写</h2>
+<p>numpy是python的一个数据处理的模块，它的文件读写功能使用起来更加强大和便捷。在日常工作中，常常需要比对数据，因此有必要将数据保存成txt文档进行比对，此处的文件读写都是围绕数据展开。将数据保存在文本文件中是日常工作的一个大痛点和需求，下面的命令就可以实现这样的目标。</p>
+<blockquote>
+<p>numpy的数据读写是成对使用的。</p>
+</blockquote>
+<ul>
+<li>
+<p><code>savetxt</code>和<code>loadtxt</code></p>
+<p>这两个命令只适用于一维或者二维数组，常见的使用格式如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&#34;</span><span class="si">%d</span><span class="s2">&#34;</span><span class="p">,</span><span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>比如，下面的脚本，我们复用之前的脚本生成10个随机数，之后以小数点后4位的精度保留，之后再读出来</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+  
+<span class="n">data_out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">data_out</span><span class="p">)</span>
+  
+<span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="s1">&#39;data.txt&#39;</span><span class="p">,</span><span class="n">data_out</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&#34;</span><span class="si">%.4f</span><span class="s2">&#34;</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+  
+<span class="n">dataout</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">&#39;data.txt&#39;</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">dataout</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>文件<code>data.txt</code>中的数据是</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">1.9229 -1.0319 0.0624 0.6372 -0.4520 0.7549 -1.6933 -0.2295 1.4575 -0.7399
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p><code>tofile</code>和<code>fromfile</code></p>
+<p>这两个命令的说明如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">ndarray</span><span class="o">.</span><span class="n">tofile</span><span class="p">(</span><span class="n">fid</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&#34;&#34;</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s2">&#34;</span><span class="si">%s</span><span class="s2">&#34;</span><span class="p">)</span>
+<span class="n">numpy</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="nb">file</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">count</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>需要注意的是，使用fromfile读出的文件的数据是一维的，需要知道数据的维度才能恢复数据本来的样子，参考如下的用例</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+  
+<span class="n">data_out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">data_out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">data_out</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">data_out</span><span class="p">)</span>
+  
+<span class="n">data_out</span><span class="o">.</span><span class="n">tofile</span><span class="p">(</span><span class="s1">&#39;data.bin&#39;</span><span class="p">)</span>
+<span class="n">dataout</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="s1">&#39;data.bin&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">dataout</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p><code>save</code>和<code>load</code></p>
+<p>这一对命令可以保存原始的数据，就是原封不动保存之前的narray的信息，使用load之后得到的数据就是原来的数据，参考如下的例子</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+  
+<span class="n">data_out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">data_out</span><span class="p">)</span>
+  
+<span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;data.npy&#39;</span><span class="p">,</span> <span class="n">data_out</span><span class="p">)</span>
+<span class="n">dataout</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;data.npy&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">dataout</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这个脚本的结果如下所示</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">runfile<span class="o">(</span><span class="s1">&#39;C:/Users/h00437182/Desktop/python/readfile.py&#39;</span>, <span class="nv">wdir</span><span class="o">=</span><span class="s1">&#39;C:/Users/h00437182/Desktop/python&#39;</span><span class="o">)</span>
+<span class="o">[[</span> 0.768138    1.09159732  1.45133552 -1.796178    1.19846175 -0.40864606
+   0.73694781 -0.87850709 -2.29957767 -1.2550539 <span class="o">]</span>
+ <span class="o">[</span>-0.38308247  0.08059661 -1.84944623 -0.43883914  1.88381452  1.0455034
+  -0.01678215  0.95006648  0.06723308 -0.6050553 <span class="o">]]</span>
+<span class="o">[[</span> 0.768138    1.09159732  1.45133552 -1.796178    1.19846175 -0.40864606
+   0.73694781 -0.87850709 -2.29957767 -1.2550539 <span class="o">]</span>
+ <span class="o">[</span>-0.38308247  0.08059661 -1.84944623 -0.43883914  1.88381452  1.0455034
+  -0.01678215  0.95006648  0.06723308 -0.6050553 <span class="o">]]</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>完美保存数据的精度和维度信息。</p>
+</li>
+</ul>
+<h2 id="参考资料">参考资料</h2>
+<ul>
+<li><a href="https://docs.python.org/3/tutorial/inputoutput.html" target="_blank" rel="noopener noreffer">7. Input and Output — Python 3.7.1 documentation</a>，python官方介绍输入输出的文档</li>
+<li><a href="https://www.datacamp.com/community/tutorials/reading-writing-files-python" target="_blank" rel="noopener noreffer">Reading and Writing Files in Python (article) - DataCamp</a>，datamap的二进制文本读取</li>
+<li><a href="https://stackoverflow.com/questions/28439701/how-to-save-and-load-numpy-array-data-properly" target="_blank" rel="noopener noreffer">python - How to save and load numpy.array() data properly? - Stack Overflow</a></li>
+</ul></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2018-11-08</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://bugxch.github.io/python%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" data-title="python文件操作" data-via="hoho2006" data-hashtags="python,文件操作"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://bugxch.github.io/python%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" data-hashtag="python"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Linkedin" data-sharer="linkedin" data-url="https://bugxch.github.io/python%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/"><i class="fab fa-linkedin fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Xing" data-sharer="xing" data-url="https://bugxch.github.io/python%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" data-title="python文件操作"><i class="fab fa-xing fa-fw"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://bugxch.github.io/python%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" data-title="python文件操作"><i class="fab fa-weibo fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/python/">python</a>,&nbsp;<a href="/tags/%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/">文件操作</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/shell%E7%9A%84%E8%A7%A3%E9%87%8A/" class="prev" rel="prev" title="\$(cd \$(dirname $0);pwd)的解释"><i class="fas fa-angle-left fa-fw"></i>\$(cd \$(dirname $0);pwd)的解释</a>
+            <a href="/tf%E4%B8%AD%E7%9A%84padding%E6%96%B9%E5%BC%8Fsame%E5%92%8Cvalid%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB/" class="next" rel="next" title="tf中的padding方式SAME和VALID有什么区别?">tf中的padding方式SAME和VALID有什么区别?<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="disqus_thread" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://disqus.com/?ref_noscript">Disqus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2016 - 2021</span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery.js@1.2.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.css"><script type="text/javascript" src="https://bugxch.disqus.com/embed.js" defer></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/smooth-scroll@16.1.3/dist/smooth-scroll.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.37.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.2.0/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.2.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery.js@1.2.0/dist/js/lightgallery.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lg-thumbnail.js@1.2.0/dist/lg-thumbnail.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lg-zoom.js@1.2.0/dist/lg-zoom.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.4.0/sharer.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{},"lightGallery":{"actualSize":false,"exThumbImage":"data-thumbnail","hideBarsDelay":2000,"selector":".lightgallery","speed":400,"thumbContHeight":80,"thumbWidth":80,"thumbnail":true},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"ROWPFW1USO","algoliaIndex":"index_json","algoliaSearchKey":"d0a8ab43cf24071544b25506aa08ba89","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

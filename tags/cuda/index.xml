@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>CUDA - 标签 - Dive Into Think</title>
+        <link>https://bugxch.github.io/tags/cuda/</link>
+        <description>CUDA - 标签 - Dive Into Think</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>bugxch@126.com (bugxch)</managingEditor>
+            <webMaster>bugxch@126.com (bugxch)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 09 Feb 2019 19:02:24 &#43;0000</lastBuildDate><atom:link href="https://bugxch.github.io/tags/cuda/" rel="self" type="application/rss+xml" /><item>
+    <title>Manjaro安装CUDA教程</title>
+    <link>https://bugxch.github.io/manjaro%E5%AE%89%E8%A3%85cuda%E6%95%99%E7%A8%8B/</link>
+    <pubDate>Sat, 09 Feb 2019 19:02:24 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://bugxch.github.io/manjaro%E5%AE%89%E8%A3%85cuda%E6%95%99%E7%A8%8B/</guid>
+    <description><![CDATA[<p>去年年底安装将我的Thinkpad T450的双系统中的opensuse换成了<a href="https://manjaro.org/" target="_blank" rel="noopener noreffer">Manjaro</a>，折腾安装了下CUDA，是为记录。</p>]]></description>
+</item></channel>
+</rss>

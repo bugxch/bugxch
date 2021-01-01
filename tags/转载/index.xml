@@ -1,0 +1,24 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>转载 - 标签 - Dive Into Think</title>
+        <link>https://bugxch.github.io/tags/%E8%BD%AC%E8%BD%BD/</link>
+        <description>转载 - 标签 - Dive Into Think</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>bugxch@126.com (bugxch)</managingEditor>
+            <webMaster>bugxch@126.com (bugxch)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 15 Aug 2020 21:25:46 &#43;0800</lastBuildDate><atom:link href="https://bugxch.github.io/tags/%E8%BD%AC%E8%BD%BD/" rel="self" type="application/rss+xml" /><item>
+    <title>「转载」C&#43;&#43;中的sort函数（一）</title>
+    <link>https://bugxch.github.io/sort_intro/</link>
+    <pubDate>Sat, 15 Aug 2020 21:25:46 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://bugxch.github.io/sort_intro/</guid>
+    <description><![CDATA[<div class="featured-image">
+                <img src="https://cdn.pixabay.com/photo/2019/10/06/18/27/meadow-hogweed-4530921_960_720.jpg" referrerpolicy="no-referrer">
+            </div><p>公司认证的leetcode题目中经常会用到sort函数，不是很熟悉，今天系统学习总结下。</p>]]></description>
+</item><item>
+    <title>[转载]用于深入思考的小工具</title>
+    <link>https://bugxch.github.io/think/</link>
+    <pubDate>Sun, 19 Jul 2020 21:18:11 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://bugxch.github.io/think/</guid>
+    <description><![CDATA[]]></description>
+</item></channel>
+</rss>

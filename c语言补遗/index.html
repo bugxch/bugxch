@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>C语言补遗 - Dive Into Think</title><meta name="Description" content="博观而约取，厚积而薄发"><meta property="og:title" content="C语言补遗" />
+<meta property="og:description" content="前些天公司摸底 C 语言考试，得分比较难看，回来发了考试答案，这篇博客把我做错的题目拿出来理一理，补补课。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://bugxch.github.io/c%E8%AF%AD%E8%A8%80%E8%A1%A5%E9%81%97/" />
+<meta property="og:image" content="https://bugxch.github.io/static/android-chrome-512x512.png"/>
+<meta property="article:published_time" content="2018-07-20T22:54:24+00:00" />
+<meta property="article:modified_time" content="2018-07-20T22:54:24+00:00" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://bugxch.github.io/static/android-chrome-512x512.png"/>
+
+<meta name="twitter:title" content="C语言补遗"/>
+<meta name="twitter:description" content="前些天公司摸底 C 语言考试，得分比较难看，回来发了考试答案，这篇博客把我做错的题目拿出来理一理，补补课。"/>
+<meta name="application-name" content="小猴子的烂笔头">
+<meta name="apple-mobile-web-app-title" content="小猴子的烂笔头"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="canonical" href="https://bugxch.github.io/c%E8%AF%AD%E8%A8%80%E8%A1%A5%E9%81%97/" /><link rel="prev" href="https://bugxch.github.io/kindle%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/" /><link rel="next" href="https://bugxch.github.io/source-insight-%E5%9F%BA%E7%A1%80%E9%85%8D%E7%BD%AE/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "C语言补遗",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/bugxch.github.io\/c%E8%AF%AD%E8%A8%80%E8%A1%A5%E9%81%97\/"
+        },"image": ["https:\/\/bugxch.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "C语言","wordcount":  1518 ,
+        "url": "https:\/\/bugxch.github.io\/c%E8%AF%AD%E8%A8%80%E8%A1%A5%E9%81%97\/","datePublished": "2018-07-20T22:54:24+00:00","dateModified": "2018-07-20T22:54:24+00:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "xxxx","logo": "https:\/\/bugxch.github.io\/images\/avatar.png"},"author": {
+                "@type": "Person",
+                "name": "bugxch"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="auto" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Dive Into Think"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg"
+        data-srcset="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg, https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg 1.5x, https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg 2x"
+        data-sizes="auto"
+        alt="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg"
+        title="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg" />Dive Into Think</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 归档 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/collection/"> 杂记 </a><a class="menu-item" href="https://github.com/bugxch" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Dive Into Think"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg"
+        data-srcset="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg, https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg 1.5x, https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg 2x"
+        data-sizes="auto"
+        alt="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg"
+        title="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg" />Dive Into Think</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">归档</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/collection/" title="">杂记</a><a class="menu-item" href="https://github.com/bugxch" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">C语言补遗</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>bugxch</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%8A%80%E8%89%BA/"><i class="far fa-folder fa-fw"></i>技艺</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2018-07-20">2018-07-20</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1518 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents"></nav></div>
+            </div><div class="content" id="content"><p>前些天公司摸底 C 语言考试，得分比较难看，回来发了考试答案，这篇博客把我做错的题目拿出来理一理，补补课。</p>
+<ul>
+<li>
+<p>判断对错：在定义数据结构时，没有特殊理由的话，都定义成四字节对齐；这样做可能浪费几个字节，但是不会出问题。</p>
+<blockquote>
+<p>这道题答案是对的，需要仔细 Google。</p>
+</blockquote>
+</li>
+<li>
+<p>以下程序运行 (64 位系统) 后的输出结果是 6 5 8 5</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-C" data-lang="C"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="kt">char</span> <span class="n">str1</span><span class="p">[]</span> <span class="o">=</span> <span class="s">&#34;Hello&#34;</span><span class="p">;</span>
+  <span class="kt">char</span> <span class="n">str2</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="sc">&#39;H&#39;</span><span class="p">,</span> <span class="sc">&#39;e&#39;</span><span class="p">,</span> <span class="sc">&#39;l&#39;</span><span class="p">,</span> <span class="sc">&#39;l&#39;</span><span class="p">,</span> <span class="sc">&#39;o&#39;</span><span class="p">};</span>
+  <span class="kt">char</span> <span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="n">str1</span><span class="p">;</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&#34;%d %d %d %d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">str1</span><span class="p">),</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">str2</span><span class="p">),</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">p</span><span class="p">),</span> <span class="n">strlen</span><span class="p">(</span><span class="n">p</span><span class="p">));</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>这道题我的答案是 6,5,4,5，原因在于 64 位的指针的长度大小是 8 个字节，而不是一般的 4 个字节。 考点为 字符串数组长度 (+1), 64 位指针长度 (8) 字符串数组 x 包含末尾的’\0’</p>
+</blockquote>
+</li>
+<li>
+<p>如下程序, 在 64bit 系统运行输出为 24 4 8 16</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="k">struct</span> <span class="n">s1</span>
+<span class="p">{</span>
+    <span class="kt">char</span> <span class="n">a</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">b</span><span class="p">;</span>
+    <span class="kt">short</span> <span class="n">c</span><span class="p">;</span>
+    <span class="kt">double</span> <span class="n">d</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;%d %d %d %d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span>
+    <span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">s1</span><span class="p">),</span> <span class="n">offsetof</span><span class="p">(</span><span class="k">struct</span> <span class="n">s1</span><span class="p">,</span> <span class="n">b</span><span class="p">),</span> <span class="n">offsetof</span><span class="p">(</span><span class="k">struct</span>
+    <span class="n">s1</span><span class="p">,</span> <span class="n">c</span><span class="p">),</span> <span class="n">offsetof</span><span class="p">(</span><span class="k">struct</span> <span class="n">s1</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="p">)</span> <span class="p">;</span>
+    <span class="c1">//注: offsetof 为计算偏移量的宏
+</span><span class="c1"></span>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>我的答案是 48,8,16,32，错误成了 2 倍。主要为结构体对齐规则, 这部分需要强化 一般考生都可以看到 b 按 4 字节对齐，需要填充 忽视 double 也需要 8 字节对齐 double 在 32 位 linux 平台下可能按照 4 字节对齐</p>
+</blockquote>
+</li>
+<li>
+<p>如下指针计算, 结果为 4</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="kt">int</span> <span class="o">*</span><span class="n">p1</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="p">)</span><span class="mh">0x500</span><span class="p">;</span>
+<span class="kt">int</span> <span class="o">*</span><span class="n">p2</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="p">)</span><span class="mh">0x510</span><span class="p">;</span>
+<span class="n">printf</span><span class="p">(</span><span class="err">“</span><span class="o">%</span><span class="n">d</span><span class="err">\</span><span class="n">n</span><span class="err">”</span><span class="p">,</span> <span class="p">(</span><span class="n">p2</span> <span class="o">-</span> <span class="n">p1</span><span class="p">));</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>我错成了 16，答案应该是 16/4，指针的减法，按照指针类型计算跨越的步长</p>
+</blockquote>
+</li>
+<li>
+<p>如下程序, 请问输出多少？ -128,128</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="kt">void</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="kt">char</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">127</span><span class="p">;</span>
+<span class="kt">char</span> <span class="n">a</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">b</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">printf</span><span class="p">(</span><span class="s">&#34;%d %d&#34;</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>我的答案是 128,128，整型加法隐式提升到 int 然后运算，所以 x+1 就是 128 溢出出现在赋值运算，第一个溢出了，第二个没有。没有考虑到第一个溢出之后的数据显示问题</p>
+</blockquote>
+</li>
+<li>
+<p>如下程序片段, 输出为: 2 7</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="kt">int</span> <span class="o">*</span><span class="n">p</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">x</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">};</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">printf</span><span class="p">(</span><span class="s">&#34;%d %d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">]);</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>我的答案是 4 7 。x[0] 是对二级指针解引用，类型是指向整型的指针，指向 1，+1 后，指向 x[0][1] 没争议</p>
+</blockquote>
+</li>
+<li>
+<p>计算如下定义长度 (64 位系统)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="k">typedef</span> <span class="k">union</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">a</span><span class="p">;</span>
+    <span class="kt">long</span> <span class="n">b</span><span class="p">;</span>
+    <span class="kt">char</span> <span class="n">c</span><span class="p">[</span><span class="mi">6</span><span class="p">];</span>
+<span class="p">}</span><span class="n">un</span><span class="p">;</span>
+<span class="k">sizeof</span><span class="p">(</span><span class="n">un</span><span class="p">)</span> <span class="o">=</span> <span class="mi">8</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>我的答案是 48，联合体的内存大小不会算，共用体的占用空间的大小，按照其最大成员算 本题中 long 是 8 字节</p>
+</blockquote>
+</li>
+<li>
+<p>请问输出多少</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="k">union</span> <span class="n">packet</span>
+<span class="p">{</span>
+    <span class="k">struct</span> <span class="n">packet_bit</span>
+    <span class="p">{</span>
+        <span class="kt">unsigned</span> <span class="kt">char</span> <span class="nl">a</span><span class="p">:</span><span class="mi">2</span><span class="p">;</span>
+        <span class="kt">unsigned</span> <span class="kt">char</span> <span class="nl">b</span><span class="p">:</span><span class="mi">3</span><span class="p">;</span>
+        <span class="kt">unsigned</span> <span class="kt">char</span> <span class="nl">c</span><span class="p">:</span><span class="mi">4</span><span class="p">;</span>
+    <span class="p">}</span> <span class="n">bit</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">data</span><span class="p">;</span>
+  
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">data</span><span class="p">.</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">data</span><span class="p">.</span><span class="n">bit</span><span class="p">.</span><span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="n">data</span><span class="p">.</span><span class="n">bit</span><span class="p">.</span><span class="n">b</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+    <span class="n">data</span><span class="p">.</span><span class="n">bit</span><span class="p">.</span><span class="n">c</span> <span class="o">=</span> <span class="mh">0xF</span><span class="p">;</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;0x%04x</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">data</span><span class="p">.</span><span class="n">i</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>我的答案是 0xf，这道题完全是蒙出来的，考察的是位域的概念，位域结构体，按地址从低到高依次存储 a、b、c 一个规则大家可能都不熟悉： 一个位域必须存储在同一个字节中，不能跨两个字节 所以 a 和 b 储存在一个字节，c 再进来存不下，所以 c 单独存放在一个字节 再就是注意输出格式</p>
+</blockquote>
+</li>
+<li>
+<p>如下程序, 请写出打印结果 A b</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="kt">void</span> <span class="nf">fun</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">b</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">b</span><span class="p">;</span>
+    <span class="p">(</span><span class="o">*</span><span class="n">a</span><span class="p">)</span><span class="o">++</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">char</span> <span class="n">c1</span> <span class="o">=</span> <span class="sc">&#39;A&#39;</span><span class="p">,</span> <span class="n">c2</span> <span class="o">=</span> <span class="sc">&#39;a&#39;</span><span class="p">;</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">p1</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">c1</span><span class="p">;</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">p2</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">c2</span><span class="p">;</span>
+    <span class="n">fun</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;%c %c</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">c1</span><span class="p">,</span> <span class="n">c2</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>我的结果是 a b， 函数入参是按值传递的，只有通过传递地址才能改变函数外部的值，这里有一个陷阱，使用的地址，实际是从参数 b 传进来的，所以改变的也是参数 b 指向的值 。这道题不该错，因为在 fun 函数里，a 的值已经是 b 了，所以 a 指向的就是 b 指向的地址，因此改变的就是 c2 指向的字母啊</p>
+</blockquote>
+</li>
+<li>
+<p>下面函数的输出是 token3 = 4</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="cp">#define paster( n ) printf( &#34;token&#34; #n &#34; = %d&#34;, token##n )
+</span><span class="cp"></span><span class="kt">void</span> <span class="nf">fun</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">token3</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">tokenn</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+    <span class="n">paster</span><span class="p">(</span> <span class="mi">3</span> <span class="p">);</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>我的答案是 token3 = 3，这是个知识盲点，可以参考 <a href="https://blog.csdn.net/dotphoenix/article/details/4345174" target="_blank" rel="noopener noreffer">C 语言宏定义 ## 连接符和 #符的使用</a>，# 将本身的字符替换之后再在两边加上双引号，## 是机械单纯得将两个 token 连接在一起</p>
+</blockquote>
+</li>
+<li>
+<p>如下程序, 输出为 100008 100001 100004</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="k">struct</span> <span class="n">test</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">a</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">b</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="kt">int</span> <span class="nf">main</span> <span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">struct</span> <span class="n">test</span> <span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">test</span> <span class="o">*</span><span class="p">)</span><span class="mh">0x100000</span><span class="p">;</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;%x %x %x</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="p">(</span><span class="n">p</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="kt">long</span><span class="p">)</span><span class="n">p</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="p">)</span><span class="n">p</span> <span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>我的答案是 0x100008,0x100001,0x11。这道题比较有意思，程序第 8 行已经说明了，p 的值就是 0x100000（也就是说 p 指向的地址是 0x100000），后面 (int *)p，说明了它指向的是 int 类型，那么 + 1 就是在原来的地址上一个 int 的字节数，也就是 0x100004。需要总结的是，指针前面的表明的是这个指针指向的数据类型。</p>
+</blockquote>
+</li>
+</ul></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2018-07-20</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://bugxch.github.io/c%E8%AF%AD%E8%A8%80%E8%A1%A5%E9%81%97/" data-title="C语言补遗" data-via="hoho2006" data-hashtags="C语言"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://bugxch.github.io/c%E8%AF%AD%E8%A8%80%E8%A1%A5%E9%81%97/" data-hashtag="C语言"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Linkedin" data-sharer="linkedin" data-url="https://bugxch.github.io/c%E8%AF%AD%E8%A8%80%E8%A1%A5%E9%81%97/"><i class="fab fa-linkedin fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Xing" data-sharer="xing" data-url="https://bugxch.github.io/c%E8%AF%AD%E8%A8%80%E8%A1%A5%E9%81%97/" data-title="C语言补遗"><i class="fab fa-xing fa-fw"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://bugxch.github.io/c%E8%AF%AD%E8%A8%80%E8%A1%A5%E9%81%97/" data-title="C语言补遗"><i class="fab fa-weibo fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/c%E8%AF%AD%E8%A8%80/">C语言</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/kindle%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/" class="prev" rel="prev" title="Kindle使用小记"><i class="fas fa-angle-left fa-fw"></i>Kindle使用小记</a>
+            <a href="/source-insight-%E5%9F%BA%E7%A1%80%E9%85%8D%E7%BD%AE/" class="next" rel="next" title="Source Insight 基础配置">Source Insight 基础配置<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="disqus_thread" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://disqus.com/?ref_noscript">Disqus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2016 - 2021</span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery.js@1.2.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.css"><script type="text/javascript" src="https://bugxch.disqus.com/embed.js" defer></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/smooth-scroll@16.1.3/dist/smooth-scroll.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.37.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.2.0/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.2.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery.js@1.2.0/dist/js/lightgallery.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lg-thumbnail.js@1.2.0/dist/lg-thumbnail.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lg-zoom.js@1.2.0/dist/lg-zoom.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.4.0/sharer.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{},"lightGallery":{"actualSize":false,"exThumbImage":"data-thumbnail","hideBarsDelay":2000,"selector":".lightgallery","speed":400,"thumbContHeight":80,"thumbWidth":80,"thumbnail":true},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"ROWPFW1USO","algoliaIndex":"index_json","algoliaSearchKey":"d0a8ab43cf24071544b25506aa08ba89","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

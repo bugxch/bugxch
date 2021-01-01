@@ -1,0 +1,86 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Dive Into Think</title>
+        <link>https://bugxch.github.io/</link>
+        <description>博观而约取，厚积而薄发</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>bugxch@126.com (bugxch)</managingEditor>
+            <webMaster>bugxch@126.com (bugxch)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 16 Aug 2020 22:31:31 &#43;0800</lastBuildDate>
+            <atom:link href="https://bugxch.github.io/index.xml" rel="self" type="application/rss+xml" />
+        <item>
+    <title>LeetCode区间问题总结</title>
+    <link>https://bugxch.github.io/intersection/</link>
+    <pubDate>Sun, 16 Aug 2020 22:31:31 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://bugxch.github.io/intersection/</guid>
+    <description><![CDATA[<div class="featured-image">
+                <img src="https://cdn.pixabay.com/photo/2013/07/18/20/26/sea-164989_960_720.jpg" referrerpolicy="no-referrer">
+            </div><p>上周五考试没有过，其中专业级第二题是关于区间的问题，在leetcode上找到类似的题目，总结复习下。</p>]]></description>
+</item><item>
+    <title>「转载」C&#43;&#43;中的sort函数（一）</title>
+    <link>https://bugxch.github.io/sort_intro/</link>
+    <pubDate>Sat, 15 Aug 2020 21:25:46 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://bugxch.github.io/sort_intro/</guid>
+    <description><![CDATA[<div class="featured-image">
+                <img src="https://cdn.pixabay.com/photo/2019/10/06/18/27/meadow-hogweed-4530921_960_720.jpg" referrerpolicy="no-referrer">
+            </div><p>公司认证的leetcode题目中经常会用到sort函数，不是很熟悉，今天系统学习总结下。</p>]]></description>
+</item><item>
+    <title>广度优先搜索详解</title>
+    <link>https://bugxch.github.io/dfs_intro/</link>
+    <pubDate>Sat, 08 Aug 2020 11:24:24 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://bugxch.github.io/dfs_intro/</guid>
+    <description><![CDATA[<p>总结一下广度优先搜索的原理和用法。</p>]]></description>
+</item><item>
+    <title>滑动窗口技巧</title>
+    <link>https://bugxch.github.io/slidingwindow/</link>
+    <pubDate>Sun, 02 Aug 2020 15:40:45 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://bugxch.github.io/slidingwindow/</guid>
+    <description><![CDATA[<p>今天主要刷leetcode的滑动窗口的题目，需要完成如下题目，本文主要记录解题思路和方法，以便加深理解记忆，答案到处都是，只有消化了才是自己的。</p>]]></description>
+</item><item>
+    <title>使用linux vs code调试C&#43;&#43;程序</title>
+    <link>https://bugxch.github.io/manjarovscode/</link>
+    <pubDate>Sun, 26 Jul 2020 08:12:22 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://bugxch.github.io/manjarovscode/</guid>
+    <description><![CDATA[<p>最近练习leetcode编程，我希望在manjaro系统的vs code上可以单步调试C++代码，找了很多资料都不能正常运行，所以参考<a href="https://code.visualstudio.com/docs/cpp/cpp-debug" target="_blank" rel="noopener noreffer">官方资料</a>自己整好了，记录一下。</p>]]></description>
+</item><item>
+    <title>[转载]用于深入思考的小工具</title>
+    <link>https://bugxch.github.io/think/</link>
+    <pubDate>Sun, 19 Jul 2020 21:18:11 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://bugxch.github.io/think/</guid>
+    <description><![CDATA[]]></description>
+</item><item>
+    <title>01背包问题详解</title>
+    <link>https://bugxch.github.io/01%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%E8%AF%A6%E8%A7%A3/</link>
+    <pubDate>Sat, 22 Feb 2020 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://bugxch.github.io/01%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%E8%AF%A6%E8%A7%A3/</guid>
+    <description><![CDATA[<p>背包问题是非常经典的动态规划问题，但是中文书籍和资料很少有把这个问题说得清晰明了的，问题表述不清，递推公式错误，不一而足，我在彻底想清楚这个问题后，觉得很有必要记录下整个思考过程。</p>]]></description>
+</item><item>
+    <title>《CPlusPlus Primer Plus》第九章习题及答案</title>
+    <link>https://bugxch.github.io/cplusplus-primer-plus%E7%AC%AC%E4%B9%9D%E7%AB%A0%E4%B9%A0%E9%A2%98%E5%8F%8A%E7%AD%94%E6%A1%88/</link>
+    <pubDate>Mon, 27 Jan 2020 12:49:07 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://bugxch.github.io/cplusplus-primer-plus%E7%AC%AC%E4%B9%9D%E7%AB%A0%E4%B9%A0%E9%A2%98%E5%8F%8A%E7%AD%94%E6%A1%88/</guid>
+    <description><![CDATA[<div class="featured-image">
+                <img src="https://raw.githubusercontent.com/bugxch/blogpics/master/202001/c%2B%2B.jpg" referrerpolicy="no-referrer">
+            </div><p>假期做题，记录下。</p>]]></description>
+</item><item>
+    <title>[转载]双线性插值简介</title>
+    <link>https://bugxch.github.io/%E8%BD%AC%E8%BD%BD-%E5%8F%8C%E7%BA%BF%E6%80%A7%E6%8F%92%E5%80%BC%E7%AE%80%E4%BB%8B/</link>
+    <pubDate>Sun, 26 Jan 2020 22:24:10 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://bugxch.github.io/%E8%BD%AC%E8%BD%BD-%E5%8F%8C%E7%BA%BF%E6%80%A7%E6%8F%92%E5%80%BC%E7%AE%80%E4%BB%8B/</guid>
+    <description><![CDATA[<p>该文档转载自<a href="https://blog.csdn.net/xiaqunfeng123/article/details/17362881" target="_blank" rel="noopener noreffer">图像缩放——双线性插值算法</a>，我搜罗一堆中文文章里面讲得比较清楚的一篇了。</p>]]></description>
+</item><item>
+    <title>Tensorboad查看pytorch模型</title>
+    <link>https://bugxch.github.io/tensorboad%E6%9F%A5%E7%9C%8Bpytorch%E6%A8%A1%E5%9E%8B/</link>
+    <pubDate>Fri, 06 Dec 2019 21:53:20 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://bugxch.github.io/tensorboad%E6%9F%A5%E7%9C%8Bpytorch%E6%A8%A1%E5%9E%8B/</guid>
+    <description><![CDATA[<p>与tensorflow模型与caffe模型不同，当前的pytorch没有官方的直观查看网络结构的工具，google了下pytorch的网络解析的方法，发现可以将pytorch的model转换成为events文件使用tensorboard查看，记录之。</p>]]></description>
+</item></channel>
+</rss>

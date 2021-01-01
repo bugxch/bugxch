@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>极简版《计算机原理》 - Dive Into Think</title><meta name="Description" content="博观而约取，厚积而薄发"><meta property="og:title" content="极简版《计算机原理》" />
+<meta property="og:description" content="读书笔记。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://bugxch.github.io/%E6%9E%81%E7%AE%80%E7%89%88%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/" />
+<meta property="og:image" content="https://bugxch.github.io/static/android-chrome-512x512.png"/>
+<meta property="article:published_time" content="2018-07-21T21:59:51+00:00" />
+<meta property="article:modified_time" content="2018-07-21T21:59:51+00:00" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://bugxch.github.io/static/android-chrome-512x512.png"/>
+
+<meta name="twitter:title" content="极简版《计算机原理》"/>
+<meta name="twitter:description" content="读书笔记。"/>
+<meta name="application-name" content="小猴子的烂笔头">
+<meta name="apple-mobile-web-app-title" content="小猴子的烂笔头"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="canonical" href="https://bugxch.github.io/%E6%9E%81%E7%AE%80%E7%89%88%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/" /><link rel="prev" href="https://bugxch.github.io/%E6%96%B9%E6%B3%95%E8%AE%BA/" /><link rel="next" href="https://bugxch.github.io/2018%E9%98%85%E8%AF%BB%E4%B9%A6%E5%8D%95/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "极简版《计算机原理》",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/bugxch.github.io\/%E6%9E%81%E7%AE%80%E7%89%88%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86\/"
+        },"image": ["https:\/\/bugxch.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "计算机","wordcount":  4218 ,
+        "url": "https:\/\/bugxch.github.io\/%E6%9E%81%E7%AE%80%E7%89%88%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86\/","datePublished": "2018-07-21T21:59:51+00:00","dateModified": "2018-07-21T21:59:51+00:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "xxxx","logo": "https:\/\/bugxch.github.io\/images\/avatar.png"},"author": {
+                "@type": "Person",
+                "name": "bugxch"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="auto" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Dive Into Think"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg"
+        data-srcset="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg, https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg 1.5x, https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg 2x"
+        data-sizes="auto"
+        alt="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg"
+        title="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg" />Dive Into Think</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 归档 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/collection/"> 杂记 </a><a class="menu-item" href="https://github.com/bugxch" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Dive Into Think"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg"
+        data-srcset="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg, https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg 1.5x, https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg 2x"
+        data-sizes="auto"
+        alt="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg"
+        title="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg" />Dive Into Think</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">归档</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/collection/" title="">杂记</a><a class="menu-item" href="https://github.com/bugxch" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">极简版《计算机原理》</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>bugxch</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%8A%80%E8%89%BA/"><i class="far fa-folder fa-fw"></i>技艺</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2018-07-21">2018-07-21</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 4218 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 9 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents"></nav></div>
+            </div><div class="content" id="content"><p>读书笔记。</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://github.com/bugxch/blogpics/blob/master/201807/cover.jpg?raw=true"
+        data-srcset="https://github.com/bugxch/blogpics/blob/master/201807/cover.jpg?raw=true, https://github.com/bugxch/blogpics/blob/master/201807/cover.jpg?raw=true 1.5x, https://github.com/bugxch/blogpics/blob/master/201807/cover.jpg?raw=true 2x"
+        data-sizes="auto"
+        alt="https://github.com/bugxch/blogpics/blob/master/201807/cover.jpg?raw=true"
+        title="https://github.com/bugxch/blogpics/blob/master/201807/cover.jpg?raw=true" /></p>
+<p>这两周读了日本作者矢泽久雄写的<a href="https://book.douban.com/subject/26365491/" target="_blank" rel="noopener noreffer">《程序是怎么跑起来的》</a>，解开了我这个作为通信专业的软件从业者的很多困惑，为了避免日后遗忘，将一些看了这本书之后的问题的解答记录下来。</p>
+<p><strong>Q：电脑的 CPU 中包含哪些部分？各自的作用有哪些？</strong>
+<strong>A</strong>：CPU 包含寄存器，控制器，时钟和运算器四种主要的结构。如下图所示</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://github.com/bugxch/blogpics/blob/master/201807/computer1.jpg?raw=true"
+        data-srcset="https://github.com/bugxch/blogpics/blob/master/201807/computer1.jpg?raw=true, https://github.com/bugxch/blogpics/blob/master/201807/computer1.jpg?raw=true 1.5x, https://github.com/bugxch/blogpics/blob/master/201807/computer1.jpg?raw=true 2x"
+        data-sizes="auto"
+        alt="https://github.com/bugxch/blogpics/blob/master/201807/computer1.jpg?raw=true"
+        title="https://github.com/bugxch/blogpics/blob/master/201807/computer1.jpg?raw=true" /></p>
+<ul>
+<li>控制器负责将内存上的指令、数据等读入到寄存器，并根据运算的结果控制整个计算机；</li>
+<li>寄存器用来暂存数据、指令等处理对象，一般 CPU 包含 20～100 个不同的寄存器；</li>
+<li>时钟负责 CPU 开始计时的时钟信号；</li>
+<li>运算器负责运算从内存读入寄存器的数据</li>
+</ul>
+<p>从程序员的角度来说，CPU 可以看作寄存器的集合。CPU 中包含不同种类的寄存器，各自有不同的功能，如下表所示：</p>
+<table>
+<thead>
+<tr>
+<th>种类</th>
+<th>功能</th>
+<th>数目</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>累加寄存器</td>
+<td>存储运算中和运算后的数据</td>
+<td>1</td>
+</tr>
+<tr>
+<td>标志寄存器</td>
+<td>存储运算后的 CPU 状态</td>
+<td>1</td>
+</tr>
+<tr>
+<td>程序计数器</td>
+<td>存取下一条指令的内存地址</td>
+<td>1</td>
+</tr>
+<tr>
+<td>基址寄存器</td>
+<td>存储数据内存的起始地址</td>
+<td>多个</td>
+</tr>
+<tr>
+<td>变址寄存器</td>
+<td>存储基址寄存器的相对地址</td>
+<td>多个</td>
+</tr>
+<tr>
+<td>通用寄存器</td>
+<td>存储任意数据</td>
+<td>多个</td>
+</tr>
+<tr>
+<td>指令寄存器</td>
+<td>存储指令。CPU 内部使用，程序员无法通过程序对寄存器进行读写操作</td>
+<td>多个</td>
+</tr>
+<tr>
+<td>栈寄存器</td>
+<td>存储栈区域的起始地址</td>
+<td>多个</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Q：一个典型的 C 语言源代码在电脑中运行的基本流程是怎样的？</strong>
+<strong>A</strong>：C 语言写成的源代码是高级语言程序，但是 CPU 运行的代码是本地机器语言，因此 C 的源代码并不能立即运行。实际上，一个 C 的源代码需要经过编译、和链接生成. exe 的可执行文件之后，电脑会将. exe 文件的副本复制到内存中再运行，基本的流程如下图所示：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://github.com/bugxch/blogpics/blob/master/201807/computer2.jpg?raw=true"
+        data-srcset="https://github.com/bugxch/blogpics/blob/master/201807/computer2.jpg?raw=true, https://github.com/bugxch/blogpics/blob/master/201807/computer2.jpg?raw=true 1.5x, https://github.com/bugxch/blogpics/blob/master/201807/computer2.jpg?raw=true 2x"
+        data-sizes="auto"
+        alt="https://github.com/bugxch/blogpics/blob/master/201807/computer2.jpg?raw=true"
+        title="https://github.com/bugxch/blogpics/blob/master/201807/computer2.jpg?raw=true" /></p>
+<p><strong>Q：内存内部结构如何？内存的数据存取都有哪些数据结构？</strong>
+<strong>A</strong>：内存是计算机的主存储器，通过芯片与计算机相连，主要负责存储指令和数据，CPU 通过基址寄存器和变址寄存器读取和写入内存中的数据。内存由连续的长度为 8bit（1 个字节）的基本元素构成，程序启动之后 CPU 的控制寄存器根据时钟信号从内存中读取指令和数据。</p>
+<p>存取内存的数据结构包括<strong>数组、栈、堆、队列、链表和二叉树</strong>。我们可以通过指针直接访问和改变对应内存地址中的变量的数值。</p>
+<ul>
+<li>数组是多个同样类型的数据在内存中连续的排列的形式，可以通过数组的索引访问数组元素；</li>
+<li>栈可以不通过指定地址和索引对数组元素进行读写。栈由栈底、栈顶描述，一般用来临时保存运算过程中的数据、连接在计算机设备上或者输入输出的数据；</li>
+<li>队列与栈相似，栈的元素是 FILO，但是队列是 FIFO，队列一般用环形缓冲区实现；</li>
+<li>链表与数组不同，它在内存中不是连续存储的，每个元素都有一个直接后继，像串珠一样将每个元素串联起来，最大优势是增减元素方便快捷；</li>
+<li>二叉树中除了最终的子节点之外，每个元素都有两个后继结点，有序二叉树使得搜索变得更有效</li>
+</ul>
+<p><strong>Q：数据和程序是如何保存在计算机中的？</strong>
+A：程序和数据是保存在计算机的硬盘中的，但是程序运行需要将机器语言的程序加载到内存，因为 CPU 的程序计数器指定内存地址才能读出程序内容。内存和磁盘因为自身特点的差异，它们之间具有紧密的联系。</p>
+<ul>
+<li>
+<p>磁盘缓存。由于磁盘的读取速度较慢，为了加快程序的运行，将磁盘中的部分数据加载到内存中缓存起来，之后在访问同一个数据的时候就直接从内存中读取数据，这样的机制叫<strong>磁盘缓存</strong>；</p>
+</li>
+<li>
+<p>虚拟内存。<strong>虚拟内存</strong>刚好与之相反，在运行比较大的程序或者内存资源比较紧张可以将部分磁盘当作<strong>假想的内存</strong>来用。实现虚拟内存机制需要在磁盘为内存预留空间，并在程序运行时与内存中的内容进行置换（swap），window 中提过<strong>分页式虚拟内存机制</strong>，如下图所示</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://github.com/bugxch/blogpics/blob/master/201807/vitualmem.jpg?raw=true"
+        data-srcset="https://github.com/bugxch/blogpics/blob/master/201807/vitualmem.jpg?raw=true, https://github.com/bugxch/blogpics/blob/master/201807/vitualmem.jpg?raw=true 1.5x, https://github.com/bugxch/blogpics/blob/master/201807/vitualmem.jpg?raw=true 2x"
+        data-sizes="auto"
+        alt="https://github.com/bugxch/blogpics/blob/master/201807/vitualmem.jpg?raw=true"
+        title="https://github.com/bugxch/blogpics/blob/master/201807/vitualmem.jpg?raw=true" /></p>
+</li>
+</ul>
+<p>一般虚拟内存的大小与内存相当或者是内存的两倍。</p>
+<p><strong>Q：什么是动态链接和静态链接？二者有何不同？</strong>
+<strong>A</strong>：DLL（Dynamic link libary）是在程序运行时候动态加载的文件，<a href="https://www.wikiwand.com/zh/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93" target="_blank" rel="noopener noreffer">维基百科</a>中的解释是</p>
+<blockquote>
+<p><strong>動態連結函式庫</strong>（英语：<strong>Dynamic-link library</strong>，缩写为 <strong>DLL</strong>）是<a href="https://www.wikiwand.com/zh/%E5%BE%AE%E8%BD%AF%E5%85%AC%E5%8F%B8" target="_blank" rel="noopener noreffer">微软公司</a>在<a href="https://www.wikiwand.com/zh/%E5%BE%AE%E8%BD%AF%E8%A7%86%E7%AA%97" target="_blank" rel="noopener noreffer">微软视窗</a><a href="https://www.wikiwand.com/zh/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F" target="_blank" rel="noopener noreffer">操作系统</a>中实现共享<a href="https://www.wikiwand.com/zh/%E5%87%BD%E6%95%B0%E5%BA%93" target="_blank" rel="noopener noreffer">函数库</a>概念的一种实作方式。这些函式庫函数的<a href="https://www.wikiwand.com/zh/%E6%89%A9%E5%B1%95%E5%90%8D" target="_blank" rel="noopener noreffer">扩展名</a>是<code>.DLL</code>、<code>.OCX</code>（包含 <a href="https://www.wikiwand.com/zh/ActiveX" target="_blank" rel="noopener noreffer">ActiveX</a> 控制的函式庫）或者<code>.DRV</code>（舊式的系统<a href="https://www.wikiwand.com/zh/%E9%A9%B1%E5%8A%A8%E7%A8%8B%E5%BA%8F" target="_blank" rel="noopener noreffer">驱动程序</a>)。</p>
+</blockquote>
+<blockquote>
+<p>所謂動態链接，就是把一些經常會共用的程式碼（靜態链接的 OBJ 程式庫）製作成 DLL 檔，當執行檔呼叫到 DLL 檔內的函數時，Windows 作業系統才會把 DLL 檔載入記憶體內，DLL 檔本身的結構就是可執行檔，當程式需求函數才進行链接。透過動態链接方式，記憶體浪費的情形將可大幅降低。<a href="https://www.wikiwand.com/zh/%E9%9D%9C%E6%85%8B%E9%80%A3%E7%B5%90%E5%87%BD%E5%BC%8F%E5%BA%AB" target="_blank" rel="noopener noreffer">靜態連結函式庫</a>則是直接<a href="https://www.wikiwand.com/zh/%E9%93%BE%E6%8E%A5%E5%99%A8" target="_blank" rel="noopener noreffer">連結</a>到執行檔。</p>
+</blockquote>
+<blockquote>
+<p>DLL 的文件格式与视窗 <a href="https://www.wikiwand.com/zh/EXE" target="_blank" rel="noopener noreffer">EXE</a> 文件一样——也就是说，等同于 <a href="https://www.wikiwand.com/zh/32%E4%BD%8D" target="_blank" rel="noopener noreffer">32 位</a>视窗的<a href="https://www.wikiwand.com/zh/Portable_Executable" target="_blank" rel="noopener noreffer">可移植执行文件</a>（PE）和 <a href="https://www.wikiwand.com/zh/16%E4%BD%8D" target="_blank" rel="noopener noreffer">16 位</a>视窗的 New Executable（NE）。作为 EXE 格式，DLL 可以包括<a href="https://www.wikiwand.com/zh/%E5%8E%9F%E5%A7%8B%E7%A2%BC" target="_blank" rel="noopener noreffer">原始碼</a>、数据和资源的多种组合。</p>
+</blockquote>
+<p>简单来说，已经编译成汇编语言的程序文件，在进一步链接时如果直接将库文件链接进 exe 可执行文件，则该链接文件就是静态库，如果仅仅在程序运行时才进行链接称为动态链接，链接的目标文件就是动态链接库（windows 中为 dll 文件）。需要说明的是，在链接之后，exe 文件中包含了静态链接库的所有内容，所以会比较大，而动态链接库相对轻巧，并且<strong>动态链接库可以在被多个同时运行的程序所共有，并且保证内存中只有一个 dll 文件中调用函数的副本</strong>，这样就节省了程序运行的空间。实际上 window 操作系统的大部分 API 目标文件是动态链接库，动态链接库一般由导入库导入，导入库中并不存在目标函数的实体，仅仅保存目标函数所在的动态链接库的名称及路径。下面的表格是对两者的总结。</p>
+<table>
+<thead>
+<tr>
+<th>链接类型</th>
+<th>何时链接</th>
+<th>是否可共享</th>
+<th>文件类型</th>
+<th>资源占用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>静态</td>
+<td>编译后链接时</td>
+<td>否</td>
+<td>.a/.lib</td>
+<td>多</td>
+</tr>
+<tr>
+<td>动态</td>
+<td>程序运行时</td>
+<td>可被多个程序共享</td>
+<td>.dll/.so</td>
+<td>少</td>
+</tr>
+</tbody>
+</table>
+<p>关于动态链接和静态链接的详细介绍请参考博文 <a href="http://www.cnblogs.com/skynet/p/3372855.html" target="_blank" rel="noopener noreffer">C++ 静态库与动态库</a>。</p>
+<p><strong>Q：一个 C 语言源程序是如何变成可执行文件（exe）的？又是如何在操作系统中运行的？</strong> <strong>A</strong>：这是个比较大的问题，作者在书中举了个 C 语言的例子。大体来说，C 的源程序需要通过编译器编译成汇编语言（asm 文件），进一步链接需要的库文件（dll 文件）生成可执行文件（exe 文件），最后点击 exe 将可执行文件导入内存运行程序。以<code>Sample.c</code>文件为例</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;windows.h&gt;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="kt">char</span> <span class="o">*</span><span class="n">title</span> <span class="o">=</span> <span class="s">&#34;messgae box&#34;</span><span class="p">;</span>
+<span class="kt">double</span> <span class="nf">average</span><span class="p">(</span><span class="kt">double</span> <span class="n">a</span><span class="p">,</span> <span class="kt">double</span> <span class="n">b</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span><span class="o">/</span><span class="mf">2.0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="n">WINAPI</span> <span class="nf">WinMain</span><span class="p">(</span><span class="n">HINSTANCE</span> <span class="n">h</span><span class="p">,</span> <span class="n">HINSTANCE</span> <span class="n">d</span><span class="p">,</span> <span class="n">LPSTR</span> <span class="n">s</span><span class="p">,</span> <span class="kt">int</span> <span class="n">m</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">double</span> <span class="n">ave</span><span class="p">;</span>
+    <span class="kt">char</span> <span class="n">buff</span><span class="p">[</span><span class="mi">80</span><span class="p">];</span>
+    <span class="n">ave</span> <span class="o">=</span> <span class="n">average</span><span class="p">(</span><span class="mi">123</span><span class="p">,</span><span class="mi">456</span><span class="p">);</span>
+
+    <span class="n">sprintf</span><span class="p">(</span><span class="n">buff</span><span class="p">,</span> <span class="s">&#34;average value is %f&#34;</span><span class="p">,</span> <span class="n">ave</span><span class="p">);</span>
+
+    <span class="n">MessageBox</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="n">buff</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">MB_OK</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><ol>
+<li><strong>编译</strong>该文件，在源文件目录上运行命令<code>bcc32 -W -c Sample.c</code>，生成 sample.obj 目标文件；</li>
+<li><strong>链接</strong>需要的库文件，运行命令<code>ilink32 -Tpe -c -x -aa c0w32.obj Sample.obj, Sample.exe,, import32.lib cw32.lib</code></li>
+</ol>
+<p>需要说明的是，c0w32.obj 文件是与所有程序起始位置相结合的处理内容，称为程序的<strong>启动</strong>。在源程序中，我们<strong>调用</strong>了系统函数 sprintf 和 messagebox，因此，需要将这两个函数对应的库函数（其中的内容与 exe 文件相同，都是本地代码）<strong>链接</strong>进来，告诉链接器去哪里找这两个函数对应的本地代码。</p>
+<p>sprintf 的本地代码在 cwlib32.lib 中，编译之后会将它的目标函数合成到 exe 文件中，称为<strong>静态链接</strong>；而 messagebox 的本地代码在库文件 user32.dll 里，使用 import32.dll 是为了告诉连接器 “messagebox 在库文件 user32.dll 中，以及 user32.dll 在哪里”，所以 import32.dll 称为导入库。程序运行时，执行从 DLL 文件调出的 MessageBox() 函数这一信息就会和 exe 文件结合，称为<strong>动态链接</strong>。</p>
+<p>源程序到可执行文件的流程如下所示：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://github.com/bugxch/blogpics/blob/master/201807/run.jpg?raw=true"
+        data-srcset="https://github.com/bugxch/blogpics/blob/master/201807/run.jpg?raw=true, https://github.com/bugxch/blogpics/blob/master/201807/run.jpg?raw=true 1.5x, https://github.com/bugxch/blogpics/blob/master/201807/run.jpg?raw=true 2x"
+        data-sizes="auto"
+        alt="https://github.com/bugxch/blogpics/blob/master/201807/run.jpg?raw=true"
+        title="https://github.com/bugxch/blogpics/blob/master/201807/run.jpg?raw=true" /></p>
+<p><strong>Q：可执行文件包含哪些内容？它加载到内存中是什么样子？</strong>
+<strong>A</strong>：可执行文件中包含了源程序的变量和函数的虚拟地址，在加载到内存之后需要必要的信息将虚拟地址转换成实际地址，转换需要的信息就在 exe 文件开始的部分，称为再配置信息。exe 文件被加载到内存之后，就将这些虚拟内存转换成实际内存，程序运行中会生成栈和堆，因此在内存中的样子如下图所示</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://github.com/bugxch/blogpics/blob/master/201807/memab.jpg?raw=true"
+        data-srcset="https://github.com/bugxch/blogpics/blob/master/201807/memab.jpg?raw=true, https://github.com/bugxch/blogpics/blob/master/201807/memab.jpg?raw=true 1.5x, https://github.com/bugxch/blogpics/blob/master/201807/memab.jpg?raw=true 2x"
+        data-sizes="auto"
+        alt="https://github.com/bugxch/blogpics/blob/master/201807/memab.jpg?raw=true"
+        title="https://github.com/bugxch/blogpics/blob/master/201807/memab.jpg?raw=true" /></p>
+<p><strong>Q：c，o，a，lib，obj，dll 这些文件分别是什么？他们之间是什么关系？</strong>
+<strong>A</strong>：c 是 C 语言的源文件，如博文 <a href="http://blog.csdn.net/chlele0105/article/details/23691147" target="_blank" rel="noopener noreffer">Linux 的. a、.so 和. o 文件</a> 中所述</p>
+<blockquote>
+<p>lib,dll,exe 都算是最终的目标文件，是最终产物。而 c/c++ 属于源代码。源代码和最终目标文件中过渡的就是中间代码 obj，实际上之所以需要中间代码，是你不可能一次得到目标文件。比如说一个 exe 需要很多的 cpp 文件生成。而编译器一次只能编译一个 cpp 文件。这样编译器编译好一个 cpp 以后会将其编译成 obj，当所有必须要的 cpp 都编译成 obj 以后，再统一 link 成所需要的 exe，应该说缺少任意一个 obj 都会导致 exe 的链接失败。而 .o, 是 Linux 目标文件, 相当于 windows 中的. obj 文件，.so 文件为共享库, 是 shared object, 用于动态连接的, 相当于 windows 下的 dll,.a 为静态库, 是好多个. o 合在一起, 用于静态链接</p>
+</blockquote>
+<p><strong>Q：什么是_BSS 段和_DATA 段？全局变量和局部变量在程序运行时有何不同？</strong>
+<strong>A</strong>：这是汇编语言的概念，编译器将高级语言源程序转换成汇编文件 (.asm 文件)，有如下的源文件<code>sample2.c</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="kt">int</span> <span class="nf">AddNum</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">MyFun</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">c</span><span class="p">;</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">AddNum</span><span class="p">(</span><span class="mi">123</span><span class="p">,</span><span class="mi">456</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>经过编译之后的汇编文件（软件环境 win10，gcc 编译器）内容如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c">    <span class="p">.</span><span class="n">file</span>    <span class="s">&#34;sample.c&#34;</span>
+    <span class="p">.</span><span class="n">text</span>
+    <span class="p">.</span><span class="n">globl</span>    <span class="n">_AddNum</span>
+    <span class="p">.</span><span class="n">def</span>    <span class="n">_AddNum</span><span class="p">;</span>    <span class="p">.</span><span class="n">scl</span>    <span class="mi">2</span><span class="p">;</span>    <span class="p">.</span><span class="n">type</span>    <span class="mi">32</span><span class="p">;</span>    <span class="p">.</span><span class="n">endef</span>
+<span class="nl">_AddNum</span><span class="p">:</span>
+    <span class="n">pushl</span>    <span class="o">%</span><span class="n">ebp</span>
+    <span class="n">movl</span>    <span class="o">%</span><span class="n">esp</span><span class="p">,</span> <span class="o">%</span><span class="n">ebp</span>
+    <span class="n">movl</span>    <span class="mi">8</span><span class="p">(</span><span class="o">%</span><span class="n">ebp</span><span class="p">),</span> <span class="o">%</span><span class="n">edx</span>
+    <span class="n">movl</span>    <span class="mi">12</span><span class="p">(</span><span class="o">%</span><span class="n">ebp</span><span class="p">),</span> <span class="o">%</span><span class="n">eax</span>
+    <span class="n">addl</span>    <span class="o">%</span><span class="n">edx</span><span class="p">,</span> <span class="o">%</span><span class="n">eax</span>
+    <span class="n">popl</span>    <span class="o">%</span><span class="n">ebp</span>
+    <span class="n">ret</span>
+    <span class="p">.</span><span class="n">globl</span>    <span class="n">_MyFun</span>
+    <span class="p">.</span><span class="n">def</span>    <span class="n">_MyFun</span><span class="p">;</span>    <span class="p">.</span><span class="n">scl</span>    <span class="mi">2</span><span class="p">;</span>    <span class="p">.</span><span class="n">type</span>    <span class="mi">32</span><span class="p">;</span>    <span class="p">.</span><span class="n">endef</span>
+<span class="nl">_MyFun</span><span class="p">:</span>
+    <span class="n">pushl</span>    <span class="o">%</span><span class="n">ebp</span>
+    <span class="n">movl</span>    <span class="o">%</span><span class="n">esp</span><span class="p">,</span> <span class="o">%</span><span class="n">ebp</span>
+    <span class="n">subl</span>    <span class="err">$</span><span class="mi">24</span><span class="p">,</span> <span class="o">%</span><span class="n">esp</span>
+    <span class="n">movl</span>    <span class="err">$</span><span class="mi">456</span><span class="p">,</span> <span class="mi">4</span><span class="p">(</span><span class="o">%</span><span class="n">esp</span><span class="p">)</span>
+    <span class="n">movl</span>    <span class="err">$</span><span class="mi">123</span><span class="p">,</span> <span class="p">(</span><span class="o">%</span><span class="n">esp</span><span class="p">)</span>
+    <span class="n">call</span>    <span class="n">_AddNum</span>
+    <span class="n">movl</span>    <span class="o">%</span><span class="n">eax</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">(</span><span class="o">%</span><span class="n">ebp</span><span class="p">)</span>
+    <span class="n">leave</span>
+    <span class="n">ret</span>
+    <span class="p">.</span><span class="n">ident</span>    <span class="s">&#34;GCC: (tdm-1) 4.9.2&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>汇编程序最接近机器语言，而且其与 C 语言一一对应，所以通过汇编文件就可以了解程序运行的大体情况。从上面的汇编文件，可以看到如下的结果</p>
+<ol>
+<li>寄存器 esp 指向栈顶元素地址，每个元素占据 4 个字节的数据；</li>
+<li>在每个函数开始的时候，都要将寄存器 ebp 的数据压入栈中进行保护；</li>
+<li>上述程序中隐藏的一个关键步骤是在第 21 行，call AddNum 时，计算机已经将 MyFun 函数的下一个指令的地址压入栈中，在调用完 AddNum 时（第 12 行），返回函数 Myfun 时候会自动将栈中的返回指令的地址出栈交给 CPU 的程序计数器，这样就可以实现在调用函数之后仍然返回原来的调用的地方；</li>
+<li>函数的入参被保存在栈中，返回值被保存在寄存器里。</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="kt">int</span> <span class="n">a</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">b</span><span class="p">;</span>
+<span class="kt">float</span> <span class="n">fl</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">9</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">d</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">e</span> <span class="o">=</span> <span class="mi">11</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">f</span> <span class="o">=</span> <span class="mi">12</span><span class="p">;</span>
+
+<span class="kt">void</span> <span class="nf">MyFun</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">a1</span><span class="p">,</span><span class="n">b1</span><span class="p">,</span><span class="n">c1</span><span class="p">;</span>
+    <span class="kt">float</span> <span class="n">fl1</span><span class="p">;</span>
+    <span class="n">a1</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="n">b1</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="n">fl1</span> <span class="o">=</span> <span class="o">-</span><span class="mf">99.34</span><span class="p">;</span>
+    <span class="n">c1</span> <span class="o">=</span> <span class="o">-</span><span class="mi">87</span><span class="p">;</span>
+
+    <span class="n">a1</span> <span class="o">=</span> <span class="n">a</span><span class="p">;</span>
+    <span class="n">b1</span> <span class="o">=</span> <span class="n">b</span><span class="p">;</span>
+    <span class="n">fl1</span> <span class="o">=</span> <span class="n">fl</span><span class="p">;</span>
+    <span class="n">c1</span> <span class="o">=</span> <span class="n">c</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>以上的 C 源代码转换成汇编语言是</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++">    <span class="p">.</span><span class="n">file</span>    <span class="s">&#34;sample2.c&#34;</span>
+    <span class="p">.</span><span class="n">comm</span>    <span class="n">_a</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span>
+    <span class="p">.</span><span class="n">comm</span>    <span class="n">_b</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span>
+    <span class="p">.</span><span class="n">comm</span>    <span class="n">_fl</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span>
+    <span class="p">.</span><span class="n">globl</span>    <span class="n">_c</span>
+    <span class="p">.</span><span class="n">data</span>
+    <span class="p">.</span><span class="n">align</span> <span class="mi">4</span>
+<span class="nl">_c</span><span class="p">:</span>
+    <span class="p">.</span><span class="kt">long</span>    <span class="mi">9</span>
+    <span class="p">.</span><span class="n">globl</span>    <span class="n">_d</span>
+    <span class="p">.</span><span class="n">align</span> <span class="mi">4</span>
+<span class="nl">_d</span><span class="p">:</span>
+    <span class="p">.</span><span class="kt">long</span>    <span class="mi">10</span>
+    <span class="p">.</span><span class="n">globl</span>    <span class="n">_e</span>
+    <span class="p">.</span><span class="n">align</span> <span class="mi">4</span>
+<span class="nl">_e</span><span class="p">:</span>
+    <span class="p">.</span><span class="kt">long</span>    <span class="mi">11</span>
+    <span class="p">.</span><span class="n">globl</span>    <span class="n">_f</span>
+    <span class="p">.</span><span class="n">align</span> <span class="mi">4</span>
+<span class="nl">_f</span><span class="p">:</span>
+    <span class="p">.</span><span class="kt">long</span>    <span class="mi">12</span>
+    <span class="p">.</span><span class="n">text</span>
+    <span class="p">.</span><span class="n">globl</span>    <span class="n">_MyFun</span>
+    <span class="p">.</span><span class="n">def</span>    <span class="n">_MyFun</span><span class="p">;</span>    <span class="p">.</span><span class="n">scl</span>    <span class="mi">2</span><span class="p">;</span>    <span class="p">.</span><span class="n">type</span>    <span class="mi">32</span><span class="p">;</span>    <span class="p">.</span><span class="n">endef</span>
+<span class="nl">_MyFun</span><span class="p">:</span>
+    <span class="n">pushl</span>    <span class="o">%</span><span class="n">ebp</span>
+    <span class="n">movl</span>    <span class="o">%</span><span class="n">esp</span><span class="p">,</span> <span class="o">%</span><span class="n">ebp</span>
+    <span class="n">subl</span>    <span class="err">$</span><span class="mi">16</span><span class="p">,</span> <span class="o">%</span><span class="n">esp</span>
+    <span class="n">movl</span>    <span class="err">$</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">(</span><span class="o">%</span><span class="n">ebp</span><span class="p">)</span>
+    <span class="n">movl</span>    <span class="err">$</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">8</span><span class="p">(</span><span class="o">%</span><span class="n">ebp</span><span class="p">)</span>
+    <span class="n">movl</span>    <span class="n">LC0</span><span class="p">,</span> <span class="o">%</span><span class="n">eax</span>
+    <span class="n">movl</span>    <span class="o">%</span><span class="n">eax</span><span class="p">,</span> <span class="o">-</span><span class="mi">12</span><span class="p">(</span><span class="o">%</span><span class="n">ebp</span><span class="p">)</span>
+    <span class="n">movl</span>    <span class="err">$</span><span class="o">-</span><span class="mi">87</span><span class="p">,</span> <span class="o">-</span><span class="mi">16</span><span class="p">(</span><span class="o">%</span><span class="n">ebp</span><span class="p">)</span>
+    <span class="n">movl</span>    <span class="n">_a</span><span class="p">,</span> <span class="o">%</span><span class="n">eax</span>
+    <span class="n">movl</span>    <span class="o">%</span><span class="n">eax</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">(</span><span class="o">%</span><span class="n">ebp</span><span class="p">)</span>
+    <span class="n">movl</span>    <span class="n">_b</span><span class="p">,</span> <span class="o">%</span><span class="n">eax</span>
+    <span class="n">movl</span>    <span class="o">%</span><span class="n">eax</span><span class="p">,</span> <span class="o">-</span><span class="mi">8</span><span class="p">(</span><span class="o">%</span><span class="n">ebp</span><span class="p">)</span>
+    <span class="n">movl</span>    <span class="n">_fl</span><span class="p">,</span> <span class="o">%</span><span class="n">eax</span>
+    <span class="n">movl</span>    <span class="o">%</span><span class="n">eax</span><span class="p">,</span> <span class="o">-</span><span class="mi">12</span><span class="p">(</span><span class="o">%</span><span class="n">ebp</span><span class="p">)</span>
+    <span class="n">movl</span>    <span class="n">_c</span><span class="p">,</span> <span class="o">%</span><span class="n">eax</span>
+    <span class="n">movl</span>    <span class="o">%</span><span class="n">eax</span><span class="p">,</span> <span class="o">-</span><span class="mi">16</span><span class="p">(</span><span class="o">%</span><span class="n">ebp</span><span class="p">)</span>
+    <span class="n">leave</span>
+    <span class="n">ret</span>
+    <span class="p">.</span><span class="n">section</span> <span class="p">.</span><span class="n">rdata</span><span class="p">,</span><span class="s">&#34;dr&#34;</span>
+    <span class="p">.</span><span class="n">align</span> <span class="mi">4</span>
+<span class="nl">LC0</span><span class="p">:</span>
+    <span class="p">.</span><span class="kt">long</span>    <span class="o">-</span><span class="mi">1027166700</span>
+    <span class="p">.</span><span class="n">ident</span>    <span class="s">&#34;GCC: (tdm-1) 4.9.2&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>从中可以看出全局变量保存在. comm 和. globl 段，局部变量保存在寄存器中，因此在程序运行的整个过程中，全局变量可以随时访问，但是局部变量却会在用过之后消失。</p>
+<p>关于 windows 的汇编的内容可进一步参考文章<a href="http://www.mouseos.com/assembly/index.html" target="_blank" rel="noopener noreffer">汇编与逆向分析</a></p>
+<hr>
+<p>以上是此书最干货的部分，书中该介绍了计算机二进制数，和计算机硬件的部分内容，在此略过不提。</p></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2018-07-21</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://bugxch.github.io/%E6%9E%81%E7%AE%80%E7%89%88%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/" data-title="极简版《计算机原理》" data-via="hoho2006" data-hashtags="计算机"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://bugxch.github.io/%E6%9E%81%E7%AE%80%E7%89%88%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/" data-hashtag="计算机"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Linkedin" data-sharer="linkedin" data-url="https://bugxch.github.io/%E6%9E%81%E7%AE%80%E7%89%88%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/"><i class="fab fa-linkedin fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Xing" data-sharer="xing" data-url="https://bugxch.github.io/%E6%9E%81%E7%AE%80%E7%89%88%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/" data-title="极简版《计算机原理》"><i class="fab fa-xing fa-fw"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://bugxch.github.io/%E6%9E%81%E7%AE%80%E7%89%88%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/" data-title="极简版《计算机原理》"><i class="fab fa-weibo fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/">计算机</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/%E6%96%B9%E6%B3%95%E8%AE%BA/" class="prev" rel="prev" title="方法论"><i class="fas fa-angle-left fa-fw"></i>方法论</a>
+            <a href="/2018%E9%98%85%E8%AF%BB%E4%B9%A6%E5%8D%95/" class="next" rel="next" title="2018阅读书单">2018阅读书单<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="disqus_thread" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://disqus.com/?ref_noscript">Disqus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2016 - 2021</span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery.js@1.2.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.css"><script type="text/javascript" src="https://bugxch.disqus.com/embed.js" defer></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/smooth-scroll@16.1.3/dist/smooth-scroll.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.37.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.2.0/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.2.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery.js@1.2.0/dist/js/lightgallery.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lg-thumbnail.js@1.2.0/dist/lg-thumbnail.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lg-zoom.js@1.2.0/dist/lg-zoom.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.4.0/sharer.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{},"lightGallery":{"actualSize":false,"exThumbImage":"data-thumbnail","hideBarsDelay":2000,"selector":".lightgallery","speed":400,"thumbContHeight":80,"thumbWidth":80,"thumbnail":true},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"ROWPFW1USO","algoliaIndex":"index_json","algoliaSearchKey":"d0a8ab43cf24071544b25506aa08ba89","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

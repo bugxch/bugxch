@@ -1,0 +1,22 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>manjaro - 标签 - Dive Into Think</title>
+        <link>https://bugxch.github.io/tags/manjaro/</link>
+        <description>manjaro - 标签 - Dive Into Think</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>bugxch@126.com (bugxch)</managingEditor>
+            <webMaster>bugxch@126.com (bugxch)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 26 Jul 2020 08:12:22 &#43;0800</lastBuildDate><atom:link href="https://bugxch.github.io/tags/manjaro/" rel="self" type="application/rss+xml" /><item>
+    <title>使用linux vs code调试C&#43;&#43;程序</title>
+    <link>https://bugxch.github.io/manjarovscode/</link>
+    <pubDate>Sun, 26 Jul 2020 08:12:22 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://bugxch.github.io/manjarovscode/</guid>
+    <description><![CDATA[<p>最近练习leetcode编程，我希望在manjaro系统的vs code上可以单步调试C++代码，找了很多资料都不能正常运行，所以参考<a href="https://code.visualstudio.com/docs/cpp/cpp-debug" target="_blank" rel="noopener noreffer">官方资料</a>自己整好了，记录一下。</p>]]></description>
+</item><item>
+    <title>Manjaro添加开机启动脚本</title>
+    <link>https://bugxch.github.io/manjaro%E6%B7%BB%E5%8A%A0%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8%E8%84%9A%E6%9C%AC/</link>
+    <pubDate>Sun, 24 Feb 2019 20:48:23 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://bugxch.github.io/manjaro%E6%B7%BB%E5%8A%A0%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8%E8%84%9A%E6%9C%AC/</guid>
+    <description><![CDATA[<p>如何给manjaro添加开机启动脚本。</p>]]></description>
+</item></channel>
+</rss>

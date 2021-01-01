@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>为什么会有补码 - Dive Into Think</title><meta name="Description" content="博观而约取，厚积而薄发"><meta property="og:title" content="为什么会有补码" />
+<meta property="og:description" content="补码是如何产生的？" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://bugxch.github.io/%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%A1%A5%E7%A0%81/" />
+<meta property="og:image" content="https://bugxch.github.io/static/android-chrome-512x512.png"/>
+<meta property="article:published_time" content="2018-07-21T20:30:02+00:00" />
+<meta property="article:modified_time" content="2018-07-21T20:30:02+00:00" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://bugxch.github.io/static/android-chrome-512x512.png"/>
+
+<meta name="twitter:title" content="为什么会有补码"/>
+<meta name="twitter:description" content="补码是如何产生的？"/>
+<meta name="application-name" content="小猴子的烂笔头">
+<meta name="apple-mobile-web-app-title" content="小猴子的烂笔头"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="canonical" href="https://bugxch.github.io/%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%A1%A5%E7%A0%81/" /><link rel="prev" href="https://bugxch.github.io/python%E6%8E%92%E5%BA%8F/" /><link rel="next" href="https://bugxch.github.io/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AE%80%E5%8F%B2/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "为什么会有补码",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/bugxch.github.io\/%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%A1%A5%E7%A0%81\/"
+        },"image": ["https:\/\/bugxch.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "计算机","wordcount":  2756 ,
+        "url": "https:\/\/bugxch.github.io\/%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%A1%A5%E7%A0%81\/","datePublished": "2018-07-21T20:30:02+00:00","dateModified": "2018-07-21T20:30:02+00:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "xxxx","logo": "https:\/\/bugxch.github.io\/images\/avatar.png"},"author": {
+                "@type": "Person",
+                "name": "bugxch"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="auto" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Dive Into Think"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg"
+        data-srcset="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg, https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg 1.5x, https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg 2x"
+        data-sizes="auto"
+        alt="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg"
+        title="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg" />Dive Into Think</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 归档 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/collection/"> 杂记 </a><a class="menu-item" href="https://github.com/bugxch" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Dive Into Think"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg"
+        data-srcset="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg, https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg 1.5x, https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg 2x"
+        data-sizes="auto"
+        alt="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg"
+        title="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg" />Dive Into Think</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">归档</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/collection/" title="">杂记</a><a class="menu-item" href="https://github.com/bugxch" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">为什么会有补码</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>bugxch</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%8A%80%E8%89%BA/"><i class="far fa-folder fa-fw"></i>技艺</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2018-07-21">2018-07-21</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2756 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 6 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#程序结果">程序结果</a></li>
+    <li><a href="#编码机制">编码机制</a>
+      <ul>
+        <li><a href="#二进制表示">二进制表示</a></li>
+        <li><a href="#整数编码">整数编码</a>
+          <ul>
+            <li><a href="#引入负数">引入负数</a></li>
+            <li><a href="#补码">补码</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#参考资料">参考资料</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>补码是如何产生的？</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="http://codeforwin.org/wp-content/uploads/2015/08/twos-complement-of-binary-value.png"
+        data-srcset="http://codeforwin.org/wp-content/uploads/2015/08/twos-complement-of-binary-value.png, http://codeforwin.org/wp-content/uploads/2015/08/twos-complement-of-binary-value.png 1.5x, http://codeforwin.org/wp-content/uploads/2015/08/twos-complement-of-binary-value.png 2x"
+        data-sizes="auto"
+        alt="http://codeforwin.org/wp-content/uploads/2015/08/twos-complement-of-binary-value.png"
+        title="http://codeforwin.org/wp-content/uploads/2015/08/twos-complement-of-binary-value.png" /></p>
+<p>今天读<a href="https://book.douban.com/subject/4188358/" target="_blank" rel="noopener noreffer">《数值分析》</a>第 0 章的实数的浮点表示，对计算机存储数据的机制产生兴趣，所以自己写了个小程序结合现有资料探索总结下。</p>
+<p>我们现在遇到一个计算机的基本问题，</p>
+<blockquote>
+<p>给定一个数（整数或者实数）$X$，如何以 $w$个比特位的形式$[x_{w-1},x_{w-2},…,x_0]$将它存储在计算机的内存里？</p>
+</blockquote>
+<h2 id="程序结果">程序结果</h2>
+<p>我自己写的 C 程序如下，分别打印出整数<code>120055,-411</code>，浮点数<code>102.3235， -3.256</code>和双精度浮点数<code>120.254， -56.2441</code>在计算机内存中的二进制比特，这几个数字是我随手写的，但是均没有超出计算机的表示范围。程序如下所示</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span><span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span><span class="cp">#include</span><span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="k">typedef</span> <span class="k">enum</span>
+<span class="p">{</span>
+    <span class="n">INT</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="c1">//int和float有4个字节
+</span><span class="c1"></span>    <span class="n">FLOAT</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="n">DOUBLE</span> <span class="o">=</span> <span class="mi">8</span> <span class="c1">//double有8个字节
+</span><span class="c1"></span><span class="p">}</span> <span class="n">TYPE_E</span><span class="p">;</span>
+
+<span class="kt">void</span> <span class="nf">showBytes</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="n">ch</span><span class="p">,</span> <span class="n">TYPE_E</span> <span class="n">len</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+
+    <span class="k">for</span><span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">len</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&#34; %.2x&#34;</span><span class="p">,</span> <span class="n">ch</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+    <span class="p">}</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">120055</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="o">-</span><span class="mi">411</span><span class="p">;</span>
+    <span class="kt">float</span> <span class="n">a_f</span> <span class="o">=</span> <span class="mf">102.3235</span><span class="p">,</span> <span class="n">b_f</span> <span class="o">=</span> <span class="o">-</span><span class="mf">3.256</span><span class="p">;</span>
+    <span class="kt">double</span> <span class="n">a_d</span> <span class="o">=</span> <span class="mf">120.254</span><span class="p">,</span> <span class="n">b_d</span> <span class="o">=</span> <span class="o">-</span><span class="mf">56.2441</span><span class="p">;</span>
+
+    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;binary of a %d, 0x&#34;</span><span class="p">,</span> <span class="n">a</span><span class="p">);</span>
+    <span class="n">showBytes</span><span class="p">((</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">a</span><span class="p">,</span> <span class="n">INT</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;binary of b %d, 0x&#34;</span><span class="p">,</span> <span class="n">b</span><span class="p">);</span>
+    <span class="n">showBytes</span><span class="p">((</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">b</span><span class="p">,</span> <span class="n">INT</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;binary of a_f %f, 0x&#34;</span><span class="p">,</span> <span class="n">a_f</span><span class="p">);</span>
+    <span class="n">showBytes</span><span class="p">((</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">a_f</span><span class="p">,</span> <span class="n">FLOAT</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;binary of b_f %f, 0x&#34;</span><span class="p">,</span> <span class="n">b_f</span><span class="p">);</span>
+    <span class="n">showBytes</span><span class="p">((</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">b_f</span><span class="p">,</span> <span class="n">FLOAT</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;binary of a_d %f, 0x&#34;</span><span class="p">,</span> <span class="n">a_d</span><span class="p">);</span>
+    <span class="n">showBytes</span><span class="p">((</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">a_d</span><span class="p">,</span> <span class="n">DOUBLE</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;binary of b_d %f, 0x&#34;</span><span class="p">,</span> <span class="n">b_d</span><span class="p">);</span>
+    <span class="n">showBytes</span><span class="p">((</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">b_d</span><span class="p">,</span> <span class="n">DOUBLE</span><span class="p">);</span>
+
+    <span class="n">getchar</span><span class="p">();</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>程序运行完成之后的结果如下所示</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://github.com/bugxch/blogpics/blob/master/201807/result.png?raw=true"
+        data-srcset="https://github.com/bugxch/blogpics/blob/master/201807/result.png?raw=true, https://github.com/bugxch/blogpics/blob/master/201807/result.png?raw=true 1.5x, https://github.com/bugxch/blogpics/blob/master/201807/result.png?raw=true 2x"
+        data-sizes="auto"
+        alt="https://github.com/bugxch/blogpics/blob/master/201807/result.png?raw=true"
+        title="https://github.com/bugxch/blogpics/blob/master/201807/result.png?raw=true" /></p>
+<p>因为是小端存储，因此整理之后的结果如下所示</p>
+<table>
+<thead>
+<tr>
+<th>数值</th>
+<th>内存表示（十六进制）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>120055</td>
+<td>0001D4F7</td>
+</tr>
+<tr>
+<td>-411</td>
+<td>FFFFFE65</td>
+</tr>
+<tr>
+<td>102.3235</td>
+<td>42CCA5A2</td>
+</tr>
+<tr>
+<td>-3.256</td>
+<td>C050624E</td>
+</tr>
+<tr>
+<td>120.254</td>
+<td>405E104189374BC7</td>
+</tr>
+<tr>
+<td>-56.2441</td>
+<td>C04C1F3EAB367A10</td>
+</tr>
+</tbody>
+</table>
+<p>从上面的结果可以看出不同数值的长度不同，因为计算机给每个不同的类型分配的内存大小不同，这个可以通过 C 中的<code>sizeof</code>函数看出来。下面我们需要搞清楚的是，**为什么这些数都是以这样的形式和内容存储在计算机中的？**这一篇文章，我们先谈比较简单的整数的表示，下一篇文章会解释浮点数的表示方法。</p>
+<h2 id="编码机制">编码机制</h2>
+<h3 id="二进制表示">二进制表示</h3>
+<p>我们知道，计算机中以二进制的形式存储数字，所有的十进制的数字都需要转换成二进制存储起来。至于十进制和二进制如何转换，课本和网上已经有非常详尽的解释（可参考文末的文章），而且有非常完善的<a href="http://tool.oschina.net/hexconvert/" target="_blank" rel="noopener noreffer">在线进制转换工具</a>可以轻松实现多个进制之间的相互转换，这里不再赘述。为了便于对比，除非特殊情况，本文的内容均使用十六进制数。</p>
+<h3 id="整数编码">整数编码</h3>
+<p>我们先从简单的正整数入手，<code>120055 = 0x1D4F7</code>，考虑到计算机<code>int</code>类型使用 4 个字节，补齐前面的<code>0</code>，于是为<code>0x0001D4F7</code>，这个与我们程序验证结果一致。因此，可以断定<strong>正整数在计算机中存储的形式就是它转换成二进制的形式</strong>。</p>
+<h4 id="引入负数">引入负数</h4>
+<p>那么负整数是如何保存的呢？来看第二个数字<code>-411</code>，因为<code>411 = 0x19b</code>，所以我们直观的表示就是<code>-0x19b</code>，但是计算机不能表示负号，那么该如何处理这个问题呢？一个直接简单的想法是使用 1 个比特表示符号正负，自然的想法是取最高位，<strong>0 表示正数，1 表示负数</strong>，所以可以表示成<code>0x8000019b</code>。这样表示比较直观，但是有一个小问题。为了便于说明，我将问题的规模缩小，比如考虑 3 个比特的二进制和十进制数之间的转换。如果使用我们之前的换算方法，那么二进制编码的情况如下</p>
+<table>
+<thead>
+<tr>
+<th>二进制</th>
+<th>十进制</th>
+<th>二进制</th>
+<th>十进制</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>000</strong></td>
+<td>0</td>
+<td><strong>100</strong></td>
+<td>0</td>
+</tr>
+<tr>
+<td>001</td>
+<td>1</td>
+<td>101</td>
+<td>-1</td>
+</tr>
+<tr>
+<td>010</td>
+<td>2</td>
+<td>110</td>
+<td>-2</td>
+</tr>
+<tr>
+<td>011</td>
+<td>3</td>
+<td>111</td>
+<td>-3</td>
+</tr>
+</tbody>
+</table>
+<p>很明显，十进制<code>0</code>有两种不同的编码方式，3 个比特本来可以表示不同的 8 个数，却只能表示 7 个不同的数，这是对信息比特的浪费。最佳的表示方式应该满足，<strong>在一个一致的运算关系之下，不同的二进制编码表示不同的十进制数</strong>，于是引入了<strong>补码</strong>的概念。</p>
+<h4 id="补码">补码</h4>
+<p>首先，补码如何计算？</p>
+<blockquote>
+<p>给定 $w$ 个比特，如何求一个十进制数 $X$ 的二进制补码 $[x_{w-1},x_{w-2},…,x_0]$？</p>
+</blockquote>
+<p>以 8 比特为例，如果求正整数 8 的相反数，我们用<code>0-8 = -8</code>，补码的取法类似，使用如下的计算</p>
+<p>００００００００
+－００００１０００
+－－－－－－－－－
+　１１１１１０００</p>
+<p>但是不够减，小学算术告诉我们可以向前借位，于是有</p>
+<p>１００００００００
+－００００１０００
+－－－－－－－－－
+　１１１１１０００</p>
+<p>问题解决，总结下这个变换过程：最高有效位表示正负号，正数 XX 的补码是其自身的二进制表示 XX，负数 XX 的补码是 2w−|X|2w−|X|。</p>
+<p>举个例子，比如使用 4 个 bit 表示 6 和 - 7 的补码，分别是 $(1100)<em>2$和和$(2^4 - |7|)</em>{10} = (9)_{10} = (1001)_2$。这里需要特别说明下，经常听到求一个负数。这里需要特别说明下，经常听到求一个负数X的二进制补码，就是先求的二进制补码，就是先求$|X|$ 的二进制表示，<strong>除了符号位之外的所有位取反加 1</strong>，这和上面的方法<strong>等效</strong>，因为$2^w - |X| = (1000…0)_2 - |X| = (111…1 + 000…1)_2 - |X| = (111…1)_2 - |X| + 1$，一目了然。使用该方法编码 3 个比特的编码，如下所示</p>
+<table>
+<thead>
+<tr>
+<th>二进制</th>
+<th>十进制</th>
+<th>二进制</th>
+<th>十进制</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>000</td>
+<td>0</td>
+<td>100</td>
+<td>-4</td>
+</tr>
+<tr>
+<td>001</td>
+<td>1</td>
+<td>101</td>
+<td>-3</td>
+</tr>
+<tr>
+<td>010</td>
+<td>2</td>
+<td>110</td>
+<td>-2</td>
+</tr>
+<tr>
+<td>011</td>
+<td>3</td>
+<td>111</td>
+<td>-1</td>
+</tr>
+</tbody>
+</table>
+<p>很明显，<strong>使用补码，所有的十进制数都有与之对应唯一的二进制编码表示</strong>。使用这个方法可以计算出来 $(-411)<em>{10} = (FFFFE65)</em>{16}$<strong>，与之前程序的结果完全一致！！<strong>于是猜想</strong>计算机使用补码存储对应的整数！</strong></p>
+<blockquote>
+<p>已知一个 $w$ 比特的二进制补码$[x_{w-1},x_{w-2},…,x_0]$，如何求它对应的十进制数 $X$？</p>
+</blockquote>
+<p>如果知道这个数的补码形式，根据<a href="https://book.douban.com/subject/26912767/" target="_blank" rel="noopener noreffer">《深入理解计算机系统》</a>中给出二进制数补码表示$[x_{w-1},x_{w-2},…,x_0]$ 与十进制数之间的转换关系</p>
+<p>$$
+X = -x_{w-1}2^{w-1} + \sum_{i = 0}^{w-2}{x_i2_i}
+$$</p>
+<blockquote>
+<p>使用补码有什么好处？</p>
+</blockquote>
+<p>第一，<code>0</code>的表示唯一。
+第二，<strong>所有整数的加法统一在一个法则之下，使用一套逻辑电路</strong>。现在有一个问题，异号两个数相加怎么计算，比如</p>
+<blockquote>
+<p><code>1 + (-3) = ?</code></p>
+</blockquote>
+<p>根据数字的表示不同，这个问题有如下几种解法。</p>
+<ul>
+<li>
+<p>十进制解法，也就是我们人类自己的解法，首先我们会判断 3 和 - 2 那个绝对值大，之后符号取绝对值大的那个，最后绝对值大的减去绝对值小的作为新的数字的绝对值。听起来比较拗口，这里分了好几个步骤：1) 比较绝对值大小，决定符号；2) 绝对值相减确定结果的绝对值。</p>
+</li>
+<li>
+<p>使用之前的编码方案（为了简单，我们仍然使用 3 比特数举例，如果我们使用之前的表示方法），直接二进制相减，即 $(1 + (-3))_{10} = (001 + 111)_2 = (000)<em>2 = (0)</em>{10}$，这是明显错误的结果。如果想要正确，我们需要借鉴十进制的解法，先判断绝对值，再确定符号，两个数字相加需要将符号单独拎出来处理，加法是计算机的最基础的运算操作，这样的处理逻辑<strong>增加了电路的设计复杂度</strong>，极大地影响计算机的性能。</p>
+</li>
+<li>
+<p>使用补码。$(1 + (-3))_{10} = (001 + 101)_2 = (110)<em>2 = (-2)</em>{10}$，可以自行验证其他的所有的异号的和，都能得到正确的答案。可以看出，符号位直接当作数据的一部分参与运算，计算机并没有单独对其做处理，从计算机的角度来看<strong>简单粗暴有效</strong>，之所以会有这么神奇的结果，是因为
+$$
+<i class="far fa-check-square fa-fw"></i> _补 + [Y]_补 = [X+Y]_补
+$$
+这个定理可以按照两数同号，两数异号两种情况进行证明。正因为有这样的数学关系，所以<strong>计算机将补码作为整数存储的形式</strong>。</p>
+</li>
+</ul>
+<h2 id="参考资料">参考资料</h2>
+<ul>
+<li><a href="https://book.douban.com/subject/4188358/" target="_blank" rel="noopener noreffer">《数值分析》</a>，0.2 和 0.3 节</li>
+<li><a href="https://book.douban.com/subject/26912767/" target="_blank" rel="noopener noreffer">《深入理解计算机系统》</a>，第二章</li>
+<li><a href="http://www.cnblogs.com/gaizai/p/4233780.html" target="_blank" rel="noopener noreffer">二、八、十、十六进制转换（图解篇） - 听风吹雨 - 博客园</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2009/08/twos_complement.html" target="_blank" rel="noopener noreffer">关于 2 的补码</a></li>
+<li><a href="https://www.cs.cornell.edu/~tomf/notes/cps104/twoscomp.html" target="_blank" rel="noopener noreffer">Two’s Complement</a></li>
+</ul></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2018-07-21</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://bugxch.github.io/%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%A1%A5%E7%A0%81/" data-title="为什么会有补码" data-via="hoho2006" data-hashtags="计算机"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://bugxch.github.io/%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%A1%A5%E7%A0%81/" data-hashtag="计算机"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Linkedin" data-sharer="linkedin" data-url="https://bugxch.github.io/%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%A1%A5%E7%A0%81/"><i class="fab fa-linkedin fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Xing" data-sharer="xing" data-url="https://bugxch.github.io/%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%A1%A5%E7%A0%81/" data-title="为什么会有补码"><i class="fab fa-xing fa-fw"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://bugxch.github.io/%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%A1%A5%E7%A0%81/" data-title="为什么会有补码"><i class="fab fa-weibo fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/">计算机</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/python%E6%8E%92%E5%BA%8F/" class="prev" rel="prev" title="python排序"><i class="fas fa-angle-left fa-fw"></i>python排序</a>
+            <a href="/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AE%80%E5%8F%B2/" class="next" rel="next" title="操作系统简史">操作系统简史<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="disqus_thread" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://disqus.com/?ref_noscript">Disqus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2016 - 2021</span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery.js@1.2.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.css"><script type="text/javascript" src="https://bugxch.disqus.com/embed.js" defer></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/smooth-scroll@16.1.3/dist/smooth-scroll.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.37.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.2.0/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.2.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery.js@1.2.0/dist/js/lightgallery.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lg-thumbnail.js@1.2.0/dist/lg-thumbnail.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lg-zoom.js@1.2.0/dist/lg-zoom.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.4.0/sharer.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{},"lightGallery":{"actualSize":false,"exThumbImage":"data-thumbnail","hideBarsDelay":2000,"selector":".lightgallery","speed":400,"thumbContHeight":80,"thumbWidth":80,"thumbnail":true},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"ROWPFW1USO","algoliaIndex":"index_json","algoliaSearchKey":"d0a8ab43cf24071544b25506aa08ba89","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

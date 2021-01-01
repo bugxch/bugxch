@@ -1,0 +1,31 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>leetcode - 标签 - Dive Into Think</title>
+        <link>https://bugxch.github.io/tags/leetcode/</link>
+        <description>leetcode - 标签 - Dive Into Think</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>bugxch@126.com (bugxch)</managingEditor>
+            <webMaster>bugxch@126.com (bugxch)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 16 Aug 2020 22:31:31 &#43;0800</lastBuildDate><atom:link href="https://bugxch.github.io/tags/leetcode/" rel="self" type="application/rss+xml" /><item>
+    <title>LeetCode区间问题总结</title>
+    <link>https://bugxch.github.io/intersection/</link>
+    <pubDate>Sun, 16 Aug 2020 22:31:31 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://bugxch.github.io/intersection/</guid>
+    <description><![CDATA[<div class="featured-image">
+                <img src="https://cdn.pixabay.com/photo/2013/07/18/20/26/sea-164989_960_720.jpg" referrerpolicy="no-referrer">
+            </div><p>上周五考试没有过，其中专业级第二题是关于区间的问题，在leetcode上找到类似的题目，总结复习下。</p>]]></description>
+</item><item>
+    <title>广度优先搜索详解</title>
+    <link>https://bugxch.github.io/dfs_intro/</link>
+    <pubDate>Sat, 08 Aug 2020 11:24:24 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://bugxch.github.io/dfs_intro/</guid>
+    <description><![CDATA[<p>总结一下广度优先搜索的原理和用法。</p>]]></description>
+</item><item>
+    <title>01背包问题详解</title>
+    <link>https://bugxch.github.io/01%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%E8%AF%A6%E8%A7%A3/</link>
+    <pubDate>Sat, 22 Feb 2020 00:00:00 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://bugxch.github.io/01%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%E8%AF%A6%E8%A7%A3/</guid>
+    <description><![CDATA[<p>背包问题是非常经典的动态规划问题，但是中文书籍和资料很少有把这个问题说得清晰明了的，问题表述不清，递推公式错误，不一而足，我在彻底想清楚这个问题后，觉得很有必要记录下整个思考过程。</p>]]></description>
+</item></channel>
+</rss>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>[转载]双线性插值简介 - Dive Into Think</title><meta name="Description" content="博观而约取，厚积而薄发"><meta property="og:title" content="[转载]双线性插值简介" />
+<meta property="og:description" content="该文档转载自图像缩放——双线性插值算法，我搜罗一堆中文文章里面讲得比较清楚的一篇了。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://bugxch.github.io/%E8%BD%AC%E8%BD%BD-%E5%8F%8C%E7%BA%BF%E6%80%A7%E6%8F%92%E5%80%BC%E7%AE%80%E4%BB%8B/" />
+<meta property="og:image" content="https://bugxch.github.io/static/android-chrome-512x512.png"/>
+<meta property="article:published_time" content="2020-01-26T22:24:10+00:00" />
+<meta property="article:modified_time" content="2020-01-26T22:24:10+00:00" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://bugxch.github.io/static/android-chrome-512x512.png"/>
+
+<meta name="twitter:title" content="[转载]双线性插值简介"/>
+<meta name="twitter:description" content="该文档转载自图像缩放——双线性插值算法，我搜罗一堆中文文章里面讲得比较清楚的一篇了。"/>
+<meta name="application-name" content="小猴子的烂笔头">
+<meta name="apple-mobile-web-app-title" content="小猴子的烂笔头"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="canonical" href="https://bugxch.github.io/%E8%BD%AC%E8%BD%BD-%E5%8F%8C%E7%BA%BF%E6%80%A7%E6%8F%92%E5%80%BC%E7%AE%80%E4%BB%8B/" /><link rel="prev" href="https://bugxch.github.io/tensorboad%E6%9F%A5%E7%9C%8Bpytorch%E6%A8%A1%E5%9E%8B/" /><link rel="next" href="https://bugxch.github.io/cplusplus-primer-plus%E7%AC%AC%E4%B9%9D%E7%AB%A0%E4%B9%A0%E9%A2%98%E5%8F%8A%E7%AD%94%E6%A1%88/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "[转载]双线性插值简介",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/bugxch.github.io\/%E8%BD%AC%E8%BD%BD-%E5%8F%8C%E7%BA%BF%E6%80%A7%E6%8F%92%E5%80%BC%E7%AE%80%E4%BB%8B\/"
+        },"image": ["https:\/\/bugxch.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "AI","wordcount":  2128 ,
+        "url": "https:\/\/bugxch.github.io\/%E8%BD%AC%E8%BD%BD-%E5%8F%8C%E7%BA%BF%E6%80%A7%E6%8F%92%E5%80%BC%E7%AE%80%E4%BB%8B\/","datePublished": "2020-01-26T22:24:10+00:00","dateModified": "2020-01-26T22:24:10+00:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "xxxx","logo": "https:\/\/bugxch.github.io\/images\/avatar.png"},"author": {
+                "@type": "Person",
+                "name": "bugxch"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="auto" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Dive Into Think"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg"
+        data-srcset="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg, https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg 1.5x, https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg 2x"
+        data-sizes="auto"
+        alt="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg"
+        title="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg" />Dive Into Think</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 归档 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/collection/"> 杂记 </a><a class="menu-item" href="https://github.com/bugxch" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Dive Into Think"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg"
+        data-srcset="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg, https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg 1.5x, https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg 2x"
+        data-sizes="auto"
+        alt="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg"
+        title="https://cdn.pixabay.com/photo/2020/05/04/23/06/spring-5131048_960_720.jpg" />Dive Into Think</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">归档</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/collection/" title="">杂记</a><a class="menu-item" href="https://github.com/bugxch" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><article class="page single"><h1 class="single-title animated flipInX">[转载]双线性插值简介</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>bugxch</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%8A%80%E8%89%BA/"><i class="far fa-folder fa-fw"></i>技艺</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-01-26">2020-01-26</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2128 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 5 分钟&nbsp;</div>
+        </div><div class="content" id="content"><p>该文档转载自<a href="https://blog.csdn.net/xiaqunfeng123/article/details/17362881" target="_blank" rel="noopener noreffer">图像缩放——双线性插值算法</a>，我搜罗一堆中文文章里面讲得比较清楚的一篇了。</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://gisgeography.com/wp-content/uploads/2016/10/Bilinear-Interpolation-Feature-678x322.png"
+        data-srcset="https://gisgeography.com/wp-content/uploads/2016/10/Bilinear-Interpolation-Feature-678x322.png, https://gisgeography.com/wp-content/uploads/2016/10/Bilinear-Interpolation-Feature-678x322.png 1.5x, https://gisgeography.com/wp-content/uploads/2016/10/Bilinear-Interpolation-Feature-678x322.png 2x"
+        data-sizes="auto"
+        alt="https://gisgeography.com/wp-content/uploads/2016/10/Bilinear-Interpolation-Feature-678x322.png"
+        title="resize" /></p>
+<p>在数学上，双线性插值是有两个变量的插值函数的线性插值扩展，其核心思想是在两个方向分别进行一次线性插值。如果选择一个坐标系统使得 f 的四个已知点坐标分别为 (0, 0),(0, 1),(1, 0) 和 (1, 1)，那么插值公式就可以化简为
+$$
+f(x, y) \approx f(0,0)(1-x)(1-y)+f(1,0) x(1-y)+f(0,1)(1-x) y+f(1,1) x y
+$$
+用矩阵运算来表示的话就是
+<img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://raw.githubusercontent.com/bugxch/blogpics/master/202001/image-20200127100154664.png"
+        data-srcset="https://raw.githubusercontent.com/bugxch/blogpics/master/202001/image-20200127100154664.png, https://raw.githubusercontent.com/bugxch/blogpics/master/202001/image-20200127100154664.png 1.5x, https://raw.githubusercontent.com/bugxch/blogpics/master/202001/image-20200127100154664.png 2x"
+        data-sizes="auto"
+        alt="https://raw.githubusercontent.com/bugxch/blogpics/master/202001/image-20200127100154664.png"
+        title="https://raw.githubusercontent.com/bugxch/blogpics/master/202001/image-20200127100154664.png" /></p>
+<p>图像的空间变换，也称几何变换或几何运算，包括图像的平移、旋转、镜像变换、转置、缩放等。空间变换可如下表示：设(u,v)为源图像上的点，(x,y)为目标图像上的点，则空间变换就是将源图像上(u,v)处的颜色值与目标图像上(x,y)处的颜色对应起来。
+计算机所处理的图像都是指点阵图，也就是用一个像素矩阵来描述一副图像。举个简单的图像：3×3的256级灰度图，也就是高为3个象素，宽也是3个象素的图像，每个象素的取值可以是 0－255，代表该像素的亮度，255代表最亮，也就是白色，0代表最暗，即黑色 。</p>
+<p>假如图像的象素矩阵如下所示：(这个矩阵中，图象处理中最常用的坐标系是：x从左到右，从0开始，y从上到下，也是从0开始)</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://raw.githubusercontent.com/bugxch/blogpics/master/202001/image-20200127100233659.png"
+        data-srcset="https://raw.githubusercontent.com/bugxch/blogpics/master/202001/image-20200127100233659.png, https://raw.githubusercontent.com/bugxch/blogpics/master/202001/image-20200127100233659.png 1.5x, https://raw.githubusercontent.com/bugxch/blogpics/master/202001/image-20200127100233659.png 2x"
+        data-sizes="auto"
+        alt="https://raw.githubusercontent.com/bugxch/blogpics/master/202001/image-20200127100233659.png"
+        title="https://raw.githubusercontent.com/bugxch/blogpics/master/202001/image-20200127100233659.png" /></p>
+<p>如果想把这副图放大为 4X4大小的图像，那么第一步肯定想到的是先把4X4的矩阵先画出来再说，好了矩阵画出来了，如下所示，当然，矩阵的每个像素都是未知数，等待着我们去填充</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://raw.githubusercontent.com/bugxch/blogpics/master/202001/image-20200127100334197.png"
+        data-srcset="https://raw.githubusercontent.com/bugxch/blogpics/master/202001/image-20200127100334197.png, https://raw.githubusercontent.com/bugxch/blogpics/master/202001/image-20200127100334197.png 1.5x, https://raw.githubusercontent.com/bugxch/blogpics/master/202001/image-20200127100334197.png 2x"
+        data-sizes="auto"
+        alt="https://raw.githubusercontent.com/bugxch/blogpics/master/202001/image-20200127100334197.png"
+        title="https://raw.githubusercontent.com/bugxch/blogpics/master/202001/image-20200127100334197.png" />
+然后要往这个空的矩阵里面填值了，要填的值从哪里来来呢？是从源图中来，好，先填写目标图最左上角的象素，坐标为(0,0)，那么该坐标对应源图中的坐标可以由如下公式得出：
+$$
+srcX = dstX * (srcWidth / dstWidth) , \<br>
+srcY = dstY * (srcHeight / dstHeight)
+$$
+套用公式，就可以找到对应的原图的坐标了$(0*(3/4),0*(3/4))=&gt;(0*0.75,0*0.75)=&gt;(0,0)$，找到了源图的对应坐标,就可以把源图中坐标为(0,0)处的234象素值填进去目标图的(0,0)这个位置了。所有的数值填充之后的结果如下所示</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://raw.githubusercontent.com/bugxch/blogpics/master/202001/image-20200127100359412.png"
+        data-srcset="https://raw.githubusercontent.com/bugxch/blogpics/master/202001/image-20200127100359412.png, https://raw.githubusercontent.com/bugxch/blogpics/master/202001/image-20200127100359412.png 1.5x, https://raw.githubusercontent.com/bugxch/blogpics/master/202001/image-20200127100359412.png 2x"
+        data-sizes="auto"
+        alt="https://raw.githubusercontent.com/bugxch/blogpics/master/202001/image-20200127100359412.png"
+        title="https://raw.githubusercontent.com/bugxch/blogpics/master/202001/image-20200127100359412.png" />
+这种放大图像的方法叫做<strong>最临近插值算法</strong>，这是一种最基本、最简单的图像缩放算法，效果也是最不好的，放大后的图像有很严重的马赛克，缩小后的图像有很严重的失真；效果不好的根源就是其简单的最临近插值方法引入了严重的图像失真。比如，当由目标图的坐标反推得到的源图的的坐标是一个浮点数的时候，采用了四舍五入的方法，直接采用了和这个浮点数最接近的象素的值，这种方法是很不科学的，当推得坐标值为 0.75的时候，不应该就简单的取为1，既然是0.75，比1要小0.25 ，比0要大0.75 ,那么目标象素值其实应该根据这个源图中虚拟的点四周的四个真实的点来按照一定的规律计算出来的，这样才能达到更好的缩放效果。</p>
+<blockquote>
+<p>双线型内插值算法就是一种比较好的图像缩放算法，它充分的利用了源图中虚拟点四周的四个真实存在的像素值来共同决定目标图中的一个像素值，因此缩放效果比简单的最邻近插值要好很多，计算量比零阶插值大，但缩放后图像质量高，不会出现像素值不连续的情况。</p>
+</blockquote>
+<p>双线性内插值算法描述如下:
+　　对于一个目的像素，设置坐标通过反向变换得到的浮点坐标为(i+u,j+v) (其中i、j均为浮点坐标的整数部分，u、v为浮点坐标的小数部分，是取值[0,1)区间的浮点数)，则这个像素得值 f(i+u,j+v) 可由原图像中坐标为 (i,j),(i+1,j),(i,j+1),(i+1,j+1)所对应的周围四个像素的值决定，即：　　
+$$
+f(i+u, j+v)=(1-u)(1-v) f(i, j)+(1-u) v f(i, j+1)+u(1-v) f(i+1, j)+u v f(i+1, j+1)
+$$</p>
+<p>其中f(i,j)表示源图像(i,j)处的的像素值，以此类推。</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://img-blog.csdn.net/20131216232218953?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveGlhcXVuZmVuZzEyMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"
+        data-srcset="https://img-blog.csdn.net/20131216232218953?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveGlhcXVuZmVuZzEyMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast, https://img-blog.csdn.net/20131216232218953?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveGlhcXVuZmVuZzEyMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast 1.5x, https://img-blog.csdn.net/20131216232218953?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveGlhcXVuZmVuZzEyMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast 2x"
+        data-sizes="auto"
+        alt="https://img-blog.csdn.net/20131216232218953?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveGlhcXVuZmVuZzEyMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"
+        title="https://img-blog.csdn.net/20131216232218953?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveGlhcXVuZmVuZzEyMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" /></p>
+<p>假如目标图的象素坐标为(1,1)，那么反推得到的对应于源图的坐标是(0.75,0.75), 这其实只是一个概念上的虚拟象素,实际在源图中并不存在这样一个象素,那么目标图的象素(1,1)的取值不能够由这个虚拟象素来决定，而只能由源图的这四个象素共同决定：(0，0)(0，1)(1，0)(1，1)，而由于(0.75,0.75)离(1,1)要更近一些，那么(1,1)所起的决定作用更大一些，这从公式1中的系数uv=0.75×0.75就可以体现出来，而(0.75,0.75)离(0,0)最远，所以(0，0)所起的决定作用就要小一些，公式中系数为(1-u)(1-v)=0.25×0.25也体现出了这一特点。算法步骤详述：</p>
+<p>假设原始图像大小为size=m×n，其中m与n分别是原始图像的行数与列数。若图像的缩放因子是t(t&gt;0)，则目标图像的大小size=t×m×t×n。对于目标图像的某个像素点P(x，y)通过P*1/t可得到对应的原始图像坐标P’( x1，y1),其中x1=x/t，y1=y/t，由于x1，y1都不是整数所以并不存在这样的点，这样可以找出与它相邻的四个点的灰度f1、f2、f3、f4，使用双线性插值算法就可以得到这个像素点P’(x1，y1)的灰度，也就是像素点P(x，y)的灰度。</p>
+<p>一个完整的双线性插值算法可描述如下：</p>
+<ol>
+<li>通过原始图像和比例因子得到新图像的大小，并创建新图像。</li>
+<li>由新图像的某个像素(x，y)映射到原始图像(x’,y’)处。</li>
+<li>对x’,y’取整得到(xx，yy)并得到(xx，yy)、(xx+1，yy)、(xx，yy+1)和(xx+1，yy+1)的值。</li>
+<li>利用双线性插值得到像素点(x,y)的值并写回新图像。</li>
+<li>重复步骤2直到新图像的所有像素写完。</li>
+</ol></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2020-01-26</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://bugxch.github.io/%E8%BD%AC%E8%BD%BD-%E5%8F%8C%E7%BA%BF%E6%80%A7%E6%8F%92%E5%80%BC%E7%AE%80%E4%BB%8B/" data-title="[转载]双线性插值简介" data-via="hoho2006" data-hashtags="AI"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://bugxch.github.io/%E8%BD%AC%E8%BD%BD-%E5%8F%8C%E7%BA%BF%E6%80%A7%E6%8F%92%E5%80%BC%E7%AE%80%E4%BB%8B/" data-hashtag="AI"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Linkedin" data-sharer="linkedin" data-url="https://bugxch.github.io/%E8%BD%AC%E8%BD%BD-%E5%8F%8C%E7%BA%BF%E6%80%A7%E6%8F%92%E5%80%BC%E7%AE%80%E4%BB%8B/"><i class="fab fa-linkedin fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Xing" data-sharer="xing" data-url="https://bugxch.github.io/%E8%BD%AC%E8%BD%BD-%E5%8F%8C%E7%BA%BF%E6%80%A7%E6%8F%92%E5%80%BC%E7%AE%80%E4%BB%8B/" data-title="[转载]双线性插值简介"><i class="fab fa-xing fa-fw"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://bugxch.github.io/%E8%BD%AC%E8%BD%BD-%E5%8F%8C%E7%BA%BF%E6%80%A7%E6%8F%92%E5%80%BC%E7%AE%80%E4%BB%8B/" data-title="[转载]双线性插值简介"><i class="fab fa-weibo fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/ai/">AI</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/tensorboad%E6%9F%A5%E7%9C%8Bpytorch%E6%A8%A1%E5%9E%8B/" class="prev" rel="prev" title="Tensorboad查看pytorch模型"><i class="fas fa-angle-left fa-fw"></i>Tensorboad查看pytorch模型</a>
+            <a href="/cplusplus-primer-plus%E7%AC%AC%E4%B9%9D%E7%AB%A0%E4%B9%A0%E9%A2%98%E5%8F%8A%E7%AD%94%E6%A1%88/" class="next" rel="next" title="《CPlusPlus Primer Plus》第九章习题及答案">《CPlusPlus Primer Plus》第九章习题及答案<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="disqus_thread" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://disqus.com/?ref_noscript">Disqus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2016 - 2021</span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery.js@1.2.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.css"><script type="text/javascript" src="https://bugxch.disqus.com/embed.js" defer></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/smooth-scroll@16.1.3/dist/smooth-scroll.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.37.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.2.0/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.2.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery.js@1.2.0/dist/js/lightgallery.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lg-thumbnail.js@1.2.0/dist/lg-thumbnail.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lg-zoom.js@1.2.0/dist/lg-zoom.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.4.0/sharer.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{},"lightGallery":{"actualSize":false,"exThumbImage":"data-thumbnail","hideBarsDelay":2000,"selector":".lightgallery","speed":400,"thumbContHeight":80,"thumbWidth":80,"thumbnail":true},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"ROWPFW1USO","algoliaIndex":"index_json","algoliaSearchKey":"d0a8ab43cf24071544b25506aa08ba89","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

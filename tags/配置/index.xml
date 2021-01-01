@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>配置 - 标签 - Dive Into Think</title>
+        <link>https://bugxch.github.io/tags/%E9%85%8D%E7%BD%AE/</link>
+        <description>配置 - 标签 - Dive Into Think</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>bugxch@126.com (bugxch)</managingEditor>
+            <webMaster>bugxch@126.com (bugxch)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 20 Jul 2018 23:08:38 &#43;0000</lastBuildDate><atom:link href="https://bugxch.github.io/tags/%E9%85%8D%E7%BD%AE/" rel="self" type="application/rss+xml" /><item>
+    <title>Source Insight 基础配置</title>
+    <link>https://bugxch.github.io/source-insight-%E5%9F%BA%E7%A1%80%E9%85%8D%E7%BD%AE/</link>
+    <pubDate>Fri, 20 Jul 2018 23:08:38 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://bugxch.github.io/source-insight-%E5%9F%BA%E7%A1%80%E9%85%8D%E7%BD%AE/</guid>
+    <description><![CDATA[<p>我们提交的代码，要求不能有多余的空格与 TAB 键，而且代码是在 linux 环境中编译和运行的，而我们经常使用 source insight 编辑代码，因此有必要针对性地配置以省去反复去掉空格和 TAB 键的麻烦。</p>]]></description>
+</item></channel>
+</rss>
