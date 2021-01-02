@@ -8,6 +8,9 @@
 - [产品沉思录 · Product Thinking](https://pmthinking.com/)，2020年发现的比较好的产品的网站
 - [LoveIt](https://hugoloveit.com/zh-cn/)，当前网站的主题介绍文章，可以参考文章插入图片、视频和音乐
 - [ShareTechnote](http://www.sharetechnote.com/)，一个韩国高级工程师搭建的专业知识共享网站
+- [酷壳 – CoolShell.cn](https://coolshell.cn/)，左耳朵耗子的官方博客，对我影响比较大的技术大佬
+- [科学空间|Scientific Spaces](https://spaces.ac.cn/)，非常不错的后生，天文、数学、AI、竞赛，博文质量极高，在这么小的年龄以十年的尺度更新不辍，非常难得
+
 
 ## 读书计划
 ### 2020
