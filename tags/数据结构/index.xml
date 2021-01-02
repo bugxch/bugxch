@@ -10,6 +10,323 @@
     <pubDate>Fri, 20 Jul 2018 23:18:50 &#43;0000</pubDate>
     <author>作者</author>
     <guid>https://bugxch.github.io/%E5%8D%95%E9%93%BE%E8%A1%A8%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</guid>
-    <description><![CDATA[<p>C语言的链表基本操作。</p>]]></description>
+    <description><![CDATA[<p>C语言的链表基本操作。</p>
+<h2 id="为何需要链表">为何需要链表？</h2>
+<p>学习 C 语言的开始，我们最早接触的数据类型是数组，它有两个特点：</p>
+<ol>
+<li>顺序存储所有的元素，<strong>连续</strong>占用内存空间；</li>
+<li>创建数组时需要事先知道存储元素的个数，确定数组的长度；</li>
+<li>查询元素复杂度是 O(1)O(1)，删除和插入的复杂度是 O(n)O(n)。</li>
+</ol>
+<p>数组元素非常适合元素个数基本保持不变的场景，特别便于查阅操作，但是如果数据存储的元素个数经常发生变化，操作起来复杂度就很高，因此急需一种数据结构便于插入和删除，链表就很合适。</p>
+<h3 id="概念">概念</h3>
+<p>一个链表的示意图如下所示</p>
+<p></p>
+<p>链表在内存中不是连续的顺序存储的，链表包括表头，表尾和中间结点。</p>
+<ul>
+<li>中间结点包括数据域和指针域
+<ul>
+<li>数据域用于储存当前结点的数据，通常是数据类型</li>
+<li>指针域指示下一个结点在内存中的地址，是一个指针</li>
+</ul>
+</li>
+<li>表头是特殊的中间结点，它的数据域可以包括表的长度或者什么都没有，但是指针域必须指向单链表的第一个中间结点的位置</li>
+<li>表尾也是特殊的中间结点，数据域可以存储数据，因为已经没有后继结点，指针域为空</li>
+</ul>
+<h3 id="优势">优势</h3>
+<p>单链表和数组相比的优势体现在如下两个方面：</p>
+<ol>
+<li>空间存储更灵活，单链表不需要<strong>连续占用</strong>内存空间，因为每个结点都知道它的后继结点在内存中的位置，所以不需要连续存储；</li>
+<li>空间申请更灵活，可以使用动态内存分配，在程序运行时候按需申请内存大小，避免数组申请过大造成的浪费。</li>
+<li>空间释放和增加更灵活，删除一个元素仅仅需要将该元素的前置元素指针指向它的后继结点，释放该结点即可，增加元素只需要更改指针指向即可，复杂度是 O(1)O(1)</li>
+</ol>
+<p>但是，单链表的劣势也很明显，单链表中的元素仅仅知道后继结点的位置，如果需要查询某个元素，只能从头结点开始一个一个地去遍历，而不像数组直接给出下标一步就能定位到，因此单链表的查询复杂度是 O(n)O(n)。</p>
+<h2 id="代码示例">代码示例</h2>
+<p>假定单链表的数据元素的数据类型是<code>ElemType</code>，那单链表可以定义如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="k">typedef</span> <span class="k">struct</span> <span class="n">Node</span> <span class="p">{</span>
+    <span class="n">ElemType</span> <span class="n">data</span><span class="p">;</span>
+    <span class="k">struct</span> <span class="n">Node</span> <span class="o">*</span><span class="n">next</span><span class="p">;</span>
+<span class="p">}</span><span class="n">Node</span><span class="p">;</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">Node</span> <span class="o">*</span> <span class="n">LinkList</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>特别注意，有个特点，单链表有一个指向自身的指针，表示下一个结点<code>next</code>的位置。单链表的常用操作包括：创建，查询，插入，删除，清除。</p>
+<h3 id="创建列表">创建列表</h3>
+<p>创建有两种方法，头插法和尾插法，第一种是保持新插入的元素始终在表的第一个元素，第二个保持新插入的元素始终在表的最后一个元素。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="cm">/*头插法创建链表*/</span>
+<span class="kt">void</span> <span class="nf">CreateListHead</span><span class="p">(</span><span class="n">LinkList</span> <span class="o">*</span><span class="n">L</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">){</span>
+    <span class="n">LinkList</span> <span class="n">p</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+    <span class="n">srand</span><span class="p">(</span><span class="n">time</span><span class="p">(</span><span class="mi">0</span><span class="p">));</span>
+    <span class="o">*</span><span class="n">L</span> <span class="o">=</span> <span class="p">(</span><span class="n">LinkList</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">Node</span><span class="p">));</span>
+    <span class="p">(</span><span class="o">*</span><span class="n">L</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+    
+    <span class="k">for</span><span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>  
+      <span class="n">p</span> <span class="o">=</span> <span class="p">(</span><span class="n">LinkList</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">Node</span><span class="p">));</span>
+      <span class="n">p</span><span class="o">-&gt;</span><span class="n">data</span> <span class="o">=</span> <span class="n">rand</span><span class="p">()</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+      <span class="n">p</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="n">L</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+      <span class="p">(</span><span class="o">*</span><span class="n">L</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">p</span><span class="p">;</span>       
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>尾插法代码如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="cm">/*尾插法创建链表*/</span>
+<span class="kt">void</span> <span class="nf">CreateListTail</span><span class="p">(</span><span class="n">LinkList</span> <span class="o">*</span><span class="n">L</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">){</span>
+    <span class="n">LinkList</span> <span class="n">p</span><span class="p">,</span><span class="n">r</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+    <span class="n">srand</span><span class="p">(</span><span class="n">time</span><span class="p">(</span><span class="mi">0</span><span class="p">));</span>
+    <span class="o">*</span><span class="n">L</span> <span class="o">=</span> <span class="p">(</span><span class="n">LinkList</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">Node</span><span class="p">));</span>
+    <span class="p">(</span><span class="o">*</span><span class="n">L</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+    
+    <span class="n">r</span> <span class="o">=</span> <span class="o">*</span><span class="n">L</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>  
+      <span class="n">p</span> <span class="o">=</span> <span class="p">(</span><span class="n">LinkList</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">Node</span><span class="p">));</span>
+      <span class="n">p</span><span class="o">-&gt;</span><span class="n">data</span> <span class="o">=</span> <span class="n">rand</span><span class="p">()</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+      <span class="n">r</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">p</span><span class="p">;</span>
+      <span class="n">r</span> <span class="o">=</span> <span class="n">p</span><span class="p">;</span>       
+    <span class="p">}</span>
+    
+    <span class="n">r</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="查询元素">查询元素</h3>
+<p>工作的基本原理就是<strong>工作指针后移</strong>，这个技巧也是单链表操作的基础和关键。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="cm">/* 单链表已经存在，用e返回L中的第i个元素的值*/</span>
+<span class="n">Status</span> <span class="nf">GetElem</span><span class="p">(</span><span class="n">LinkList</span> <span class="n">L</span><span class="p">,</span> <span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="n">ElemType</span> <span class="o">*</span><span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>    
+    <span class="n">LinkList</span> <span class="n">p</span> <span class="o">=</span> <span class="n">L</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+    
+    <span class="k">while</span><span class="p">(</span><span class="n">p</span> <span class="o">&amp;&amp;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">i</span><span class="p">)</span> <span class="c1">//p不为空并且j还没有和i相等时，继续往后查找
+</span><span class="c1"></span>    <span class="p">{</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">p</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span> <span class="c1">//一直指向下一个结点，顺藤摸瓜
+</span><span class="c1"></span>        <span class="o">++</span><span class="n">j</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">p</span> <span class="o">||</span> <span class="n">j</span> <span class="o">&gt;</span> <span class="n">i</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ERROR</span><span class="p">;</span>
+    
+    <span class="o">*</span><span class="n">e</span> <span class="o">=</span> <span class="n">p</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">OK</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="插入元素">插入元素</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="cm">/* 单链表已经存在，在第i个元素位置插入新的元素e，L的表长加1*/</span>
+<span class="n">Status</span> <span class="nf">ListInsert</span><span class="p">(</span><span class="n">LinkList</span> <span class="o">*</span><span class="n">L</span><span class="p">,</span> <span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="n">ElemType</span> <span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>    
+    <span class="n">LinkList</span> <span class="n">p</span> <span class="o">=</span> <span class="o">*</span><span class="n">L</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">,</span> <span class="n">s</span><span class="p">;</span>
+    
+    <span class="k">while</span><span class="p">(</span><span class="n">p</span> <span class="o">&amp;&amp;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">i</span><span class="p">)</span> <span class="c1">//p不为空并且j还没有和i相等时，继续往后查找
+</span><span class="c1"></span>    <span class="p">{</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">p</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span> <span class="c1">//一直指向下一个结点，顺藤摸瓜
+</span><span class="c1"></span>        <span class="o">++</span><span class="n">j</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">p</span> <span class="o">||</span> <span class="n">j</span> <span class="o">&gt;</span> <span class="n">i</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ERROR</span><span class="p">;</span>
+    
+    <span class="n">s</span> <span class="o">=</span> <span class="p">(</span><span class="n">LinkList</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">Node</span><span class="p">));</span>
+    
+    <span class="n">s</span><span class="o">-&gt;</span><span class="n">data</span> <span class="o">=</span> <span class="n">e</span><span class="p">;</span>
+    <span class="n">s</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">p</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+    <span class="n">p</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">s</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">OK</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="删除元素">删除元素</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="cm">/* 单链表已经存在，删除链表L的第i个元素，并用e返回其值，表长减1*/</span>
+<span class="n">Status</span> <span class="nf">ListInsert</span><span class="p">(</span><span class="n">LinkList</span> <span class="o">*</span><span class="n">L</span><span class="p">,</span> <span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="n">ElemType</span> <span class="o">*</span><span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>    
+    <span class="n">LinkList</span> <span class="n">p</span> <span class="o">=</span> <span class="o">*</span><span class="n">L</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">,</span> <span class="n">q</span><span class="p">;</span>
+    
+    <span class="k">while</span><span class="p">(</span><span class="n">p</span> <span class="o">&amp;&amp;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">i</span><span class="p">)</span> <span class="c1">//p不为空并且j还没有和i相等时，继续往后查找
+</span><span class="c1"></span>    <span class="p">{</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">p</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span> <span class="c1">//一直指向下一个结点，顺藤摸瓜
+</span><span class="c1"></span>        <span class="o">++</span><span class="n">j</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">p</span> <span class="o">||</span> <span class="n">j</span> <span class="o">&gt;</span> <span class="n">i</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ERROR</span><span class="p">;</span>
+    
+    <span class="n">q</span> <span class="o">=</span> <span class="n">p</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+    <span class="n">p</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">q</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+    <span class="o">*</span><span class="n">e</span> <span class="o">=</span> <span class="n">q</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">;</span>
+    <span class="n">free</span><span class="p">(</span><span class="n">q</span><span class="p">);</span>    
+    <span class="k">return</span> <span class="n">OK</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="删除整表">删除整表</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="cm">/*顺序链表L已经存在，将L重置为空表*/</span>
+<span class="n">Status</span> <span class="nf">ClearList</span><span class="p">(</span><span class="n">LinkList</span> <span class="o">*</span><span class="n">L</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">LinkList</span> <span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">;</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="n">L</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">p</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+        <span class="n">free</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
+        
+        <span class="n">p</span> <span class="o">=</span> <span class="n">q</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="p">(</span><span class="o">*</span><span class="n">L</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">OK</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="参考资料">参考资料</h2>
+<ul>
+<li><a href="http://c.biancheng.net/cpp/biancheng/view/57.html" target="_blank" rel="noopener noreffer">链表的创建和遍历_C 语言中文网</a></li>
+<li><a href="http://c.biancheng.net/cpp/html/98.html" target="_blank" rel="noopener noreffer">C 语言链表的概念_C 语言中文网</a></li>
+<li><a href="http://www.cnblogs.com/lifuqing/archive/2011/08/20/List.html" target="_blank" rel="noopener noreffer">C 语言单链表实现 19 个功能完全详解 - Lee.Kevin - 博客园</a></li>
+</ul>]]></description>
 </item></channel>
 </rss>

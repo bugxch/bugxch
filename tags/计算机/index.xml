@@ -10,48 +10,1251 @@
     <pubDate>Sat, 21 Jul 2018 21:59:51 &#43;0000</pubDate>
     <author>作者</author>
     <guid>https://bugxch.github.io/%E6%9E%81%E7%AE%80%E7%89%88%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/</guid>
-    <description><![CDATA[<p>读书笔记。</p>]]></description>
+    <description><![CDATA[<p>读书笔记。</p>
+<p></p>
+<p>这两周读了日本作者矢泽久雄写的<a href="https://book.douban.com/subject/26365491/" target="_blank" rel="noopener noreffer">《程序是怎么跑起来的》</a>，解开了我这个作为通信专业的软件从业者的很多困惑，为了避免日后遗忘，将一些看了这本书之后的问题的解答记录下来。</p>
+<p><strong>Q：电脑的 CPU 中包含哪些部分？各自的作用有哪些？</strong>
+<strong>A</strong>：CPU 包含寄存器，控制器，时钟和运算器四种主要的结构。如下图所示</p>
+<p></p>
+<ul>
+<li>控制器负责将内存上的指令、数据等读入到寄存器，并根据运算的结果控制整个计算机；</li>
+<li>寄存器用来暂存数据、指令等处理对象，一般 CPU 包含 20～100 个不同的寄存器；</li>
+<li>时钟负责 CPU 开始计时的时钟信号；</li>
+<li>运算器负责运算从内存读入寄存器的数据</li>
+</ul>
+<p>从程序员的角度来说，CPU 可以看作寄存器的集合。CPU 中包含不同种类的寄存器，各自有不同的功能，如下表所示：</p>
+<table>
+<thead>
+<tr>
+<th>种类</th>
+<th>功能</th>
+<th>数目</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>累加寄存器</td>
+<td>存储运算中和运算后的数据</td>
+<td>1</td>
+</tr>
+<tr>
+<td>标志寄存器</td>
+<td>存储运算后的 CPU 状态</td>
+<td>1</td>
+</tr>
+<tr>
+<td>程序计数器</td>
+<td>存取下一条指令的内存地址</td>
+<td>1</td>
+</tr>
+<tr>
+<td>基址寄存器</td>
+<td>存储数据内存的起始地址</td>
+<td>多个</td>
+</tr>
+<tr>
+<td>变址寄存器</td>
+<td>存储基址寄存器的相对地址</td>
+<td>多个</td>
+</tr>
+<tr>
+<td>通用寄存器</td>
+<td>存储任意数据</td>
+<td>多个</td>
+</tr>
+<tr>
+<td>指令寄存器</td>
+<td>存储指令。CPU 内部使用，程序员无法通过程序对寄存器进行读写操作</td>
+<td>多个</td>
+</tr>
+<tr>
+<td>栈寄存器</td>
+<td>存储栈区域的起始地址</td>
+<td>多个</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Q：一个典型的 C 语言源代码在电脑中运行的基本流程是怎样的？</strong>
+<strong>A</strong>：C 语言写成的源代码是高级语言程序，但是 CPU 运行的代码是本地机器语言，因此 C 的源代码并不能立即运行。实际上，一个 C 的源代码需要经过编译、和链接生成. exe 的可执行文件之后，电脑会将. exe 文件的副本复制到内存中再运行，基本的流程如下图所示：</p>
+<p></p>
+<p><strong>Q：内存内部结构如何？内存的数据存取都有哪些数据结构？</strong>
+<strong>A</strong>：内存是计算机的主存储器，通过芯片与计算机相连，主要负责存储指令和数据，CPU 通过基址寄存器和变址寄存器读取和写入内存中的数据。内存由连续的长度为 8bit（1 个字节）的基本元素构成，程序启动之后 CPU 的控制寄存器根据时钟信号从内存中读取指令和数据。</p>
+<p>存取内存的数据结构包括<strong>数组、栈、堆、队列、链表和二叉树</strong>。我们可以通过指针直接访问和改变对应内存地址中的变量的数值。</p>
+<ul>
+<li>数组是多个同样类型的数据在内存中连续的排列的形式，可以通过数组的索引访问数组元素；</li>
+<li>栈可以不通过指定地址和索引对数组元素进行读写。栈由栈底、栈顶描述，一般用来临时保存运算过程中的数据、连接在计算机设备上或者输入输出的数据；</li>
+<li>队列与栈相似，栈的元素是 FILO，但是队列是 FIFO，队列一般用环形缓冲区实现；</li>
+<li>链表与数组不同，它在内存中不是连续存储的，每个元素都有一个直接后继，像串珠一样将每个元素串联起来，最大优势是增减元素方便快捷；</li>
+<li>二叉树中除了最终的子节点之外，每个元素都有两个后继结点，有序二叉树使得搜索变得更有效</li>
+</ul>
+<p><strong>Q：数据和程序是如何保存在计算机中的？</strong>
+A：程序和数据是保存在计算机的硬盘中的，但是程序运行需要将机器语言的程序加载到内存，因为 CPU 的程序计数器指定内存地址才能读出程序内容。内存和磁盘因为自身特点的差异，它们之间具有紧密的联系。</p>
+<ul>
+<li>
+<p>磁盘缓存。由于磁盘的读取速度较慢，为了加快程序的运行，将磁盘中的部分数据加载到内存中缓存起来，之后在访问同一个数据的时候就直接从内存中读取数据，这样的机制叫<strong>磁盘缓存</strong>；</p>
+</li>
+<li>
+<p>虚拟内存。<strong>虚拟内存</strong>刚好与之相反，在运行比较大的程序或者内存资源比较紧张可以将部分磁盘当作<strong>假想的内存</strong>来用。实现虚拟内存机制需要在磁盘为内存预留空间，并在程序运行时与内存中的内容进行置换（swap），window 中提过<strong>分页式虚拟内存机制</strong>，如下图所示</p>
+<p></p>
+</li>
+</ul>
+<p>一般虚拟内存的大小与内存相当或者是内存的两倍。</p>
+<p><strong>Q：什么是动态链接和静态链接？二者有何不同？</strong>
+<strong>A</strong>：DLL（Dynamic link libary）是在程序运行时候动态加载的文件，<a href="https://www.wikiwand.com/zh/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93" target="_blank" rel="noopener noreffer">维基百科</a>中的解释是</p>
+<blockquote>
+<p><strong>動態連結函式庫</strong>（英语：<strong>Dynamic-link library</strong>，缩写为 <strong>DLL</strong>）是<a href="https://www.wikiwand.com/zh/%E5%BE%AE%E8%BD%AF%E5%85%AC%E5%8F%B8" target="_blank" rel="noopener noreffer">微软公司</a>在<a href="https://www.wikiwand.com/zh/%E5%BE%AE%E8%BD%AF%E8%A7%86%E7%AA%97" target="_blank" rel="noopener noreffer">微软视窗</a><a href="https://www.wikiwand.com/zh/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F" target="_blank" rel="noopener noreffer">操作系统</a>中实现共享<a href="https://www.wikiwand.com/zh/%E5%87%BD%E6%95%B0%E5%BA%93" target="_blank" rel="noopener noreffer">函数库</a>概念的一种实作方式。这些函式庫函数的<a href="https://www.wikiwand.com/zh/%E6%89%A9%E5%B1%95%E5%90%8D" target="_blank" rel="noopener noreffer">扩展名</a>是<code>.DLL</code>、<code>.OCX</code>（包含 <a href="https://www.wikiwand.com/zh/ActiveX" target="_blank" rel="noopener noreffer">ActiveX</a> 控制的函式庫）或者<code>.DRV</code>（舊式的系统<a href="https://www.wikiwand.com/zh/%E9%A9%B1%E5%8A%A8%E7%A8%8B%E5%BA%8F" target="_blank" rel="noopener noreffer">驱动程序</a>)。</p>
+</blockquote>
+<blockquote>
+<p>所謂動態链接，就是把一些經常會共用的程式碼（靜態链接的 OBJ 程式庫）製作成 DLL 檔，當執行檔呼叫到 DLL 檔內的函數時，Windows 作業系統才會把 DLL 檔載入記憶體內，DLL 檔本身的結構就是可執行檔，當程式需求函數才進行链接。透過動態链接方式，記憶體浪費的情形將可大幅降低。<a href="https://www.wikiwand.com/zh/%E9%9D%9C%E6%85%8B%E9%80%A3%E7%B5%90%E5%87%BD%E5%BC%8F%E5%BA%AB" target="_blank" rel="noopener noreffer">靜態連結函式庫</a>則是直接<a href="https://www.wikiwand.com/zh/%E9%93%BE%E6%8E%A5%E5%99%A8" target="_blank" rel="noopener noreffer">連結</a>到執行檔。</p>
+</blockquote>
+<blockquote>
+<p>DLL 的文件格式与视窗 <a href="https://www.wikiwand.com/zh/EXE" target="_blank" rel="noopener noreffer">EXE</a> 文件一样——也就是说，等同于 <a href="https://www.wikiwand.com/zh/32%E4%BD%8D" target="_blank" rel="noopener noreffer">32 位</a>视窗的<a href="https://www.wikiwand.com/zh/Portable_Executable" target="_blank" rel="noopener noreffer">可移植执行文件</a>（PE）和 <a href="https://www.wikiwand.com/zh/16%E4%BD%8D" target="_blank" rel="noopener noreffer">16 位</a>视窗的 New Executable（NE）。作为 EXE 格式，DLL 可以包括<a href="https://www.wikiwand.com/zh/%E5%8E%9F%E5%A7%8B%E7%A2%BC" target="_blank" rel="noopener noreffer">原始碼</a>、数据和资源的多种组合。</p>
+</blockquote>
+<p>简单来说，已经编译成汇编语言的程序文件，在进一步链接时如果直接将库文件链接进 exe 可执行文件，则该链接文件就是静态库，如果仅仅在程序运行时才进行链接称为动态链接，链接的目标文件就是动态链接库（windows 中为 dll 文件）。需要说明的是，在链接之后，exe 文件中包含了静态链接库的所有内容，所以会比较大，而动态链接库相对轻巧，并且<strong>动态链接库可以在被多个同时运行的程序所共有，并且保证内存中只有一个 dll 文件中调用函数的副本</strong>，这样就节省了程序运行的空间。实际上 window 操作系统的大部分 API 目标文件是动态链接库，动态链接库一般由导入库导入，导入库中并不存在目标函数的实体，仅仅保存目标函数所在的动态链接库的名称及路径。下面的表格是对两者的总结。</p>
+<table>
+<thead>
+<tr>
+<th>链接类型</th>
+<th>何时链接</th>
+<th>是否可共享</th>
+<th>文件类型</th>
+<th>资源占用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>静态</td>
+<td>编译后链接时</td>
+<td>否</td>
+<td>.a/.lib</td>
+<td>多</td>
+</tr>
+<tr>
+<td>动态</td>
+<td>程序运行时</td>
+<td>可被多个程序共享</td>
+<td>.dll/.so</td>
+<td>少</td>
+</tr>
+</tbody>
+</table>
+<p>关于动态链接和静态链接的详细介绍请参考博文 <a href="http://www.cnblogs.com/skynet/p/3372855.html" target="_blank" rel="noopener noreffer">C++ 静态库与动态库</a>。</p>
+<p><strong>Q：一个 C 语言源程序是如何变成可执行文件（exe）的？又是如何在操作系统中运行的？</strong> <strong>A</strong>：这是个比较大的问题，作者在书中举了个 C 语言的例子。大体来说，C 的源程序需要通过编译器编译成汇编语言（asm 文件），进一步链接需要的库文件（dll 文件）生成可执行文件（exe 文件），最后点击 exe 将可执行文件导入内存运行程序。以<code>Sample.c</code>文件为例</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;windows.h&gt;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="kt">char</span> <span class="o">*</span><span class="n">title</span> <span class="o">=</span> <span class="s">&#34;messgae box&#34;</span><span class="p">;</span>
+<span class="kt">double</span> <span class="nf">average</span><span class="p">(</span><span class="kt">double</span> <span class="n">a</span><span class="p">,</span> <span class="kt">double</span> <span class="n">b</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span><span class="o">/</span><span class="mf">2.0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="n">WINAPI</span> <span class="nf">WinMain</span><span class="p">(</span><span class="n">HINSTANCE</span> <span class="n">h</span><span class="p">,</span> <span class="n">HINSTANCE</span> <span class="n">d</span><span class="p">,</span> <span class="n">LPSTR</span> <span class="n">s</span><span class="p">,</span> <span class="kt">int</span> <span class="n">m</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">double</span> <span class="n">ave</span><span class="p">;</span>
+    <span class="kt">char</span> <span class="n">buff</span><span class="p">[</span><span class="mi">80</span><span class="p">];</span>
+    <span class="n">ave</span> <span class="o">=</span> <span class="n">average</span><span class="p">(</span><span class="mi">123</span><span class="p">,</span><span class="mi">456</span><span class="p">);</span>
+
+    <span class="n">sprintf</span><span class="p">(</span><span class="n">buff</span><span class="p">,</span> <span class="s">&#34;average value is %f&#34;</span><span class="p">,</span> <span class="n">ave</span><span class="p">);</span>
+
+    <span class="n">MessageBox</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="n">buff</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">MB_OK</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><ol>
+<li><strong>编译</strong>该文件，在源文件目录上运行命令<code>bcc32 -W -c Sample.c</code>，生成 sample.obj 目标文件；</li>
+<li><strong>链接</strong>需要的库文件，运行命令<code>ilink32 -Tpe -c -x -aa c0w32.obj Sample.obj, Sample.exe,, import32.lib cw32.lib</code></li>
+</ol>
+<p>需要说明的是，c0w32.obj 文件是与所有程序起始位置相结合的处理内容，称为程序的<strong>启动</strong>。在源程序中，我们<strong>调用</strong>了系统函数 sprintf 和 messagebox，因此，需要将这两个函数对应的库函数（其中的内容与 exe 文件相同，都是本地代码）<strong>链接</strong>进来，告诉链接器去哪里找这两个函数对应的本地代码。</p>
+<p>sprintf 的本地代码在 cwlib32.lib 中，编译之后会将它的目标函数合成到 exe 文件中，称为<strong>静态链接</strong>；而 messagebox 的本地代码在库文件 user32.dll 里，使用 import32.dll 是为了告诉连接器 “messagebox 在库文件 user32.dll 中，以及 user32.dll 在哪里”，所以 import32.dll 称为导入库。程序运行时，执行从 DLL 文件调出的 MessageBox() 函数这一信息就会和 exe 文件结合，称为<strong>动态链接</strong>。</p>
+<p>源程序到可执行文件的流程如下所示：</p>
+<p></p>
+<p><strong>Q：可执行文件包含哪些内容？它加载到内存中是什么样子？</strong>
+<strong>A</strong>：可执行文件中包含了源程序的变量和函数的虚拟地址，在加载到内存之后需要必要的信息将虚拟地址转换成实际地址，转换需要的信息就在 exe 文件开始的部分，称为再配置信息。exe 文件被加载到内存之后，就将这些虚拟内存转换成实际内存，程序运行中会生成栈和堆，因此在内存中的样子如下图所示</p>
+<p></p>
+<p><strong>Q：c，o，a，lib，obj，dll 这些文件分别是什么？他们之间是什么关系？</strong>
+<strong>A</strong>：c 是 C 语言的源文件，如博文 <a href="http://blog.csdn.net/chlele0105/article/details/23691147" target="_blank" rel="noopener noreffer">Linux 的. a、.so 和. o 文件</a> 中所述</p>
+<blockquote>
+<p>lib,dll,exe 都算是最终的目标文件，是最终产物。而 c/c++ 属于源代码。源代码和最终目标文件中过渡的就是中间代码 obj，实际上之所以需要中间代码，是你不可能一次得到目标文件。比如说一个 exe 需要很多的 cpp 文件生成。而编译器一次只能编译一个 cpp 文件。这样编译器编译好一个 cpp 以后会将其编译成 obj，当所有必须要的 cpp 都编译成 obj 以后，再统一 link 成所需要的 exe，应该说缺少任意一个 obj 都会导致 exe 的链接失败。而 .o, 是 Linux 目标文件, 相当于 windows 中的. obj 文件，.so 文件为共享库, 是 shared object, 用于动态连接的, 相当于 windows 下的 dll,.a 为静态库, 是好多个. o 合在一起, 用于静态链接</p>
+</blockquote>
+<p><strong>Q：什么是_BSS 段和_DATA 段？全局变量和局部变量在程序运行时有何不同？</strong>
+<strong>A</strong>：这是汇编语言的概念，编译器将高级语言源程序转换成汇编文件 (.asm 文件)，有如下的源文件<code>sample2.c</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="kt">int</span> <span class="nf">AddNum</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">MyFun</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">c</span><span class="p">;</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">AddNum</span><span class="p">(</span><span class="mi">123</span><span class="p">,</span><span class="mi">456</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>经过编译之后的汇编文件（软件环境 win10，gcc 编译器）内容如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c">    <span class="p">.</span><span class="n">file</span>    <span class="s">&#34;sample.c&#34;</span>
+    <span class="p">.</span><span class="n">text</span>
+    <span class="p">.</span><span class="n">globl</span>    <span class="n">_AddNum</span>
+    <span class="p">.</span><span class="n">def</span>    <span class="n">_AddNum</span><span class="p">;</span>    <span class="p">.</span><span class="n">scl</span>    <span class="mi">2</span><span class="p">;</span>    <span class="p">.</span><span class="n">type</span>    <span class="mi">32</span><span class="p">;</span>    <span class="p">.</span><span class="n">endef</span>
+<span class="nl">_AddNum</span><span class="p">:</span>
+    <span class="n">pushl</span>    <span class="o">%</span><span class="n">ebp</span>
+    <span class="n">movl</span>    <span class="o">%</span><span class="n">esp</span><span class="p">,</span> <span class="o">%</span><span class="n">ebp</span>
+    <span class="n">movl</span>    <span class="mi">8</span><span class="p">(</span><span class="o">%</span><span class="n">ebp</span><span class="p">),</span> <span class="o">%</span><span class="n">edx</span>
+    <span class="n">movl</span>    <span class="mi">12</span><span class="p">(</span><span class="o">%</span><span class="n">ebp</span><span class="p">),</span> <span class="o">%</span><span class="n">eax</span>
+    <span class="n">addl</span>    <span class="o">%</span><span class="n">edx</span><span class="p">,</span> <span class="o">%</span><span class="n">eax</span>
+    <span class="n">popl</span>    <span class="o">%</span><span class="n">ebp</span>
+    <span class="n">ret</span>
+    <span class="p">.</span><span class="n">globl</span>    <span class="n">_MyFun</span>
+    <span class="p">.</span><span class="n">def</span>    <span class="n">_MyFun</span><span class="p">;</span>    <span class="p">.</span><span class="n">scl</span>    <span class="mi">2</span><span class="p">;</span>    <span class="p">.</span><span class="n">type</span>    <span class="mi">32</span><span class="p">;</span>    <span class="p">.</span><span class="n">endef</span>
+<span class="nl">_MyFun</span><span class="p">:</span>
+    <span class="n">pushl</span>    <span class="o">%</span><span class="n">ebp</span>
+    <span class="n">movl</span>    <span class="o">%</span><span class="n">esp</span><span class="p">,</span> <span class="o">%</span><span class="n">ebp</span>
+    <span class="n">subl</span>    <span class="err">$</span><span class="mi">24</span><span class="p">,</span> <span class="o">%</span><span class="n">esp</span>
+    <span class="n">movl</span>    <span class="err">$</span><span class="mi">456</span><span class="p">,</span> <span class="mi">4</span><span class="p">(</span><span class="o">%</span><span class="n">esp</span><span class="p">)</span>
+    <span class="n">movl</span>    <span class="err">$</span><span class="mi">123</span><span class="p">,</span> <span class="p">(</span><span class="o">%</span><span class="n">esp</span><span class="p">)</span>
+    <span class="n">call</span>    <span class="n">_AddNum</span>
+    <span class="n">movl</span>    <span class="o">%</span><span class="n">eax</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">(</span><span class="o">%</span><span class="n">ebp</span><span class="p">)</span>
+    <span class="n">leave</span>
+    <span class="n">ret</span>
+    <span class="p">.</span><span class="n">ident</span>    <span class="s">&#34;GCC: (tdm-1) 4.9.2&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>汇编程序最接近机器语言，而且其与 C 语言一一对应，所以通过汇编文件就可以了解程序运行的大体情况。从上面的汇编文件，可以看到如下的结果</p>
+<ol>
+<li>寄存器 esp 指向栈顶元素地址，每个元素占据 4 个字节的数据；</li>
+<li>在每个函数开始的时候，都要将寄存器 ebp 的数据压入栈中进行保护；</li>
+<li>上述程序中隐藏的一个关键步骤是在第 21 行，call AddNum 时，计算机已经将 MyFun 函数的下一个指令的地址压入栈中，在调用完 AddNum 时（第 12 行），返回函数 Myfun 时候会自动将栈中的返回指令的地址出栈交给 CPU 的程序计数器，这样就可以实现在调用函数之后仍然返回原来的调用的地方；</li>
+<li>函数的入参被保存在栈中，返回值被保存在寄存器里。</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="kt">int</span> <span class="n">a</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">b</span><span class="p">;</span>
+<span class="kt">float</span> <span class="n">fl</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">9</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">d</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">e</span> <span class="o">=</span> <span class="mi">11</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">f</span> <span class="o">=</span> <span class="mi">12</span><span class="p">;</span>
+
+<span class="kt">void</span> <span class="nf">MyFun</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">a1</span><span class="p">,</span><span class="n">b1</span><span class="p">,</span><span class="n">c1</span><span class="p">;</span>
+    <span class="kt">float</span> <span class="n">fl1</span><span class="p">;</span>
+    <span class="n">a1</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="n">b1</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="n">fl1</span> <span class="o">=</span> <span class="o">-</span><span class="mf">99.34</span><span class="p">;</span>
+    <span class="n">c1</span> <span class="o">=</span> <span class="o">-</span><span class="mi">87</span><span class="p">;</span>
+
+    <span class="n">a1</span> <span class="o">=</span> <span class="n">a</span><span class="p">;</span>
+    <span class="n">b1</span> <span class="o">=</span> <span class="n">b</span><span class="p">;</span>
+    <span class="n">fl1</span> <span class="o">=</span> <span class="n">fl</span><span class="p">;</span>
+    <span class="n">c1</span> <span class="o">=</span> <span class="n">c</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>以上的 C 源代码转换成汇编语言是</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++">    <span class="p">.</span><span class="n">file</span>    <span class="s">&#34;sample2.c&#34;</span>
+    <span class="p">.</span><span class="n">comm</span>    <span class="n">_a</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span>
+    <span class="p">.</span><span class="n">comm</span>    <span class="n">_b</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span>
+    <span class="p">.</span><span class="n">comm</span>    <span class="n">_fl</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span>
+    <span class="p">.</span><span class="n">globl</span>    <span class="n">_c</span>
+    <span class="p">.</span><span class="n">data</span>
+    <span class="p">.</span><span class="n">align</span> <span class="mi">4</span>
+<span class="nl">_c</span><span class="p">:</span>
+    <span class="p">.</span><span class="kt">long</span>    <span class="mi">9</span>
+    <span class="p">.</span><span class="n">globl</span>    <span class="n">_d</span>
+    <span class="p">.</span><span class="n">align</span> <span class="mi">4</span>
+<span class="nl">_d</span><span class="p">:</span>
+    <span class="p">.</span><span class="kt">long</span>    <span class="mi">10</span>
+    <span class="p">.</span><span class="n">globl</span>    <span class="n">_e</span>
+    <span class="p">.</span><span class="n">align</span> <span class="mi">4</span>
+<span class="nl">_e</span><span class="p">:</span>
+    <span class="p">.</span><span class="kt">long</span>    <span class="mi">11</span>
+    <span class="p">.</span><span class="n">globl</span>    <span class="n">_f</span>
+    <span class="p">.</span><span class="n">align</span> <span class="mi">4</span>
+<span class="nl">_f</span><span class="p">:</span>
+    <span class="p">.</span><span class="kt">long</span>    <span class="mi">12</span>
+    <span class="p">.</span><span class="n">text</span>
+    <span class="p">.</span><span class="n">globl</span>    <span class="n">_MyFun</span>
+    <span class="p">.</span><span class="n">def</span>    <span class="n">_MyFun</span><span class="p">;</span>    <span class="p">.</span><span class="n">scl</span>    <span class="mi">2</span><span class="p">;</span>    <span class="p">.</span><span class="n">type</span>    <span class="mi">32</span><span class="p">;</span>    <span class="p">.</span><span class="n">endef</span>
+<span class="nl">_MyFun</span><span class="p">:</span>
+    <span class="n">pushl</span>    <span class="o">%</span><span class="n">ebp</span>
+    <span class="n">movl</span>    <span class="o">%</span><span class="n">esp</span><span class="p">,</span> <span class="o">%</span><span class="n">ebp</span>
+    <span class="n">subl</span>    <span class="err">$</span><span class="mi">16</span><span class="p">,</span> <span class="o">%</span><span class="n">esp</span>
+    <span class="n">movl</span>    <span class="err">$</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">(</span><span class="o">%</span><span class="n">ebp</span><span class="p">)</span>
+    <span class="n">movl</span>    <span class="err">$</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">8</span><span class="p">(</span><span class="o">%</span><span class="n">ebp</span><span class="p">)</span>
+    <span class="n">movl</span>    <span class="n">LC0</span><span class="p">,</span> <span class="o">%</span><span class="n">eax</span>
+    <span class="n">movl</span>    <span class="o">%</span><span class="n">eax</span><span class="p">,</span> <span class="o">-</span><span class="mi">12</span><span class="p">(</span><span class="o">%</span><span class="n">ebp</span><span class="p">)</span>
+    <span class="n">movl</span>    <span class="err">$</span><span class="o">-</span><span class="mi">87</span><span class="p">,</span> <span class="o">-</span><span class="mi">16</span><span class="p">(</span><span class="o">%</span><span class="n">ebp</span><span class="p">)</span>
+    <span class="n">movl</span>    <span class="n">_a</span><span class="p">,</span> <span class="o">%</span><span class="n">eax</span>
+    <span class="n">movl</span>    <span class="o">%</span><span class="n">eax</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">(</span><span class="o">%</span><span class="n">ebp</span><span class="p">)</span>
+    <span class="n">movl</span>    <span class="n">_b</span><span class="p">,</span> <span class="o">%</span><span class="n">eax</span>
+    <span class="n">movl</span>    <span class="o">%</span><span class="n">eax</span><span class="p">,</span> <span class="o">-</span><span class="mi">8</span><span class="p">(</span><span class="o">%</span><span class="n">ebp</span><span class="p">)</span>
+    <span class="n">movl</span>    <span class="n">_fl</span><span class="p">,</span> <span class="o">%</span><span class="n">eax</span>
+    <span class="n">movl</span>    <span class="o">%</span><span class="n">eax</span><span class="p">,</span> <span class="o">-</span><span class="mi">12</span><span class="p">(</span><span class="o">%</span><span class="n">ebp</span><span class="p">)</span>
+    <span class="n">movl</span>    <span class="n">_c</span><span class="p">,</span> <span class="o">%</span><span class="n">eax</span>
+    <span class="n">movl</span>    <span class="o">%</span><span class="n">eax</span><span class="p">,</span> <span class="o">-</span><span class="mi">16</span><span class="p">(</span><span class="o">%</span><span class="n">ebp</span><span class="p">)</span>
+    <span class="n">leave</span>
+    <span class="n">ret</span>
+    <span class="p">.</span><span class="n">section</span> <span class="p">.</span><span class="n">rdata</span><span class="p">,</span><span class="s">&#34;dr&#34;</span>
+    <span class="p">.</span><span class="n">align</span> <span class="mi">4</span>
+<span class="nl">LC0</span><span class="p">:</span>
+    <span class="p">.</span><span class="kt">long</span>    <span class="o">-</span><span class="mi">1027166700</span>
+    <span class="p">.</span><span class="n">ident</span>    <span class="s">&#34;GCC: (tdm-1) 4.9.2&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>从中可以看出全局变量保存在. comm 和. globl 段，局部变量保存在寄存器中，因此在程序运行的整个过程中，全局变量可以随时访问，但是局部变量却会在用过之后消失。</p>
+<p>关于 windows 的汇编的内容可进一步参考文章<a href="http://www.mouseos.com/assembly/index.html" target="_blank" rel="noopener noreffer">汇编与逆向分析</a></p>
+<hr>
+<p>以上是此书最干货的部分，书中该介绍了计算机二进制数，和计算机硬件的部分内容，在此略过不提。</p>]]></description>
 </item><item>
     <title>堆栈出栈序列问题</title>
     <link>https://bugxch.github.io/%E5%A0%86%E6%A0%88%E5%87%BA%E6%A0%88%E5%BA%8F%E5%88%97%E9%97%AE%E9%A2%98/</link>
     <pubDate>Sat, 21 Jul 2018 21:46:35 &#43;0000</pubDate>
     <author>作者</author>
     <guid>https://bugxch.github.io/%E5%A0%86%E6%A0%88%E5%87%BA%E6%A0%88%E5%BA%8F%E5%88%97%E9%97%AE%E9%A2%98/</guid>
-    <description><![CDATA[<p>这是工作中遇到的小问题。</p>]]></description>
+    <description><![CDATA[<p>这是工作中遇到的小问题。</p>
+<p></p>
+<p>数据结构中有一种数据类型——<strong>堆栈</strong>，该结构中的数据项有如下特点：</p>
+<ol>
+<li>
+<p>除了最前面和最后面的数据，每个数据项都有一个前驱结点和一个后继结点；</p>
+</li>
+<li>
+<p>堆栈两端分别称为栈顶和栈底，数据项只能在栈顶加入或者弹出。</p>
+<p>很明显，堆栈的数据遵循先入后出原则。假设我们有 3 个不同的数据项，编号 1，2，3，只要保证入栈顺序是大编号在后小编号在前，且每次进栈的数量不限，则所有可能的出栈顺序有：1-&gt;2-&gt;3，1-&gt;3-&gt;2，2-&gt;1-&gt;3，2-&gt;3-&gt;1，3-&gt;2-&gt;1 一共 5 种，注意 3-&gt;1-&gt;2 不是可能的出栈顺序，因为如果 3 最先出栈，那么 1 和 2 必在栈中（如果还未入栈，则说明 3 先入栈，与假设矛盾），只能 2 在上 1 在下，所以出栈顺序必然是 2-&gt;1。那么，</p>
+<blockquote>
+<p><strong>问题一</strong>：编号$1\sim n$的连续数据项以编号的先后顺序入栈然后出栈，所有可能的出栈顺序有多少种？</p>
+</blockquote>
+<p>上面的问题比较难于回答，引申之后得到另一个比较弱的问题</p>
+<blockquote>
+<p><strong>问题二</strong>：给定一个长度为$n$ 的整数序列，且各个元素均不相同，它是否是一个出栈序列？</p>
+</blockquote>
+<p>为了回答以上的两个问题，我们首先来看下一个正常的出栈序列有什么特点。假设长度为 $n$的出栈序列是$a_1,a_2,…,a_n$，取其中第$k$ 个数 $a_k$，则有如下结论：</p>
+<ol>
+<li>$a_k$之前的所有数据项都已经出栈，即$a_1,a_2,…,a_{k-1}$都已经出栈；</li>
+<li>$a_k$ 之后的所有数据项中，小于 $a_k$的都在栈内，大于$a_k$的尚未入栈；</li>
+<li>$a_k$之后紧跟的出栈数据项 $a_{k+1}$ 要么大于$a_k$，要么是所有未出栈的比$a_k$小的数据项中最大的一个</li>
+</ol>
+<p>结论 1 很明显，因为本身就是出栈序列，因此之前的数据肯定已经出栈；结论 2 中，之后的数据只有两种存在的可能：在栈内，或者未进栈。比$a_k$小的如果未进栈，那么 akak 根本不可能出栈（因为就没进栈），比$a_k$大的如果在栈内，那$a_k$也无法出栈，因为$a_k$在它的下面，因此得证；结论 3，$a_{k+1}$就是$a_k$ 出栈后栈顶的数据，因此必然是在栈内的数据的最上面的一个，或者是栈外的某一个数据（进栈再出栈）。</p>
+<p>于是由结论 3 找到判断序列的方法：**逐个检查序列的每一项$a_k$，将该项之后的数据分为大于该数据的大数集合$S_g$和小于该数的小数集合$S_l$，查看是否后续的数据项是小数集合的最大值或者是大数集合的任意值，如果不是则不是出栈序列，即若 $a_{k+1}\in S_g$ 或 $a_{k+1}=max_l{S_l}$，即是出栈序列。**</p>
+<p>问题一的解答，就是穷举长度为 nn 的序列，逐个进行判断，得到最后的结果，附上 python 程序。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+
+<span class="o">%</span> <span class="err">输入序列的长度</span>
+<span class="n">n</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s2">&#34;Input n: &#34;</span><span class="p">)</span>
+
+<span class="o">%</span> <span class="err">判断是否是出栈序列</span>
+<span class="k">def</span> <span class="nf">IsNotStackSeq</span><span class="p">(</span><span class="n">n_ls</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="mi">2</span><span class="p">):</span>
+    <span class="o">%</span> <span class="err">逐个检查序列中的每一个元素</span>
+        <span class="n">ak</span> <span class="o">=</span> <span class="n">n_ls</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+        <span class="n">set_in</span> <span class="o">=</span> <span class="n">n_ls</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="n">a_max</span> <span class="o">=</span> <span class="n">ak</span>
+
+        <span class="o">%</span> <span class="err">将</span><span class="n">ak之后的元素分为大于和小于两组集合</span>
+        <span class="n">min_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">set_in</span> <span class="k">if</span> <span class="n">item</span> <span class="o">&gt;</span> <span class="n">ak</span><span class="p">]</span>
+        <span class="n">max_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">set_in</span> <span class="k">if</span> <span class="n">item</span> <span class="o">&lt;</span> <span class="n">ak</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">max_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">a_max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_list</span><span class="p">)</span>
+
+        <span class="o">%</span> <span class="err">后续的元素是否是小于集合的最大值或者属于大于集合</span>
+        <span class="k">if</span> <span class="n">n_ls</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">a_max</span> <span class="ow">and</span> <span class="p">(</span><span class="n">n_ls</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">min_list</span><span class="p">):</span>
+            <span class="k">return</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+<span class="k">def</span> <span class="nf">StackSeqList</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">n_permation</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">permutations</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="p">)))</span>
+        <span class="n">n_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">n_permation</span> <span class="k">if</span> <span class="n">IsNotStackSeq</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">item</span><span class="p">),</span><span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">n_list</span><span class="p">),</span><span class="n">n_list</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div></li>
+</ol>]]></description>
 </item><item>
     <title>C语言中的宏</title>
     <link>https://bugxch.github.io/c%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E5%AE%8F/</link>
     <pubDate>Sat, 21 Jul 2018 20:33:48 &#43;0000</pubDate>
     <author>作者</author>
     <guid>https://bugxch.github.io/c%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E5%AE%8F/</guid>
-    <description><![CDATA[<p>C 中有些特殊的宏定义，面试时候被问到，写个短文总结下。</p>]]></description>
+    <description><![CDATA[<p>C 中有些特殊的宏定义，面试时候被问到，写个短文总结下。</p>
+<h2 id="宏定义中的-和-连字符">宏定义中的 #和## 连字符</h2>
+<p>这两个字符在宏定义中代表连接和替换，</p>
+<ul>
+<li><code>#</code>紧跟字母表示对应字符的字符串化，将对应的字符转换成对应的字符串，比如<code>#hello</code>就是<code>&quot;hello&quot;</code></li>
+<li><code>##</code>表示将宏定义中的两个标识符连接在一起，组成一个新的标识符，类似胶水。它首先查看<code>##</code>两边的字符，是否有宏定义可以替换的字符串，替换之，之后将两个连接在一起。</li>
+</ul>
+<p>下面举例说明。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span><span class="cp">#define trace(x, format) printf(#x &#34; = %&#34; #format &#34;\n&#34;, x)
+</span><span class="cp">#define trace2(i) trace(x##i, d)
+</span><span class="cp"></span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="n">_TCHAR</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">s</span> <span class="o">=</span> <span class="s">&#34;three&#34;</span><span class="p">;</span>
+    <span class="kt">float</span> <span class="n">x</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">;</span>
+
+    <span class="n">trace</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">d</span><span class="p">);</span>                <span class="c1">// 相当于 printf(&#34;x = %d\n&#34;, x)
+</span><span class="c1"></span>    <span class="n">trace</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">f</span><span class="p">);</span>                <span class="c1">// 相当于 printf(&#34;x = %f\n&#34;, x)
+</span><span class="c1"></span>    <span class="n">trace</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">s</span><span class="p">);</span>                <span class="c1">// 相当于 printf(&#34;x = %s\n&#34;, x)
+</span><span class="c1"></span>
+    <span class="kt">int</span> <span class="n">x1</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">x3</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+    <span class="n">trace2</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>                  <span class="c1">// 相当于 trace(x1, d)
+</span><span class="c1"></span>    <span class="n">trace2</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>                  <span class="c1">// 相当于 trace(x2, d)
+</span><span class="c1"></span>    <span class="n">trace2</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>                  <span class="c1">// 相当于 trace(x3, d)
+</span><span class="c1"></span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>又比如</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="cp">#define STACK_ADD_TASK_IRAM_POOL1(TASK_NAME, task_name, task_type){\
+</span><span class="cp">task_info_g[INDEX_##TASK_NAME].task_entry_func = \
+</span><span class="cp">    (osa_task_func_ptr) stack_##task_type##_task;\
+</span><span class="cp">}
+</span></code></pre></td></tr></table>
+</div>
+</div><p>上面的语句中，我们会将其中的<code>TASK_NAME</code>和<code>task_type</code>替换掉，并与前后的标识符相连接生成新的标识符。</p>
+<h2 id="宏定义中的-do-while0">宏定义中的 do{} while(0)</h2>
+<p>经常在宏定义中会看到如下的语句</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="cp">#define STACK_ADD_MULTI_TASK(multi_sys_max, TASK_NAME, task_name, task_type)  \
+</span><span class="cp">    do{                                                                       \
+</span><span class="cp">       if(multi_sys_max &gt;= 1)                                                 \
+</span><span class="cp">       {                                                                      \
+</span><span class="cp">           STACK_ADD_TASK_1_CARD(TASK_NAME, task_name, task_type);            \
+</span><span class="cp">       }                                                                      \
+</span><span class="cp">    }while(0)
+</span></code></pre></td></tr></table>
+</div>
+</div><p>这个语句的特点是宏定义之后紧跟一个<code>do{...}while(0)</code>的结构，看起来颇为繁琐，<strong>那这样的定义有什么好处呢？</strong></p>
+<p>首先，C 中的宏定义，在预编译阶段就会将宏定义的结构替换掉，使用宏定义定义函数。在代码替换中肯定希望像使用定义的函数使用宏定义，比如上面的语句在代码中肯定是下面这样的</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="n">STACK_ADD_MULTI_TASK</span><span class="p">(</span><span class="n">multi_sys_max</span><span class="p">,</span> <span class="n">TASK_NAME</span><span class="p">,</span> <span class="n">task_name</span><span class="p">,</span> <span class="n">task_type</span><span class="p">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>所以注意到<strong>宏定义的while(0)后面没有分号</strong>。</p>
+<p>然后，这个结构和<code>if..else...</code>的控制结构可以完美结合，对照上面的宏定义，一般能想到的宏定义的结果修改如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="cp">#define STACK_ADD_MULTI_TASK(multi_sys_max, TASK_NAME, task_name, task_type)  \
+</span><span class="cp">    {                                                                         \
+</span><span class="cp">       if(multi_sys_max &gt;= 1)                                                 \
+</span><span class="cp">       {                                                                      \
+</span><span class="cp">           STACK_ADD_TASK_1_CARD(TASK_NAME, task_name, task_type);            \
+</span><span class="cp">       }                                                                      \
+</span><span class="cp">    }
+</span></code></pre></td></tr></table>
+</div>
+</div><p>如果正常替换之前的语句，替换之后的结果就是</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="p">{</span>                                                                         \
+   <span class="k">if</span><span class="p">(</span><span class="n">multi_sys_max</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">)</span>                                                 \
+   <span class="p">{</span>                                                                      \
+       <span class="n">STACK_ADD_TASK_1_CARD</span><span class="p">(</span><span class="n">TASK_NAME</span><span class="p">,</span> <span class="n">task_name</span><span class="p">,</span> <span class="n">task_type</span><span class="p">);</span>            \
+   <span class="p">}</span>                                                                      \
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>注意最后的分号，<strong>这一行编译不通过</strong>，但是很明显如果换成<code>do{}while(0)</code>结构就不存在这个问题。</p>
+<p>其次，如果使用宏定义多行语句，那么使用大括号的宏定义嵌套在<code>if...else...</code>的结构中会遇到问题，比如定义</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="cp">#define BAR(X) f(x); g(x)
+</span></code></pre></td></tr></table>
+</div>
+</div><p>如果用在下面的程序中就会出现语法错误</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="k">if</span><span class="p">(</span><span class="nb">true</span><span class="p">)</span>
+    <span class="n">BAR</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="k">else</span>
+   <span class="p">{</span>
+       <span class="c1">//do nothing
+</span><span class="c1"></span>   <span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>但是使用<code>do{...}while(0)</code>结构就不会有这样的问题。</p>
+<h2 id="参考资料">参考资料</h2>
+<ul>
+<li><a href="http://blog.csdn.net/hellokandy/article/details/50592971" target="_blank" rel="noopener noreffer">C/C++ 宏定义中 #、##、#@的区别 - hellokandy 的博客 - CSDN 博客</a></li>
+<li><a href="https://stackoverflow.com/questions/9495962/why-use-do-while-0-in-macro-definition" target="_blank" rel="noopener noreffer">c - Why use do {} while (0) in macro definition? - Stack Overflow</a></li>
+<li><a href="https://stackoverflow.com/questions/243967/do-you-consider-this-technique-bad" target="_blank" rel="noopener noreffer">c++ - Do you consider this technique “BAD”? - Stack Overflow</a></li>
+<li><a href="https://stackoverflow.com/questions/154136/why-use-apparently-meaningless-do-while-and-if-else-statements-in-macros" target="_blank" rel="noopener noreffer">c++ - Why use apparently meaningless do-while and if-else statements in macros? - Stack Overflow</a></li>
+</ul>]]></description>
 </item><item>
     <title>字节序</title>
     <link>https://bugxch.github.io/%E5%AD%97%E8%8A%82%E5%BA%8F/</link>
     <pubDate>Sat, 21 Jul 2018 20:32:35 &#43;0000</pubDate>
     <author>作者</author>
     <guid>https://bugxch.github.io/%E5%AD%97%E8%8A%82%E5%BA%8F/</guid>
-    <description><![CDATA[<p>大端和小端，到底是什么意思？</p>]]></description>
+    <description><![CDATA[<p>大端和小端，到底是什么意思？</p>
+<p></p>
+<p>字节序是数据在内存中存放顺序。字节分高有效位和低有效位，最左边是高位最右边是低位。我们按照地址生长的方向依次往内存写入数据，如果高有效位的数据先写入就是 big endian，如果低有效位先写入就是 little endian。字节序仅仅与数据的存储方式有关，与语言没有关系，没有 java 字节序或者 C 字节序的区分。</p>
+<p>举个例子，存入一个 4 字节的数据 0x0A0B0C0D，最高有效位的字节是 0A，最低有效位的字节是 0D，如果在内存存储中，0A 位于连续内存最小的那个就是 big endian，反之如果最小地址存储 0D 就是 little endian。</p>
+<p></p>
+<p>big endian 存放顺序是最高有效位，次高有效位，一直顺序存储到最低有效位，数据和内存都是按照顺序依次连续存储的。little endian 也是依次存储，但是高低位刚好相反，如下图所示</p>
+<p></p>
+<p>需要注意的是，无论是 4 个字节还是 8 个字节，存储的顺序都是在<strong>连续内存</strong>上<strong>依照</strong>高位到低位或者低位到高位的<strong>顺序</strong>读取和写入，比如我们有 3 个字节 0x123456，如果内存中保存的数据从小内存地址到大内存地址依次位 0x12,0x34, 0x56，那么就是 big endian，反之是 little endian。</p>
+<p>附上 C 语言测试字节序的程序</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">void judge_endian(void)
+{
+    int a = 1; //存储0x00000001到内存
+
+    if(*(&amp;a) == 1){
+	    //&amp;a是a的地址，保存了1个字节的数据，如果为1，说明低有效位先保存，则为小端
+        printf(&#34;Little Endian\n&#34;);
+    } else {
+        printf(&#34;Big Endian\n&#34;);
+    }
+}
+</code></pre></td></tr></table>
+</div>
+</div>]]></description>
 </item><item>
     <title>操作系统简史</title>
     <link>https://bugxch.github.io/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AE%80%E5%8F%B2/</link>
     <pubDate>Sat, 21 Jul 2018 20:31:23 &#43;0000</pubDate>
     <author>作者</author>
     <guid>https://bugxch.github.io/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AE%80%E5%8F%B2/</guid>
-    <description><![CDATA[<p>今后转行机器学习，现在补上操作系统的短板，边学习边总结，我会发布一系列操作系统的博客，此为第一篇。</p>]]></description>
+    <description><![CDATA[<p>今后转行机器学习，现在补上操作系统的短板，边学习边总结，我会发布一系列操作系统的博客，此为第一篇。</p>
+<p></p>
+<p>操作系统的发展，需要依赖电脑硬件的功能，按照发展技术的不同，OS 可以分为如下几个阶段：<strong>串行处理，简单批处理，多道批处理，分时系统</strong>。</p>
+<h3 id="串行处理">串行处理</h3>
+<p>20 世纪四五十年代是串行处理阶段，当时没有操作系统，程序员直接和硬件打交道，而且电脑每次只能处理一个任务，每个人预约顺序轮流使用机器半小时或者半小时的整数倍。如果发生故障，机器就亮灯并停止当前的任务。这是需要花费很长时间准备工作，往内存中<strong>加载编译器</strong>和<strong>源程序</strong>， 保存<strong>目标程序</strong>，<strong>链接目标程序和公用函数</strong>，往往需要准备很长的时间。<strong>为了加快串行处理的效率，发明了公共函数库，编译器，加载器，链接器，I/O 驱动和调试器。</strong></p>
+<h3 id="简单批处理">简单批处理</h3>
+<p>上世纪 50 年代中期，出现了一个简单的<strong>批处理操作系统</strong>（也是第一个操作系统）。核心思想是将所有用户的作业交给计算机操作员，他把这些作业按顺序组织成一批，将整个批处理作业放入输入设备。电脑中的<strong>监控程序</strong>自动加载用户程序，将控制权交给用户，作业完成之后用户程序将控制权返回给操作系统。</p>
+<p><strong>监控程序</strong>负责程序的编译，加载和运行，这个系统引入了<strong>内存保护</strong>和<strong>中断</strong>机制，用户程序无法在运行时访问和修改监控程序的内存区域，监控程序通过中断完成控制权的交接。此外，有些机器指令设计成只有监控程序才能执行，称为<strong>特权指令</strong>，比如访问 I/O 设备。由此引申出<strong>用户态 / 内核态</strong>的概念，用户程序执行用户态有些内存区域不能访问，而且不能执行特权指令，而监控程序执行内核态，可以执行特权指令，而且内存区域可访问。</p>
+<p></p>
+<h3 id="多道程序批处理">多道程序批处理</h3>
+<p>多道批处理系统出现在可以将监控程序和<strong>多个用户程序</strong>同时载入到内存中，并行运算，这样就可以避免由于外设与 CPU 处理速度上的差异引起的 CPU 大量空闲等待的问题。</p>
+<p></p>
+<p>多道处理程序需要更大的内存以并行载入更多的用户程序，因为内存中不止一个用户程序，操作系统还需要为每个程序分配内存空间，以及决定在什么时刻执行什么程序，引入了<strong>内存管理</strong>和<strong>调度</strong>的概念。</p>
+<h3 id="分时系统">分时系统</h3>
+<p>分时系统 (time sharing system) 允许多个用户同时访问相同的计算机资源。理论上如果有 n 个用户同时使用一台电脑，那么可以将 CPU 的时间切割成 n 块，每个用户占用其中的一块，由于 CPU 的处理速度很快，不同任务切换快到用户无法察觉以至于他们每个人都认为自己在独占 CPU 资源，这是分时系统的核心思想。</p>
+<p>分时系统比多道程序批处理更复杂，它需要额外保证 CPU 和内存在不同用户间能顺利切换，下表是二者的区别</p>
+<table>
+<thead>
+<tr>
+<th>操作系统</th>
+<th>多道批处理系统</th>
+<th>分时系统</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>主要目标</td>
+<td>充分使用处理器</td>
+<td>减少响应时间</td>
+</tr>
+<tr>
+<td>操作系统指令源</td>
+<td>作业提供的控制语言命令</td>
+<td>终端键入的命令</td>
+</tr>
+</tbody>
+</table>
+<p>下图是一个分时系统某一个时刻的截取示意图，</p>
+<p></p>
+<p>其中的用户 1～6 分时使用 CPU 资源，1～4 处于空闲态，5 在使用 CPU，6 处于 ready 状态，可以想象在公司中多个同事同事使用同一台服务器的情景。</p>
+<p>下表将以上的所有的操作系统进行了总结</p>
+<table>
+<thead>
+<tr>
+<th>操作系统形态</th>
+<th>年代</th>
+<th>引入概念</th>
+<th>硬件支持</th>
+<th>优点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>串行处理</td>
+<td>20 世纪四五十年代</td>
+<td>编译器，链接器，加载器，调试器</td>
+<td>无</td>
+<td>无</td>
+</tr>
+<tr>
+<td>简单批处理</td>
+<td>20 世纪 50 年代</td>
+<td>内存保护，中断，用户态 / 内核态</td>
+<td>内存和 CPU 性能提升</td>
+<td>提高自动化，处理器的运行速率提高</td>
+</tr>
+<tr>
+<td>多道处理</td>
+<td>20 世纪 70 年代</td>
+<td>内存管理，调度</td>
+<td>大内存</td>
+<td>并行处理多个程序，提高 CPU 运行效率</td>
+</tr>
+<tr>
+<td>分时系统</td>
+<td>现代</td>
+<td>分时，用户等级，访问权限</td>
+<td>性能进一步提升</td>
+<td>多个用户可以同时使用同一台主机</td>
+</tr>
+</tbody>
+</table>
+<h3 id="参考资料">参考资料</h3>
+<ul>
+<li><a href="http://ecomputernotes.com/fundamental/disk-operating-system/time-sharing-operating-system" target="_blank" rel="noopener noreffer">Time Sharing Operating System</a></li>
+</ul>]]></description>
 </item><item>
     <title>为什么会有补码</title>
     <link>https://bugxch.github.io/%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%A1%A5%E7%A0%81/</link>
     <pubDate>Sat, 21 Jul 2018 20:30:02 &#43;0000</pubDate>
     <author>作者</author>
     <guid>https://bugxch.github.io/%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%A1%A5%E7%A0%81/</guid>
-    <description><![CDATA[<p>补码是如何产生的？</p>]]></description>
+    <description><![CDATA[<p>补码是如何产生的？</p>
+<p></p>
+<p>今天读<a href="https://book.douban.com/subject/4188358/" target="_blank" rel="noopener noreffer">《数值分析》</a>第 0 章的实数的浮点表示，对计算机存储数据的机制产生兴趣，所以自己写了个小程序结合现有资料探索总结下。</p>
+<p>我们现在遇到一个计算机的基本问题，</p>
+<blockquote>
+<p>给定一个数（整数或者实数）$X$，如何以 $w$个比特位的形式$[x_{w-1},x_{w-2},…,x_0]$将它存储在计算机的内存里？</p>
+</blockquote>
+<h2 id="程序结果">程序结果</h2>
+<p>我自己写的 C 程序如下，分别打印出整数<code>120055,-411</code>，浮点数<code>102.3235， -3.256</code>和双精度浮点数<code>120.254， -56.2441</code>在计算机内存中的二进制比特，这几个数字是我随手写的，但是均没有超出计算机的表示范围。程序如下所示</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span><span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span><span class="cp">#include</span><span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="k">typedef</span> <span class="k">enum</span>
+<span class="p">{</span>
+    <span class="n">INT</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="c1">//int和float有4个字节
+</span><span class="c1"></span>    <span class="n">FLOAT</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="n">DOUBLE</span> <span class="o">=</span> <span class="mi">8</span> <span class="c1">//double有8个字节
+</span><span class="c1"></span><span class="p">}</span> <span class="n">TYPE_E</span><span class="p">;</span>
+
+<span class="kt">void</span> <span class="nf">showBytes</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="n">ch</span><span class="p">,</span> <span class="n">TYPE_E</span> <span class="n">len</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+
+    <span class="k">for</span><span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">len</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&#34; %.2x&#34;</span><span class="p">,</span> <span class="n">ch</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+    <span class="p">}</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">120055</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="o">-</span><span class="mi">411</span><span class="p">;</span>
+    <span class="kt">float</span> <span class="n">a_f</span> <span class="o">=</span> <span class="mf">102.3235</span><span class="p">,</span> <span class="n">b_f</span> <span class="o">=</span> <span class="o">-</span><span class="mf">3.256</span><span class="p">;</span>
+    <span class="kt">double</span> <span class="n">a_d</span> <span class="o">=</span> <span class="mf">120.254</span><span class="p">,</span> <span class="n">b_d</span> <span class="o">=</span> <span class="o">-</span><span class="mf">56.2441</span><span class="p">;</span>
+
+    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;binary of a %d, 0x&#34;</span><span class="p">,</span> <span class="n">a</span><span class="p">);</span>
+    <span class="n">showBytes</span><span class="p">((</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">a</span><span class="p">,</span> <span class="n">INT</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;binary of b %d, 0x&#34;</span><span class="p">,</span> <span class="n">b</span><span class="p">);</span>
+    <span class="n">showBytes</span><span class="p">((</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">b</span><span class="p">,</span> <span class="n">INT</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;binary of a_f %f, 0x&#34;</span><span class="p">,</span> <span class="n">a_f</span><span class="p">);</span>
+    <span class="n">showBytes</span><span class="p">((</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">a_f</span><span class="p">,</span> <span class="n">FLOAT</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;binary of b_f %f, 0x&#34;</span><span class="p">,</span> <span class="n">b_f</span><span class="p">);</span>
+    <span class="n">showBytes</span><span class="p">((</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">b_f</span><span class="p">,</span> <span class="n">FLOAT</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;binary of a_d %f, 0x&#34;</span><span class="p">,</span> <span class="n">a_d</span><span class="p">);</span>
+    <span class="n">showBytes</span><span class="p">((</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">a_d</span><span class="p">,</span> <span class="n">DOUBLE</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;binary of b_d %f, 0x&#34;</span><span class="p">,</span> <span class="n">b_d</span><span class="p">);</span>
+    <span class="n">showBytes</span><span class="p">((</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">b_d</span><span class="p">,</span> <span class="n">DOUBLE</span><span class="p">);</span>
+
+    <span class="n">getchar</span><span class="p">();</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>程序运行完成之后的结果如下所示</p>
+<p></p>
+<p>因为是小端存储，因此整理之后的结果如下所示</p>
+<table>
+<thead>
+<tr>
+<th>数值</th>
+<th>内存表示（十六进制）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>120055</td>
+<td>0001D4F7</td>
+</tr>
+<tr>
+<td>-411</td>
+<td>FFFFFE65</td>
+</tr>
+<tr>
+<td>102.3235</td>
+<td>42CCA5A2</td>
+</tr>
+<tr>
+<td>-3.256</td>
+<td>C050624E</td>
+</tr>
+<tr>
+<td>120.254</td>
+<td>405E104189374BC7</td>
+</tr>
+<tr>
+<td>-56.2441</td>
+<td>C04C1F3EAB367A10</td>
+</tr>
+</tbody>
+</table>
+<p>从上面的结果可以看出不同数值的长度不同，因为计算机给每个不同的类型分配的内存大小不同，这个可以通过 C 中的<code>sizeof</code>函数看出来。下面我们需要搞清楚的是，**为什么这些数都是以这样的形式和内容存储在计算机中的？**这一篇文章，我们先谈比较简单的整数的表示，下一篇文章会解释浮点数的表示方法。</p>
+<h2 id="编码机制">编码机制</h2>
+<h3 id="二进制表示">二进制表示</h3>
+<p>我们知道，计算机中以二进制的形式存储数字，所有的十进制的数字都需要转换成二进制存储起来。至于十进制和二进制如何转换，课本和网上已经有非常详尽的解释（可参考文末的文章），而且有非常完善的<a href="http://tool.oschina.net/hexconvert/" target="_blank" rel="noopener noreffer">在线进制转换工具</a>可以轻松实现多个进制之间的相互转换，这里不再赘述。为了便于对比，除非特殊情况，本文的内容均使用十六进制数。</p>
+<h3 id="整数编码">整数编码</h3>
+<p>我们先从简单的正整数入手，<code>120055 = 0x1D4F7</code>，考虑到计算机<code>int</code>类型使用 4 个字节，补齐前面的<code>0</code>，于是为<code>0x0001D4F7</code>，这个与我们程序验证结果一致。因此，可以断定<strong>正整数在计算机中存储的形式就是它转换成二进制的形式</strong>。</p>
+<h4 id="引入负数">引入负数</h4>
+<p>那么负整数是如何保存的呢？来看第二个数字<code>-411</code>，因为<code>411 = 0x19b</code>，所以我们直观的表示就是<code>-0x19b</code>，但是计算机不能表示负号，那么该如何处理这个问题呢？一个直接简单的想法是使用 1 个比特表示符号正负，自然的想法是取最高位，<strong>0 表示正数，1 表示负数</strong>，所以可以表示成<code>0x8000019b</code>。这样表示比较直观，但是有一个小问题。为了便于说明，我将问题的规模缩小，比如考虑 3 个比特的二进制和十进制数之间的转换。如果使用我们之前的换算方法，那么二进制编码的情况如下</p>
+<table>
+<thead>
+<tr>
+<th>二进制</th>
+<th>十进制</th>
+<th>二进制</th>
+<th>十进制</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>000</strong></td>
+<td>0</td>
+<td><strong>100</strong></td>
+<td>0</td>
+</tr>
+<tr>
+<td>001</td>
+<td>1</td>
+<td>101</td>
+<td>-1</td>
+</tr>
+<tr>
+<td>010</td>
+<td>2</td>
+<td>110</td>
+<td>-2</td>
+</tr>
+<tr>
+<td>011</td>
+<td>3</td>
+<td>111</td>
+<td>-3</td>
+</tr>
+</tbody>
+</table>
+<p>很明显，十进制<code>0</code>有两种不同的编码方式，3 个比特本来可以表示不同的 8 个数，却只能表示 7 个不同的数，这是对信息比特的浪费。最佳的表示方式应该满足，<strong>在一个一致的运算关系之下，不同的二进制编码表示不同的十进制数</strong>，于是引入了<strong>补码</strong>的概念。</p>
+<h4 id="补码">补码</h4>
+<p>首先，补码如何计算？</p>
+<blockquote>
+<p>给定 $w$ 个比特，如何求一个十进制数 $X$ 的二进制补码 $[x_{w-1},x_{w-2},…,x_0]$？</p>
+</blockquote>
+<p>以 8 比特为例，如果求正整数 8 的相反数，我们用<code>0-8 = -8</code>，补码的取法类似，使用如下的计算</p>
+<p>００００００００
+－００００１０００
+－－－－－－－－－
+　１１１１１０００</p>
+<p>但是不够减，小学算术告诉我们可以向前借位，于是有</p>
+<p>１００００００００
+－００００１０００
+－－－－－－－－－
+　１１１１１０００</p>
+<p>问题解决，总结下这个变换过程：最高有效位表示正负号，正数 XX 的补码是其自身的二进制表示 XX，负数 XX 的补码是 2w−|X|2w−|X|。</p>
+<p>举个例子，比如使用 4 个 bit 表示 6 和 - 7 的补码，分别是 $(1100)<em>2$和和$(2^4 - |7|)</em>{10} = (9)_{10} = (1001)_2$。这里需要特别说明下，经常听到求一个负数。这里需要特别说明下，经常听到求一个负数X的二进制补码，就是先求的二进制补码，就是先求$|X|$ 的二进制表示，<strong>除了符号位之外的所有位取反加 1</strong>，这和上面的方法<strong>等效</strong>，因为$2^w - |X| = (1000…0)_2 - |X| = (111…1 + 000…1)_2 - |X| = (111…1)_2 - |X| + 1$，一目了然。使用该方法编码 3 个比特的编码，如下所示</p>
+<table>
+<thead>
+<tr>
+<th>二进制</th>
+<th>十进制</th>
+<th>二进制</th>
+<th>十进制</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>000</td>
+<td>0</td>
+<td>100</td>
+<td>-4</td>
+</tr>
+<tr>
+<td>001</td>
+<td>1</td>
+<td>101</td>
+<td>-3</td>
+</tr>
+<tr>
+<td>010</td>
+<td>2</td>
+<td>110</td>
+<td>-2</td>
+</tr>
+<tr>
+<td>011</td>
+<td>3</td>
+<td>111</td>
+<td>-1</td>
+</tr>
+</tbody>
+</table>
+<p>很明显，<strong>使用补码，所有的十进制数都有与之对应唯一的二进制编码表示</strong>。使用这个方法可以计算出来 $(-411)<em>{10} = (FFFFE65)</em>{16}$<strong>，与之前程序的结果完全一致！！<strong>于是猜想</strong>计算机使用补码存储对应的整数！</strong></p>
+<blockquote>
+<p>已知一个 $w$ 比特的二进制补码$[x_{w-1},x_{w-2},…,x_0]$，如何求它对应的十进制数 $X$？</p>
+</blockquote>
+<p>如果知道这个数的补码形式，根据<a href="https://book.douban.com/subject/26912767/" target="_blank" rel="noopener noreffer">《深入理解计算机系统》</a>中给出二进制数补码表示$[x_{w-1},x_{w-2},…,x_0]$ 与十进制数之间的转换关系</p>
+<p>$$
+X = -x_{w-1}2^{w-1} + \sum_{i = 0}^{w-2}{x_i2_i}
+$$</p>
+<blockquote>
+<p>使用补码有什么好处？</p>
+</blockquote>
+<p>第一，<code>0</code>的表示唯一。
+第二，<strong>所有整数的加法统一在一个法则之下，使用一套逻辑电路</strong>。现在有一个问题，异号两个数相加怎么计算，比如</p>
+<blockquote>
+<p><code>1 + (-3) = ?</code></p>
+</blockquote>
+<p>根据数字的表示不同，这个问题有如下几种解法。</p>
+<ul>
+<li>
+<p>十进制解法，也就是我们人类自己的解法，首先我们会判断 3 和 - 2 那个绝对值大，之后符号取绝对值大的那个，最后绝对值大的减去绝对值小的作为新的数字的绝对值。听起来比较拗口，这里分了好几个步骤：1) 比较绝对值大小，决定符号；2) 绝对值相减确定结果的绝对值。</p>
+</li>
+<li>
+<p>使用之前的编码方案（为了简单，我们仍然使用 3 比特数举例，如果我们使用之前的表示方法），直接二进制相减，即 $(1 + (-3))_{10} = (001 + 111)_2 = (000)<em>2 = (0)</em>{10}$，这是明显错误的结果。如果想要正确，我们需要借鉴十进制的解法，先判断绝对值，再确定符号，两个数字相加需要将符号单独拎出来处理，加法是计算机的最基础的运算操作，这样的处理逻辑<strong>增加了电路的设计复杂度</strong>，极大地影响计算机的性能。</p>
+</li>
+<li>
+<p>使用补码。$(1 + (-3))_{10} = (001 + 101)_2 = (110)<em>2 = (-2)</em>{10}$，可以自行验证其他的所有的异号的和，都能得到正确的答案。可以看出，符号位直接当作数据的一部分参与运算，计算机并没有单独对其做处理，从计算机的角度来看<strong>简单粗暴有效</strong>，之所以会有这么神奇的结果，是因为
+$$
+<i class="far fa-check-square fa-fw"></i> _补 + [Y]_补 = [X+Y]_补
+$$
+这个定理可以按照两数同号，两数异号两种情况进行证明。正因为有这样的数学关系，所以<strong>计算机将补码作为整数存储的形式</strong>。</p>
+</li>
+</ul>
+<h2 id="参考资料">参考资料</h2>
+<ul>
+<li><a href="https://book.douban.com/subject/4188358/" target="_blank" rel="noopener noreffer">《数值分析》</a>，0.2 和 0.3 节</li>
+<li><a href="https://book.douban.com/subject/26912767/" target="_blank" rel="noopener noreffer">《深入理解计算机系统》</a>，第二章</li>
+<li><a href="http://www.cnblogs.com/gaizai/p/4233780.html" target="_blank" rel="noopener noreffer">二、八、十、十六进制转换（图解篇） - 听风吹雨 - 博客园</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2009/08/twos_complement.html" target="_blank" rel="noopener noreffer">关于 2 的补码</a></li>
+<li><a href="https://www.cs.cornell.edu/~tomf/notes/cps104/twoscomp.html" target="_blank" rel="noopener noreffer">Two’s Complement</a></li>
+</ul>]]></description>
 </item><item>
     <title>浮点数在计算机中的表示</title>
     <link>https://bugxch.github.io/%E6%B5%AE%E7%82%B9%E6%95%B0%E5%9C%A8%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%AD%E7%9A%84%E8%A1%A8%E7%A4%BA/</link>
     <pubDate>Sat, 21 Jul 2018 08:19:45 &#43;0000</pubDate>
     <author>作者</author>
     <guid>https://bugxch.github.io/%E6%B5%AE%E7%82%B9%E6%95%B0%E5%9C%A8%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%AD%E7%9A%84%E8%A1%A8%E7%A4%BA/</guid>
-    <description><![CDATA[<p>接上一篇博客<a href="https://bugxch.github.io/2017/12/13/%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%A1%A5%E7%A0%81%EF%BC%9F/" target="_blank" rel="noopener noreffer">《为什么会有补码？》</a>，我仅仅分析了整数在计算机中表示方式，但是计算机中的浮点数又是如何表示的呢？</p>]]></description>
+    <description><![CDATA[<p>接上一篇博客<a href="https://bugxch.github.io/2017/12/13/%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%A1%A5%E7%A0%81%EF%BC%9F/" target="_blank" rel="noopener noreffer">《为什么会有补码？》</a>，我仅仅分析了整数在计算机中表示方式，但是计算机中的浮点数又是如何表示的呢？</p>
+<p></p>
+<h2 id="引子">引子</h2>
+<p>首先，使用之前博客的程序，可以看到如下的这些实数在计算机中的计算结果是</p>
+<table>
+<thead>
+<tr>
+<th>实际数值</th>
+<th>数值类型</th>
+<th>计算机中的表示</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>102.3235</td>
+<td>float</td>
+<td>42CCA5A2</td>
+</tr>
+<tr>
+<td>-3.256</td>
+<td>float</td>
+<td>C050624E</td>
+</tr>
+<tr>
+<td>120.254</td>
+<td>double</td>
+<td>405E104189374BC7</td>
+</tr>
+<tr>
+<td>-56.2441</td>
+<td>double</td>
+<td>C04C1F3EAB367A10</td>
+</tr>
+</tbody>
+</table>
+<p>右边的计算机中的数值表示是按照<a href="https://ieeexplore.ieee.org/document/4610935/" target="_blank" rel="noopener noreffer">《IEEE 754-2008》</a>的标准存储数据的，具体的规定如下所示。</p>
+<h2 id="ieee-754-标准">IEEE 754 标准</h2>
+<h3 id="表示形式">表示形式</h3>
+<p>IEEE 754 规定了二进制浮点数在计算中的存储方式，我们以 C 语言中的 float 为例来具体说明。无论是 32 位系统还是 64 位系统，计算机中的 float 占用 4 个字节，我们就使用这些字节来存储任意的浮点数，可以参考下图</p>
+<p></p>
+<p>转化成对应的数学表示形式，浮点数 VV
+$$
+V = (-1)^s\times M\times 2^E
+$$</p>
+<ul>
+<li>ss 表示符号位，占据 1 个 bit 位，如果是负数则 s=1s=1，如果是非负数则 s=0s=0；</li>
+<li>MM 表示 mantissa，占据 23 个比特，表示有效数字，表示的数字介于 1 和 2 之间；</li>
+<li>EE 为非负整数，表示基于 2 为基数的指数大小，占据 8 个比特。</li>
+</ul>
+<p>因此，如果确认了上面 3 个参数，也就唯一确定了浮点数在计算机中的存储形式。我们以<code>102.3235</code>为例，来看看上面的这几个数字是如何表示出来的？</p>
+<ol>
+<li><code>102.3235</code>的二进制原码形式是<code>1100110.01010010110100001110 = 1.10011001010010110100001110*2^6</code>；</li>
+<li>确认 ss。因为是正数，因此 s=0s=0。</li>
+<li>确认 MM。MM 表示<code>1.xxxxxx</code>之后的<code>xxxxxx</code>的部分，即<strong>计算机内部保存 MM 时，默认表示的第一位总是 1，可以舍弃表示 1 的这一位，而仅仅存储小数点之后的部分</strong>。因此 M=10011001010010110100001110M=10011001010010110100001110，因为只能存储 23 个比特，将多余的位数部分截断得到 M=10011001010010110100001M=10011001010010110100001。</li>
+<li>确认 EE。它是个肺腑正数，按照第 1 步计算出来的结果，我们的指数应该是 6。但是，IEEE 规定根据二进制计算浮点数时，需要给指数减去一个偏置值，对于 float 类型这个数为 127，对于 double 类型，这个数是 1023。因此反过来，在将数字转换成二进制存储的时候，要加上这个偏置值，因此 E=6+127=133E=6+127=133。</li>
+<li>综合以上的所有计算结果，最后在计算机中存储的形式是<code>01000010110011001010010110100001</code>，转换成 16 进制就是<code>42CCA5A2</code>。</li>
+</ol>
+<h3 id="特别规定">特别规定</h3>
+<p>依照上面的方法，可以依次确认其他 3 个浮点数的表示形式。这都是比较常规的<strong>规格化</strong>数据的处理方法，IEEE 针对一些特殊的数字（绝对值特别接近 0 的数字或者无穷大无穷小），引入了一些特殊的规定，称为<strong>非规格化</strong>表示方法，总结如下。</p>
+<p></p>
+<ul>
+<li>规格化数据。如果指数部分既不是 0 也不是 255（<strong>EE 不全为 0 或者不全为 1</strong>），就是规格化存储方式，具体的计算方法与之前介绍的相同。</li>
+<li>非规格化数据。<strong>EE 全为 0</strong> 就是非规格化的数据，此时的指数固定为 1-127 或者 1-1023，有效数字 MM 的计算不再舍弃第一位的 1，而是 0.xxxxxxxx 的小数部分，这样就可以表示 0 和非常接近 0 的小数字。需要注意的是，0 有两种表示。</li>
+<li>特殊数字。<strong>EE 全为 1</strong> 表示特殊的数字
+<ul>
+<li>如果 MM 全为 0，表示无穷大，正负取决于符号 ss；</li>
+<li>如果 MM 不全为 0，表示这是一个非数 NaN(Not a Number)。</li>
+</ul>
+</li>
+</ul>
+<h2 id="精度误差及表示范围">精度误差及表示范围</h2>
+<p>如果明白之前的内容，那就可以计算出来每种表示方法的取值范围以及表示的数据误差。在计算之前，有如下的一些假设：</p>
+<ol>
+<li>正数和负数的表示方法是对称的，因此我们仅仅关注正数即可；</li>
+<li>不考虑特殊值的计算，因为其仅仅是计算了不同几个数值，没有计算的价值。</li>
+</ol>
+<p>如果需要计算最大的规格化数字，那么其在内存中的表示应该是 s=1,M=1.11…1，E=111…10s=1,M=1.11…1，E=111…10，最后的结果就是 1.1111…1×2127=3.4×10381.1111…1×2127=3.4×1038，其他的基本可以推测出来了，如下表所示</p>
+<p></p>
+<h2 id="参考资料">参考资料</h2>
+<ul>
+<li><a href="http://www.ruanyifeng.com/blog/2010/06/ieee_floating-point_representation.html" target="_blank" rel="noopener noreffer">浮点数的二进制表示 - 阮一峰的网络日志</a></li>
+<li><a href="https://www.wikiwand.com/en/IEEE_754" target="_blank" rel="noopener noreffer">IEEE 754 - Wikiwand</a></li>
+<li><a href="https://www.h-schmidt.net/FloatConverter/IEEE754.html" target="_blank" rel="noopener noreffer">IEEE-754 Floating Point Converter</a></li>
+<li><a href="http://www.cnblogs.com/zuoxiaolong/p/computer11.html" target="_blank" rel="noopener noreffer">深入理解计算机系统（2.7）</a></li>
+</ul>]]></description>
 </item></channel>
 </rss>

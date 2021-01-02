@@ -10,6 +10,88 @@
     <pubDate>Fri, 06 Dec 2019 21:53:20 &#43;0000</pubDate>
     <author>作者</author>
     <guid>https://bugxch.github.io/tensorboad%E6%9F%A5%E7%9C%8Bpytorch%E6%A8%A1%E5%9E%8B/</guid>
-    <description><![CDATA[<p>与tensorflow模型与caffe模型不同，当前的pytorch没有官方的直观查看网络结构的工具，google了下pytorch的网络解析的方法，发现可以将pytorch的model转换成为events文件使用tensorboard查看，记录之。</p>]]></description>
+    <description><![CDATA[<p>与tensorflow模型与caffe模型不同，当前的pytorch没有官方的直观查看网络结构的工具，google了下pytorch的网络解析的方法，发现可以将pytorch的model转换成为events文件使用tensorboard查看，记录之。</p>
+<p></p>
+<h2 id="安装插件">安装插件</h2>
+<ul>
+<li>
+<p>TensorboardX，TensorboardX支持scalar, image, figure, histogram, audio, text, graph, onnx_graph, embedding, pr_curve and videosummaries等不同的可视化展示方式，具体介绍移步至项目Github 观看详情。使用下面的命令安装</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">pip</span> <span class="n">install</span> <span class="n">tensorboardX</span>
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>安装tensorboard，参考命令</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">pip</span> <span class="n">install</span> <span class="n">tensorboard</span>
+</code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+<h2 id="具体过程">具体过程</h2>
+<p>参考代码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1">#-*-coding:utf-8-*-</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torchvision</span>
+<span class="kn">from</span> <span class="nn">torch.autograd</span> <span class="kn">import</span> <span class="n">Variable</span>
+<span class="kn">from</span> <span class="nn">tensorboardX</span> <span class="kn">import</span> <span class="n">SummaryWriter</span>
+
+<span class="c1"># 模拟输入数据</span>
+<span class="n">input_data</span> <span class="o">=</span> <span class="n">Variable</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span>
+
+<span class="c1"># 从torchvision中导入已有模型</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">torchvision</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">resnet18</span><span class="p">()</span>
+
+<span class="c1"># 声明writer对象，保存的文件夹</span>
+<span class="n">writer</span> <span class="o">=</span> <span class="n">SummaryWriter</span><span class="p">(</span><span class="n">log_dir</span><span class="o">=</span><span class="s1">&#39;./log&#39;</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s1">&#39;resnet18&#39;</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">writer</span><span class="p">:</span>
+    <span class="n">writer</span><span class="o">.</span><span class="n">add_graph</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="p">(</span><span class="n">input_data</span><span class="p">,))</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>该代码中14行声明一个writer对象，分别表示events存放的目录，comment表示事件的title，然后使用如下的方式打开tensorboard</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">tensorboard --logpath<span class="o">=</span>D:<span class="se">\l</span>og --port<span class="o">=</span><span class="m">6006</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>然后按照命令行提示打开即可。</p>
+<h2 id="参考链接">参考链接</h2>
+<ul>
+<li><a href="https://www.pytorchtutorial.com/pytorch-tensorboardx/" target="_blank" rel="noopener noreffer">PyTorch 使用 TensorboardX 进行网络可视化-PyTorch 中文网</a></li>
+<li><a href="https://www.jianshu.com/p/46eb3004beca" target="_blank" rel="noopener noreffer">Pytorch使用tensorboardX可视化。超详细！！！ - 简书</a></li>
+<li><a href="https://pytorch.org/docs/stable/tensorboard.html" target="_blank" rel="noopener noreffer">torch.utils.tensorboard — PyTorch master documentation</a></li>
+</ul>]]></description>
 </item></channel>
 </rss>
