@@ -4,9 +4,19 @@
         <link>https://bugxch.github.io/</link>
         <description>博观而约取，厚积而薄发</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>bugxch@126.com (bugxch)</managingEditor>
-            <webMaster>bugxch@126.com (bugxch)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 16 Aug 2020 22:31:31 &#43;0800</lastBuildDate>
+            <webMaster>bugxch@126.com (bugxch)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 02 Jan 2021 22:26:25 &#43;0800</lastBuildDate>
             <atom:link href="https://bugxch.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>请回答2020</title>
+    <link>https://bugxch.github.io/%E8%AF%B7%E5%9B%9E%E7%AD%942020/</link>
+    <pubDate>Sat, 02 Jan 2021 22:26:25 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://bugxch.github.io/%E8%AF%B7%E5%9B%9E%E7%AD%942020/</guid>
+    <description><![CDATA[<blockquote>
+<p>每个人的一生由记忆组成，但是记忆会随着时间模糊甚至消逝，幸好我们有相机，回望这一年，在人生的长河里给它打个flag。</p>
+</blockquote>
+<p>看到<a href="https://www.cnfeat.com/2021/01/01/question2020/" target="_blank" rel="noopener noreffer">Question2020 - 笨方法学写作</a>的这篇文章，有感而发，我也写一篇2020的年终总结。文章里面写下的答案都是凭第一感觉，每个人的记忆都会有偏差，但是在2021年初的这个当下它们是我此时脑中真实的反应。</p>]]></description>
+</item><item>
     <title>LeetCode区间问题总结</title>
     <link>https://bugxch.github.io/intersection/</link>
     <pubDate>Sun, 16 Aug 2020 22:31:31 &#43;0800</pubDate>
@@ -75,12 +85,5 @@
     <author>作者</author>
     <guid>https://bugxch.github.io/%E8%BD%AC%E8%BD%BD-%E5%8F%8C%E7%BA%BF%E6%80%A7%E6%8F%92%E5%80%BC%E7%AE%80%E4%BB%8B/</guid>
     <description><![CDATA[<p>该文档转载自<a href="https://blog.csdn.net/xiaqunfeng123/article/details/17362881" target="_blank" rel="noopener noreffer">图像缩放——双线性插值算法</a>，我搜罗一堆中文文章里面讲得比较清楚的一篇了。</p>]]></description>
-</item><item>
-    <title>Tensorboad查看pytorch模型</title>
-    <link>https://bugxch.github.io/tensorboad%E6%9F%A5%E7%9C%8Bpytorch%E6%A8%A1%E5%9E%8B/</link>
-    <pubDate>Fri, 06 Dec 2019 21:53:20 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>https://bugxch.github.io/tensorboad%E6%9F%A5%E7%9C%8Bpytorch%E6%A8%A1%E5%9E%8B/</guid>
-    <description><![CDATA[<p>与tensorflow模型与caffe模型不同，当前的pytorch没有官方的直观查看网络结构的工具，google了下pytorch的网络解析的方法，发现可以将pytorch的model转换成为events文件使用tensorboard查看，记录之。</p>]]></description>
 </item></channel>
 </rss>

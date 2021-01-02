@@ -2,13 +2,17 @@
     xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
     ><url>
+            <loc>https://bugxch.github.io/categories/</loc><lastmod>2021-01-02T22:26:25&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://bugxch.github.io/</loc><lastmod>2021-01-02T22:26:25&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://bugxch.github.io/posts/</loc><lastmod>2021-01-02T22:26:25&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://bugxch.github.io/tags/</loc><lastmod>2021-01-02T22:26:25&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://bugxch.github.io/tags/%E5%9B%9E%E5%BF%86/</loc><lastmod>2021-01-02T22:26:25&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://bugxch.github.io/tags/%E6%80%BB%E7%BB%93/</loc><lastmod>2021-01-02T22:26:25&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://bugxch.github.io/categories/%E7%94%9F%E6%B4%BB/</loc><lastmod>2021-01-02T22:26:25&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://bugxch.github.io/%E8%AF%B7%E5%9B%9E%E7%AD%942020/</loc><lastmod>2021-01-02T22:26:25&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>https://bugxch.github.io/tags/c&#43;&#43;/</loc><lastmod>2020-08-16T22:31:31&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://bugxch.github.io/categories/</loc><lastmod>2020-08-16T22:31:31&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://bugxch.github.io/</loc><lastmod>2020-08-16T22:31:31&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://bugxch.github.io/tags/leetcode/</loc><lastmod>2020-08-16T22:31:31&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://bugxch.github.io/intersection/</loc><lastmod>2020-08-16T22:31:31&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://bugxch.github.io/posts/</loc><lastmod>2020-08-16T22:31:31&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://bugxch.github.io/tags/</loc><lastmod>2020-08-16T22:31:31&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://bugxch.github.io/tags/%E5%8C%BA%E9%97%B4/</loc><lastmod>2020-08-16T22:31:31&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://bugxch.github.io/categories/%E6%8A%80%E8%89%BA/</loc><lastmod>2020-08-16T22:31:31&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://bugxch.github.io/tags/stl/</loc><lastmod>2020-08-15T21:25:46&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
@@ -62,7 +66,6 @@
             <loc>https://bugxch.github.io/%E4%BC%AF%E6%81%A9%E6%96%AF%E6%96%B0%E6%83%85%E7%BB%AA%E7%96%97%E6%B3%95/</loc><lastmod>2018-07-21T21:09:13&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://bugxch.github.io/tags/%E7%A4%BE%E7%A7%91/</loc><lastmod>2018-07-21T21:09:13&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://bugxch.github.io/2016%E6%88%91%E7%9A%84%E6%94%B9%E5%8F%98/</loc><lastmod>2018-07-21T21:01:51&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://bugxch.github.io/categories/%E7%94%9F%E6%B4%BB/</loc><lastmod>2018-07-21T21:01:51&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://bugxch.github.io/%E4%B8%93%E6%B3%A8%E5%8A%9B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</loc><lastmod>2018-07-21T20:58:38&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://bugxch.github.io/%E8%B0%A8%E6%85%8E%E6%B1%82%E8%AF%81%E5%B0%8F%E5%BF%83%E6%80%9D%E8%80%83/</loc><lastmod>2018-07-21T20:57:20&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://bugxch.github.io/%E8%BD%AC-%E4%BB%80%E4%B9%88%E6%89%8D%E6%98%AF%E5%AF%8C%E4%BA%BA%E6%80%9D%E7%BB%B4/</loc><lastmod>2018-07-21T20:56:11&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
