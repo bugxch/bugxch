@@ -43,15 +43,25 @@
 {{< figure src="https://pic.downk.cc/item/5ff089713ffa7d37b394f612.jpg" title="9月份，书房刚收拾好时的样子" >}}
 
 {{< admonition question >}}
-你有哪些新发现？比如公众号，综艺节目或者一本书？
+你有哪些有意思的发现？比如公众号，综艺节目或者一本书？
 {{< /admonition >}}
 【未完待续】
 
 {{< admonition question >}}
-你对来年有什么期待？
+你买到了什么好东西，可以推荐给大家吗？
 {{< /admonition >}}
-
 【未完待续】
+
+{{< admonition question >}}
+你的养成了什么好习惯或者坏习惯？
+{{< /admonition >}}
+【未完待续】
+
+{{< admonition question >}}
+你最大的变化是什么？来年你期待有什么变化？
+{{< /admonition >}}
+【未完待续】
+
 
 ### 年度照片
 
