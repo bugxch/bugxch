@@ -110,7 +110,7 @@
 {{< figure src="https://pic.downk.cc/item/5ff0897c3ffa7d37b394fc5a.jpg" title="9月份，和易老师到杨浦宜家购置新家具" >}}
 
 
-{{< figure src="https://pic.downk.cc/item/5ff089873ffa7d37b3950166.jpg" title="10月份，爸爸第一次来上海，父子三代合影" >}}
+{{< figure src="https://pic.downk.cc/item/5ff089873ffa7d37b3950166.jpg" title="10月份，爸爸第一次来上海，祖孙三代合影" >}}
 
 {{< figure src="https://pic.downk.cc/item/5ff089b83ffa7d37b39516cc.jpg" title="12月份，初冬的博兴路" >}}
 
