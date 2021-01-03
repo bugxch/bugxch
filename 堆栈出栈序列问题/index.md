@@ -67,4 +67,3 @@
            return (len(n_list),n_list)
    ```
 
-
