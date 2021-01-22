@@ -1,0 +1,320 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>C/C&#43;&#43; - 标签 - Dive Into Think</title>
+        <link>https://bugxch.github.io/tags/c/c&#43;&#43;/</link>
+        <description>C/C&#43;&#43; - 标签 - Dive Into Think</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>bugxch@126.com (bugxch)</managingEditor>
+            <webMaster>bugxch@126.com (bugxch)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><atom:link href="https://bugxch.github.io/tags/c/c&#43;&#43;/" rel="self" type="application/rss+xml" /><item>
+    <title>[转载]表驱动法代码实践</title>
+    <link>https://bugxch.github.io/c_driven_table/</link>
+    <pubDate>Fri, 22 Jan 2021 08:07:14 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://bugxch.github.io/c_driven_table/</guid>
+    <description><![CDATA[<div class="featured-image">
+                <img src="https://pic.imgdb.cn/item/600a17e53ffa7d37b3da9d49.jpg" referrerpolicy="no-referrer">
+            </div><p>这是一篇转载，点击查看<a href="https://www.cnblogs.com/clover-toeic/p/3730362.html" target="_blank" rel="noopener noreffer">原文链接</a>。</p>
+<blockquote>
+<p><em>数据压倒一切。如果选择了正确的数据结构并把一切组织的井井有条，正确的算法就不言自明。编程的核心是数据结构，而不是算法. &ndash; Rob Pike</em></p>
+</blockquote>
+<h1 id="说明">说明</h1>
+<p>本文基于这样的认识：数据是易变的，逻辑是稳定的。
+本文例举的编程实现多为代码片段，但不影响描述的完整性。
+本文例举的编程虽然基于C语言，但其编程思想也适用于其他语言。
+此外，本文不涉及语言相关的运行效率讨论。</p>
+<h1 id="概念提出">概念提出</h1>
+<p>所谓表驱动法(Table-Driven Approach)简而言之就是用查表的方法获取数据。此处的“表”通常为数组，但可视为数据库的一种体现。</p>
+<p>根据字典中的部首检字表查找读音未知的汉字就是典型的表驱动法，即以每个字的字形为依据，计算出一个索引值，并映射到对应的页数。相比一页一页地顺序翻字典查字，部首检字法效率极高。</p>
+<p>具体到编程方面，在数据不多时可用逻辑判断语句(if…else或switch…case)来获取值；但随着数据的增多，逻辑语句会越来越长，此时表驱动法的优势就开始显现。</p>
+<p>例如，用36进制(A表示10，B表示11，…)表示更大的数字，逻辑判断语句如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">if</span><span class="p">(</span><span class="n">ucNum</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">ucNumChar</span> <span class="o">=</span> <span class="n">ConvertToChar</span><span class="p">(</span><span class="n">ucNum</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="k">else</span> <span class="nf">if</span><span class="p">(</span><span class="n">ucNum</span> <span class="o">==</span> <span class="mi">10</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">ucNumChar</span> <span class="o">=</span> <span class="sc">&#39;A&#39;</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">else</span> <span class="nf">if</span><span class="p">(</span><span class="n">ucNum</span> <span class="o">==</span> <span class="mi">11</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">ucNumChar</span> <span class="o">=</span> <span class="sc">&#39;B&#39;</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">else</span> <span class="nf">if</span><span class="p">(</span><span class="n">ucNum</span> <span class="o">==</span> <span class="mi">12</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">ucNumChar</span> <span class="o">=</span> <span class="sc">&#39;C&#39;</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="c1">//... ...
+</span><span class="c1"></span><span class="k">else</span> <span class="nf">if</span><span class="p">(</span><span class="n">ucNum</span> <span class="o">==</span> <span class="mi">35</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">ucNumChar</span> <span class="o">=</span> <span class="sc">&#39;Z&#39;</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>当然也可以用switch…case结构，但实现都很冗长。而用表驱动法(将numChar存入数组)则非常直观和简洁。如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">CHAR</span> <span class="n">aNumChars</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="sc">&#39;0&#39;</span><span class="p">,</span> <span class="sc">&#39;1&#39;</span><span class="p">,</span> <span class="sc">&#39;2&#39;</span><span class="p">,</span> <span class="cm">/*3~9*/</span><span class="sc">&#39;A&#39;</span><span class="p">,</span> <span class="sc">&#39;B&#39;</span><span class="p">,</span> <span class="sc">&#39;C&#39;</span><span class="p">,</span> <span class="cm">/*D~Y*/</span><span class="sc">&#39;Z&#39;</span><span class="p">};</span>
+<span class="n">CHAR</span> <span class="n">ucNumChar</span> <span class="o">=</span> <span class="n">aNumChars</span><span class="p">[</span><span class="n">ucNum</span> <span class="o">%</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">aNumChars</span><span class="p">)];</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>像这样直接将变量当作下数组下标来读取数值的方法就是直接查表法。注意，如果熟悉字符串操作，则上述写法可以更简洁：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">CHAR</span> <span class="n">ucNumChar</span> <span class="o">=</span> <span class="s">&#34;0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ&#34;</span><span class="p">[</span><span class="n">ucNum</span><span class="p">];</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>使用表驱动法时需要关注两个问题：一是如何查表，从表中读取正确的数据；二是表里存放什么，如数值或函数指针。前者参见1.1节“查表方式”内容，后者参见1.2节“实战示例”内容。</p>
+<h2 id="查表方式">查表方式</h2>
+<p>常用的查表方式有直接查找、索引查找和分段查找等。</p>
+<h3 id="直接查找">直接查找</h3>
+<p>即直接通过数组下标获取到数据。如果熟悉哈希表的话，可以很容易看出这种查表方式就是哈希表的直接访问法。</p>
+<p>如获取星期名称，逻辑判断语句如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">if</span><span class="p">(</span><span class="mi">0</span> <span class="o">==</span> <span class="n">ucDay</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">pszDayName</span> <span class="o">=</span> <span class="s">&#34;Sunday&#34;</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">else</span> <span class="nf">if</span><span class="p">(</span><span class="mi">1</span> <span class="o">==</span> <span class="n">ucDay</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">pszDayName</span> <span class="o">=</span> <span class="s">&#34;Monday&#34;</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="c1">//... ...
+</span><span class="c1"></span><span class="k">else</span> <span class="nf">if</span><span class="p">(</span><span class="mi">6</span> <span class="o">==</span> <span class="n">ucDay</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">pszDayName</span> <span class="o">=</span> <span class="s">&#34;Saturday&#34;</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>而实现同样的功能，可将这些数据存储到一个表里：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">CHAR</span> <span class="o">*</span><span class="n">paNumChars</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#34;Sunday&#34;</span><span class="p">,</span> <span class="s">&#34;Monday&#34;</span><span class="p">,</span> <span class="s">&#34;Tuesday&#34;</span><span class="p">,</span> <span class="s">&#34;Wednesday&#34;</span><span class="p">,</span> <span class="s">&#34;Thursday&#34;</span><span class="p">,</span> <span class="s">&#34;Friday&#34;</span><span class="p">,</span>  <span class="s">&#34;Saturday&#34;</span><span class="p">};</span>
+<span class="n">CHAR</span> <span class="o">*</span><span class="n">pszDayName</span> <span class="o">=</span> <span class="n">paNumChars</span><span class="p">[</span><span class="n">ucDay</span><span class="p">];</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>类似哈希表特性，表驱动法适用于无需有序遍历数据，且数据量大小可提前预测的情况。</p>
+<p>对于过于复杂和庞大的判断，可将数据存为文件，需要时加载文件初始化数组，从而在不修改程序的情况下调整里面的数值。</p>
+<p>有时，访问之前需要先进行一次键值转换。如表驱动法表示端口忙闲时，需将槽位端口号映射为全局编号。所生成的端口数目大小的数组，其下标对应全局端口编号，元素值表示相应端口的忙闲状态。</p>
+<h3 id="索引查找">索引查找</h3>
+<p>有时通过一次键值转换，依然无法把数据(如英文单词等)转为键值。此时可将转换的对应关系写到一个索引表里，即索引访问。</p>
+<p>如现有100件商品，4位编号，范围从0000到9999。此时只需要申请一个长度为100的数组，且对应2位键值。但将4位的编号转换为2位的键值，可能过于复杂或没有规律，最合适的方法是建立一个保存该转换关系的索引表。采用索引访问既节省内存，又方便维护。比如索引A表示通过名称访问，索引B表示通过编号访问。</p>
+<h3 id="分段查找">分段查找</h3>
+<p>通过确定数据所处的范围确定分类(下标)。有的数据可分成若干区间，即具有阶梯性，如分数等级。此时可将每个区间的上限(或下限)存到一个表中，将对应的值存到另一表中，通过第一个表确定所处的区段，再由区段下标在第二个表里读取相应数值。注意要留意端点，可用二分法查找，另外可考虑通过索引方法来代替。</p>
+<p>如根据分数查绩效等级：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cp">#define MAX_GRADE_LEVEL   (INT8U)5
+</span><span class="cp"></span><span class="n">DOUBLE</span> <span class="n">aRangeLimit</span><span class="p">[</span><span class="n">MAX_GRADE_LEVEL</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mf">50.0</span><span class="p">,</span> <span class="mf">60.0</span><span class="p">,</span> <span class="mf">70.0</span><span class="p">,</span> <span class="mf">80.0</span><span class="p">,</span> <span class="mf">100.0</span><span class="p">};</span>
+<span class="n">CHAR</span> <span class="o">*</span><span class="n">paGrades</span><span class="p">[</span><span class="n">MAX_GRADE_LEVEL</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#34;Fail&#34;</span><span class="p">,</span> <span class="s">&#34;Pass&#34;</span><span class="p">,</span> <span class="s">&#34;Credit&#34;</span><span class="p">,</span> <span class="s">&#34;Distinction&#34;</span><span class="p">,</span> <span class="s">&#34;High Distinction&#34;</span><span class="p">};</span>
+
+<span class="k">static</span> <span class="n">CHAR</span><span class="o">*</span> <span class="nf">EvaluateGrade</span><span class="p">(</span><span class="n">DOUBLE</span> <span class="n">dScore</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">INT8U</span> <span class="n">ucLevel</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(;</span> <span class="n">ucLevel</span> <span class="o">&lt;</span> <span class="n">MAX_GRADE_LEVEL</span><span class="p">;</span> <span class="n">ucLevel</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">dScore</span> <span class="o">&lt;</span> <span class="n">aRangeLimit</span><span class="p">[</span><span class="n">ucLevel</span><span class="p">])</span>
+            <span class="k">return</span> <span class="n">paGrades</span><span class="p">[</span><span class="n">ucLevel</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">paGrades</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>上述两张表(数组)也可合并为一张表(结构体数组)，如下所示：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">typedef</span> <span class="k">struct</span><span class="p">{</span>
+    <span class="n">DOUBLE</span>  <span class="n">aRangeLimit</span><span class="p">;</span>
+    <span class="n">CHAR</span>    <span class="o">*</span><span class="n">pszGrade</span><span class="p">;</span>
+<span class="p">}</span><span class="n">T_GRADE_MAP</span><span class="p">;</span>
+
+<span class="n">T_GRADE_MAP</span> <span class="n">gGradeMap</span><span class="p">[</span><span class="n">MAX_GRADE_LEVEL</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="p">{</span><span class="mf">50.0</span><span class="p">,</span>              <span class="s">&#34;Fail&#34;</span><span class="p">},</span>
+    <span class="p">{</span><span class="mf">60.0</span><span class="p">,</span>              <span class="s">&#34;Pass&#34;</span><span class="p">},</span>
+    <span class="p">{</span><span class="mf">70.0</span><span class="p">,</span>              <span class="s">&#34;Credit&#34;</span><span class="p">},</span>
+    <span class="p">{</span><span class="mf">80.0</span><span class="p">,</span>              <span class="s">&#34;Distinction&#34;</span><span class="p">},</span>
+    <span class="p">{</span><span class="mf">100.0</span><span class="p">,</span>             <span class="s">&#34;High Distinction&#34;</span><span class="p">}</span>
+<span class="p">};</span>
+
+<span class="k">static</span> <span class="n">CHAR</span><span class="o">*</span> <span class="nf">EvaluateGrade</span><span class="p">(</span><span class="n">DOUBLE</span> <span class="n">dScore</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">INT8U</span> <span class="n">ucLevel</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(;</span> <span class="n">ucLevel</span> <span class="o">&lt;</span> <span class="n">MAX_GRADE_LEVEL</span><span class="p">;</span> <span class="n">ucLevel</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">dScore</span> <span class="o">&lt;</span> <span class="n">gGradeMap</span><span class="p">[</span><span class="n">ucLevel</span><span class="p">].</span><span class="n">aRangeLimit</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">gGradeMap</span><span class="p">[</span><span class="n">ucLevel</span><span class="p">].</span><span class="n">pszGrade</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">gGradeMap</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">pszGrade</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>该表结构已具备的数据库的雏形，并可扩展支持更为复杂的数据。其查表方式通常为索引查找，偶尔也为分段查找；当索引具有规律性(如连续整数)时，退化为直接查找。</p>
+<p>使用分段查找法时应注意边界，将每一分段范围的上界值都考虑在内。找出所有不在最高一级范围内的值，然后把剩下的值全部归入最高一级中。有时需要人为地为最高一级范围添加一个上界。</p>
+<p>同时应小心不要错误地用“&lt;”来代替“&lt;=”。要保证循环在找出属于最高一级范围内的值后恰当地结束，同时也要保证恰当处理范围边界。</p>
+<h2 id="实战示例">实战示例</h2>
+<p>本节多数示例取自实际项目。表形式为一维数组、二维数组和结构体数组；表内容有数据、字符串和函数指针。基于表驱动的思想，表形式和表内容可衍生出丰富的组合。</p>
+<h3 id="字符统计">字符统计</h3>
+<p>问题：统计用户输入的一串数字中每个数字出现的次数。普通解法主体代码如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">INT32U</span> <span class="n">aDigitCharNum</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span> <span class="cm">/* 输入字符串中各数字字符出现的次数 */</span>
+<span class="n">INT32U</span> <span class="n">dwStrLen</span> <span class="o">=</span> <span class="n">strlen</span><span class="p">(</span><span class="n">szDigits</span><span class="p">);</span>
+
+<span class="n">INT32U</span> <span class="n">dwStrIdx</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">for</span><span class="p">(;</span> <span class="n">dwStrIdx</span> <span class="o">&lt;</span> <span class="n">dwStrLen</span><span class="p">;</span> <span class="n">dwStrIdx</span><span class="o">++</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">switch</span><span class="p">(</span><span class="n">szDigits</span><span class="p">[</span><span class="n">dwStrIdx</span><span class="p">])</span>
+    <span class="p">{</span>
+        <span class="k">case</span> <span class="sc">&#39;1&#39;</span><span class="o">:</span>
+            <span class="n">aDigitCharNum</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">++</span><span class="p">;</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="sc">&#39;2&#39;</span><span class="o">:</span>
+            <span class="n">aDigitCharNum</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">++</span><span class="p">;</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="c1">//... ...
+</span><span class="c1"></span>        <span class="k">case</span> <span class="sc">&#39;9&#39;</span><span class="o">:</span>
+            <span class="n">aDigitCharNum</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span><span class="o">++</span><span class="p">;</span>
+            <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这种解法的缺点显而易见，既不美观也不灵活。其问题关键在于未将数字字符与数组aDigitCharNum下标直接关联起来。</p>
+<p>以下示出更简洁的实现方式：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">for</span><span class="p">(;</span> <span class="n">dwStrIdx</span> <span class="o">&lt;</span> <span class="n">dwStrLen</span><span class="p">;</span> <span class="n">dwStrIdx</span><span class="o">++</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">aDigitCharNum</span><span class="p">[</span><span class="n">szDigits</span><span class="p">[</span><span class="n">dwStrIdx</span><span class="p">]</span> <span class="o">-</span> <span class="sc">&#39;0&#39;</span><span class="p">]</span><span class="o">++</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>上述实现考虑到0也为数字字符。该解法也可扩展至统计所有ASCII可见字符。</p>
+<p>【待续】</p>
+<hr>
+<figure>
+     <figcaption>
+            <h4>欢迎扫码关注我的公众号</h4>
+        </figcaption>
+</figure>]]></description>
+</item></channel>
+</rss>
