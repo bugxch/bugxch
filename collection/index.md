@@ -1,7 +1,7 @@
 # 杂记
 
 
-![](https://cdn.pixabay.com/photo/2016/08/23/12/34/books-1614215_960_720.jpg)
+![](https://pic.imgdb.cn/item/601171d63ffa7d37b33dffd0.jpg)
 
 ## 网站
 
@@ -11,14 +11,18 @@
 - [酷壳 – CoolShell.cn](https://coolshell.cn/)，左耳朵耗子的官方博客，对我影响比较大的技术大佬
 - [科学空间|Scientific Spaces](https://spaces.ac.cn/)，非常不错的后生，天文、数学、AI、竞赛，博文质量极高，在这么小的年龄以十年的尺度更新不辍，非常难得
 - [阮一峰的网络日志](https://www.ruanyifeng.com/blog/)，IT圈子中小有名气的大佬，比较喜欢他每周一推的科技爱好者周刊系列
-
+- [HuoJu's BLOG](https://jhuo.ca/)，一个在盛大创新院干过的大佬的博客
 
 ## 书单
 
 ### 2021
+- [ ] [重构（第2版）](https://book.douban.com/subject/30468597/)，架构和重构的经典入门书籍
 - [ ] [编写可读代码的艺术](https://book.douban.com/subject/10797189//)
-- [ ] [重构（第2版）](https://book.douban.com/subject/30468597/)
+- [ ] [金融的解释](https://book.douban.com/subject/26032227//)，金融学入门教程，上下班路上微信读书听书（2021年1月底），上下班听这些文史财经类的书籍还是可以的
+- [x] [异类](https://book.douban.com/subject/25863621/)，成功的秘诀
 - [ ] [C++ Primer 中文版（第 5 版）](https://book.douban.com/subject/25708312/)
+- [ ] [沟通的艺术（插图修订第14版·简明版） (豆瓣)](https://book.douban.com/subject/30193204/)
+- [ ] [【全套】Excel零基础入门进阶到函数，Excel自学教程从小白到高手超详细实操教程](https://www.bilibili.com/video/BV184411C7Ci)
 ### 2020
 - [ ] [《浪潮之巅》](https://book.douban.com/subject/33474750/)，2020年了解行业内容主要看的书
 ### 2019
