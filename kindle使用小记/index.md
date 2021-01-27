@@ -5,8 +5,6 @@
 
 <!--more-->
 
-![](https://github.com/bugxch/blogpics/blob/master/201812/kindleoasis2.jpg?raw=true)
-
 ## 基础设置
 
 ### 更新版本
