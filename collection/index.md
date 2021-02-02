@@ -13,6 +13,7 @@
 - [阮一峰的网络日志](https://www.ruanyifeng.com/blog/)，IT圈子中小有名气的大佬，比较喜欢他每周一推的科技爱好者周刊系列
 - [HuoJu's BLOG](https://jhuo.ca/)，一个在盛大创新院干过的大佬的博客
 - [labuladong的算法小抄](https://labuladong.gitbook.io/algo/)，数据结构与算法的不错的博客
+- [好书推荐-什么值得读-推荐一本好书](https://www.shenmezhidedu.com/)，好书推荐网站
 
 ## 书单
 
