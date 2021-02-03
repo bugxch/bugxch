@@ -26,6 +26,7 @@
 - [ ] [沟通的艺术（插图修订第14版·简明版）](https://book.douban.com/subject/30193204/)，畅销全球的美国沟通教材
 - [ ] [【全套】Excel零基础入门进阶到函数，Excel自学教程从小白到高手超详细实操教程](https://www.bilibili.com/video/BV184411C7Ci)
 - [ ] [C++性能优化指南](https://book.douban.com/subject/27666339/)，C++性能优化的建议书籍
+- [ ] [像哲学家一样生活](https://book.douban.com/subject/27167270/)，一本讲究生活哲学的书籍
 ### 2020
 - [ ] [《浪潮之巅》](https://book.douban.com/subject/33474750/)，2020年了解行业内容主要看的书
 ### 2019
