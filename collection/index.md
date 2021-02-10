@@ -14,6 +14,7 @@
 - [HuoJu's BLOG](https://jhuo.ca/)，一个在盛大创新院干过的大佬的博客
 - [labuladong的算法小抄](https://labuladong.gitbook.io/algo/)，数据结构与算法的不错的博客
 - [好书推荐-什么值得读-推荐一本好书](https://www.shenmezhidedu.com/)，好书推荐网站
+- [书伴](https://bookfere.com/)，kindle配套的不错的网站
 
 ## 书单
 
