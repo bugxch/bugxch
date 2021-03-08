@@ -15,6 +15,7 @@
 - [labuladong的算法小抄](https://labuladong.gitbook.io/algo/)，数据结构与算法的不错的博客
 - [好书推荐-什么值得读-推荐一本好书](https://www.shenmezhidedu.com/)，好书推荐网站
 - [书伴](https://bookfere.com/)，kindle配套的不错的网站
+- [卢昌海个人主页](https://www.changhai.org/index.php)，卢昌海的个人网站
 
 ## 书单
 
@@ -28,6 +29,8 @@
 - [ ] [【全套】Excel零基础入门进阶到函数，Excel自学教程从小白到高手超详细实操教程](https://www.bilibili.com/video/BV184411C7Ci)
 - [ ] [C++性能优化指南](https://book.douban.com/subject/27666339/)，C++性能优化的建议书籍
 - [ ] [像哲学家一样生活](https://book.douban.com/subject/27167270/)，一本讲究生活哲学的书籍
+- [ ] [发现之旅](https://book.douban.com/subject/10439064/)，顺着绿植发现的一本好书
+- [ ] [薄世宁医学通识讲义](https://book.douban.com/subject/34842793/)，过年回家火车上看到有人在都的书，了解下身体和疾病终身有益
 ### 2020
 - [ ] [《浪潮之巅》](https://book.douban.com/subject/33474750/)，2020年了解行业内容主要看的书
 ### 2019
