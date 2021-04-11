@@ -45,7 +45,7 @@ C++ STL 标准库中的 sort() 函数，本质就是一个模板函数。正如�
 
 sort() 函数有 2 种用法，其语法格式分别为：
 
-```
+```cpp
 //对 [first, last) 区域内的元素做默认的升序排序
 void sort (RandomAccessIterator first, RandomAccessIterator last);
 //按照指定的 comp 排序规则，对 [first, last) 区域内的元素进行排序
@@ -78,7 +78,7 @@ int main() {
     std::sort(myvector.begin(), myvector.begin() + 4, std::greater<int>()); //(71 45 32 12) 26 80 53 33
 
     //调用第二种语法格式，通过自定义比较规则进行排序
-    std::sort(myvector.begin(), myvector.end(), mycomp2());// 80 71 53 45 33 32 26 12
+    std::sort(myvector.begin(), myvector.end(), mycomp2()); // 80 71 53 45 33 32 26 12
     sort(myvector.begin() + 4, myvector.end(), mycomp); // 80 71 53 45 12 26 32 33
     //输出 myvector 容器中的元素
     for (std::vector<int>::iterator it = myvector.begin(); it != myvector.end(); ++it) {

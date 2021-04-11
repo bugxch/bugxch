@@ -83,10 +83,10 @@
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">//对 [first, last) 区域内的元素做默认的升序排序
-void sort (RandomAccessIterator first, RandomAccessIterator last);
-//按照指定的 comp 排序规则，对 [first, last) 区域内的元素进行排序
-void sort (RandomAccessIterator first, RandomAccessIterator last, Compare comp);
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="c1">//对 [first, last) 区域内的元素做默认的升序排序
+</span><span class="c1"></span><span class="kt">void</span> <span class="nf">sort</span> <span class="p">(</span><span class="n">RandomAccessIterator</span> <span class="n">first</span><span class="p">,</span> <span class="n">RandomAccessIterator</span> <span class="n">last</span><span class="p">);</span>
+<span class="c1">//按照指定的 comp 排序规则，对 [first, last) 区域内的元素进行排序
+</span><span class="c1"></span><span class="kt">void</span> <span class="nf">sort</span> <span class="p">(</span><span class="n">RandomAccessIterator</span> <span class="n">first</span><span class="p">,</span> <span class="n">RandomAccessIterator</span> <span class="n">last</span><span class="p">,</span> <span class="n">Compare</span> <span class="n">comp</span><span class="p">);</span>
 </code></pre></td></tr></table>
 </div>
 </div><p>其中，first 和 last 都为随机访问迭代器，它们的组合 [first, last) 用来指定要排序的目标区域；另外在第 2 种格式中，comp 可以是 C++ STL 标准库提供的排序规则（比如 std::greater<T>），也可以是自定义的排序规则。比如，如果需要做<strong>降序</strong>排序，那么可以使用<code>std::less&lt;T&gt;</code>，也可以自己写一个降序的函数。具体的用法如下所示</p>
@@ -148,7 +148,7 @@ void sort (RandomAccessIterator first, RandomAccessIterator last, Compare comp);
 </span><span class="c1"></span>    <span class="n">std</span><span class="o">::</span><span class="n">sort</span><span class="p">(</span><span class="n">myvector</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">myvector</span><span class="p">.</span><span class="n">begin</span><span class="p">()</span> <span class="o">+</span> <span class="mi">4</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">greater</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">());</span> <span class="c1">//(71 45 32 12) 26 80 53 33
 </span><span class="c1"></span>
     <span class="c1">//调用第二种语法格式，通过自定义比较规则进行排序
-</span><span class="c1"></span>    <span class="n">std</span><span class="o">::</span><span class="n">sort</span><span class="p">(</span><span class="n">myvector</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">myvector</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="n">mycomp2</span><span class="p">());</span><span class="c1">// 80 71 53 45 33 32 26 12
+</span><span class="c1"></span>    <span class="n">std</span><span class="o">::</span><span class="n">sort</span><span class="p">(</span><span class="n">myvector</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">myvector</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="n">mycomp2</span><span class="p">());</span> <span class="c1">// 80 71 53 45 33 32 26 12
 </span><span class="c1"></span>    <span class="n">sort</span><span class="p">(</span><span class="n">myvector</span><span class="p">.</span><span class="n">begin</span><span class="p">()</span> <span class="o">+</span> <span class="mi">4</span><span class="p">,</span> <span class="n">myvector</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="n">mycomp</span><span class="p">);</span> <span class="c1">// 80 71 53 45 12 26 32 33
 </span><span class="c1"></span>    <span class="c1">//输出 myvector 容器中的元素
 </span><span class="c1"></span>    <span class="k">for</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;::</span><span class="n">iterator</span> <span class="n">it</span> <span class="o">=</span> <span class="n">myvector</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span> <span class="n">it</span> <span class="o">!=</span> <span class="n">myvector</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="o">++</span><span class="n">it</span><span class="p">)</span> <span class="p">{</span>
