@@ -6,22 +6,96 @@
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>bugxch@126.com (bugxch)</managingEditor>
             <webMaster>bugxch@126.com (bugxch)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 10 Apr 2021 22:15:09 &#43;0800</lastBuildDate><atom:link href="https://bugxch.github.io/tags/%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F/" rel="self" type="application/rss+xml" /><item>
     <title>Iterator（迭代器）模式</title>
-    <link>https://bugxch.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</link>
+    <link>https://bugxch.github.io/%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F/</link>
     <pubDate>Sat, 10 Apr 2021 22:15:09 &#43;0800</pubDate>
     <author>作者</author>
-    <guid>https://bugxch.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</guid>
+    <guid>https://bugxch.github.io/%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F/</guid>
     <description><![CDATA[<div class="featured-image">
                 <img src="https://pic.imgdb.cn/item/6078d51f8322e6675c26c114.jpg" referrerpolicy="no-referrer">
             </div><p>从本文章开始，参考结城浩的<a href="https://www.ituring.com.cn/book/1811" target="_blank" rel="noopener noreffer">《图解设计模式》</a>写23种设计模式的系列介绍文章，结合网络上其他的设计模式的内容，使用C++的语言编写这些设计模式，记录自己的设计模式的心得。</p>
 <h2 id="使用情景">使用情景</h2>
+<p>迭代器的作用是遍历某一类相同元素的集合，所以迭代器模式是一种<strong>行为</strong>设计模式，该模式的作用是在不改变底层元素的前提下，按照某种方式遍历集合中元素的值。其中，在C++中比较典型类似与std的vector的前向迭代器<code>begin()</code>和<code>end()</code>，以及后向迭代器<code>rbegin()</code>和<code>rend()</code>。</p>
+<h2 id="问题引入">问题引入</h2>
+<p>可以设想元素聚合成集合的方式，最简单的方式是顺序存储的数组或者列表，但是也有例如树、图和其他复杂的数据结构。所以，如果要遍历集合中的元素，有下面的两个问题需要解决：</p>
+<ol>
+<li>如何在不改变元素的前提下，遍历各种不同的集合？</li>
+<li>同一个集合如果有不同的遍历方式（比如树有前中后序3种不同的遍历顺序），如果在不改变集合的前提下，比较容易扩展这些功能呢？</li>
+</ol>
+<p></p>
+<h2 id="解决方案">解决方案</h2>
+<p>为了满足开闭原则，我们将定义一个迭代器的类，将迭代从集合种抽象出来，作为一个行为的迭代器处理。如下图所示，对于一个树结构，我们定义了两个迭代器的类，DFS和BFS两个迭代器，这样可以将元素遍历和树本身进行解耦。
+</p>
 <h2 id="uml表示">UML表示</h2>
-<h2 id="分析角色">分析角色</h2>
+<p>我们以《图解设计模式》中遍历书架中的书本为例，有如下的UML图</p>
+<p></p>
+<p>对上面的这幅图做进一步的说明，</p>
+<ul>
+<li>Aggregate表示集合的接口，书架实现该接口，所以书架必须要有迭代器的方法；</li>
+<li>Iterator表示集合的迭代器的接口，书架的迭代器实现它；
+需要说明的是，此处的迭代器只有一种前向的迭代器，也可以定义后向遍历的迭代器。</li>
+</ul>
 <h2 id="示例代码">示例代码</h2>
+<p>我们使用C++按照上面的UML图片实现这个设计模式。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="c1">// book class
+</span><span class="c1"></span><span class="k">class</span> <span class="nc">Book</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="n">Book</span><span class="p">(</span><span class="n">string</span> <span class="n">name</span><span class="p">)</span> <span class="o">:</span> <span class="n">name_</span><span class="p">(</span><span class="n">name</span><span class="p">){};</span>
+    <span class="n">string</span> <span class="nf">getName</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span><span class="k">return</span> <span class="n">name_</span><span class="p">;};</span>
+    <span class="o">~</span><span class="n">Book</span><span class="p">()</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+<span class="k">private</span><span class="o">:</span>
+    <span class="n">string</span> <span class="n">name_</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+
+<span class="c1">// Iterator abstract interface
+</span><span class="c1"></span><span class="k">class</span> <span class="nc">Iterator</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="k">virtual</span> <span class="kt">bool</span> <span class="n">hasNext</span><span class="p">()</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">virtual</span> <span class="n">Book</span> <span class="nf">next</span><span class="p">()</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="c1">// Aggregate interface
+</span><span class="c1"></span><span class="k">class</span> <span class="nc">Aggregate</span> <span class="p">{</span>
+    <span class="k">virtual</span> <span class="n">Iterator</span> <span class="nf">iterator</span><span class="p">()</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="分析角色">分析角色</h2>
 <h2 id="参考资料">参考资料</h2>
 <ol>
 <li><a href="https://design-patterns.readthedocs.io/zh_CN/latest/" target="_blank" rel="noopener noreffer">图说设计模式 — Graphic Design Patterns</a></li>
 <li><a href="https://edu.heibai.org/%E5%9B%BE%E8%A7%A3%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F.pdf" target="_blank" rel="noopener noreffer">图灵程序设计丛书 图解设计模式</a>，图解设计模式的pdf下载地址</li>
-<li><a href="https://refactoringguru.cn/design-patterns/catalog" target="_blank" rel="noopener noreffer">设计模式目录：22种设计模式</a></li>
+<li><a href="https://refactoringguru.cn/design-patterns/catalog" target="_blank" rel="noopener noreffer">设计模式目录：22种设计模式</a>，乌克兰的某个程序员写的设计模式的网页，非常不错</li>
 </ol>
 <hr>
 <figure>
