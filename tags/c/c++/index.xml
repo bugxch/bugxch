@@ -5,6 +5,31 @@
         <description>C/C&#43;&#43; - 标签 - Dive Into Think</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>bugxch@126.com (bugxch)</managingEditor>
             <webMaster>bugxch@126.com (bugxch)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><atom:link href="https://bugxch.github.io/tags/c/c&#43;&#43;/" rel="self" type="application/rss+xml" /><item>
+    <title>Iterator（迭代器）模式</title>
+    <link>https://bugxch.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</link>
+    <pubDate>Sat, 10 Apr 2021 22:15:09 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://bugxch.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</guid>
+    <description><![CDATA[<div class="featured-image">
+                <img src="https://pic.imgdb.cn/item/6078d51f8322e6675c26c114.jpg" referrerpolicy="no-referrer">
+            </div><p>从本文章开始，参考结城浩的<a href="https://www.ituring.com.cn/book/1811" target="_blank" rel="noopener noreffer">《图解设计模式》</a>写23种设计模式的系列介绍文章，结合网络上其他的设计模式的内容，使用C++的语言编写这些设计模式，记录自己的设计模式的心得。</p>
+<h2 id="使用情景">使用情景</h2>
+<h2 id="uml表示">UML表示</h2>
+<h2 id="分析角色">分析角色</h2>
+<h2 id="示例代码">示例代码</h2>
+<h2 id="参考资料">参考资料</h2>
+<ol>
+<li><a href="https://design-patterns.readthedocs.io/zh_CN/latest/" target="_blank" rel="noopener noreffer">图说设计模式 — Graphic Design Patterns</a></li>
+<li><a href="https://edu.heibai.org/%E5%9B%BE%E8%A7%A3%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F.pdf" target="_blank" rel="noopener noreffer">图灵程序设计丛书 图解设计模式</a>，图解设计模式的pdf下载地址</li>
+<li><a href="https://refactoringguru.cn/design-patterns/catalog" target="_blank" rel="noopener noreffer">设计模式目录：22种设计模式</a></li>
+</ol>
+<hr>
+<figure>
+     <figcaption>
+            <h4>欢迎扫码关注我的公众号</h4>
+        </figcaption>
+</figure>]]></description>
+</item><item>
     <title>[转载]表驱动法代码实践</title>
     <link>https://bugxch.github.io/c_driven_table/</link>
     <pubDate>Fri, 22 Jan 2021 08:07:14 &#43;0800</pubDate>

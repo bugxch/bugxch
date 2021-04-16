@@ -4,9 +4,34 @@
         <link>https://bugxch.github.io/</link>
         <description>博观而约取，厚积而薄发</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>bugxch@126.com (bugxch)</managingEditor>
-            <webMaster>bugxch@126.com (bugxch)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 22 Jan 2021 08:07:14 &#43;0800</lastBuildDate>
+            <webMaster>bugxch@126.com (bugxch)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 10 Apr 2021 22:15:09 &#43;0800</lastBuildDate>
             <atom:link href="https://bugxch.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>Iterator（迭代器）模式</title>
+    <link>https://bugxch.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</link>
+    <pubDate>Sat, 10 Apr 2021 22:15:09 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://bugxch.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</guid>
+    <description><![CDATA[<div class="featured-image">
+                <img src="https://pic.imgdb.cn/item/6078d51f8322e6675c26c114.jpg" referrerpolicy="no-referrer">
+            </div><p>从本文章开始，参考结城浩的<a href="https://www.ituring.com.cn/book/1811" target="_blank" rel="noopener noreffer">《图解设计模式》</a>写23种设计模式的系列介绍文章，结合网络上其他的设计模式的内容，使用C++的语言编写这些设计模式，记录自己的设计模式的心得。</p>
+<h2 id="使用情景">使用情景</h2>
+<h2 id="uml表示">UML表示</h2>
+<h2 id="分析角色">分析角色</h2>
+<h2 id="示例代码">示例代码</h2>
+<h2 id="参考资料">参考资料</h2>
+<ol>
+<li><a href="https://design-patterns.readthedocs.io/zh_CN/latest/" target="_blank" rel="noopener noreffer">图说设计模式 — Graphic Design Patterns</a></li>
+<li><a href="https://edu.heibai.org/%E5%9B%BE%E8%A7%A3%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F.pdf" target="_blank" rel="noopener noreffer">图灵程序设计丛书 图解设计模式</a>，图解设计模式的pdf下载地址</li>
+<li><a href="https://refactoringguru.cn/design-patterns/catalog" target="_blank" rel="noopener noreffer">设计模式目录：22种设计模式</a></li>
+</ol>
+<hr>
+<figure>
+     <figcaption>
+            <h4>欢迎扫码关注我的公众号</h4>
+        </figcaption>
+</figure>]]></description>
+</item><item>
     <title>[转载]表驱动法代码实践</title>
     <link>https://bugxch.github.io/c_driven_table/</link>
     <pubDate>Fri, 22 Jan 2021 08:07:14 &#43;0800</pubDate>
@@ -4870,153 +4895,5 @@ $$
 <li><a href="https://oi-wiki.org/dp/knapsack/" target="_blank" rel="noopener noreffer">背包 DP - OI Wiki</a>，在没有Google下搜索出来的总结比较全面的文章</li>
 <li><a href="https://www.kancloud.cn/kancloud/pack" target="_blank" rel="noopener noreffer">背包问题九讲 · 看云</a>，非常系统的背包问题的解释</li>
 </ul>]]></description>
-</item><item>
-    <title>《CPlusPlus Primer Plus》第九章习题及答案</title>
-    <link>https://bugxch.github.io/cplusplus-primer-plus%E7%AC%AC%E4%B9%9D%E7%AB%A0%E4%B9%A0%E9%A2%98%E5%8F%8A%E7%AD%94%E6%A1%88/</link>
-    <pubDate>Mon, 27 Jan 2020 12:49:07 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>https://bugxch.github.io/cplusplus-primer-plus%E7%AC%AC%E4%B9%9D%E7%AB%A0%E4%B9%A0%E9%A2%98%E5%8F%8A%E7%AD%94%E6%A1%88/</guid>
-    <description><![CDATA[<div class="featured-image">
-                <img src="https://raw.githubusercontent.com/bugxch/blogpics/master/202001/c%2B%2B.jpg" referrerpolicy="no-referrer">
-            </div><p>假期做题，记录下。</p>
-<p>此处是复习题的答案，编程练习题的答案见<a href="https://github.com/bugxch/Solutions_C-PrimerPlus" target="_blank" rel="noopener noreffer">bugxch/Solutions_C-PrimerPlus</a>。</p>
-<h3 id="answer-1">Answer #1</h3>
-<p>a) 形参在函数调用时候创建，在函数返回时销毁，自动存储变量，无链接性，所以是自动变量；</p>
-<p>b) 文件共享的变量具有外部链接性，所以使用静态存储外部链接性的变量，比如在A文件中定义，在B中使用extern关键字引用；</p>
-<p>c) 内部链接性，静态存储变量，可以使用static修饰符，或者使用未命名的命名空间；</p>
-<p>d) 无链接性，但是是静态存储变量，在函数内部使用static修饰符定义</p>
-<h3 id="answer-2">Answer #2</h3>
-<p>有一下几点区别：</p>
-<ol>
-<li>using声明仅仅导入特定的名称，但是using编译命令将导入一个名称空间的所有名称；</li>
-<li>假如名称空间和声明区域定义了相同的名称。using声明中如果该名称与局部名称发生冲突，编译器会发出警告，但是using编译指令导入的而名称会被局部版本隐藏。</li>
-</ol>
-<h3 id="answer-3">Answer #3</h3>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#inlcude &lt;iostream&gt;
-</span><span class="cp"></span><span class="kt">int</span> <span class="nf">main</span> <span class="p">()</span>
-<span class="p">{</span>
-    <span class="k">using</span> <span class="kt">double</span> <span class="n">x</span><span class="p">;</span>
-    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Enter valud: &#34;</span><span class="p">;</span>
-    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">x</span><span class="p">))</span> <span class="p">{</span>
-        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Bad input! Please enter a number: &#34;</span><span class="p">;</span>
-        <span class="n">std</span><span class="o">::</span><span class="n">cin</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span>
-        <span class="k">while</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">cin</span><span class="p">.</span><span class="n">get</span><span class="p">()</span> <span class="o">!=</span> <span class="sc">&#39;\n&#39;</span><span class="p">)</span>
-            <span class="k">continue</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Value = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">x</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><h3 id="answer-4">Answer #4</h3>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#inlcude &lt;iostream&gt;
-</span><span class="cp"></span><span class="kt">int</span> <span class="nf">main</span> <span class="p">()</span>
-<span class="p">{</span>
-    <span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="p">;</span>
-    <span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">cin</span><span class="p">;</span>
-    <span class="k">using</span> <span class="kt">double</span> <span class="n">x</span><span class="p">;</span>
-    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Enter valud: &#34;</span><span class="p">;</span>
-    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">x</span><span class="p">))</span> <span class="p">{</span>
-        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Bad input! Please enter a number: &#34;</span><span class="p">;</span>
-        <span class="n">cin</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span>
-        <span class="k">while</span> <span class="p">(</span><span class="n">cin</span><span class="p">.</span><span class="n">get</span><span class="p">()</span> <span class="o">!=</span> <span class="sc">&#39;\n&#39;</span><span class="p">)</span>
-            <span class="k">continue</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Value = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">x</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
-    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><h3 id="answer-5">Answer #5</h3>
-<p>因为两个函数的形参和顺序一样，仅仅是返回值不同，因此无法使用函数重载。如果在不同的文件中使用，这两个函数的作用域不同，有两种方式实现，</p>
-<ol>
-<li>可以使用static关键字，</li>
-</ol>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">static</span> <span class="kt">double</span> <span class="n">average</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="n">intb</span><span class="p">)</span>
-</code></pre></td></tr></table>
-</div>
-</div><ol start="2">
-<li>将函数的声明和定义放在未命名的名称空间中</li>
-</ol>
-<h3 id="answer-6">Answer #6</h3>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="m">10</span>
-<span class="m">4</span>
-<span class="m">0</span>
-Other: 10, <span class="m">1</span>
-another<span class="o">()</span>: 10, -4
-</code></pre></td></tr></table>
-</div>
-</div><h3 id="answer-7">Answer #7</h3>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="m">1</span>
-4, 1, <span class="m">2</span>
-<span class="m">2</span>
-<span class="m">2</span>
-4, 1, <span class="m">2</span>
-<span class="m">2</span>
-</code></pre></td></tr></table>
-</div>
-</div>]]></description>
 </item></channel>
 </rss>

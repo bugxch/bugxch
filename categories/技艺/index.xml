@@ -4,7 +4,32 @@
         <link>https://bugxch.github.io/categories/%E6%8A%80%E8%89%BA/</link>
         <description>技艺 - 分类 - Dive Into Think</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>bugxch@126.com (bugxch)</managingEditor>
-            <webMaster>bugxch@126.com (bugxch)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 22 Jan 2021 08:07:14 &#43;0800</lastBuildDate><atom:link href="https://bugxch.github.io/categories/%E6%8A%80%E8%89%BA/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>bugxch@126.com (bugxch)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 10 Apr 2021 22:15:09 &#43;0800</lastBuildDate><atom:link href="https://bugxch.github.io/categories/%E6%8A%80%E8%89%BA/" rel="self" type="application/rss+xml" /><item>
+    <title>Iterator（迭代器）模式</title>
+    <link>https://bugxch.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</link>
+    <pubDate>Sat, 10 Apr 2021 22:15:09 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://bugxch.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</guid>
+    <description><![CDATA[<div class="featured-image">
+                <img src="https://pic.imgdb.cn/item/6078d51f8322e6675c26c114.jpg" referrerpolicy="no-referrer">
+            </div><p>从本文章开始，参考结城浩的<a href="https://www.ituring.com.cn/book/1811" target="_blank" rel="noopener noreffer">《图解设计模式》</a>写23种设计模式的系列介绍文章，结合网络上其他的设计模式的内容，使用C++的语言编写这些设计模式，记录自己的设计模式的心得。</p>
+<h2 id="使用情景">使用情景</h2>
+<h2 id="uml表示">UML表示</h2>
+<h2 id="分析角色">分析角色</h2>
+<h2 id="示例代码">示例代码</h2>
+<h2 id="参考资料">参考资料</h2>
+<ol>
+<li><a href="https://design-patterns.readthedocs.io/zh_CN/latest/" target="_blank" rel="noopener noreffer">图说设计模式 — Graphic Design Patterns</a></li>
+<li><a href="https://edu.heibai.org/%E5%9B%BE%E8%A7%A3%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F.pdf" target="_blank" rel="noopener noreffer">图灵程序设计丛书 图解设计模式</a>，图解设计模式的pdf下载地址</li>
+<li><a href="https://refactoringguru.cn/design-patterns/catalog" target="_blank" rel="noopener noreffer">设计模式目录：22种设计模式</a></li>
+</ol>
+<hr>
+<figure>
+     <figcaption>
+            <h4>欢迎扫码关注我的公众号</h4>
+        </figcaption>
+</figure>]]></description>
+</item><item>
     <title>[转载]表驱动法代码实践</title>
     <link>https://bugxch.github.io/c_driven_table/</link>
     <pubDate>Fri, 22 Jan 2021 08:07:14 &#43;0800</pubDate>
@@ -4654,94 +4679,5 @@ $$</p>
 <li>利用双线性插值得到像素点(x,y)的值并写回新图像。</li>
 <li>重复步骤2直到新图像的所有像素写完。</li>
 </ol>]]></description>
-</item><item>
-    <title>Tensorboad查看pytorch模型</title>
-    <link>https://bugxch.github.io/tensorboad%E6%9F%A5%E7%9C%8Bpytorch%E6%A8%A1%E5%9E%8B/</link>
-    <pubDate>Fri, 06 Dec 2019 21:53:20 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>https://bugxch.github.io/tensorboad%E6%9F%A5%E7%9C%8Bpytorch%E6%A8%A1%E5%9E%8B/</guid>
-    <description><![CDATA[<p>与tensorflow模型与caffe模型不同，当前的pytorch没有官方的直观查看网络结构的工具，google了下pytorch的网络解析的方法，发现可以将pytorch的model转换成为events文件使用tensorboard查看，记录之。</p>
-<p></p>
-<h2 id="安装插件">安装插件</h2>
-<ul>
-<li>
-<p>TensorboardX，TensorboardX支持scalar, image, figure, histogram, audio, text, graph, onnx_graph, embedding, pr_curve and videosummaries等不同的可视化展示方式，具体介绍移步至项目Github 观看详情。使用下面的命令安装</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">pip</span> <span class="n">install</span> <span class="n">tensorboardX</span>
-</code></pre></td></tr></table>
-</div>
-</div></li>
-<li>
-<p>安装tensorboard，参考命令</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">pip</span> <span class="n">install</span> <span class="n">tensorboard</span>
-</code></pre></td></tr></table>
-</div>
-</div></li>
-</ul>
-<h2 id="具体过程">具体过程</h2>
-<p>参考代码</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1">#-*-coding:utf-8-*-</span>
-<span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">import</span> <span class="nn">torchvision</span>
-<span class="kn">from</span> <span class="nn">torch.autograd</span> <span class="kn">import</span> <span class="n">Variable</span>
-<span class="kn">from</span> <span class="nn">tensorboardX</span> <span class="kn">import</span> <span class="n">SummaryWriter</span>
-
-<span class="c1"># 模拟输入数据</span>
-<span class="n">input_data</span> <span class="o">=</span> <span class="n">Variable</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span>
-
-<span class="c1"># 从torchvision中导入已有模型</span>
-<span class="n">net</span> <span class="o">=</span> <span class="n">torchvision</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">resnet18</span><span class="p">()</span>
-
-<span class="c1"># 声明writer对象，保存的文件夹</span>
-<span class="n">writer</span> <span class="o">=</span> <span class="n">SummaryWriter</span><span class="p">(</span><span class="n">log_dir</span><span class="o">=</span><span class="s1">&#39;./log&#39;</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s1">&#39;resnet18&#39;</span><span class="p">)</span>
-<span class="k">with</span> <span class="n">writer</span><span class="p">:</span>
-    <span class="n">writer</span><span class="o">.</span><span class="n">add_graph</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="p">(</span><span class="n">input_data</span><span class="p">,))</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>该代码中14行声明一个writer对象，分别表示events存放的目录，comment表示事件的title，然后使用如下的方式打开tensorboard</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell">tensorboard --logpath<span class="o">=</span>D:<span class="se">\l</span>og --port<span class="o">=</span><span class="m">6006</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>然后按照命令行提示打开即可。</p>
-<h2 id="参考链接">参考链接</h2>
-<ul>
-<li><a href="https://www.pytorchtutorial.com/pytorch-tensorboardx/" target="_blank" rel="noopener noreffer">PyTorch 使用 TensorboardX 进行网络可视化-PyTorch 中文网</a></li>
-<li><a href="https://www.jianshu.com/p/46eb3004beca" target="_blank" rel="noopener noreffer">Pytorch使用tensorboardX可视化。超详细！！！ - 简书</a></li>
-<li><a href="https://pytorch.org/docs/stable/tensorboard.html" target="_blank" rel="noopener noreffer">torch.utils.tensorboard — PyTorch master documentation</a></li>
-</ul>]]></description>
 </item></channel>
 </rss>
