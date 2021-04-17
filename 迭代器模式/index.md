@@ -44,8 +44,6 @@ private:
     string name_;
 }
 
-
-
 // Iterator abstract interface
 class Iterator {
 public:
@@ -55,6 +53,57 @@ public:
 // Aggregate interface
 class Aggregate {
     virtual Iterator iterator() = 0;
+}
+// bookshelf
+class BookShelf : public Aggregate {
+public:
+    Book(int maxSize) : maxSize_(maxSize), last_(0) {};
+    ~Book()
+    {
+        books_.clear();
+        maxSize_ = 0;
+        last_ = 0;
+    }
+    Book getBookAt(int id) const
+    {
+        return books_[id];
+    }
+
+    void appendBook(Book book)
+    {
+        if (last_ + 1 > maxSize) {
+            return;
+            // full of bookshelf
+        }
+
+        books_.push_back(book);
+        last_++;
+    }
+
+    int getLength() const
+    {
+        return last_;
+    };
+
+    Iterator iterator()
+    {
+        return new BookShelfIterator(this);
+    }
+private:
+    std::vector<Book> books_;
+    int last_;
+    int maxSize_;
+}
+
+
+// BookShelfIterator
+class BookShelfIterator : public Iterator {
+public:
+    bool hasNext();
+    Book next();
+private:
+    BookShelf bookShelf_;
+    int index_;
 }
 
 ```

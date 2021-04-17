@@ -27,7 +27,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/bugxch.github.io\/%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F\/"
-        },"image": ["https:\/\/bugxch.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "C\/C\u002b\u002b, 设计模式, 迭代器模式","wordcount":  872 ,
+        },"image": ["https:\/\/bugxch.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "C\/C\u002b\u002b, 设计模式, 迭代器模式","wordcount":  1015 ,
         "url": "https:\/\/bugxch.github.io\/%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F\/","datePublished": "2021-04-10T22:15:09+08:00","dateModified": "2021-04-10T22:15:09+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "xxxx","logo": "https:\/\/bugxch.github.io\/images\/avatar.png"},"author": {
@@ -104,8 +104,8 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">Iterator（迭代器）模式</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="https://bugxch.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>bugxch</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%8A%80%E8%89%BA/"><i class="far fa-folder fa-fw"></i>技艺</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-04-10">2021-04-10</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 872 字&nbsp;
-                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 2 分钟&nbsp;</div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-04-10">2021-04-10</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1015 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;</div>
         </div><div class="featured-image"><img
         class="lazyload"
         src="/svg/loading.min.svg"
@@ -200,6 +200,55 @@
 </span><span class="lnt">22
 </span><span class="lnt">23
 </span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
@@ -213,8 +262,6 @@
     <span class="n">string</span> <span class="n">name_</span><span class="p">;</span>
 <span class="p">}</span>
 
-
-
 <span class="c1">// Iterator abstract interface
 </span><span class="c1"></span><span class="k">class</span> <span class="nc">Iterator</span> <span class="p">{</span>
 <span class="k">public</span><span class="o">:</span>
@@ -224,6 +271,57 @@
 <span class="c1">// Aggregate interface
 </span><span class="c1"></span><span class="k">class</span> <span class="nc">Aggregate</span> <span class="p">{</span>
     <span class="k">virtual</span> <span class="n">Iterator</span> <span class="nf">iterator</span><span class="p">()</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="c1">// bookshelf
+</span><span class="c1"></span><span class="k">class</span> <span class="nc">BookShelf</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Aggregate</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="n">Book</span><span class="p">(</span><span class="kt">int</span> <span class="n">maxSize</span><span class="p">)</span> <span class="o">:</span> <span class="n">maxSize_</span><span class="p">(</span><span class="n">maxSize</span><span class="p">),</span> <span class="n">last_</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">{};</span>
+    <span class="o">~</span><span class="n">Book</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">books_</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span>
+        <span class="n">maxSize_</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="n">last_</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">Book</span> <span class="nf">getBookAt</span><span class="p">(</span><span class="kt">int</span> <span class="n">id</span><span class="p">)</span> <span class="k">const</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="n">books_</span><span class="p">[</span><span class="n">id</span><span class="p">];</span>
+    <span class="p">}</span>
+
+    <span class="kt">void</span> <span class="nf">appendBook</span><span class="p">(</span><span class="n">Book</span> <span class="n">book</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">last_</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&gt;</span> <span class="n">maxSize</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span><span class="p">;</span>
+            <span class="c1">// full of bookshelf
+</span><span class="c1"></span>        <span class="p">}</span>
+
+        <span class="n">books_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">book</span><span class="p">);</span>
+        <span class="n">last_</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kt">int</span> <span class="nf">getLength</span><span class="p">()</span> <span class="k">const</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="n">last_</span><span class="p">;</span>
+    <span class="p">};</span>
+
+    <span class="n">Iterator</span> <span class="nf">iterator</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="n">BookShelfIterator</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="k">private</span><span class="o">:</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Book</span><span class="o">&gt;</span> <span class="n">books_</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">last_</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">maxSize_</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+<span class="c1">// BookShelfIterator
+</span><span class="c1"></span><span class="k">class</span> <span class="nc">BookShelfIterator</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Iterator</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="kt">bool</span> <span class="n">hasNext</span><span class="p">();</span>
+    <span class="n">Book</span> <span class="nf">next</span><span class="p">();</span>
+<span class="k">private</span><span class="o">:</span>
+    <span class="n">BookShelf</span> <span class="n">bookShelf_</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">index_</span><span class="p">;</span>
 <span class="p">}</span>
 
 </code></pre></td></tr></table>
