@@ -34,7 +34,7 @@
 <li>Iterator表示集合的迭代器的接口，书架的迭代器实现它；
 需要说明的是，此处的迭代器只有一种前向的迭代器，也可以定义后向遍历的迭代器。</li>
 </ul>
-<h2 id="示例代码">示例代码</h2>
+<h2 id="c代码">C++代码</h2>
 <p>我们使用C++按照上面的UML图片实现这个设计模式。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
