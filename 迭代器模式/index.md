@@ -34,81 +34,148 @@
 ## 示例代码
 我们使用C++按照上面的UML图片实现这个设计模式。
 ```cpp
+#include <iostream>
 using namespace std;
-// book class
+
+enum State {
+    RIGHT = 0,
+    WRONG,
+    RESERVED = 22
+};
+// 书本的类
 class Book {
 public:
-    Book(string name) : name_(name){};
-    string getName() const {return name_;};
+    Book(std::string name = "") : name_(name) {};
+    std::string getName() const { return name_; };
     ~Book() = default;
 private:
-    string name_;
-}
+    std::string name_;
+};
 
-// Iterator abstract interface
+// 抽象的迭代器类，包括获得下一本书，以及是否有下一本书的判断
 class Iterator {
 public:
-    virtual bool hasNext() = 0;
-    virtual Book next() = 0;
-}
-// Aggregate interface
+    virtual Book Next() = 0;
+    virtual bool HasNext() const = 0;
+    virtual ~Iterator() = default;
+};
+
+// 抽象的聚合类，该类有创建迭代器、取得某个位置的书本，弹出书本，计数，加入书本等功能
 class Aggregate {
-    virtual Iterator iterator() = 0;
-}
-// bookshelf
-class BookShelf : public Aggregate {
 public:
-    Book(int maxSize) : maxSize_(maxSize), last_(0) {};
-    ~Book()
-    {
-        books_.clear();
-        maxSize_ = 0;
-        last_ = 0;
-    }
-    Book getBookAt(int id) const
-    {
-        return books_[id];
-    }
+    virtual Iterator* CreateIterator() = 0;
+    virtual State getBookAt(const int index, Book& book) = 0;
+    virtual void Pop() = 0;
+    virtual int Count() const = 0;
+    virtual void Push(const Book& book) = 0;
+    virtual ~Aggregate() = default;
+};
 
-    void appendBook(Book book)
-    {
-        if (last_ + 1 > maxSize) {
-            return;
-            // full of bookshelf
-        }
-
-        books_.push_back(book);
-        last_++;
-    }
-
-    int getLength() const
-    {
-        return last_;
-    };
-
-    Iterator iterator()
-    {
-        return new BookShelfIterator(this);
-    }
-private:
-    std::vector<Book> books_;
-    int last_;
-    int maxSize_;
-}
-
-
-// BookShelfIterator
+// 书架的具体迭代器，实现上面的抽象类的虚函数
 class BookShelfIterator : public Iterator {
 public:
-    bool hasNext();
-    Book next();
+    BookShelfIterator(Aggregate* aggregate) : aggregate_(aggregate), loc_(0) {};
+    ~BookShelfIterator() {
+        if (aggregate_ != nullptr) {
+            delete aggregate_;
+            aggregate_ = nullptr;
+        }
+        loc_ = 0;
+    }
+    Book Next() {
+        Book book;
+        aggregate_->getBookAt(loc_, book);
+        loc_++;
+        return book;
+    }
+
+    bool HasNext() const {
+        return loc_ < aggregate_->Count();
+    }
 private:
-    BookShelf bookShelf_;
-    int index_;
+    int loc_;
+    Aggregate* aggregate_;
+};
+
+// 具体的聚合类——书架，实现上面的功能
+class BookShelf : public Aggregate {
+public:
+    BookShelf(const int maxSize) :maxSize_(maxSize), count_(0), iterator_(nullptr) {
+        books_.clear();
+    }
+
+    Iterator* CreateIterator() {
+        if (iterator_ == nullptr) {
+            iterator_ = new BookShelfIterator(this);
+        }
+        return iterator_;
+    }
+
+    State getBookAt(const int index, Book& book) {
+        if (index >= count_) {
+            std::cout << "Wrong index\n";
+            return WRONG;
+        }
+        book = books_[index];
+        return RIGHT;
+    }
+
+    void Pop() {
+        books_.pop_back();
+        count_--;
+    }
+
+    int Count() const {
+        return count_;
+    }
+
+    void Push(const Book& book) {
+        if (count_ == maxSize_) {
+            std::cout << "bookshelf is full\n";
+            return;
+        }
+        books_.push_back(book);
+        count_++;
+    }
+    ~BookShelf() {
+        if (iterator_ != nullptr) {
+            delete iterator_;
+            iterator_ = nullptr;
+        }
+        maxSize_ = 0;
+        count_ = 0;
+        books_.clear();
+    }
+private:
+    int maxSize_;
+    int count_;
+    std::vector<Book> books_;
+    Iterator* iterator_;
+};
+
+// client
+int main()
+{
+	BookShelf* myShelf = new BookShelf(5);
+	myShelf->Push(Book("《重构》"));
+	myShelf->Push(Book("《图解设计模式》"));
+	myShelf->Push(Book("《黎曼猜想》"));
+
+	Iterator* iter = myShelf->CreateIterator();
+	cout << "书架上有" << myShelf->Count() << "本书：\n";
+	while (iter->HasNext() ==  true) {
+		cout << iter->Next().getName() << endl;
+	}
+	return 0;
 }
-
 ```
-
+具体的运行结果如下
+```shell
+书架上有3本书：
+《重构》
+《图解设计模式》
+《黎曼猜想》
+```
 ## 分析角色
 
 

@@ -40,154 +40,291 @@
 <p>我们使用C++按照上面的UML图片实现这个设计模式。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
-</span><span class="lnt">38
-</span><span class="lnt">39
-</span><span class="lnt">40
-</span><span class="lnt">41
-</span><span class="lnt">42
-</span><span class="lnt">43
-</span><span class="lnt">44
-</span><span class="lnt">45
-</span><span class="lnt">46
-</span><span class="lnt">47
-</span><span class="lnt">48
-</span><span class="lnt">49
-</span><span class="lnt">50
-</span><span class="lnt">51
-</span><span class="lnt">52
-</span><span class="lnt">53
-</span><span class="lnt">54
-</span><span class="lnt">55
-</span><span class="lnt">56
-</span><span class="lnt">57
-</span><span class="lnt">58
-</span><span class="lnt">59
-</span><span class="lnt">60
-</span><span class="lnt">61
-</span><span class="lnt">62
-</span><span class="lnt">63
-</span><span class="lnt">64
-</span><span class="lnt">65
-</span><span class="lnt">66
-</span><span class="lnt">67
-</span><span class="lnt">68
-</span><span class="lnt">69
-</span><span class="lnt">70
-</span><span class="lnt">71
-</span><span class="lnt">72
-</span><span class="lnt">73
+<pre class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
-<span class="c1">// book class
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="k">enum</span> <span class="nc">State</span> <span class="p">{</span>
+    <span class="n">RIGHT</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">WRONG</span><span class="p">,</span>
+    <span class="n">RESERVED</span> <span class="o">=</span> <span class="mi">22</span>
+<span class="p">};</span>
+<span class="c1">// 书本的类
 </span><span class="c1"></span><span class="k">class</span> <span class="nc">Book</span> <span class="p">{</span>
 <span class="k">public</span><span class="o">:</span>
-    <span class="n">Book</span><span class="p">(</span><span class="n">string</span> <span class="n">name</span><span class="p">)</span> <span class="o">:</span> <span class="n">name_</span><span class="p">(</span><span class="n">name</span><span class="p">){};</span>
-    <span class="n">string</span> <span class="nf">getName</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span><span class="k">return</span> <span class="n">name_</span><span class="p">;};</span>
+    <span class="n">Book</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">name</span> <span class="o">=</span> <span class="s">&#34;&#34;</span><span class="p">)</span> <span class="o">:</span> <span class="n">name_</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="p">{};</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">getName</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">name_</span><span class="p">;</span> <span class="p">};</span>
     <span class="o">~</span><span class="n">Book</span><span class="p">()</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
 <span class="k">private</span><span class="o">:</span>
-    <span class="n">string</span> <span class="n">name_</span><span class="p">;</span>
-<span class="p">}</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">name_</span><span class="p">;</span>
+<span class="p">};</span>
 
-<span class="c1">// Iterator abstract interface
+<span class="c1">// 抽象的迭代器类，包括获得下一本书，以及是否有下一本书的判断
 </span><span class="c1"></span><span class="k">class</span> <span class="nc">Iterator</span> <span class="p">{</span>
 <span class="k">public</span><span class="o">:</span>
-    <span class="k">virtual</span> <span class="kt">bool</span> <span class="n">hasNext</span><span class="p">()</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="k">virtual</span> <span class="n">Book</span> <span class="nf">next</span><span class="p">()</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="c1">// Aggregate interface
+    <span class="k">virtual</span> <span class="n">Book</span> <span class="n">Next</span><span class="p">()</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">virtual</span> <span class="kt">bool</span> <span class="nf">HasNext</span><span class="p">()</span> <span class="k">const</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">virtual</span> <span class="o">~</span><span class="n">Iterator</span><span class="p">()</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="c1">// 抽象的聚合类，该类有创建迭代器、取得某个位置的书本，弹出书本，计数，加入书本等功能
 </span><span class="c1"></span><span class="k">class</span> <span class="nc">Aggregate</span> <span class="p">{</span>
-    <span class="k">virtual</span> <span class="n">Iterator</span> <span class="nf">iterator</span><span class="p">()</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="c1">// bookshelf
-</span><span class="c1"></span><span class="k">class</span> <span class="nc">BookShelf</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Aggregate</span> <span class="p">{</span>
 <span class="k">public</span><span class="o">:</span>
-    <span class="n">Book</span><span class="p">(</span><span class="kt">int</span> <span class="n">maxSize</span><span class="p">)</span> <span class="o">:</span> <span class="n">maxSize_</span><span class="p">(</span><span class="n">maxSize</span><span class="p">),</span> <span class="n">last_</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">{};</span>
-    <span class="o">~</span><span class="n">Book</span><span class="p">()</span>
-    <span class="p">{</span>
-        <span class="n">books_</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span>
-        <span class="n">maxSize_</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-        <span class="n">last_</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="n">Book</span> <span class="nf">getBookAt</span><span class="p">(</span><span class="kt">int</span> <span class="n">id</span><span class="p">)</span> <span class="k">const</span>
-    <span class="p">{</span>
-        <span class="k">return</span> <span class="n">books_</span><span class="p">[</span><span class="n">id</span><span class="p">];</span>
-    <span class="p">}</span>
+    <span class="k">virtual</span> <span class="n">Iterator</span><span class="o">*</span> <span class="n">CreateIterator</span><span class="p">()</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">virtual</span> <span class="n">State</span> <span class="nf">getBookAt</span><span class="p">(</span><span class="k">const</span> <span class="kt">int</span> <span class="n">index</span><span class="p">,</span> <span class="n">Book</span><span class="o">&amp;</span> <span class="n">book</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">virtual</span> <span class="kt">void</span> <span class="nf">Pop</span><span class="p">()</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">virtual</span> <span class="kt">int</span> <span class="nf">Count</span><span class="p">()</span> <span class="k">const</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">virtual</span> <span class="kt">void</span> <span class="nf">Push</span><span class="p">(</span><span class="k">const</span> <span class="n">Book</span><span class="o">&amp;</span> <span class="n">book</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">virtual</span> <span class="o">~</span><span class="n">Aggregate</span><span class="p">()</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+<span class="p">};</span>
 
-    <span class="kt">void</span> <span class="nf">appendBook</span><span class="p">(</span><span class="n">Book</span> <span class="n">book</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">last_</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&gt;</span> <span class="n">maxSize</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">return</span><span class="p">;</span>
-            <span class="c1">// full of bookshelf
-</span><span class="c1"></span>        <span class="p">}</span>
-
-        <span class="n">books_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">book</span><span class="p">);</span>
-        <span class="n">last_</span><span class="o">++</span><span class="p">;</span>
-    <span class="p">}</span>
-
-    <span class="kt">int</span> <span class="nf">getLength</span><span class="p">()</span> <span class="k">const</span>
-    <span class="p">{</span>
-        <span class="k">return</span> <span class="n">last_</span><span class="p">;</span>
-    <span class="p">};</span>
-
-    <span class="n">Iterator</span> <span class="nf">iterator</span><span class="p">()</span>
-    <span class="p">{</span>
-        <span class="k">return</span> <span class="k">new</span> <span class="n">BookShelfIterator</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
-    <span class="p">}</span>
-<span class="k">private</span><span class="o">:</span>
-    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Book</span><span class="o">&gt;</span> <span class="n">books_</span><span class="p">;</span>
-    <span class="kt">int</span> <span class="n">last_</span><span class="p">;</span>
-    <span class="kt">int</span> <span class="n">maxSize_</span><span class="p">;</span>
-<span class="p">}</span>
-
-
-<span class="c1">// BookShelfIterator
+<span class="c1">// 书架的具体迭代器，实现上面的抽象类的虚函数
 </span><span class="c1"></span><span class="k">class</span> <span class="nc">BookShelfIterator</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Iterator</span> <span class="p">{</span>
 <span class="k">public</span><span class="o">:</span>
-    <span class="kt">bool</span> <span class="n">hasNext</span><span class="p">();</span>
-    <span class="n">Book</span> <span class="nf">next</span><span class="p">();</span>
-<span class="k">private</span><span class="o">:</span>
-    <span class="n">BookShelf</span> <span class="n">bookShelf_</span><span class="p">;</span>
-    <span class="kt">int</span> <span class="n">index_</span><span class="p">;</span>
-<span class="p">}</span>
+    <span class="n">BookShelfIterator</span><span class="p">(</span><span class="n">Aggregate</span><span class="o">*</span> <span class="n">aggregate</span><span class="p">)</span> <span class="o">:</span> <span class="n">aggregate_</span><span class="p">(</span><span class="n">aggregate</span><span class="p">),</span> <span class="n">loc_</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">{};</span>
+    <span class="o">~</span><span class="n">BookShelfIterator</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">aggregate_</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">delete</span> <span class="n">aggregate_</span><span class="p">;</span>
+            <span class="n">aggregate_</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="n">loc_</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">Book</span> <span class="nf">Next</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">Book</span> <span class="n">book</span><span class="p">;</span>
+        <span class="n">aggregate_</span><span class="o">-&gt;</span><span class="n">getBookAt</span><span class="p">(</span><span class="n">loc_</span><span class="p">,</span> <span class="n">book</span><span class="p">);</span>
+        <span class="n">loc_</span><span class="o">++</span><span class="p">;</span>
+        <span class="k">return</span> <span class="n">book</span><span class="p">;</span>
+    <span class="p">}</span>
 
+    <span class="kt">bool</span> <span class="nf">HasNext</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">loc_</span> <span class="o">&lt;</span> <span class="n">aggregate_</span><span class="o">-&gt;</span><span class="n">Count</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="k">private</span><span class="o">:</span>
+    <span class="kt">int</span> <span class="n">loc_</span><span class="p">;</span>
+    <span class="n">Aggregate</span><span class="o">*</span> <span class="n">aggregate_</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="c1">// 具体的聚合类——书架，实现上面的功能
+</span><span class="c1"></span><span class="k">class</span> <span class="nc">BookShelf</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Aggregate</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="n">BookShelf</span><span class="p">(</span><span class="k">const</span> <span class="kt">int</span> <span class="n">maxSize</span><span class="p">)</span> <span class="o">:</span><span class="n">maxSize_</span><span class="p">(</span><span class="n">maxSize</span><span class="p">),</span> <span class="n">count_</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">iterator_</span><span class="p">(</span><span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">books_</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="n">Iterator</span><span class="o">*</span> <span class="nf">CreateIterator</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">iterator_</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">iterator_</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BookShelfIterator</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">iterator_</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">State</span> <span class="nf">getBookAt</span><span class="p">(</span><span class="k">const</span> <span class="kt">int</span> <span class="n">index</span><span class="p">,</span> <span class="n">Book</span><span class="o">&amp;</span> <span class="n">book</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">index</span> <span class="o">&gt;=</span> <span class="n">count_</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Wrong index</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+            <span class="k">return</span> <span class="n">WRONG</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="n">book</span> <span class="o">=</span> <span class="n">books_</span><span class="p">[</span><span class="n">index</span><span class="p">];</span>
+        <span class="k">return</span> <span class="n">RIGHT</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kt">void</span> <span class="nf">Pop</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">books_</span><span class="p">.</span><span class="n">pop_back</span><span class="p">();</span>
+        <span class="n">count_</span><span class="o">--</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kt">int</span> <span class="nf">Count</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">count_</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kt">void</span> <span class="nf">Push</span><span class="p">(</span><span class="k">const</span> <span class="n">Book</span><span class="o">&amp;</span> <span class="n">book</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">count_</span> <span class="o">==</span> <span class="n">maxSize_</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;bookshelf is full</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+            <span class="k">return</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="n">books_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">book</span><span class="p">);</span>
+        <span class="n">count_</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="o">~</span><span class="n">BookShelf</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">iterator_</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">delete</span> <span class="n">iterator_</span><span class="p">;</span>
+            <span class="n">iterator_</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="n">maxSize_</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="n">count_</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="n">books_</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="k">private</span><span class="o">:</span>
+    <span class="kt">int</span> <span class="n">maxSize_</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">count_</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Book</span><span class="o">&gt;</span> <span class="n">books_</span><span class="p">;</span>
+    <span class="n">Iterator</span><span class="o">*</span> <span class="n">iterator_</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="c1">// client
+</span><span class="c1"></span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="n">BookShelf</span><span class="o">*</span> <span class="n">myShelf</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BookShelf</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+	<span class="n">myShelf</span><span class="o">-&gt;</span><span class="n">Push</span><span class="p">(</span><span class="n">Book</span><span class="p">(</span><span class="s">&#34;《重构》&#34;</span><span class="p">));</span>
+	<span class="n">myShelf</span><span class="o">-&gt;</span><span class="n">Push</span><span class="p">(</span><span class="n">Book</span><span class="p">(</span><span class="s">&#34;《图解设计模式》&#34;</span><span class="p">));</span>
+	<span class="n">myShelf</span><span class="o">-&gt;</span><span class="n">Push</span><span class="p">(</span><span class="n">Book</span><span class="p">(</span><span class="s">&#34;《黎曼猜想》&#34;</span><span class="p">));</span>
+
+	<span class="n">Iterator</span><span class="o">*</span> <span class="n">iter</span> <span class="o">=</span> <span class="n">myShelf</span><span class="o">-&gt;</span><span class="n">CreateIterator</span><span class="p">();</span>
+	<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;书架上有&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">myShelf</span><span class="o">-&gt;</span><span class="n">Count</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;本书：</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">iter</span><span class="o">-&gt;</span><span class="n">HasNext</span><span class="p">()</span> <span class="o">==</span>  <span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">iter</span><span class="o">-&gt;</span><span class="n">Next</span><span class="p">().</span><span class="n">getName</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>具体的运行结果如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">书架上有3本书：
+《重构》
+《图解设计模式》
+《黎曼猜想》
 </code></pre></td></tr></table>
 </div>
 </div><h2 id="分析角色">分析角色</h2>
