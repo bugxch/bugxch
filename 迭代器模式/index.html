@@ -6,8 +6,7 @@
         <meta name="robots" content="noodp" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
         <title>Iterator模式精解（C&#43;&#43;版本） - Dive Into Think</title><meta name="Description" content="博观而约取，厚积而薄发"><meta property="og:title" content="Iterator模式精解（C&#43;&#43;版本）" />
-<meta property="og:description" content="[toc]
-从本文章开始，参考结城浩的《图解设计模式》写23种设计模式的系列介绍文章，结合网络上其他的设计模式的内容，使用C&#43;&#43;的语言编写这些设计模式，记录自己的设计模式的心得。" />
+<meta property="og:description" content="从本文章开始，参考结城浩的《图解设计模式》写23种设计模式的系列介绍文章，结合网络上其他的设计模式的内容，使用C&#43;&#43;的语言编写这些设计模式，记录自己的设计模式的心得。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://bugxch.github.io/%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F/" />
 <meta property="og:image" content="https://bugxch.github.io/static/android-chrome-512x512.png"/>
@@ -17,8 +16,7 @@
 <meta name="twitter:image" content="https://bugxch.github.io/static/android-chrome-512x512.png"/>
 
 <meta name="twitter:title" content="Iterator模式精解（C&#43;&#43;版本）"/>
-<meta name="twitter:description" content="[toc]
-从本文章开始，参考结城浩的《图解设计模式》写23种设计模式的系列介绍文章，结合网络上其他的设计模式的内容，使用C&#43;&#43;的语言编写这些设计模式，记录自己的设计模式的心得。"/>
+<meta name="twitter:description" content="从本文章开始，参考结城浩的《图解设计模式》写23种设计模式的系列介绍文章，结合网络上其他的设计模式的内容，使用C&#43;&#43;的语言编写这些设计模式，记录自己的设计模式的心得。"/>
 <meta name="application-name" content="小猴子的烂笔头">
 <meta name="apple-mobile-web-app-title" content="小猴子的烂笔头"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="canonical" href="https://bugxch.github.io/%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F/" /><link rel="prev" href="https://bugxch.github.io/c_driven_table/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"><script type="application/ld+json">
     {
@@ -29,7 +27,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/bugxch.github.io\/%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F\/"
-        },"image": ["https:\/\/bugxch.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "C\/C\u002b\u002b, 设计模式, 迭代器模式","wordcount":  3023 ,
+        },"image": ["https:\/\/bugxch.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "C\/C\u002b\u002b, 设计模式, 迭代器模式","wordcount":  3022 ,
         "url": "https:\/\/bugxch.github.io\/%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F\/","datePublished": "2021-04-10T22:15:09+08:00","dateModified": "2021-04-10T22:15:09+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "xxxx","logo": "https:\/\/bugxch.github.io\/images\/avatar.png"},"author": {
@@ -106,7 +104,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">Iterator模式精解（C&#43;&#43;版本）</h1><h2 class="single-subtitle">迭代器模式精解</h2><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="https://bugxch.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>bugxch</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%8A%80%E8%89%BA/"><i class="far fa-folder fa-fw"></i>技艺</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-04-10">2021-04-10</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 3023 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-04-10">2021-04-10</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 3022 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 7 分钟&nbsp;</div>
         </div><div class="featured-image"><img
         class="lazyload"
@@ -137,8 +135,7 @@
     <li><a href="#参考资料">参考资料</a></li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><p>[toc]</p>
-<p>从本文章开始，参考结城浩的<a href="https://www.ituring.com.cn/book/1811" target="_blank" rel="noopener noreffer">《图解设计模式》</a>写23种设计模式的系列介绍文章，结合网络上其他的设计模式的内容，使用C++的语言编写这些设计模式，记录自己的设计模式的心得。</p>
+            </div><div class="content" id="content"><p>从本文章开始，参考结城浩的<a href="https://www.ituring.com.cn/book/1811" target="_blank" rel="noopener noreffer">《图解设计模式》</a>写23种设计模式的系列介绍文章，结合网络上其他的设计模式的内容，使用C++的语言编写这些设计模式，记录自己的设计模式的心得。</p>
 <h2 id="使用情景">使用情景</h2>
 <p>迭代器的作用是遍历某一类相同元素的集合，所以迭代器模式是一种<strong>行为</strong>设计模式，该模式的作用是在不改变底层元素的前提下，按照某种方式遍历集合中元素的值。其中，在C++中比较典型类似与std的vector的前向迭代器<code>begin()</code>和<code>end()</code>，以及后向迭代器<code>rbegin()</code>和<code>rend()</code>。</p>
 <h2 id="问题引入">问题引入</h2>

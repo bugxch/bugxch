@@ -12,8 +12,7 @@
     <guid>https://bugxch.github.io/%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F/</guid>
     <description><![CDATA[<div class="featured-image">
                 <img src="https://pic.imgdb.cn/item/6086d967d1a9ae528f307ce1.jpg" referrerpolicy="no-referrer">
-            </div><p>[toc]</p>
-<p>从本文章开始，参考结城浩的<a href="https://www.ituring.com.cn/book/1811" target="_blank" rel="noopener noreffer">《图解设计模式》</a>写23种设计模式的系列介绍文章，结合网络上其他的设计模式的内容，使用C++的语言编写这些设计模式，记录自己的设计模式的心得。</p>
+            </div><p>从本文章开始，参考结城浩的<a href="https://www.ituring.com.cn/book/1811" target="_blank" rel="noopener noreffer">《图解设计模式》</a>写23种设计模式的系列介绍文章，结合网络上其他的设计模式的内容，使用C++的语言编写这些设计模式，记录自己的设计模式的心得。</p>
 <h2 id="使用情景">使用情景</h2>
 <p>迭代器的作用是遍历某一类相同元素的集合，所以迭代器模式是一种<strong>行为</strong>设计模式，该模式的作用是在不改变底层元素的前提下，按照某种方式遍历集合中元素的值。其中，在C++中比较典型类似与std的vector的前向迭代器<code>begin()</code>和<code>end()</code>，以及后向迭代器<code>rbegin()</code>和<code>rend()</code>。</p>
 <h2 id="问题引入">问题引入</h2>
