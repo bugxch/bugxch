@@ -1,4 +1,4 @@
-# Iterator（迭代器）模式
+# Iterator模式精解（C++版本）
 
 从本文章开始，参考结城浩的[《图解设计模式》](https://www.ituring.com.cn/book/1811)写23种设计模式的系列介绍文章，结合网络上其他的设计模式的内容，使用C++的语言编写这些设计模式，记录自己的设计模式的心得。
 
@@ -65,9 +65,7 @@ class Aggregate {
 public:
     virtual Iterator* CreateIterator() = 0;
     virtual State getBookAt(const int index, Book& book) = 0;
-    virtual void Pop() = 0;
     virtual int Count() const = 0;
-    virtual void Push(const Book& book) = 0;
     virtual ~Aggregate() = default;
 };
 
@@ -177,7 +175,227 @@ int main()
 《黎曼猜想》
 ```
 ## 分析角色
+这个模式有实际上由两个角色，**集合以及集合的迭代器**，这两个事物由分为抽象和具体两种。我们所举的例子中
+- `BookShelf`就是具体的集合，它实现自抽象的集合接口`Aggregate`；
+- `BookShelfIterator`是具体的迭代器，它实现自抽象的迭代器接口`Iterator`。
+迭代器接口中定义了迭代器的遍历的所有方法，`HasNext`以及`Next`。
 
+这里需要注意的是，在C++的版本里面集合的接口中不仅定义了创建迭代器的方法`CreateIterator`，而且定义了集合的个数`Count`和集合获取当前元素的方法`getBookAt`，这是因为迭代器中的方法实现依赖这些接口。
+
+## 扩展修改
+
+大家可以思考一下为什么我们需要这个模式呢？设计模式的初衷是实现代码的**复用和可扩展**，这个模式体现在哪里呢？
+
+### 遍历方法和集合本身解耦
+
+迭代器模式的重要作用是**将集合的遍历和实现分离开来**，换句话说，无论实现如何变化，我依然可以使用原来的方法进行遍历，也就是说**遍历这个动作本身**不会因为书架的实现发生变化而变化，所以下面的代码是不变的
+```cpp
+while (iter->HasNext() ==  true) {
+		cout << iter->Next().getName() << endl;
+	}
+```
+我们依然仅仅依靠`HasNext`以及`Next`接口就可以完成对于书架本身的遍历。
+
+###  遍历需求易于扩展
+
+不妨设想一下，假如我们需要在原来的书架上新增一种遍历方式，从后向前实现后向遍历，这个代码该怎么修改呢？应该完成如下的工作：
+
+1. 在原来的书架类中新增后向遍历的iter指针；
+2. 书架类中包含创建后向迭代器的方法；
+3. 后向迭代器继承自迭代器类别，实现后向迭代器
+
+然后就可以继续使用原来的遍历方式遍历集合了，具体的代码如下
+```cpp
+
+enum State {
+    RIGHT = 0,
+    WRONG,
+    RESERVED = 22
+};
+// concrete book
+class Book {
+public:
+    Book(std::string name = "") : name_(name) {};
+    std::string getName() const { return name_; };
+    ~Book() = default;
+private:
+    std::string name_;
+};
+
+
+class Iterator {
+public:
+    virtual Book Next() = 0;
+    virtual bool HasNext() const = 0;
+    virtual ~Iterator() = default;
+};
+
+
+class Aggregate {
+public:
+    virtual Iterator* CreateForwardIterator() = 0;
+    virtual Iterator* CreateBackwardIterator() = 0;
+    virtual State getBookAt(const int index, Book& book) = 0;
+    virtual int Count() const = 0;
+    virtual ~Aggregate() = default;
+};
+
+class BookShelfBackwardIterator : public Iterator {
+public:
+    BookShelfBackwardIterator(Aggregate* aggregate) : aggregate_(aggregate) {
+        loc_ = aggregate_->Count() - 1;
+    };
+    ~BookShelfBackwardIterator() {
+        if (aggregate_ != nullptr) {
+            aggregate_ = nullptr;
+        }
+        loc_ = -1;
+    }
+    Book Next() {
+        Book book;
+        aggregate_->getBookAt(loc_, book);
+        loc_--;
+        return book;
+    }
+
+    bool HasNext() const {
+        return loc_ >= 0;
+    }
+private:
+    int loc_;
+    Aggregate* aggregate_;
+};
+
+class BookShelfForwardIterator : public Iterator {
+public:
+    BookShelfForwardIterator(Aggregate* aggregate) : aggregate_(aggregate), loc_(0) {};
+    ~BookShelfForwardIterator() {
+        if (aggregate_ != nullptr) {
+            aggregate_ = nullptr;
+        }
+        loc_ = -1;
+    }
+    Book Next() {
+        Book book;
+        aggregate_->getBookAt(loc_, book);
+        loc_++;
+        return book;
+    }
+
+    bool HasNext() const {
+        return loc_ < aggregate_->Count();
+    }
+private:
+    int loc_;
+    Aggregate* aggregate_;
+};
+
+class BookShelf : public Aggregate {
+public:
+    BookShelf(const int maxSize) :maxSize_(maxSize), count_(0), iterator_(nullptr), backiter_(nullptr) {
+        books_.clear();
+    }
+
+    Iterator* CreateBackwardIterator() {
+        if (backiter_ == nullptr) {
+            backiter_ = new BookShelfBackwardIterator(this);
+        }
+        return backiter_;
+    }
+
+    Iterator* CreateForwardIterator() {
+        if (iterator_ == nullptr) {
+            iterator_ = new BookShelfForwardIterator(this);
+        }
+        return iterator_;
+    }
+
+    State getBookAt(const int index, Book& book) {
+        if (index >= count_) {
+            std::cout << "Wrong index\n";
+            return WRONG;
+        }
+        book = books_[index];
+        return RIGHT;
+    }
+
+    void Pop() {
+        books_.pop_back();
+        count_--;
+    }
+
+    int Count() const {
+        return count_;
+    }
+
+    void Push(const Book& book) {
+        if (count_ == maxSize_) {
+            std::cout << "bookshelf is full\n";
+            return;
+        }
+        books_.push_back(book);
+        count_++;
+    }
+    ~BookShelf() {
+        if (iterator_ != nullptr) {
+            delete iterator_;
+            iterator_ = nullptr;
+        }
+
+        if (backiter_ != nullptr) {
+            delete backiter_;
+            backiter_ = nullptr;
+        }
+
+        maxSize_ = 0;
+        count_ = 0;
+        books_.clear();
+    }
+private:
+    int maxSize_;
+    int count_;
+    std::vector<Book> books_;
+    Iterator* iterator_;
+    Iterator* backiter_;
+};
+
+using namespace std;
+// book class
+
+int main()
+{
+	BookShelf* myShelf = new BookShelf(5);
+	myShelf->Push(Book("《重构》"));
+	myShelf->Push(Book("《图解设计模式》"));
+	myShelf->Push(Book("《黎曼猜想》"));
+
+	Iterator* iter = myShelf->CreateForwardIterator();
+	cout << "前向遍历" << myShelf->Count() << "本书：\n";
+	while (iter->HasNext()) {
+		cout << iter->Next().getName() << endl;
+	}
+	iter = nullptr;
+
+	iter = myShelf->CreateBackwardIterator();
+	cout << "后向遍历" << myShelf->Count() << "本书：\n";
+	while (iter->HasNext()) {
+		cout << iter->Next().getName() << endl;
+	}
+
+	return 0;
+}
+```
+运行效果如下
+```shell
+前向遍历3本书：
+《重构》
+《图解设计模式》
+《黎曼猜想》
+后向遍历3本书：
+《黎曼猜想》
+《图解设计模式》
+《重构》
+```
 
 ## 参考资料
 1. [图说设计模式 — Graphic Design Patterns](https://design-patterns.readthedocs.io/zh_CN/latest/)
