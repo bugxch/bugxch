@@ -1,7 +1,8 @@
 # 关于
 
 
-![](https://cdn.pixabay.com/photo/2016/02/19/10/56/mountain-1209497_960_720.jpg)
+
+![](https://pic.imgdb.cn/item/60896fe2d1a9ae528f70f5e8.jpg)
 
 # 网站历史
 
