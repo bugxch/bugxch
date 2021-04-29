@@ -60,16 +60,38 @@ int main()
 	printBanner->printWeak();
 	printBanner->printStrong();
 
+	delete printBanner;
+
 	return 0;
 }
 ```
 
 ### 基于委托的适配器模式
-另外一种形式是基于委托的模式，这里的“委托”意思是我将本来需要我自己做的事情，交给别人来做。
+另外一种形式是基于委托的模式，这里的“委托”意思是我将本来需要我自己做的事情，交给别人来做，适配器`PrintBanner`将接口的功能**委托**给`Banner`去做。
 
 ![](https://pic.imgdb.cn/item/608ace89d1a9ae528f402db1.png)
-
-## 分析角色
+具体的程序代码如下（与基于继承的代码仅仅在`PrintBanner`的类中的内容不同）
+```cpp
+class PrintBanner : public Print {
+public:
+	PrintBanner(std::string str = "") {
+		banner_ = new Banner(str);
+	}
+	void printWeak() override {
+		banner_->showWithParen();
+	}
+	void printStrong() override {
+		banner_->showWithAster();
+	}
+	~PrintBanner() {
+		if (banner_ != nullptr) {
+			delete banner_;
+		}
+	}
+private:
+	Banner* banner_;
+};
+```
 
 ---
 

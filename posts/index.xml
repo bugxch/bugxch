@@ -70,6 +70,8 @@
 </span><span class="lnt">42
 </span><span class="lnt">43
 </span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
@@ -114,15 +116,61 @@
 	<span class="n">printBanner</span><span class="o">-&gt;</span><span class="n">printWeak</span><span class="p">();</span>
 	<span class="n">printBanner</span><span class="o">-&gt;</span><span class="n">printStrong</span><span class="p">();</span>
 
+	<span class="k">delete</span> <span class="n">printBanner</span><span class="p">;</span>
+
 	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
 </div><h3 id="基于委托的适配器模式">基于委托的适配器模式</h3>
-<p>另外一种形式是基于委托的模式，这里的“委托”意思是我将本来需要我自己做的事情，交给别人来做。</p>
-<p></p>
-<h2 id="分析角色">分析角色</h2>
-<hr>
+<p>另外一种形式是基于委托的模式，这里的“委托”意思是我将本来需要我自己做的事情，交给别人来做，适配器<code>PrintBanner</code>将接口的功能<strong>委托</strong>给<code>Banner</code>去做。</p>
+<p>
+具体的程序代码如下（与基于继承的代码仅仅在<code>PrintBanner</code>的类中的内容不同）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">PrintBanner</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Print</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+	<span class="n">PrintBanner</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">str</span> <span class="o">=</span> <span class="s">&#34;&#34;</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">banner_</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Banner</span><span class="p">(</span><span class="n">str</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="kt">void</span> <span class="nf">printWeak</span><span class="p">()</span> <span class="k">override</span> <span class="p">{</span>
+		<span class="n">banner_</span><span class="o">-&gt;</span><span class="n">showWithParen</span><span class="p">();</span>
+	<span class="p">}</span>
+	<span class="kt">void</span> <span class="nf">printStrong</span><span class="p">()</span> <span class="k">override</span> <span class="p">{</span>
+		<span class="n">banner_</span><span class="o">-&gt;</span><span class="n">showWithAster</span><span class="p">();</span>
+	<span class="p">}</span>
+	<span class="o">~</span><span class="n">PrintBanner</span><span class="p">()</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">banner_</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">delete</span> <span class="n">banner_</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="k">private</span><span class="o">:</span>
+	<span class="n">Banner</span><span class="o">*</span> <span class="n">banner_</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><hr>
 <figure>
      <figcaption>
             <h4>欢迎扫码关注我的公众号</h4>
