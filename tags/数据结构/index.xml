@@ -8,7 +8,7 @@
     <title>单链表基本操作</title>
     <link>https://bugxch.github.io/%E5%8D%95%E9%93%BE%E8%A1%A8%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</link>
     <pubDate>Fri, 20 Jul 2018 23:18:50 &#43;0000</pubDate>
-    <author>作者</author>
+    <author>bugxch</author>
     <guid>https://bugxch.github.io/%E5%8D%95%E9%93%BE%E8%A1%A8%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</guid>
     <description><![CDATA[<p>C语言的链表基本操作。</p>
 <h2 id="为何需要链表">为何需要链表？</h2>

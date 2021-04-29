@@ -8,7 +8,7 @@
     <title>Adapter模式精解（C&#43;&#43;版本）</title>
     <link>https://bugxch.github.io/dp_2/</link>
     <pubDate>Thu, 29 Apr 2021 22:39:41 &#43;0800</pubDate>
-    <author>作者</author>
+    <author>bugxch</author>
     <guid>https://bugxch.github.io/dp_2/</guid>
     <description><![CDATA[<div class="featured-image">
                 <img src="https://pic.imgdb.cn/item/608ac85bd1a9ae528fde126e.png" referrerpolicy="no-referrer">
@@ -132,7 +132,7 @@
     <title>Iterator模式精解（C&#43;&#43;版本）</title>
     <link>https://bugxch.github.io/dp_1/</link>
     <pubDate>Sat, 10 Apr 2021 22:15:09 &#43;0800</pubDate>
-    <author>作者</author>
+    <author>bugxch</author>
     <guid>https://bugxch.github.io/dp_1/</guid>
     <description><![CDATA[<div class="featured-image">
                 <img src="https://pic.imgdb.cn/item/6086d967d1a9ae528f307ce1.jpg" referrerpolicy="no-referrer">
@@ -879,7 +879,7 @@
     <title>[转载]表驱动法代码实践</title>
     <link>https://bugxch.github.io/c_driven_table/</link>
     <pubDate>Fri, 22 Jan 2021 08:07:14 &#43;0800</pubDate>
-    <author>作者</author>
+    <author>bugxch</author>
     <guid>https://bugxch.github.io/c_driven_table/</guid>
     <description><![CDATA[<div class="featured-image">
                 <img src="https://pic.imgdb.cn/item/600a17e53ffa7d37b3da9d49.jpg" referrerpolicy="no-referrer">
@@ -2502,7 +2502,7 @@
     <title>LeetCode区间问题总结</title>
     <link>https://bugxch.github.io/intersection/</link>
     <pubDate>Sun, 16 Aug 2020 22:31:31 &#43;0800</pubDate>
-    <author>作者</author>
+    <author>bugxch</author>
     <guid>https://bugxch.github.io/intersection/</guid>
     <description><![CDATA[<div class="featured-image">
                 <img src="https://cdn.pixabay.com/photo/2013/07/18/20/26/sea-164989_960_720.jpg" referrerpolicy="no-referrer">
@@ -2809,7 +2809,7 @@
     <title>广度优先搜索详解</title>
     <link>https://bugxch.github.io/dfs_intro/</link>
     <pubDate>Sat, 08 Aug 2020 11:24:24 &#43;0800</pubDate>
-    <author>作者</author>
+    <author>bugxch</author>
     <guid>https://bugxch.github.io/dfs_intro/</guid>
     <description><![CDATA[<p>总结一下广度优先搜索的原理和用法。</p>
 <p></p>
@@ -4794,7 +4794,7 @@ code . <span class="c1"># 在当前目录下打开vs code，当前打开的文�
     <title>01背包问题详解</title>
     <link>https://bugxch.github.io/01%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%E8%AF%A6%E8%A7%A3/</link>
     <pubDate>Sat, 22 Feb 2020 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
+    <author>bugxch</author>
     <guid>https://bugxch.github.io/01%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%E8%AF%A6%E8%A7%A3/</guid>
     <description><![CDATA[<p>背包问题是非常经典的动态规划问题，但是中文书籍和资料很少有把这个问题说得清晰明了的，问题表述不清，递推公式错误，不一而足，我在彻底想清楚这个问题后，觉得很有必要记录下整个思考过程。</p>
 <h2 id="原始问题">原始问题</h2>
@@ -5333,7 +5333,7 @@ $$
     <title>《CPlusPlus Primer Plus》第九章习题及答案</title>
     <link>https://bugxch.github.io/cplusplus-primer-plus%E7%AC%AC%E4%B9%9D%E7%AB%A0%E4%B9%A0%E9%A2%98%E5%8F%8A%E7%AD%94%E6%A1%88/</link>
     <pubDate>Mon, 27 Jan 2020 12:49:07 &#43;0000</pubDate>
-    <author>作者</author>
+    <author>bugxch</author>
     <guid>https://bugxch.github.io/cplusplus-primer-plus%E7%AC%AC%E4%B9%9D%E7%AB%A0%E4%B9%A0%E9%A2%98%E5%8F%8A%E7%AD%94%E6%A1%88/</guid>
     <description><![CDATA[<div class="featured-image">
                 <img src="https://raw.githubusercontent.com/bugxch/blogpics/master/202001/c%2B%2B.jpg" referrerpolicy="no-referrer">

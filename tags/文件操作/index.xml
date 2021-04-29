@@ -8,7 +8,7 @@
     <title>python文件操作</title>
     <link>https://bugxch.github.io/python%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/</link>
     <pubDate>Thu, 08 Nov 2018 07:33:12 &#43;0000</pubDate>
-    <author>作者</author>
+    <author>bugxch</author>
     <guid>https://bugxch.github.io/python%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/</guid>
     <description><![CDATA[<p>在日常工作中，需要非常频繁地与数据打交道，将数据保存下来做数据比对，因此需要总结下python下的文本和数据的读写操作。</p>
 <h1 id="python文件读写">python文件读写</h1>

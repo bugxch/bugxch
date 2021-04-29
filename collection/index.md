@@ -1,7 +1,7 @@
 # 杂记
 
 
-![](https://pic.imgdb.cn/item/601171d63ffa7d37b33dffd0.jpg)
+![](https://pic.imgdb.cn/item/608ad1d1d1a9ae528f74229d.png)
 
 ## 网站
 

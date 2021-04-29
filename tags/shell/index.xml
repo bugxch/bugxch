@@ -8,7 +8,7 @@
     <title>\$(cd \$(dirname $0);pwd)的解释</title>
     <link>https://bugxch.github.io/shell%E7%9A%84%E8%A7%A3%E9%87%8A/</link>
     <pubDate>Sat, 03 Nov 2018 20:47:24 &#43;0000</pubDate>
-    <author>作者</author>
+    <author>bugxch</author>
     <guid>https://bugxch.github.io/shell%E7%9A%84%E8%A7%A3%E9%87%8A/</guid>
     <description><![CDATA[<p>I love shell.</p>
 <p></p>

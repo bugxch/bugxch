@@ -8,7 +8,7 @@
     <title>tf中的padding方式SAME和VALID有什么区别?</title>
     <link>https://bugxch.github.io/tf%E4%B8%AD%E7%9A%84padding%E6%96%B9%E5%BC%8Fsame%E5%92%8Cvalid%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB/</link>
     <pubDate>Wed, 14 Nov 2018 07:09:58 &#43;0000</pubDate>
-    <author>作者</author>
+    <author>bugxch</author>
     <guid>https://bugxch.github.io/tf%E4%B8%AD%E7%9A%84padding%E6%96%B9%E5%BC%8Fsame%E5%92%8Cvalid%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB/</guid>
     <description><![CDATA[<p>Tensorflow中的padding有两种方式，其中的SAME方式比较特殊，可能产生非对称pad的情况，之前在验证一个tensorflow的网络时踩到这个坑。</p>
 <h2 id="tensorflow的计算公式">Tensorflow的计算公式</h2>

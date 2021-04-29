@@ -8,7 +8,7 @@
     <title>LeetCode区间问题总结</title>
     <link>https://bugxch.github.io/intersection/</link>
     <pubDate>Sun, 16 Aug 2020 22:31:31 &#43;0800</pubDate>
-    <author>作者</author>
+    <author>bugxch</author>
     <guid>https://bugxch.github.io/intersection/</guid>
     <description><![CDATA[<div class="featured-image">
                 <img src="https://cdn.pixabay.com/photo/2013/07/18/20/26/sea-164989_960_720.jpg" referrerpolicy="no-referrer">
@@ -156,7 +156,7 @@
     <title>广度优先搜索详解</title>
     <link>https://bugxch.github.io/dfs_intro/</link>
     <pubDate>Sat, 08 Aug 2020 11:24:24 &#43;0800</pubDate>
-    <author>作者</author>
+    <author>bugxch</author>
     <guid>https://bugxch.github.io/dfs_intro/</guid>
     <description><![CDATA[<p>总结一下广度优先搜索的原理和用法。</p>
 <p></p>
@@ -1057,7 +1057,7 @@
     <title>01背包问题详解</title>
     <link>https://bugxch.github.io/01%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%E8%AF%A6%E8%A7%A3/</link>
     <pubDate>Sat, 22 Feb 2020 00:00:00 &#43;0000</pubDate>
-    <author>作者</author>
+    <author>bugxch</author>
     <guid>https://bugxch.github.io/01%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%E8%AF%A6%E8%A7%A3/</guid>
     <description><![CDATA[<p>背包问题是非常经典的动态规划问题，但是中文书籍和资料很少有把这个问题说得清晰明了的，问题表述不清，递推公式错误，不一而足，我在彻底想清楚这个问题后，觉得很有必要记录下整个思考过程。</p>
 <h2 id="原始问题">原始问题</h2>

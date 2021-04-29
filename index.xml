@@ -10,7 +10,7 @@
     <title>Adapter模式精解（C&#43;&#43;版本）</title>
     <link>https://bugxch.github.io/dp_2/</link>
     <pubDate>Thu, 29 Apr 2021 22:39:41 &#43;0800</pubDate>
-    <author>作者</author>
+    <author>bugxch</author>
     <guid>https://bugxch.github.io/dp_2/</guid>
     <description><![CDATA[<div class="featured-image">
                 <img src="https://pic.imgdb.cn/item/608ac85bd1a9ae528fde126e.png" referrerpolicy="no-referrer">
@@ -134,7 +134,7 @@
     <title>Iterator模式精解（C&#43;&#43;版本）</title>
     <link>https://bugxch.github.io/dp_1/</link>
     <pubDate>Sat, 10 Apr 2021 22:15:09 &#43;0800</pubDate>
-    <author>作者</author>
+    <author>bugxch</author>
     <guid>https://bugxch.github.io/dp_1/</guid>
     <description><![CDATA[<div class="featured-image">
                 <img src="https://pic.imgdb.cn/item/6086d967d1a9ae528f307ce1.jpg" referrerpolicy="no-referrer">
@@ -881,7 +881,7 @@
     <title>[转载]表驱动法代码实践</title>
     <link>https://bugxch.github.io/c_driven_table/</link>
     <pubDate>Fri, 22 Jan 2021 08:07:14 &#43;0800</pubDate>
-    <author>作者</author>
+    <author>bugxch</author>
     <guid>https://bugxch.github.io/c_driven_table/</guid>
     <description><![CDATA[<div class="featured-image">
                 <img src="https://pic.imgdb.cn/item/600a17e53ffa7d37b3da9d49.jpg" referrerpolicy="no-referrer">
@@ -2504,7 +2504,7 @@
     <title>请回答2020</title>
     <link>https://bugxch.github.io/%E8%AF%B7%E5%9B%9E%E7%AD%942020/</link>
     <pubDate>Sat, 02 Jan 2021 22:26:25 &#43;0800</pubDate>
-    <author>作者</author>
+    <author>bugxch</author>
     <guid>https://bugxch.github.io/%E8%AF%B7%E5%9B%9E%E7%AD%942020/</guid>
     <description><![CDATA[<div class="featured-image">
                 <img src="https://cdn.pixabay.com/photo/2020/12/10/09/21/face-mask-5819709_960_720.jpg" referrerpolicy="no-referrer">
@@ -2782,7 +2782,7 @@
     <title>LeetCode区间问题总结</title>
     <link>https://bugxch.github.io/intersection/</link>
     <pubDate>Sun, 16 Aug 2020 22:31:31 &#43;0800</pubDate>
-    <author>作者</author>
+    <author>bugxch</author>
     <guid>https://bugxch.github.io/intersection/</guid>
     <description><![CDATA[<div class="featured-image">
                 <img src="https://cdn.pixabay.com/photo/2013/07/18/20/26/sea-164989_960_720.jpg" referrerpolicy="no-referrer">
@@ -3089,7 +3089,7 @@
     <title>广度优先搜索详解</title>
     <link>https://bugxch.github.io/dfs_intro/</link>
     <pubDate>Sat, 08 Aug 2020 11:24:24 &#43;0800</pubDate>
-    <author>作者</author>
+    <author>bugxch</author>
     <guid>https://bugxch.github.io/dfs_intro/</guid>
     <description><![CDATA[<p>总结一下广度优先搜索的原理和用法。</p>
 <p></p>
@@ -5074,7 +5074,7 @@ code . <span class="c1"># 在当前目录下打开vs code，当前打开的文�
     <title>[转载]用于深入思考的小工具</title>
     <link>https://bugxch.github.io/think/</link>
     <pubDate>Sun, 19 Jul 2020 21:18:11 &#43;0800</pubDate>
-    <author>作者</author>
+    <author>Terence Xie</author>
     <guid>https://bugxch.github.io/think/</guid>
     <description><![CDATA[<p>为了能够进一步探讨创造力，深度思考，学习，以及AI当中的一些话题，我发现我不得不先写一篇post来引入关于思考的一些工具和运作方式，作为后续posts探讨的基石。这篇文章会基于我在medium上的post进行展开。</p>
 <p>为了掌握一项技能，或者深入一个领域，我们首先要从它们的定义开始入手，即知道，它们是什么，意味着什么。同样的，为了具备创造力，我们首先得弄清楚它最基本的含义是什么。</p>

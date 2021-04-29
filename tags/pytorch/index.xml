@@ -8,7 +8,7 @@
     <title>Tensorboad查看pytorch模型</title>
     <link>https://bugxch.github.io/tensorboad%E6%9F%A5%E7%9C%8Bpytorch%E6%A8%A1%E5%9E%8B/</link>
     <pubDate>Fri, 06 Dec 2019 21:53:20 &#43;0000</pubDate>
-    <author>作者</author>
+    <author>bugxch</author>
     <guid>https://bugxch.github.io/tensorboad%E6%9F%A5%E7%9C%8Bpytorch%E6%A8%A1%E5%9E%8B/</guid>
     <description><![CDATA[<p>与tensorflow模型与caffe模型不同，当前的pytorch没有官方的直观查看网络结构的工具，google了下pytorch的网络解析的方法，发现可以将pytorch的model转换成为events文件使用tensorboard查看，记录之。</p>
 <p></p>
