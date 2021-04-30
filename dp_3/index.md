@@ -25,8 +25,109 @@ Template Method就是带有模板功能的模式，它有下面的特点：
 ![](https://pic.imgdb.cn/item/608bf6c0d1a9ae528f6ea0ee.png)
 每个类的作用如下
 ![](https://pic.imgdb.cn/item/608bf701d1a9ae528f712d27.png)
-## 角色说明
 
+- `AbstractDisplay`是抽象类，定义了整个的**流程框架**，即方法`display()`，该方法又由3个抽象方法实现`open(), print(), close()`；
+- `CharDisplay`和`StringDisplay`是具体的继承类，它们实现了抽象类中的抽象方法。
+仅仅从抽象类看不出来每个抽象方法的具体实现，这些方法由每个类具体负责，上面的所有的类的具体代码如下。
+
+```cpp
+#include <string>
+#include <iostream>
+using namespace std;
+class AbstractDisplay {
+public:
+	virtual void open() = 0;
+	virtual void print() = 0;
+	virtual void close() = 0;
+	virtual void display() final
+	{
+		open();
+		for (int i = 0; i < 5; i++) {
+			print();
+		}
+		close();
+	}
+};
+
+class CharDisplay: public AbstractDisplay {
+public:
+	CharDisplay(char ch = 'h') : ch_(ch) {};
+	void open() override
+	{
+		cout << "<<";
+	}
+	void close() override
+	{
+		cout << ">>\n";
+	}
+	void print() override
+	{
+		cout << ch_;
+	}
+private:
+	char ch_;
+};
+
+class StringDisplay : public AbstractDisplay {
+public:
+	StringDisplay(string str = " ", int width = 10) :width_(width), str_(str) {};
+	void open() override
+	{
+		printLine();
+	}
+	void print() override
+	{
+		cout << "|" << str_ << "|\n";
+	}
+	void close() override
+	{
+		printLine();
+	}
+private:
+	string str_;
+	int width_;
+	void printLine() const {
+		cout << "+";
+		for (int i = 0; i < width_; i++) {
+			cout << "-";
+		}
+		cout << "+\n";
+	}
+};
+
+int main()
+{
+	AbstractDisplay* display = new CharDisplay('H');
+	display->display();
+	delete display;
+	display = new StringDisplay("Hello World!");
+	display->display();
+	delete display;
+	display = new StringDisplay("Hello haha!");
+	display->display();
+	delete display;
+
+	return 0;
+}
+```
+运行结果如下，
+```shell
+<<HHHHH>>
++----------+
+|Hello World!|
+|Hello World!|
+|Hello World!|
+|Hello World!|
+|Hello World!|
++----------+
++----------+
+|Hello haha!|
+|Hello haha!|
+|Hello haha!|
+|Hello haha!|
+|Hello haha!|
++----------+
+```
 
 ---
 

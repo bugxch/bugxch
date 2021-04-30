@@ -31,8 +31,211 @@
 <p>
 每个类的作用如下
 </p>
-<h2 id="角色说明">角色说明</h2>
-<hr>
+<ul>
+<li><code>AbstractDisplay</code>是抽象类，定义了整个的<strong>流程框架</strong>，即方法<code>display()</code>，该方法又由3个抽象方法实现<code>open(), print(), close()</code>；</li>
+<li><code>CharDisplay</code>和<code>StringDisplay</code>是具体的继承类，它们实现了抽象类中的抽象方法。
+仅仅从抽象类看不出来每个抽象方法的具体实现，这些方法由每个类具体负责，上面的所有的类的具体代码如下。</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="k">class</span> <span class="nc">AbstractDisplay</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+	<span class="k">virtual</span> <span class="kt">void</span> <span class="n">open</span><span class="p">()</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="k">virtual</span> <span class="kt">void</span> <span class="nf">print</span><span class="p">()</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="k">virtual</span> <span class="kt">void</span> <span class="nf">close</span><span class="p">()</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="k">virtual</span> <span class="kt">void</span> <span class="nf">display</span><span class="p">()</span> <span class="k">final</span>
+	<span class="p">{</span>
+		<span class="n">open</span><span class="p">();</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">print</span><span class="p">();</span>
+		<span class="p">}</span>
+		<span class="n">close</span><span class="p">();</span>
+	<span class="p">}</span>
+<span class="p">};</span>
+
+<span class="k">class</span> <span class="nc">CharDisplay</span><span class="o">:</span> <span class="k">public</span> <span class="n">AbstractDisplay</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+	<span class="n">CharDisplay</span><span class="p">(</span><span class="kt">char</span> <span class="n">ch</span> <span class="o">=</span> <span class="sc">&#39;h&#39;</span><span class="p">)</span> <span class="o">:</span> <span class="n">ch_</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span> <span class="p">{};</span>
+	<span class="kt">void</span> <span class="nf">open</span><span class="p">()</span> <span class="k">override</span>
+	<span class="p">{</span>
+		<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;&lt;&lt;&#34;</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="kt">void</span> <span class="nf">close</span><span class="p">()</span> <span class="k">override</span>
+	<span class="p">{</span>
+		<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;&gt;&gt;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="kt">void</span> <span class="nf">print</span><span class="p">()</span> <span class="k">override</span>
+	<span class="p">{</span>
+		<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">ch_</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="k">private</span><span class="o">:</span>
+	<span class="kt">char</span> <span class="n">ch_</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">class</span> <span class="nc">StringDisplay</span> <span class="o">:</span> <span class="k">public</span> <span class="n">AbstractDisplay</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+	<span class="n">StringDisplay</span><span class="p">(</span><span class="n">string</span> <span class="n">str</span> <span class="o">=</span> <span class="s">&#34; &#34;</span><span class="p">,</span> <span class="kt">int</span> <span class="n">width</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span> <span class="o">:</span><span class="n">width_</span><span class="p">(</span><span class="n">width</span><span class="p">),</span> <span class="n">str_</span><span class="p">(</span><span class="n">str</span><span class="p">)</span> <span class="p">{};</span>
+	<span class="kt">void</span> <span class="nf">open</span><span class="p">()</span> <span class="k">override</span>
+	<span class="p">{</span>
+		<span class="n">printLine</span><span class="p">();</span>
+	<span class="p">}</span>
+	<span class="kt">void</span> <span class="nf">print</span><span class="p">()</span> <span class="k">override</span>
+	<span class="p">{</span>
+		<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;|&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">str_</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;|</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="kt">void</span> <span class="nf">close</span><span class="p">()</span> <span class="k">override</span>
+	<span class="p">{</span>
+		<span class="n">printLine</span><span class="p">();</span>
+	<span class="p">}</span>
+<span class="k">private</span><span class="o">:</span>
+	<span class="n">string</span> <span class="n">str_</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">width_</span><span class="p">;</span>
+	<span class="kt">void</span> <span class="nf">printLine</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
+		<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;+&#34;</span><span class="p">;</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">width_</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;-&#34;</span><span class="p">;</span>
+		<span class="p">}</span>
+		<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;+</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="n">AbstractDisplay</span><span class="o">*</span> <span class="n">display</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CharDisplay</span><span class="p">(</span><span class="sc">&#39;H&#39;</span><span class="p">);</span>
+	<span class="n">display</span><span class="o">-&gt;</span><span class="n">display</span><span class="p">();</span>
+	<span class="k">delete</span> <span class="n">display</span><span class="p">;</span>
+	<span class="n">display</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringDisplay</span><span class="p">(</span><span class="s">&#34;Hello World!&#34;</span><span class="p">);</span>
+	<span class="n">display</span><span class="o">-&gt;</span><span class="n">display</span><span class="p">();</span>
+	<span class="k">delete</span> <span class="n">display</span><span class="p">;</span>
+	<span class="n">display</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringDisplay</span><span class="p">(</span><span class="s">&#34;Hello haha!&#34;</span><span class="p">);</span>
+	<span class="n">display</span><span class="o">-&gt;</span><span class="n">display</span><span class="p">();</span>
+	<span class="k">delete</span> <span class="n">display</span><span class="p">;</span>
+
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>运行结果如下，</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="s">&lt;&lt;HHHHH</span>&gt;&gt;
++----------+
+<span class="p">|</span>Hello World!<span class="p">|</span>
+<span class="p">|</span>Hello World!<span class="p">|</span>
+<span class="p">|</span>Hello World!<span class="p">|</span>
+<span class="p">|</span>Hello World!<span class="p">|</span>
+<span class="p">|</span>Hello World!<span class="p">|</span>
++----------+
++----------+
+<span class="p">|</span>Hello haha!<span class="p">|</span>
+<span class="p">|</span>Hello haha!<span class="p">|</span>
+<span class="p">|</span>Hello haha!<span class="p">|</span>
+<span class="p">|</span>Hello haha!<span class="p">|</span>
+<span class="p">|</span>Hello haha!<span class="p">|</span>
++----------+
+</code></pre></td></tr></table>
+</div>
+</div><hr>
 <figure>
      <figcaption>
             <h4>欢迎扫码关注我的公众号</h4>
