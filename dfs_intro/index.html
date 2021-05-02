@@ -18,7 +18,9 @@
 <meta name="twitter:title" content="广度优先搜索详解"/>
 <meta name="twitter:description" content="总结一下广度优先搜索的原理和用法。"/>
 <meta name="application-name" content="小猴子的烂笔头">
-<meta name="apple-mobile-web-app-title" content="小猴子的烂笔头"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="canonical" href="https://bugxch.github.io/dfs_intro/" /><link rel="prev" href="https://bugxch.github.io/slidingwindow/" /><link rel="next" href="https://bugxch.github.io/sort_intro/" /><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css">
+<meta name="apple-mobile-web-app-title" content="小猴子的烂笔头">
+
+<meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="canonical" href="https://bugxch.github.io/dfs_intro/" /><link rel="prev" href="https://bugxch.github.io/slidingwindow/" /><link rel="next" href="https://bugxch.github.io/sort_intro/" /><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"></noscript><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"></noscript><meta name="google-site-verification" content="UA-159591505-1" /><script type="application/ld+json">
@@ -54,7 +56,7 @@
                         document.body.setAttribute('theme', 'dark');
                     }
                     else {
-                        document.body.setAttribute('theme', 'white');
+                        document.body.setAttribute('theme', 'light');
                     }
                 }
             } else {
@@ -67,9 +69,22 @@
                         document.body.setAttribute('theme', 'dark');
                     }
                     else {
-                        document.body.setAttribute('theme', 'white');
+                        document.body.setAttribute('theme', 'light');
                     }
                 }
+            }
+            function getMeta(metaName) {
+                const metas = document.getElementsByTagName('meta'); 
+                for (let i = 0; i < metas.length; i++) {
+                    if (metas[i].getAttribute('name') === metaName) {
+                        return metas[i];
+                    }
+                }
+                return '';
+            }
+            let themeColorMeta = getMeta('theme-color');
+            if (document.body.getAttribute('theme') != 'light') {
+                themeColorMeta.content = '#000000';
             }
         </script>
         <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
@@ -135,7 +150,7 @@
                 <div class="container"><div class="toc" id="toc-auto">
             <h2 class="toc-title">目录</h2>
             <div class="toc-content always-active" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animated flipInX">广度优先搜索详解</h1><div class="post-meta">
+        </div><script>document.body.setAttribute("pageStyle", "normal")</script><article class="page single"><h1 class="single-title animated flipInX">广度优先搜索详解</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>bugxch</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%8A%80%E8%89%BA/"><i class="far fa-folder fa-fw"></i>技艺</a></span></div>
             <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-08-08">2020-08-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 4629 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 10 分钟&nbsp;</div>
@@ -179,12 +194,14 @@
             </div><div class="content" id="content"><p>总结一下广度优先搜索的原理和用法。</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Depth-first-tree.svg/640px-Depth-first-tree.svg.png?1596857354686"
         data-srcset="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Depth-first-tree.svg/640px-Depth-first-tree.svg.png?1596857354686, https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Depth-first-tree.svg/640px-Depth-first-tree.svg.png?1596857354686 1.5x, https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Depth-first-tree.svg/640px-Depth-first-tree.svg.png?1596857354686 2x"
         data-sizes="auto"
         alt="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Depth-first-tree.svg/640px-Depth-first-tree.svg.png?1596857354686"
-        title="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Depth-first-tree.svg/640px-Depth-first-tree.svg.png?1596857354686" /></p>
+        title="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Depth-first-tree.svg/640px-Depth-first-tree.svg.png?1596857354686"
+        
+        
+    /></p>
 <h2 id="引子">引子</h2>
 <p>先看这道题<a href="https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/" target="_blank" rel="noopener noreffer">104. 二叉树的最大深度</a>，题目中给出一个二叉树，求这个二叉树的最大深度。例子中给出下面的二叉树</p>
 <div class="highlight"><div class="chroma">
@@ -398,12 +415,14 @@
 <p>这里可以使用<strong>队列</strong>保存需要被访问的节点，如下图所示，分别在头和尾弹出和插入节点，</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="http://c.biancheng.net/uploads/allimg/180913/2-1P913113140553.jpg"
         data-srcset="http://c.biancheng.net/uploads/allimg/180913/2-1P913113140553.jpg, http://c.biancheng.net/uploads/allimg/180913/2-1P913113140553.jpg 1.5x, http://c.biancheng.net/uploads/allimg/180913/2-1P913113140553.jpg 2x"
         data-sizes="auto"
         alt="http://c.biancheng.net/uploads/allimg/180913/2-1P913113140553.jpg"
-        title="http://c.biancheng.net/uploads/allimg/180913/2-1P913113140553.jpg" /></p>
+        title="http://c.biancheng.net/uploads/allimg/180913/2-1P913113140553.jpg"
+        
+        
+    /></p>
 <p>结合上面的步骤，<code>depth = 1</code>，将root的根节点添加到队列结尾</p>
 <ol>
 <li>我们一次将一层的节点放入到队列中；</li>
@@ -484,23 +503,27 @@
 </div><p>下图是资料3中的图示过程，简单明了。</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://ucc.alicdn.com/pic/developer-ecology/f799f2d3440f4cddb47d0b1e28d8198d.gif"
         data-srcset="https://ucc.alicdn.com/pic/developer-ecology/f799f2d3440f4cddb47d0b1e28d8198d.gif, https://ucc.alicdn.com/pic/developer-ecology/f799f2d3440f4cddb47d0b1e28d8198d.gif 1.5x, https://ucc.alicdn.com/pic/developer-ecology/f799f2d3440f4cddb47d0b1e28d8198d.gif 2x"
         data-sizes="auto"
         alt="https://ucc.alicdn.com/pic/developer-ecology/f799f2d3440f4cddb47d0b1e28d8198d.gif"
-        title="https://ucc.alicdn.com/pic/developer-ecology/f799f2d3440f4cddb47d0b1e28d8198d.gif" /></p>
+        title="https://ucc.alicdn.com/pic/developer-ecology/f799f2d3440f4cddb47d0b1e28d8198d.gif"
+        
+        
+    /></p>
 <h2 id="数据结构">数据结构</h2>
 <h3 id="队列">队列</h3>
 <p>使用<strong>队列</strong>保存每一层的节点，如下图所示，队列是先进先出的数据结构，包括如下的属性和方法</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://media.geeksforgeeks.org/wp-content/cdn-uploads/gq/2014/02/Queue.png"
         data-srcset="https://media.geeksforgeeks.org/wp-content/cdn-uploads/gq/2014/02/Queue.png, https://media.geeksforgeeks.org/wp-content/cdn-uploads/gq/2014/02/Queue.png 1.5x, https://media.geeksforgeeks.org/wp-content/cdn-uploads/gq/2014/02/Queue.png 2x"
         data-sizes="auto"
         alt="https://media.geeksforgeeks.org/wp-content/cdn-uploads/gq/2014/02/Queue.png"
-        title="https://media.geeksforgeeks.org/wp-content/cdn-uploads/gq/2014/02/Queue.png" /></p>
+        title="https://media.geeksforgeeks.org/wp-content/cdn-uploads/gq/2014/02/Queue.png"
+        
+        
+    /></p>
 <ul>
 <li>队列头（front），表示队列最开始的元素；</li>
 <li>队列尾（rear），表示队列最后加入的元素；</li>
@@ -651,12 +674,14 @@
 <p>题目见<a href="https://leetcode-cn.com/problems/all-nodes-distance-k-in-binary-tree/" target="_blank" rel="noopener noreffer">863. 二叉树中所有距离为 K 的结点 - 力扣（LeetCode）</a>，这道题稍微有点复杂，观察给出的例子（如下图），与5的节点距离为2的节点除了4和7之外还有1，如果仅仅给出4和7是比较简单的，只要以5为根节点，记录depth = 1，套用引子中的程序，将depth = K + 1的所有的节点列出来即可。</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://s3-lc-upload.s3.amazonaws.com/uploads/2018/06/28/sketch0.png"
         data-srcset="https://s3-lc-upload.s3.amazonaws.com/uploads/2018/06/28/sketch0.png, https://s3-lc-upload.s3.amazonaws.com/uploads/2018/06/28/sketch0.png 1.5x, https://s3-lc-upload.s3.amazonaws.com/uploads/2018/06/28/sketch0.png 2x"
         data-sizes="auto"
         alt="https://s3-lc-upload.s3.amazonaws.com/uploads/2018/06/28/sketch0.png"
-        title="https://s3-lc-upload.s3.amazonaws.com/uploads/2018/06/28/sketch0.png" /></p>
+        title="https://s3-lc-upload.s3.amazonaws.com/uploads/2018/06/28/sketch0.png"
+        
+        
+    /></p>
 <p>但是往上回溯比较难，换一个思路，我们遍历整个二叉树，</p>
 <ol>
 <li>记录每个节点的<code>father</code>节点，<code>left</code>节点和<code>right</code>节点，将二叉树变成图，表示A与这3个节点的任意一个都是连通的；</li>
@@ -1138,6 +1163,21 @@
         <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.10"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2016 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank" rel="noopener noreferrer">bugxch</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
+        <script>
+            if('serviceWorker' in navigator) {
+                navigator.serviceWorker
+                    .register('/sw.min.js', { scope: '/' })
+                    .then(function(registration) {
+                        
+                    });
+          
+                navigator.serviceWorker
+                    .ready
+                    .then(function(registration) {
+                        
+                    });
+            }
+          </script>          
     </footer></div>
 
         <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">

@@ -18,7 +18,9 @@
 <meta name="twitter:title" content="01背包问题详解"/>
 <meta name="twitter:description" content="01背包问题的详细推导过程"/>
 <meta name="application-name" content="小猴子的烂笔头">
-<meta name="apple-mobile-web-app-title" content="小猴子的烂笔头"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="canonical" href="https://bugxch.github.io/01%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%E8%AF%A6%E8%A7%A3/" /><link rel="prev" href="https://bugxch.github.io/cplusplus-primer-plus%E7%AC%AC%E4%B9%9D%E7%AB%A0%E4%B9%A0%E9%A2%98%E5%8F%8A%E7%AD%94%E6%A1%88/" /><link rel="next" href="https://bugxch.github.io/think/" /><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css">
+<meta name="apple-mobile-web-app-title" content="小猴子的烂笔头">
+
+<meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="canonical" href="https://bugxch.github.io/01%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%E8%AF%A6%E8%A7%A3/" /><link rel="prev" href="https://bugxch.github.io/cplusplus-primer-plus%E7%AC%AC%E4%B9%9D%E7%AB%A0%E4%B9%A0%E9%A2%98%E5%8F%8A%E7%AD%94%E6%A1%88/" /><link rel="next" href="https://bugxch.github.io/think/" /><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"></noscript><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"></noscript><meta name="google-site-verification" content="UA-159591505-1" /><script type="application/ld+json">
@@ -54,7 +56,7 @@
                         document.body.setAttribute('theme', 'dark');
                     }
                     else {
-                        document.body.setAttribute('theme', 'white');
+                        document.body.setAttribute('theme', 'light');
                     }
                 }
             } else {
@@ -67,9 +69,22 @@
                         document.body.setAttribute('theme', 'dark');
                     }
                     else {
-                        document.body.setAttribute('theme', 'white');
+                        document.body.setAttribute('theme', 'light');
                     }
                 }
+            }
+            function getMeta(metaName) {
+                const metas = document.getElementsByTagName('meta'); 
+                for (let i = 0; i < metas.length; i++) {
+                    if (metas[i].getAttribute('name') === metaName) {
+                        return metas[i];
+                    }
+                }
+                return '';
+            }
+            let themeColorMeta = getMeta('theme-color');
+            if (document.body.getAttribute('theme') != 'light') {
+                themeColorMeta.content = '#000000';
             }
         </script>
         <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
@@ -135,7 +150,7 @@
                 <div class="container"><div class="toc" id="toc-auto">
             <h2 class="toc-title">目录</h2>
             <div class="toc-content always-active" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animated flipInX">01背包问题详解</h1><div class="post-meta">
+        </div><script>document.body.setAttribute("pageStyle", "normal")</script><article class="page single"><h1 class="single-title animated flipInX">01背包问题详解</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>bugxch</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%8A%80%E8%89%BA/"><i class="far fa-folder fa-fw"></i>技艺</a></span></div>
             <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-02-22">2020-02-22</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 5532 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 12 分钟&nbsp;</div>
@@ -313,12 +328,14 @@ $$
 <p>先将这个物件放入背包，此处背包的可用空间还有$C-w_{i+1}$，那么可以使用之前的$i$件物品去充分填充这个剩余空间。注意，此时背包空间由两部分的物件充分填充，</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/_u80CC_u53051582427182205.png"
         data-srcset="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/_u80CC_u53051582427182205.png, https://raw.githubusercontent.com/bugxch/blogpics/master/202002/_u80CC_u53051582427182205.png 1.5x, https://raw.githubusercontent.com/bugxch/blogpics/master/202002/_u80CC_u53051582427182205.png 2x"
         data-sizes="auto"
         alt="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/_u80CC_u53051582427182205.png"
-        title="背包" /></p>
+        title="背包"
+        
+        
+    /></p>
 <ol>
 <li>
 <p>物件$i+1$充分填充空间$w_{i+1}$，该空间的最大价值为$p_{i+1}$</p>
@@ -337,21 +354,25 @@ $$
 <p>综合以上分析，我们得到了一个递推关系式，</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://github.com/bugxch/blogpics/blob/master/202002/image-20200223120801234.png?raw=true"
         data-srcset="https://github.com/bugxch/blogpics/blob/master/202002/image-20200223120801234.png?raw=true, https://github.com/bugxch/blogpics/blob/master/202002/image-20200223120801234.png?raw=true 1.5x, https://github.com/bugxch/blogpics/blob/master/202002/image-20200223120801234.png?raw=true 2x"
         data-sizes="auto"
         alt="https://github.com/bugxch/blogpics/blob/master/202002/image-20200223120801234.png?raw=true"
-        title="image-20200223120801234" /></p>
+        title="image-20200223120801234"
+        
+        
+    /></p>
 <p>**终于水落石出！**将递推关系式中的$i$换成$i-1$，于是得到如下的结果</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://github.com/bugxch/blogpics/blob/master/202002/image-20200223120832675.png?raw=true"
         data-srcset="https://github.com/bugxch/blogpics/blob/master/202002/image-20200223120832675.png?raw=true, https://github.com/bugxch/blogpics/blob/master/202002/image-20200223120832675.png?raw=true 1.5x, https://github.com/bugxch/blogpics/blob/master/202002/image-20200223120832675.png?raw=true 2x"
         data-sizes="auto"
         alt="https://github.com/bugxch/blogpics/blob/master/202002/image-20200223120832675.png?raw=true"
-        title="image-20200223120832675" /></p>
+        title="image-20200223120832675"
+        
+        
+    /></p>
 <hr>
 <h3 id="初始条件及推导方法">初始条件及推导方法</h3>
 <p>根据上面的推导式，就可以求出最后的结果，最后还有两点需要明确：</p>
@@ -403,23 +424,27 @@ $$
 <p>建立空的二维数组，行数是3，列数是5，表格中的所有值都是未知数（<strong>注意此表从第0列开始，我们数第0列，第1列直到第4列</strong>），</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223091313487.png"
         data-srcset="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223091313487.png, https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223091313487.png 1.5x, https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223091313487.png 2x"
         data-sizes="auto"
         alt="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223091313487.png"
-        title="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223091313487.png" /></p>
+        title="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223091313487.png"
+        
+        
+    /></p>
 </li>
 <li>
 <p>根据之前的推论$V[i,0] = 0,i = 1,2,3$，所有行的<strong>第0列都是0</strong>，得到如下的表格</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223091338864.png"
         data-srcset="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223091338864.png, https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223091338864.png 1.5x, https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223091338864.png 2x"
         data-sizes="auto"
         alt="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223091338864.png"
-        title="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223091338864.png" /></p>
+        title="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223091338864.png"
+        
+        
+    /></p>
 </li>
 <li>
 <p>计算<strong>第1行</strong>的值$V[1,k],k=1,2,3,4$，再回想一下这个含义的意思，<strong>使用1个物件填充空间为$k$的最大价值</strong>，第一个物件的重量是1，价值为8，那么</p>
@@ -432,12 +457,14 @@ $$
 <p>于是，我们得到第一行的值如下表所示</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223093129212.png"
         data-srcset="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223093129212.png, https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223093129212.png 1.5x, https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223093129212.png 2x"
         data-sizes="auto"
         alt="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223093129212.png"
-        title="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223093129212.png" /></p>
+        title="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223093129212.png"
+        
+        
+    /></p>
 </li>
 <li>
 <p>有了<strong>第2行</strong>的值，就可以根据之前的递推公式机械式得计算，第2件物品的重量为$w_2=3$，价值为$p_2=9$，</p>
@@ -450,23 +477,27 @@ $$
 <p>于是得到第二行的结果如下</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223094741518.png"
         data-srcset="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223094741518.png, https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223094741518.png 1.5x, https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223094741518.png 2x"
         data-sizes="auto"
         alt="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223094741518.png"
-        title="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223094741518.png" /></p>
+        title="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223094741518.png"
+        
+        
+    /></p>
 </li>
 <li>
 <p>按照计算第2行值的方法，计算第3行的值，结果如下</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223095049499.png"
         data-srcset="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223095049499.png, https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223095049499.png 1.5x, https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223095049499.png 2x"
         data-sizes="auto"
         alt="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223095049499.png"
-        title="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223095049499.png" /></p>
+        title="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223095049499.png"
+        
+        
+    /></p>
 <p>所以最终的结果是用3个物件填充空间为4的背包，得到的最大价值为$V[3,4] = 17$。</p>
 </li>
 </ol>
@@ -478,12 +509,14 @@ $$
 <p>但是仅仅有这个条件判断是不是已经足够了，如果第$i$个物品是被放入背包中的，下一步回溯还是考察$V[i-1,C]$是否与$V[i-2,C]$的值相等吗？回到之前的那幅图</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/_u80CC_u53051582427182205.png"
         data-srcset="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/_u80CC_u53051582427182205.png, https://raw.githubusercontent.com/bugxch/blogpics/master/202002/_u80CC_u53051582427182205.png 1.5x, https://raw.githubusercontent.com/bugxch/blogpics/master/202002/_u80CC_u53051582427182205.png 2x"
         data-sizes="auto"
         alt="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/_u80CC_u53051582427182205.png"
-        title="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/_u80CC_u53051582427182205.png" /></p>
+        title="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/_u80CC_u53051582427182205.png"
+        
+        
+    /></p>
 <p>总的问题与子问题有相同的结构，如果第$i+1$个物品已经验证放入背包中了，更小的问题是**使用$i$个物件填充大小为$C-w_{i+1}$空间**，那么我们应该考察$V[i,C-w_{i}]$是否与$V[i-1,C-w_{i}]$的值相等。所以回溯的算法如下：</p>
 <ol>
 <li>从二维数组的$V[i, C]$开始，检查$V[i, C]$的值是否与$V[i-1, C]$相同；</li>
@@ -506,34 +539,40 @@ $$
 <p>我们先看第3行，$V[3,4]=V[2,4]$，所以第3件物品没有放入背包；</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223105102842.png"
         data-srcset="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223105102842.png, https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223105102842.png 1.5x, https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223105102842.png 2x"
         data-sizes="auto"
         alt="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223105102842.png"
-        title="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223105102842.png" /></p>
+        title="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223105102842.png"
+        
+        
+    /></p>
 </li>
 <li>
 <p>第2行，$V[2,4]\ne V[1,4]$，所以<strong>第2件</strong>物品放入背包，接下来需要检查$V[1,4-w_2]$是否与$V[0,4-w_2]$相同；</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223105256019.png"
         data-srcset="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223105256019.png, https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223105256019.png 1.5x, https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223105256019.png 2x"
         data-sizes="auto"
         alt="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223105256019.png"
-        title="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223105256019.png" /></p>
+        title="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223105256019.png"
+        
+        
+    /></p>
 </li>
 <li>
 <p>第1行，$V[1,1]\ne V[0,1]$，所以<strong>第1件</strong>物品放入背包（注意此处$V[0,4] = 0$，二维表格没有第0行，但是我们初始条件中推导过这个值），检查结束。
 <img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223105624569.png"
         data-srcset="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223105624569.png, https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223105624569.png 1.5x, https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223105624569.png 2x"
         data-sizes="auto"
         alt="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223105624569.png"
-        title="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223105624569.png" /></p>
+        title="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223105624569.png"
+        
+        
+    /></p>
 </li>
 </ol>
 <h3 id="编程代码">编程代码</h3>
@@ -772,12 +811,14 @@ $$
 </div><p>结果如下</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223110538410.png"
         data-srcset="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223110538410.png, https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223110538410.png 1.5x, https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223110538410.png 2x"
         data-sizes="auto"
         alt="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223110538410.png"
-        title="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223110538410.png" /></p>
+        title="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223110538410.png"
+        
+        
+    /></p>
 <h2 id="参考资料">参考资料</h2>
 <ul>
 <li><a href="https://www.jianshu.com/p/a66d5ce49df5" target="_blank" rel="noopener noreffer">0-1背包问题 - 简书</a>，描述《算法图解》中对该问题的解法，比较有趣</li>
@@ -817,6 +858,21 @@ $$
         <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.10"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2016 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank" rel="noopener noreferrer">bugxch</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
+        <script>
+            if('serviceWorker' in navigator) {
+                navigator.serviceWorker
+                    .register('/sw.min.js', { scope: '/' })
+                    .then(function(registration) {
+                        
+                    });
+          
+                navigator.serviceWorker
+                    .ready
+                    .then(function(registration) {
+                        
+                    });
+            }
+          </script>          
     </footer></div>
 
         <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">

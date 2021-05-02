@@ -18,7 +18,9 @@
 <meta name="twitter:title" content="Adapter模式精解（C&#43;&#43;版本）"/>
 <meta name="twitter:description" content="本篇是设计模式第二篇，适配器模式，比较好理解。"/>
 <meta name="application-name" content="小猴子的烂笔头">
-<meta name="apple-mobile-web-app-title" content="小猴子的烂笔头"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="canonical" href="https://bugxch.github.io/dp_2/" /><link rel="prev" href="https://bugxch.github.io/dp_1/" /><link rel="next" href="https://bugxch.github.io/dp_3/" /><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css">
+<meta name="apple-mobile-web-app-title" content="小猴子的烂笔头">
+
+<meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="canonical" href="https://bugxch.github.io/dp_2/" /><link rel="prev" href="https://bugxch.github.io/dp_1/" /><link rel="next" href="https://bugxch.github.io/dp_3/" /><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"></noscript><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"></noscript><meta name="google-site-verification" content="UA-159591505-1" /><script type="application/ld+json">
@@ -54,7 +56,7 @@
                         document.body.setAttribute('theme', 'dark');
                     }
                     else {
-                        document.body.setAttribute('theme', 'white');
+                        document.body.setAttribute('theme', 'light');
                     }
                 }
             } else {
@@ -67,9 +69,22 @@
                         document.body.setAttribute('theme', 'dark');
                     }
                     else {
-                        document.body.setAttribute('theme', 'white');
+                        document.body.setAttribute('theme', 'light');
                     }
                 }
+            }
+            function getMeta(metaName) {
+                const metas = document.getElementsByTagName('meta'); 
+                for (let i = 0; i < metas.length; i++) {
+                    if (metas[i].getAttribute('name') === metaName) {
+                        return metas[i];
+                    }
+                }
+                return '';
+            }
+            let themeColorMeta = getMeta('theme-color');
+            if (document.body.getAttribute('theme') != 'light') {
+                themeColorMeta.content = '#000000';
             }
         </script>
         <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
@@ -135,18 +150,20 @@
                 <div class="container"><div class="toc" id="toc-auto">
             <h2 class="toc-title">目录</h2>
             <div class="toc-content always-active" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animated flipInX">Adapter模式精解（C&#43;&#43;版本）</h1><h2 class="single-subtitle">设计模式精解系列之二</h2><div class="post-meta">
+        </div><script>document.body.setAttribute("pageStyle", "normal")</script><article class="page single"><h1 class="single-title animated flipInX">Adapter模式精解（C&#43;&#43;版本）</h1><h2 class="single-subtitle">设计模式精解系列之二</h2><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="https://bugxch.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>bugxch</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%8A%80%E8%89%BA/"><i class="far fa-folder fa-fw"></i>技艺</a></span></div>
             <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-04-29">2021-04-29</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 813 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 2 分钟&nbsp;</div>
         </div><div class="featured-image"><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://pic.imgdb.cn/item/608ac85bd1a9ae528fde126e.png"
         data-srcset="https://pic.imgdb.cn/item/608ac85bd1a9ae528fde126e.png, https://pic.imgdb.cn/item/608ac85bd1a9ae528fde126e.png 1.5x, https://pic.imgdb.cn/item/608ac85bd1a9ae528fde126e.png 2x"
         data-sizes="auto"
         alt="https://pic.imgdb.cn/item/608ac85bd1a9ae528fde126e.png"
-        title="https://pic.imgdb.cn/item/608ac85bd1a9ae528fde126e.png" /></div><div class="details toc" id="toc-static"  kept="">
+        title="https://pic.imgdb.cn/item/608ac85bd1a9ae528fde126e.png"
+         height="auto"
+         width="auto"
+    /></div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
                     <span>目录</span>
                     <span><i class="details-icon fas fa-angle-right"></i></span>
@@ -179,12 +196,14 @@
 <h3 id="基于继承的适配器模式">基于继承的适配器模式</h3>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://pic.imgdb.cn/item/608ac9f7d1a9ae528ff52c22.png"
         data-srcset="https://pic.imgdb.cn/item/608ac9f7d1a9ae528ff52c22.png, https://pic.imgdb.cn/item/608ac9f7d1a9ae528ff52c22.png 1.5x, https://pic.imgdb.cn/item/608ac9f7d1a9ae528ff52c22.png 2x"
         data-sizes="auto"
         alt="https://pic.imgdb.cn/item/608ac9f7d1a9ae528ff52c22.png"
-        title="类继承" /></p>
+        title="类继承"
+        
+        
+    /></p>
 <p>上面的图示中，<code>Banner</code>就是印度的230V电源，<code>PrintBanner</code>是电源适配器，<code>Print</code>表示我的电脑插头，<code>Main</code>函数是我自己。具体的C++代码如下所示</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -288,12 +307,14 @@
 <p>另外一种形式是基于委托的模式，这里的“委托”意思是我将本来需要我自己做的事情，交给别人来做，适配器<code>PrintBanner</code>将接口的功能<strong>委托</strong>给<code>Banner</code>去做。</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://pic.imgdb.cn/item/608ace89d1a9ae528f402db1.png"
         data-srcset="https://pic.imgdb.cn/item/608ace89d1a9ae528f402db1.png, https://pic.imgdb.cn/item/608ace89d1a9ae528f402db1.png 1.5x, https://pic.imgdb.cn/item/608ace89d1a9ae528f402db1.png 2x"
         data-sizes="auto"
         alt="https://pic.imgdb.cn/item/608ace89d1a9ae528f402db1.png"
-        title="https://pic.imgdb.cn/item/608ace89d1a9ae528f402db1.png" />
+        title="https://pic.imgdb.cn/item/608ace89d1a9ae528f402db1.png"
+        
+        
+    />
 具体的程序代码如下（与基于继承的代码仅仅在<code>PrintBanner</code>的类中的内容不同）</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -377,6 +398,21 @@
         <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.10"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2016 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank" rel="noopener noreferrer">bugxch</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
+        <script>
+            if('serviceWorker' in navigator) {
+                navigator.serviceWorker
+                    .register('/sw.min.js', { scope: '/' })
+                    .then(function(registration) {
+                        
+                    });
+          
+                navigator.serviceWorker
+                    .ready
+                    .then(function(registration) {
+                        
+                    });
+            }
+          </script>          
     </footer></div>
 
         <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">

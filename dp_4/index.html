@@ -5,35 +5,35 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Kindle使用小记 - Dive Into Think</title><meta name="Description" content="博观而约取，厚积而薄发"><meta property="og:title" content="Kindle使用小记" />
-<meta property="og:description" content="今天入手了一直心心念念的顶配级kindle oasis 2，非常感谢老婆大人的资金支持，在某宝上买了美版32G的版本，可以说是顶配版了，字迹清晰，屏幕适中，爱不释手。" />
+        <title>Factory Method模式精解（C&#43;&#43;版本） - Dive Into Think</title><meta name="Description" content="博观而约取，厚积而薄发"><meta property="og:title" content="Factory Method模式精解（C&#43;&#43;版本）" />
+<meta property="og:description" content="继续之前的设计模式第四弹，这次是大名鼎鼎的工厂方法模式。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://bugxch.github.io/kindle%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/" />
+<meta property="og:url" content="https://bugxch.github.io/dp_4/" />
 <meta property="og:image" content="https://bugxch.github.io/static/android-chrome-512x512.png"/>
-<meta property="article:published_time" content="2018-06-29T22:17:59+00:00" />
-<meta property="article:modified_time" content="2018-06-29T22:17:59+00:00" />
+<meta property="article:published_time" content="2021-05-02T21:43:54+08:00" />
+<meta property="article:modified_time" content="2021-05-02T21:43:54+08:00" />
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://bugxch.github.io/static/android-chrome-512x512.png"/>
 
-<meta name="twitter:title" content="Kindle使用小记"/>
-<meta name="twitter:description" content="今天入手了一直心心念念的顶配级kindle oasis 2，非常感谢老婆大人的资金支持，在某宝上买了美版32G的版本，可以说是顶配版了，字迹清晰，屏幕适中，爱不释手。"/>
+<meta name="twitter:title" content="Factory Method模式精解（C&#43;&#43;版本）"/>
+<meta name="twitter:description" content="继续之前的设计模式第四弹，这次是大名鼎鼎的工厂方法模式。"/>
 <meta name="application-name" content="小猴子的烂笔头">
 <meta name="apple-mobile-web-app-title" content="小猴子的烂笔头">
 
-<meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="canonical" href="https://bugxch.github.io/kindle%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/" /><link rel="next" href="https://bugxch.github.io/c%E8%AF%AD%E8%A8%80%E8%A1%A5%E9%81%97/" /><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css">
+<meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="canonical" href="https://bugxch.github.io/dp_4/" /><link rel="prev" href="https://bugxch.github.io/dp_3/" /><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"></noscript><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"></noscript><meta name="google-site-verification" content="UA-159591505-1" /><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
-        "headline": "Kindle使用小记",
+        "headline": "Factory Method模式精解（C++版本）",
         "inLanguage": "zh-CN",
         "mainEntityOfPage": {
             "@type": "WebPage",
-            "@id": "https:\/\/bugxch.github.io\/kindle%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0\/"
-        },"image": ["https:\/\/bugxch.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "kindle","wordcount":  1481 ,
-        "url": "https:\/\/bugxch.github.io\/kindle%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0\/","datePublished": "2018-06-29T22:17:59+00:00","dateModified": "2018-06-29T22:17:59+00:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@id": "https:\/\/bugxch.github.io\/dp_4\/"
+        },"image": ["https:\/\/bugxch.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "C\/C\u002b\u002b, 设计模式","wordcount":  798 ,
+        "url": "https:\/\/bugxch.github.io\/dp_4\/","datePublished": "2021-05-02T21:43:54+08:00","dateModified": "2021-05-02T21:43:54+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "xxxx","logo": {
                     "@type": "ImageObject",
@@ -150,17 +150,17 @@
                 <div class="container"><div class="toc" id="toc-auto">
             <h2 class="toc-title">目录</h2>
             <div class="toc-content always-active" id="toc-content-auto"></div>
-        </div><script>document.body.setAttribute("pageStyle", "normal")</script><article class="page single"><h1 class="single-title animated flipInX">Kindle使用小记</h1><div class="post-meta">
-            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>bugxch</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E7%94%9F%E6%B4%BB/"><i class="far fa-folder fa-fw"></i>生活</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2018-06-29">2018-06-29</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1481 字&nbsp;
-                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;</div>
+        </div><script>document.body.setAttribute("pageStyle", "normal")</script><article class="page single"><h1 class="single-title animated flipInX">Factory Method模式精解（C&#43;&#43;版本）</h1><h2 class="single-subtitle">设计模式精解系列之四</h2><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="https://bugxch.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>bugxch</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%8A%80%E8%89%BA/"><i class="far fa-folder fa-fw"></i>技艺</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-05-02">2021-05-02</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 798 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 2 分钟&nbsp;</div>
         </div><div class="featured-image"><img
         class="lazyload"
-        data-src="https://pic.downk.cc/item/5feb4e063ffa7d37b31957b7.jpg"
-        data-srcset="https://pic.downk.cc/item/5feb4e063ffa7d37b31957b7.jpg, https://pic.downk.cc/item/5feb4e063ffa7d37b31957b7.jpg 1.5x, https://pic.downk.cc/item/5feb4e063ffa7d37b31957b7.jpg 2x"
+        data-src="https://pic.imgdb.cn/item/608eae16d1a9ae528f502e1a.png"
+        data-srcset="https://pic.imgdb.cn/item/608eae16d1a9ae528f502e1a.png, https://pic.imgdb.cn/item/608eae16d1a9ae528f502e1a.png 1.5x, https://pic.imgdb.cn/item/608eae16d1a9ae528f502e1a.png 2x"
         data-sizes="auto"
-        alt="https://pic.downk.cc/item/5feb4e063ffa7d37b31957b7.jpg"
-        title="https://pic.downk.cc/item/5feb4e063ffa7d37b31957b7.jpg"
+        alt="https://pic.imgdb.cn/item/608eae16d1a9ae528f502e1a.png"
+        title="https://pic.imgdb.cn/item/608eae16d1a9ae528f502e1a.png"
          height="auto"
          width="auto"
     /></div><div class="details toc" id="toc-static"  kept="">
@@ -170,98 +170,159 @@
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
-    <li><a href="#基础设置">基础设置</a>
-      <ul>
-        <li><a href="#更新版本">更新版本</a></li>
-        <li><a href="#更新字体">更新字体</a></li>
-      </ul>
-    </li>
-    <li><a href="#图书资源">图书资源</a>
-      <ul>
-        <li><a href="#获取方式">获取方式</a>
-          <ul>
-            <li><a href="#推送图书">推送图书</a></li>
-            <li><a href="#删除云端个人文档">删除云端个人文档</a></li>
-            <li><a href="#推送资源">推送资源</a></li>
-            <li><a href="#获取图书">获取图书</a></li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-    <li><a href="#优化电子书排版">优化电子书排版</a></li>
-    <li><a href="#参考文章">参考文章</a></li>
+    <li><a href="#使用情景">使用情景</a></li>
+    <li><a href="#问题引入">问题引入</a></li>
+    <li><a href="#解决方案">解决方案</a></li>
+    <li><a href="#uml表示及其代码">UML表示及其代码</a></li>
+    <li><a href="#理解及体会">理解及体会</a></li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><p>今天入手了一直心心念念的顶配级kindle oasis 2，非常感谢老婆大人的资金支持，在<a href="https://item.taobao.com/item.htm?spm=a1z09.2.0.0.59972e8dpJGLWd&amp;id=520077012565&amp;_u=t1hu3bqm1146" target="_blank" rel="noopener noreffer">某宝</a>上买了美版32G的版本，可以说是顶配版了，字迹清晰，屏幕适中，爱不释手。</p>
-<h2 id="基础设置">基础设置</h2>
-<h3 id="更新版本">更新版本</h3>
-<p>一般而言，kindle并不像手机连接wifi之后可以自动更新，我拿到kindle之后查看我的版本号落后整整半年，而且“更新您的kindle”显示也是灰色的，所以只能自己下载版本手动更新了。至于如何查看版本号以及更新的具体步骤，可以参考文章<a href="https://bookfere.com/post/4.html#kpw_version" target="_blank" rel="noopener noreffer">Kindle 阅读器固件下载大全及升级方法</a>和<a href="https://bookfere.com/post/4.html#update_step" target="_blank" rel="noopener noreffer">Kindle 阅读器固件下载大全及升级方法</a>，详实具体，亲测有效。</p>
-<h3 id="更新字体">更新字体</h3>
-<p>ko2（kindle oasis 2）设备自固件5.9.6之后就支持第三方字体，所以可以自行安装中英文字体，我推荐字体<a href="https://bookfere.com/post/423.html" target="_blank" rel="noopener noreffer">Kindle 中文字体推荐：更换一下字形口味</a>，添加字体的步骤可以参考<a href="https://bookfere.com/post/655.html" target="_blank" rel="noopener noreffer">Kindle 设备已原生支持自定义字体（附操作步骤）</a>。</p>
-<h2 id="图书资源">图书资源</h2>
-<h3 id="获取方式">获取方式</h3>
-<p>kindle获取图书有两个途径：推送和导入。推送就是在将图书文件以附件的形式发送到特定的邮箱，在下次kindle联网的饿时候可以同步将图书推送到你的kindle；导入就是原始方式，通过USB将kindle与电脑相连，之后将下载的图书复制到kindle根目录下的documents文件夹，图书就会自动导入。</p>
-<p>把电子书推送到云端和通过 USB 直接拷贝到 Kindle 中有什么区别呢？相比直接拷贝，你今后只需要使用同一账号，登录任何一部 Kindle 设备（或 Kindle APP）中，都可以很方便的从云端获取你所推送的电子书或文档，不仅可以避免今后重置 Kindle 系统造成电子书丢失的情况，还可以享受亚马逊提供的 Whispersync 同步功能，自动将你的阅读笔记、书签和标注等数据同步到云端，很实用方便。</p>
-<h4 id="推送图书">推送图书</h4>
-<p>所谓 Kindle 推送是指亚马逊提供的一个“<a href="http://www.amazon.cn/gp/help/customer/display.html?nodeId=200767340" target="_blank" rel="noopener noreffer">Kindle 个人文档服务</a>”，我们只需要一个亚马逊账号，就可以通过以电子邮箱发送附件的方式，免费把 Kindle 所支持的文档或电子书推送到亚马逊提供的个人文档云存储中。当云端接收到了你推送的文档，将会自动转换格式（比如你推送的是 txt 格式会转换成 azw 格式）并同步到与此账号绑定的 Kindle 设备中。</p>
-<p><img
-        class="lazyload"
-        data-src="http://ohgefr15s.bkt.clouddn.com/kindle-push-theory.jpg"
-        data-srcset="http://ohgefr15s.bkt.clouddn.com/kindle-push-theory.jpg, http://ohgefr15s.bkt.clouddn.com/kindle-push-theory.jpg 1.5x, http://ohgefr15s.bkt.clouddn.com/kindle-push-theory.jpg 2x"
-        data-sizes="auto"
-        alt="http://ohgefr15s.bkt.clouddn.com/kindle-push-theory.jpg"
-        title="http://ohgefr15s.bkt.clouddn.com/kindle-push-theory.jpg"
-        
-        
-    /></p>
-<p>推送的步骤和介绍可以参考文章<a href="https://bookfere.com/post/3.html" target="_blank" rel="noopener noreffer">Kindle 推送教程：教你用电子邮箱推送电子书</a>，需要注意一定要使用邮箱的普通附件，不要使用诸如163 云附件、QQ 中的超大附件、Gmail 中的 Google Drive 附件之类的非普通附件。还需要注意亚马逊云端对文档大小的限制是 50MB，邮箱附件大小不要超过这个数值。不过一般邮箱的附件大小也都有自己的限制，如 Gmail 最大支持 25MB，如果你想要推送超过 20MB 的附件，推荐使用 163 邮箱、QQ邮箱、新浪邮箱等，它们的附件最大限制刚好是 50 MB。</p>
-<h4 id="删除云端个人文档">删除云端个人文档</h4>
-<p>如果想要彻底删除推送到云端的个人文档，可以登陆亚马逊账户，进入“管理我的内容和设备”的【<a href="https://www.amazon.cn/mn/dcw/myx.html/ref=kinw_myk_redirect#/home/content/booksAll/dateDsc/" target="_blank" rel="noopener noreffer">我的内容</a>】，把“<strong>显示</strong>”切换到“<strong>个人文档</strong>”，即可对个人文档列表进行删除操作。在这里还可以对列表进行多选，批量删除推送到云端的内容。</p>
-<h4 id="推送资源">推送资源</h4>
-<p>除了看书，kindle还可以订阅微信公众号，RSS，新闻以及网页上的任意内容，具体的推送内容可以参考<a href="https://push.bookfere.com" target="_blank" rel="noopener noreffer">书伴推送服务</a>，我没有订阅，但是应该质量满不错。</p>
+            </div><div class="content" id="content"><p>继续之前的设计模式第四弹，这次是大名鼎鼎的工厂方法模式。</p>
+<h2 id="使用情景">使用情景</h2>
+<blockquote>
+<p>定义一个用于创建对象的接口，让子类决定实例化哪一个类。Factory Method使一个类的实例化延迟到其子类。</p>
+</blockquote>
+<p>Factory有工厂的意思，简单来看，这个模式利用到了上一篇的<a href="https://bugxch.github.io/dp_3/" target="_blank" rel="noopener noreffer">Template Method模式</a>用来生成具体的实例，说得更清楚一点，工厂方法模式将创建对象的过程延迟到子类实现，其他的父类的步骤保持完整。</p>
+<h2 id="问题引入">问题引入</h2>
+<p>想象一个养殖业的农民，他刚开始仅仅在养马场养马，每个马都需要养殖长大之后在市面出售，后来他获得足够的利润之后，扩展业务也养牛，但是在牛场养牛，每头牛也是需要养殖长大之后在市面出售的。在刚开始的时候，我们需要记录每只马的养殖过程，后面还要记录它的售价。如果你前面只有养马的程序（包括生产、饲养、销售的过程），比如下面这样</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">Client</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="n">CreateHorse</span><span class="p">();</span>
+    <span class="n">FeedHorse</span><span class="p">();</span>
+    <span class="n">SellHorse</span><span class="p">();</span>
+<span class="k">private</span><span class="o">:</span>
+    <span class="n">Horse</span> <span class="n">horse_</span><span class="p">;</span>
+<span class="p">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>需要添加金养牛的程序，那么大多数情况会出现一个<code>switch</code>的分支，随着饲养的品种越来越多，最后会在生产、饲养和售卖的各个过程中出现多个<code>switch</code>分支。如果我是农场主，代码会陷入“分支瘫痪”，对维护这一套代码感到厌烦。比如下面这样</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">Client</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="n">CreateAnimal</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">animaltype</span> <span class="o">==</span> <span class="s">&#34;horse&#34;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// create horse
+</span><span class="c1"></span>        <span class="p">}</span> <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">animaltype</span> <span class="o">==</span> <span class="s">&#34;cow&#34;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// ceate cow
+</span><span class="c1"></span>        <span class="p">}</span> <span class="p">...</span>
+        <span class="k">else</span> <span class="p">{</span>
+            <span class="c1">// create others
+</span><span class="c1"></span>        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">FeedAnimal</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">animaltype</span> <span class="o">==</span> <span class="s">&#34;horse&#34;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// feed horse
+</span><span class="c1"></span>        <span class="p">}</span> <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">animaltype</span> <span class="o">==</span> <span class="s">&#34;cow&#34;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// feed cow
+</span><span class="c1"></span>        <span class="p">}</span> <span class="p">...</span>
+        <span class="k">else</span> <span class="p">{</span>
+            <span class="c1">// feed others
+</span><span class="c1"></span>        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">SellAnimal</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">animaltype</span> <span class="o">==</span> <span class="s">&#34;horse&#34;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// sell horse
+</span><span class="c1"></span>        <span class="p">}</span> <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">animaltype</span> <span class="o">==</span> <span class="s">&#34;cow&#34;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// sell cow
+</span><span class="c1"></span>        <span class="p">}</span> <span class="p">...</span>
+        <span class="k">else</span> <span class="p">{</span>
+            <span class="c1">// sell others
+</span><span class="c1"></span>        <span class="p">}</span>
+
+    <span class="p">}</span>
+<span class="k">private</span><span class="o">:</span>
+    <span class="kt">int</span> <span class="n">animaltype</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这样的方案有什么明显的缺点呢？</p>
 <ul>
-<li>订阅微信公众号，</li>
-<li>RSS</li>
-<li>新闻订阅</li>
-<li>网页推送</li>
-<li>纽约客、经济学人等外文资源。</li>
+<li><strong>高耦合</strong>，这个大类中的函数有一处需要添加分支，每个函数就都需要变化，但是每个函数实际是售卖动物的不耦合的步骤（生产不影响饲养，饲养不影响售卖），这些步骤之间耦合太紧，导致“霰弹式修改”；</li>
+<li><strong>分支瘫痪</strong>，添加的类别越多，代码的<code>if/else/switch</code>的分支越多，最后陷入分支瘫痪的状态。</li>
 </ul>
-<h4 id="获取图书">获取图书</h4>
-<p>参考<a href="https://bookfere.com/ebook" target="_blank" rel="noopener noreffer">Kindle 图书资源</a>和<a href="https://wangdongyang.github.io/2016/09/11/%E4%B9%A6%E7%B1%8D%E8%B5%84%E6%BA%90%F0%9F%93%9A/" target="_blank" rel="noopener noreffer">书籍资源📚 | WDYFancy</a>两篇博文，写得非常详尽，我个人体验了下，推荐如下几个网站。</p>
-<ul>
-<li><a href="https://www.mlook.mobi/" target="_blank" rel="noopener noreffer">mLook 看书</a>，上面有很多精校的电子书</li>
-<li><a href="http://www.zoudupai.com/" target="_blank" rel="noopener noreffer">走读派 - Kindle电子书瀑布流</a>，很多优质电子书资源</li>
-</ul>
-<h2 id="优化电子书排版">优化电子书排版</h2>
-<p>参考<a href="https://bookfere.com/post/260.html" target="_blank" rel="noopener noreffer">Calibre 使用教程之优化电子书的排版 – 书伴</a>，使用calibre能够将排版比较糟糕的电子书重新排版成美观的格式，非常赞！</p>
-<h2 id="参考文章">参考文章</h2>
-<ul>
-<li><a href="https://labrick.cc/2017/08/20/wechat-article-to-kindle/" target="_blank" rel="noopener noreffer">kindle订阅整理成册的微信公众号文章</a></li>
-</ul></div><div class="post-footer" id="post-footer">
+<h2 id="解决方案">解决方案</h2>
+<h2 id="uml表示及其代码">UML表示及其代码</h2>
+<h2 id="理解及体会">理解及体会</h2>
+<hr>
+<figure>
+    <img src="https://pic.downk.cc/item/5ff098c63ffa7d37b39c239f.jpg"/> <figcaption>
+            <h4>欢迎扫码关注我的公众号</h4>
+        </figcaption>
+</figure></div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
-                <span>更新于 2018-06-29</span>
+                <span>更新于 2021-05-02</span>
             </div>
             <div class="post-info-license"></div>
         </div>
         <div class="post-info-line">
             <div class="post-info-md"></div>
             <div class="post-info-share">
-                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://bugxch.github.io/kindle%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/" data-title="Kindle使用小记" data-via="hoho2006" data-hashtags="kindle"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://bugxch.github.io/kindle%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/" data-hashtag="kindle"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Linkedin" data-sharer="linkedin" data-url="https://bugxch.github.io/kindle%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/"><i class="fab fa-linkedin fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Xing" data-sharer="xing" data-url="https://bugxch.github.io/kindle%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/" data-title="Kindle使用小记"><i class="fab fa-xing fa-fw"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://bugxch.github.io/kindle%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/" data-title="Kindle使用小记" data-image="https://pic.downk.cc/item/5feb4e063ffa7d37b31957b7.jpg"><i class="fab fa-weibo fa-fw"></i></a></span>
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://bugxch.github.io/dp_4/" data-title="Factory Method模式精解（C&#43;&#43;版本）" data-via="hoho2006" data-hashtags="C/C&#43;&#43;,设计模式"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://bugxch.github.io/dp_4/" data-hashtag="C/C&#43;&#43;"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Linkedin" data-sharer="linkedin" data-url="https://bugxch.github.io/dp_4/"><i class="fab fa-linkedin fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Xing" data-sharer="xing" data-url="https://bugxch.github.io/dp_4/" data-title="Factory Method模式精解（C&#43;&#43;版本）"><i class="fab fa-xing fa-fw"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://bugxch.github.io/dp_4/" data-title="Factory Method模式精解（C&#43;&#43;版本）" data-image="https://pic.imgdb.cn/item/608eae16d1a9ae528f502e1a.png"><i class="fab fa-weibo fa-fw"></i></a></span>
             </div>
         </div>
     </div>
 
     <div class="post-info-more">
-        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/kindle/">kindle</a></section>
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/c/c&#43;&#43;/">C/C&#43;&#43;</a>,&nbsp;<a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></section>
         <section>
             <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
         </section>
     </div>
 
-    <div class="post-nav">
-            <a href="/c%E8%AF%AD%E8%A8%80%E8%A1%A5%E9%81%97/" class="next" rel="next" title="C语言补遗">C语言补遗<i class="fas fa-angle-right fa-fw"></i></a></div>
+    <div class="post-nav"><a href="/dp_3/" class="prev" rel="prev" title="Template Method模式精解（C&#43;&#43;版本）"><i class="fas fa-angle-left fa-fw"></i>Template Method模式精解（C&#43;&#43;版本）</a></div>
 </div>
 <div id="comments"><div id="disqus_thread" class="comment"></div><noscript>
                 Please enable JavaScript to view the comments powered by <a href="https://disqus.com/?ref_noscript">Disqus</a>.

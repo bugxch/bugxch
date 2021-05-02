@@ -4,7 +4,138 @@
         <link>https://bugxch.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</link>
         <description>设计模式 - 标签 - Dive Into Think</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>bugxch@126.com (bugxch)</managingEditor>
-            <webMaster>bugxch@126.com (bugxch)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 30 Apr 2021 19:52:15 &#43;0800</lastBuildDate><atom:link href="https://bugxch.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>bugxch@126.com (bugxch)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 02 May 2021 21:43:54 &#43;0800</lastBuildDate><atom:link href="https://bugxch.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="self" type="application/rss+xml" /><item>
+    <title>Factory Method模式精解（C&#43;&#43;版本）</title>
+    <link>https://bugxch.github.io/dp_4/</link>
+    <pubDate>Sun, 02 May 2021 21:43:54 &#43;0800</pubDate>
+    <author>bugxch</author>
+    <guid>https://bugxch.github.io/dp_4/</guid>
+    <description><![CDATA[<div class="featured-image">
+                <img src="https://pic.imgdb.cn/item/608eae16d1a9ae528f502e1a.png" referrerpolicy="no-referrer">
+            </div><p>继续之前的设计模式第四弹，这次是大名鼎鼎的工厂方法模式。</p>
+<h2 id="使用情景">使用情景</h2>
+<blockquote>
+<p>定义一个用于创建对象的接口，让子类决定实例化哪一个类。Factory Method使一个类的实例化延迟到其子类。</p>
+</blockquote>
+<p>Factory有工厂的意思，简单来看，这个模式利用到了上一篇的<a href="https://bugxch.github.io/dp_3/" target="_blank" rel="noopener noreffer">Template Method模式</a>用来生成具体的实例，说得更清楚一点，工厂方法模式将创建对象的过程延迟到子类实现，其他的父类的步骤保持完整。</p>
+<h2 id="问题引入">问题引入</h2>
+<p>想象一个养殖业的农民，他刚开始仅仅在养马场养马，每个马都需要养殖长大之后在市面出售，后来他获得足够的利润之后，扩展业务也养牛，但是在牛场养牛，每头牛也是需要养殖长大之后在市面出售的。在刚开始的时候，我们需要记录每只马的养殖过程，后面还要记录它的售价。如果你前面只有养马的程序（包括生产、饲养、销售的过程），比如下面这样</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">Client</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="n">CreateHorse</span><span class="p">();</span>
+    <span class="n">FeedHorse</span><span class="p">();</span>
+    <span class="n">SellHorse</span><span class="p">();</span>
+<span class="k">private</span><span class="o">:</span>
+    <span class="n">Horse</span> <span class="n">horse_</span><span class="p">;</span>
+<span class="p">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>需要添加金养牛的程序，那么大多数情况会出现一个<code>switch</code>的分支，随着饲养的品种越来越多，最后会在生产、饲养和售卖的各个过程中出现多个<code>switch</code>分支。如果我是农场主，代码会陷入“分支瘫痪”，对维护这一套代码感到厌烦。比如下面这样</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">Client</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="n">CreateAnimal</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">animaltype</span> <span class="o">==</span> <span class="s">&#34;horse&#34;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// create horse
+</span><span class="c1"></span>        <span class="p">}</span> <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">animaltype</span> <span class="o">==</span> <span class="s">&#34;cow&#34;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// ceate cow
+</span><span class="c1"></span>        <span class="p">}</span> <span class="p">...</span>
+        <span class="k">else</span> <span class="p">{</span>
+            <span class="c1">// create others
+</span><span class="c1"></span>        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">FeedAnimal</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">animaltype</span> <span class="o">==</span> <span class="s">&#34;horse&#34;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// feed horse
+</span><span class="c1"></span>        <span class="p">}</span> <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">animaltype</span> <span class="o">==</span> <span class="s">&#34;cow&#34;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// feed cow
+</span><span class="c1"></span>        <span class="p">}</span> <span class="p">...</span>
+        <span class="k">else</span> <span class="p">{</span>
+            <span class="c1">// feed others
+</span><span class="c1"></span>        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">SellAnimal</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">animaltype</span> <span class="o">==</span> <span class="s">&#34;horse&#34;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// sell horse
+</span><span class="c1"></span>        <span class="p">}</span> <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">animaltype</span> <span class="o">==</span> <span class="s">&#34;cow&#34;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// sell cow
+</span><span class="c1"></span>        <span class="p">}</span> <span class="p">...</span>
+        <span class="k">else</span> <span class="p">{</span>
+            <span class="c1">// sell others
+</span><span class="c1"></span>        <span class="p">}</span>
+
+    <span class="p">}</span>
+<span class="k">private</span><span class="o">:</span>
+    <span class="kt">int</span> <span class="n">animaltype</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这样的方案有什么明显的缺点呢？</p>
+<ul>
+<li><strong>高耦合</strong>，这个大类中的函数有一处需要添加分支，每个函数就都需要变化，但是每个函数实际是售卖动物的不耦合的步骤（生产不影响饲养，饲养不影响售卖），这些步骤之间耦合太紧，导致“霰弹式修改”；</li>
+<li><strong>分支瘫痪</strong>，添加的类别越多，代码的<code>if/else/switch</code>的分支越多，最后陷入分支瘫痪的状态。</li>
+</ul>
+<h2 id="解决方案">解决方案</h2>
+<h2 id="uml表示及其代码">UML表示及其代码</h2>
+<h2 id="理解及体会">理解及体会</h2>
+<hr>
+<figure>
+     <figcaption>
+            <h4>欢迎扫码关注我的公众号</h4>
+        </figcaption>
+</figure>]]></description>
+</item><item>
     <title>Template Method模式精解（C&#43;&#43;版本）</title>
     <link>https://bugxch.github.io/dp_3/</link>
     <pubDate>Fri, 30 Apr 2021 19:52:15 &#43;0800</pubDate>
@@ -15,7 +146,7 @@
             </div><p>设计模式第三弹，设计模式<strong>行为型模式</strong>中的模板方法，也比较简单。</p>
 <h2 id="使用情景">使用情景</h2>
 <blockquote>
-<p>当你只希望客户端扩展某个特定算法步骤， 而不是整个算法或其结构时， 可使用模板方法模式。</p>
+<p>定义一个操作中的算法的股价，而将一些步骤延迟到子类中。Template Method使得子类可以不改变算法的结构（步骤）即可重定义该算法的某些特定步骤。</p>
 </blockquote>
 <p>模板方法将整个算法转换为一系列独立的步骤， 以便子类能对其进行扩展， 同时还可让超类中所定义的结构保持完整。可以设想我们上学时候临摹毛笔字，你可以使用墨汁沿着田字格中的汉字临摹，也可以使用红墨水临摹，无论用哪种颜色的墨水，最后完成的字的形状是一样的。</p>
 <p></p>

@@ -18,7 +18,9 @@
 <meta name="twitter:title" content="请回答2020"/>
 <meta name="twitter:description" content="每个人的一生由记忆组成，但是记忆会随着时间模糊甚至消逝，幸好我们有相机，回望这一年，在人生的长河里给它打个鲜亮的标签。"/>
 <meta name="application-name" content="小猴子的烂笔头">
-<meta name="apple-mobile-web-app-title" content="小猴子的烂笔头"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="canonical" href="https://bugxch.github.io/%E8%AF%B7%E5%9B%9E%E7%AD%942020/" /><link rel="prev" href="https://bugxch.github.io/intersection/" /><link rel="next" href="https://bugxch.github.io/c_driven_table/" /><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css">
+<meta name="apple-mobile-web-app-title" content="小猴子的烂笔头">
+
+<meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="canonical" href="https://bugxch.github.io/%E8%AF%B7%E5%9B%9E%E7%AD%942020/" /><link rel="prev" href="https://bugxch.github.io/intersection/" /><link rel="next" href="https://bugxch.github.io/c_driven_table/" /><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"></noscript><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"></noscript><meta name="google-site-verification" content="UA-159591505-1" /><script type="application/ld+json">
@@ -54,7 +56,7 @@
                         document.body.setAttribute('theme', 'dark');
                     }
                     else {
-                        document.body.setAttribute('theme', 'white');
+                        document.body.setAttribute('theme', 'light');
                     }
                 }
             } else {
@@ -67,9 +69,22 @@
                         document.body.setAttribute('theme', 'dark');
                     }
                     else {
-                        document.body.setAttribute('theme', 'white');
+                        document.body.setAttribute('theme', 'light');
                     }
                 }
+            }
+            function getMeta(metaName) {
+                const metas = document.getElementsByTagName('meta'); 
+                for (let i = 0; i < metas.length; i++) {
+                    if (metas[i].getAttribute('name') === metaName) {
+                        return metas[i];
+                    }
+                }
+                return '';
+            }
+            let themeColorMeta = getMeta('theme-color');
+            if (document.body.getAttribute('theme') != 'light') {
+                themeColorMeta.content = '#000000';
             }
         </script>
         <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
@@ -135,18 +150,20 @@
                 <div class="container"><div class="toc" id="toc-auto">
             <h2 class="toc-title">目录</h2>
             <div class="toc-content always-active" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animated flipInX">请回答2020</h1><div class="post-meta">
+        </div><script>document.body.setAttribute("pageStyle", "normal")</script><article class="page single"><h1 class="single-title animated flipInX">请回答2020</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="https://bugxch.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>bugxch</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E7%94%9F%E6%B4%BB/"><i class="far fa-folder fa-fw"></i>生活</a></span></div>
             <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-01-02">2021-01-02</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 4552 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 10 分钟&nbsp;</div>
         </div><div class="featured-image"><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://cdn.pixabay.com/photo/2020/12/10/09/21/face-mask-5819709_960_720.jpg"
         data-srcset="https://cdn.pixabay.com/photo/2020/12/10/09/21/face-mask-5819709_960_720.jpg, https://cdn.pixabay.com/photo/2020/12/10/09/21/face-mask-5819709_960_720.jpg 1.5x, https://cdn.pixabay.com/photo/2020/12/10/09/21/face-mask-5819709_960_720.jpg 2x"
         data-sizes="auto"
         alt="https://cdn.pixabay.com/photo/2020/12/10/09/21/face-mask-5819709_960_720.jpg"
-        title="https://cdn.pixabay.com/photo/2020/12/10/09/21/face-mask-5819709_960_720.jpg" /></div><div class="details toc" id="toc-static"  kept="">
+        title="https://cdn.pixabay.com/photo/2020/12/10/09/21/face-mask-5819709_960_720.jpg"
+         height="auto"
+         width="auto"
+    /></div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
                     <span>目录</span>
                     <span><i class="details-icon fas fa-angle-right"></i></span>
@@ -177,12 +194,14 @@
 <p>第一，如果想要在某个技能上有所突破，必须以<strong>咬定青山不放松的毅力持续投入有效的时间和精力</strong>，这意味着为了将技能磨练到足够高的水平，必须有足量有效的投入，甚至在<strong>必要的时候放弃休息娱乐的时间</strong>。比如因为公司的可信考试，我投入大量时间刷leetcode题目，从之前不知道c++的stl为何物，到现在也能熟练完成中等题目，甚至有勇气参加周赛挑战自己，靠的是8月份以来连续3个月的持续不断的刷题。下图就是今年的力扣的年度总结，当前leetcode的排名是全球27000名左右，希望今年还能更进一层，进入到5000以内吧。</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://pic.downk.cc/item/5ff08aec3ffa7d37b395ada8.png"
         data-srcset="https://pic.downk.cc/item/5ff08aec3ffa7d37b395ada8.png, https://pic.downk.cc/item/5ff08aec3ffa7d37b395ada8.png 1.5x, https://pic.downk.cc/item/5ff08aec3ffa7d37b395ada8.png 2x"
         data-sizes="auto"
         alt="https://pic.downk.cc/item/5ff08aec3ffa7d37b395ada8.png"
-        title="https://pic.downk.cc/item/5ff08aec3ffa7d37b395ada8.png" /></p>
+        title="https://pic.downk.cc/item/5ff08aec3ffa7d37b395ada8.png"
+        
+        
+    /></p>
 <p>第二，工作之后的学习与学生时代不同，白天大部分时间用于完成日常的工作，而且没有整块的时间预留给你做持续深入的学习，但是又要面临持续提升工作技能的压力，以我学习C++的经历体会，最有效的方法是“<strong>以考促训，预留不被打扰的两小时</strong>”。如果要想有效精进，每天一定要预留不被打扰的整段时间用于练习，最好是早起后上班前或者下班后睡觉前，腾出时间好好学习和思考。</p>
 <p>第三，相信<strong>功不唐捐</strong>。持续的微小的积累达到一定的程度之后，往往会发生质变。技能训练尤为明显，借用《为学》的那一段</p>
 <blockquote>
@@ -259,12 +278,14 @@
 另外，推荐腾讯视频的<a href="https://v.qq.com/x/cover/mzc002006bujgo5/c3217pq213q.html?" target="_blank" rel="noopener noreffer">《十三邀》</a>节目，当前最新一期是去年的五条人乐队，这些访谈采访比较随意，不通过制造噱头可以拉高收视率，率真自然，推荐观看。去年没怎么看书，依然推荐老六的<a href="http://www.duku.cn/" target="_blank" rel="noopener noreffer">《读库》</a>系列，最近好像涨价了，不过品质一直没变。我最近有强烈的感受，现在我已经对之前大学时期的偏文学社科的书目不太感兴趣了，更多的将精力投入到职业技能的提升上，我去年C++的书籍买了一堆，计划今年攻克这些大部头，愚公移山，犹未为晚也。
 <img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://pic.downk.cc/item/5ff187273ffa7d37b37bbda0.jpg"
         data-srcset="https://pic.downk.cc/item/5ff187273ffa7d37b37bbda0.jpg, https://pic.downk.cc/item/5ff187273ffa7d37b37bbda0.jpg 1.5x, https://pic.downk.cc/item/5ff187273ffa7d37b37bbda0.jpg 2x"
         data-sizes="auto"
         alt="https://pic.downk.cc/item/5ff187273ffa7d37b37bbda0.jpg"
-        title="https://pic.downk.cc/item/5ff187273ffa7d37b37bbda0.jpg" /></p>
+        title="https://pic.downk.cc/item/5ff187273ffa7d37b37bbda0.jpg"
+        
+        
+    /></p>
 </li>
 <li>
 <p>今年完整看过极力推荐的两部电视剧都改编自紫金陈的小说，<a href="https://movie.douban.com/subject/33404425/?from=subject-page" target="_blank" rel="noopener noreffer">隐秘的角落 (豆瓣)</a>和<a href="https://movie.douban.com/subject/33447642/" target="_blank" rel="noopener noreffer">沉默的真相 (豆瓣)</a>，第二部豆瓣给出了9.2的高分，国产电视剧能到8.0以上就值得花时间看了，第二部我是在国庆的客厅沙发上几乎通宵追完的，为此还买了一个月的爱奇艺会员，确实值得。不过今年有一部好剧烂尾了，改编自孙皓晖的<a href="https://book.douban.com/subject/3079029/" target="_blank" rel="noopener noreffer">《大秦帝国》</a>的终章<a href="https://movie.douban.com/subject/26413293/" target="_blank" rel="noopener noreffer">《大秦赋 》</a>，情节冗长拖沓，剧本被资方改得七零八碎，追了大概20集弃剧了，不建议入坑。</p>
@@ -477,6 +498,21 @@
         <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.10"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2016 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank" rel="noopener noreferrer">bugxch</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
+        <script>
+            if('serviceWorker' in navigator) {
+                navigator.serviceWorker
+                    .register('/sw.min.js', { scope: '/' })
+                    .then(function(registration) {
+                        
+                    });
+          
+                navigator.serviceWorker
+                    .ready
+                    .then(function(registration) {
+                        
+                    });
+            }
+          </script>          
     </footer></div>
 
         <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">

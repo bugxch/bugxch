@@ -18,7 +18,9 @@
 <meta name="twitter:title" content="matplot 之 3D 绘图指南"/>
 <meta name="twitter:description" content="因为梯度下降算法需要绘制 3 维图像，故学习之，日后借鉴。"/>
 <meta name="application-name" content="小猴子的烂笔头">
-<meta name="apple-mobile-web-app-title" content="小猴子的烂笔头"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="canonical" href="https://bugxch.github.io/matplot-%E4%B9%8B-3d-%E7%BB%98%E5%9B%BE%E6%8C%87%E5%8D%97/" /><link rel="prev" href="https://bugxch.github.io/c%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E5%AE%8F/" /><link rel="next" href="https://bugxch.github.io/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E7%AE%97%E6%B3%95%E4%B9%8B%E6%96%B9%E7%A8%8B%E6%B1%82%E8%A7%A3/" /><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css">
+<meta name="apple-mobile-web-app-title" content="小猴子的烂笔头">
+
+<meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="canonical" href="https://bugxch.github.io/matplot-%E4%B9%8B-3d-%E7%BB%98%E5%9B%BE%E6%8C%87%E5%8D%97/" /><link rel="prev" href="https://bugxch.github.io/c%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E5%AE%8F/" /><link rel="next" href="https://bugxch.github.io/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E7%AE%97%E6%B3%95%E4%B9%8B%E6%96%B9%E7%A8%8B%E6%B1%82%E8%A7%A3/" /><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"></noscript><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"></noscript><meta name="google-site-verification" content="UA-159591505-1" /><script type="application/ld+json">
@@ -54,7 +56,7 @@
                         document.body.setAttribute('theme', 'dark');
                     }
                     else {
-                        document.body.setAttribute('theme', 'white');
+                        document.body.setAttribute('theme', 'light');
                     }
                 }
             } else {
@@ -67,9 +69,22 @@
                         document.body.setAttribute('theme', 'dark');
                     }
                     else {
-                        document.body.setAttribute('theme', 'white');
+                        document.body.setAttribute('theme', 'light');
                     }
                 }
+            }
+            function getMeta(metaName) {
+                const metas = document.getElementsByTagName('meta'); 
+                for (let i = 0; i < metas.length; i++) {
+                    if (metas[i].getAttribute('name') === metaName) {
+                        return metas[i];
+                    }
+                }
+                return '';
+            }
+            let themeColorMeta = getMeta('theme-color');
+            if (document.body.getAttribute('theme') != 'light') {
+                themeColorMeta.content = '#000000';
             }
         </script>
         <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
@@ -135,7 +150,7 @@
                 <div class="container"><div class="toc" id="toc-auto">
             <h2 class="toc-title">目录</h2>
             <div class="toc-content always-active" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animated flipInX">matplot 之 3D 绘图指南</h1><div class="post-meta">
+        </div><script>document.body.setAttribute("pageStyle", "normal")</script><article class="page single"><h1 class="single-title animated flipInX">matplot 之 3D 绘图指南</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>bugxch</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%8A%80%E8%89%BA/"><i class="far fa-folder fa-fw"></i>技艺</a></span></div>
             <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2018-07-21">2018-07-21</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2198 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 5 分钟&nbsp;</div>
@@ -157,12 +172,14 @@
             </div><div class="content" id="content"><p>因为梯度下降算法需要绘制 3 维图像，故学习之，日后借鉴。</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://github.com/bugxch/blogpics/blob/master/201807/3d_demo.png?raw=true"
         data-srcset="https://github.com/bugxch/blogpics/blob/master/201807/3d_demo.png?raw=true, https://github.com/bugxch/blogpics/blob/master/201807/3d_demo.png?raw=true 1.5x, https://github.com/bugxch/blogpics/blob/master/201807/3d_demo.png?raw=true 2x"
         data-sizes="auto"
         alt="https://github.com/bugxch/blogpics/blob/master/201807/3d_demo.png?raw=true"
-        title="https://github.com/bugxch/blogpics/blob/master/201807/3d_demo.png?raw=true" /></p>
+        title="https://github.com/bugxch/blogpics/blob/master/201807/3d_demo.png?raw=true"
+        
+        
+    /></p>
 <p>本文稿翻译自 <a href="https://matplotlib.org/mpl_toolkits/mplot3d/tutorial.html" target="_blank" rel="noopener noreffer">mplot3d tutorial — Matplotlib 2.0.2 documentation</a>。</p>
 <p>使用 matplotlib 绘制 3D 图像，一般要加入一个新的 axes 类型 Axes3D:</p>
 <div class="highlight"><div class="chroma">
@@ -182,12 +199,14 @@ ax = fig.add_subplot(111, projection=&#39;3d&#39;)
 </div><p>其中的<code>ax</code>，就是添加一个三维坐标系<code>Axes3D</code>的对象，如下图所示</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://github.com/bugxch/blogpics/blob/master/201807/3dax.png?raw=true"
         data-srcset="https://github.com/bugxch/blogpics/blob/master/201807/3dax.png?raw=true, https://github.com/bugxch/blogpics/blob/master/201807/3dax.png?raw=true 1.5x, https://github.com/bugxch/blogpics/blob/master/201807/3dax.png?raw=true 2x"
         data-sizes="auto"
         alt="https://github.com/bugxch/blogpics/blob/master/201807/3dax.png?raw=true"
-        title="https://github.com/bugxch/blogpics/blob/master/201807/3dax.png?raw=true" />
+        title="https://github.com/bugxch/blogpics/blob/master/201807/3dax.png?raw=true"
+        
+        
+    />
 3D 图形分为如下几类：</p>
 <h2 id="线形图">线形图</h2>
 <p><code>Axes3D.plot(xs,ys,**args,**kwargs)</code></p>
@@ -260,12 +279,14 @@ ax = fig.add_subplot(111, projection=&#39;3d&#39;)
 </div><p>绘制的图形如下</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://matplotlib.org/mpl_examples/mplot3d/lines3d_demo.png"
         data-srcset="https://matplotlib.org/mpl_examples/mplot3d/lines3d_demo.png, https://matplotlib.org/mpl_examples/mplot3d/lines3d_demo.png 1.5x, https://matplotlib.org/mpl_examples/mplot3d/lines3d_demo.png 2x"
         data-sizes="auto"
         alt="https://matplotlib.org/mpl_examples/mplot3d/lines3d_demo.png"
-        title="line3d" /></p>
+        title="line3d"
+        
+        
+    /></p>
 <p>从这个例子可以看出，matplot 画图的基本步骤包括：导入必要的模块，创建 figure 对象，设置 3D 的 ax，创建自变量，写出函数关系式，绘制图形。</p>
 <h2 id="散点图">散点图</h2>
 <p><code>Axes3D.scatter(*xs*, *ys*, *zs=0*, *zdir='z'*, *s=20*, *c=None*, *depthshade=True*, **args*, **\*kwargs*)</code></p>
@@ -389,12 +410,14 @@ ax = fig.add_subplot(111, projection=&#39;3d&#39;)
 </div><p>这个函数里画了 2 组散点图，分别用其中的小三角和红色的圆点表示。函数<code>randrange</code>产生<code>[vmin,vmax]</code>上的均匀分布的一列数。如下图所示</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://matplotlib.org/mpl_examples/mplot3d/scatter3d_demo.png"
         data-srcset="https://matplotlib.org/mpl_examples/mplot3d/scatter3d_demo.png, https://matplotlib.org/mpl_examples/mplot3d/scatter3d_demo.png 1.5x, https://matplotlib.org/mpl_examples/mplot3d/scatter3d_demo.png 2x"
         data-sizes="auto"
         alt="https://matplotlib.org/mpl_examples/mplot3d/scatter3d_demo.png"
-        title="scatter" /></p>
+        title="scatter"
+        
+        
+    /></p>
 <h2 id="线框图">线框图</h2>
 <p><code>Axes3D.plot_wireframe(X, Y, Z, args, kwargs)</code></p>
 <p>绘制 3D 的线框图，其中的参数<code>rstride</code>和<code>cstride</code>表示对输入数据的采样，它们不能和<code>rcount</code>以及<code>ccount</code>同时使用，不然会产生错误，后者表示从输入数据中采样多少以生成线框图。</p>
@@ -486,21 +509,25 @@ ax = fig.add_subplot(111, projection=&#39;3d&#39;)
 </div><p>绘制图形如下</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://matplotlib.org/mpl_examples/mplot3d/wire3d_demo.png"
         data-srcset="https://matplotlib.org/mpl_examples/mplot3d/wire3d_demo.png, https://matplotlib.org/mpl_examples/mplot3d/wire3d_demo.png 1.5x, https://matplotlib.org/mpl_examples/mplot3d/wire3d_demo.png 2x"
         data-sizes="auto"
         alt="https://matplotlib.org/mpl_examples/mplot3d/wire3d_demo.png"
-        title="frame" /></p>
+        title="frame"
+        
+        
+    /></p>
 <p>其中<code>rstride</code>和<code>cstride</code>分别代表采样的密度，这里是每隔 10 个点计算一个 Z 值，如果设置成 1，绘制的图形会更密集，如下图所示</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://github.com/bugxch/blogpics/blob/master/201807/framce.png?raw=true"
         data-srcset="https://github.com/bugxch/blogpics/blob/master/201807/framce.png?raw=true, https://github.com/bugxch/blogpics/blob/master/201807/framce.png?raw=true 1.5x, https://github.com/bugxch/blogpics/blob/master/201807/framce.png?raw=true 2x"
         data-sizes="auto"
         alt="https://github.com/bugxch/blogpics/blob/master/201807/framce.png?raw=true"
-        title="https://github.com/bugxch/blogpics/blob/master/201807/framce.png?raw=true" /></p>
+        title="https://github.com/bugxch/blogpics/blob/master/201807/framce.png?raw=true"
+        
+        
+    /></p>
 <h2 id="表面图">表面图</h2>
 <p><code>Axes3D.plot_surface(X, Y, Z, *args, **kwargs)</code></p>
 <p>默认使用纯色为阴影着色，不过它也可以通过 <em>cmap</em> 支持颜色映射。</p>
@@ -656,21 +683,25 @@ ax = fig.add_subplot(111, projection=&#39;3d&#39;)
 </div><p>绘制图形如下</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://matplotlib.org/mpl_examples/mplot3d/surface3d_demo.png"
         data-srcset="https://matplotlib.org/mpl_examples/mplot3d/surface3d_demo.png, https://matplotlib.org/mpl_examples/mplot3d/surface3d_demo.png 1.5x, https://matplotlib.org/mpl_examples/mplot3d/surface3d_demo.png 2x"
         data-sizes="auto"
         alt="https://matplotlib.org/mpl_examples/mplot3d/surface3d_demo.png"
-        title="plot3d" /></p>
+        title="plot3d"
+        
+        
+    /></p>
 <p>参考图形知道<code>cm</code>用来做 color mapping，重新设置<code>arange</code>的步长为 0.01，可以得到如下的图形</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://github.com/bugxch/blogpics/blob/master/201807/cr.png?raw=true"
         data-srcset="https://github.com/bugxch/blogpics/blob/master/201807/cr.png?raw=true, https://github.com/bugxch/blogpics/blob/master/201807/cr.png?raw=true 1.5x, https://github.com/bugxch/blogpics/blob/master/201807/cr.png?raw=true 2x"
         data-sizes="auto"
         alt="https://github.com/bugxch/blogpics/blob/master/201807/cr.png?raw=true"
-        title="https://github.com/bugxch/blogpics/blob/master/201807/cr.png?raw=true" /></p>
+        title="https://github.com/bugxch/blogpics/blob/master/201807/cr.png?raw=true"
+        
+        
+    /></p>
 <p>表面光滑细致多了。</p>
 <h2 id="2d3d-图形共存">2D/3D 图形共存</h2>
 <p>这篇文章主要是用来画 3 维图形的，以上的几个图形已经够用，下面介绍一些其他的技能。现在的是在 2D 中画 3D 图形。直接上代码和图像</p>
@@ -774,12 +805,14 @@ ax = fig.add_subplot(111, projection=&#39;3d&#39;)
 </div>
 </div><p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://matplotlib.org/_images/2dcollections3d_demo.png"
         data-srcset="https://matplotlib.org/_images/2dcollections3d_demo.png, https://matplotlib.org/_images/2dcollections3d_demo.png 1.5x, https://matplotlib.org/_images/2dcollections3d_demo.png 2x"
         data-sizes="auto"
         alt="https://matplotlib.org/_images/2dcollections3d_demo.png"
-        title="2d/3d" /></p>
+        title="2d/3d"
+        
+        
+    /></p>
 <p>从上面的代码，可以看出如何设置坐标轴的取值范围，设置 label 的方法。</p>
 <h2 id="加入文字">加入文字</h2>
 <p><code>Axes3D.text(x, y, z, s, zdir=None, **kwargs)</code></p>
@@ -886,12 +919,14 @@ ax = fig.add_subplot(111, projection=&#39;3d&#39;)
 </div>
 </div><p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://matplotlib.org/_images/text3d_demo.png"
         data-srcset="https://matplotlib.org/_images/text3d_demo.png, https://matplotlib.org/_images/text3d_demo.png 1.5x, https://matplotlib.org/_images/text3d_demo.png 2x"
         data-sizes="auto"
         alt="https://matplotlib.org/_images/text3d_demo.png"
-        title="text" /></p></div><div class="post-footer" id="post-footer">
+        title="text"
+        
+        
+    /></p></div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
@@ -924,6 +959,21 @@ ax = fig.add_subplot(111, projection=&#39;3d&#39;)
         <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.10"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2016 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank" rel="noopener noreferrer">bugxch</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
+        <script>
+            if('serviceWorker' in navigator) {
+                navigator.serviceWorker
+                    .register('/sw.min.js', { scope: '/' })
+                    .then(function(registration) {
+                        
+                    });
+          
+                navigator.serviceWorker
+                    .ready
+                    .then(function(registration) {
+                        
+                    });
+            }
+          </script>          
     </footer></div>
 
         <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">

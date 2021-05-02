@@ -18,7 +18,9 @@
 <meta name="twitter:title" content="极简版《计算机原理》"/>
 <meta name="twitter:description" content="读书笔记。"/>
 <meta name="application-name" content="小猴子的烂笔头">
-<meta name="apple-mobile-web-app-title" content="小猴子的烂笔头"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="canonical" href="https://bugxch.github.io/%E6%9E%81%E7%AE%80%E7%89%88%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/" /><link rel="prev" href="https://bugxch.github.io/%E6%96%B9%E6%B3%95%E8%AE%BA/" /><link rel="next" href="https://bugxch.github.io/2018%E9%98%85%E8%AF%BB%E4%B9%A6%E5%8D%95/" /><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css">
+<meta name="apple-mobile-web-app-title" content="小猴子的烂笔头">
+
+<meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="canonical" href="https://bugxch.github.io/%E6%9E%81%E7%AE%80%E7%89%88%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/" /><link rel="prev" href="https://bugxch.github.io/%E6%96%B9%E6%B3%95%E8%AE%BA/" /><link rel="next" href="https://bugxch.github.io/2018%E9%98%85%E8%AF%BB%E4%B9%A6%E5%8D%95/" /><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"></noscript><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"></noscript><meta name="google-site-verification" content="UA-159591505-1" /><script type="application/ld+json">
@@ -54,7 +56,7 @@
                         document.body.setAttribute('theme', 'dark');
                     }
                     else {
-                        document.body.setAttribute('theme', 'white');
+                        document.body.setAttribute('theme', 'light');
                     }
                 }
             } else {
@@ -67,9 +69,22 @@
                         document.body.setAttribute('theme', 'dark');
                     }
                     else {
-                        document.body.setAttribute('theme', 'white');
+                        document.body.setAttribute('theme', 'light');
                     }
                 }
+            }
+            function getMeta(metaName) {
+                const metas = document.getElementsByTagName('meta'); 
+                for (let i = 0; i < metas.length; i++) {
+                    if (metas[i].getAttribute('name') === metaName) {
+                        return metas[i];
+                    }
+                }
+                return '';
+            }
+            let themeColorMeta = getMeta('theme-color');
+            if (document.body.getAttribute('theme') != 'light') {
+                themeColorMeta.content = '#000000';
             }
         </script>
         <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
@@ -135,7 +150,7 @@
                 <div class="container"><div class="toc" id="toc-auto">
             <h2 class="toc-title">目录</h2>
             <div class="toc-content always-active" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animated flipInX">极简版《计算机原理》</h1><div class="post-meta">
+        </div><script>document.body.setAttribute("pageStyle", "normal")</script><article class="page single"><h1 class="single-title animated flipInX">极简版《计算机原理》</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>bugxch</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%8A%80%E8%89%BA/"><i class="far fa-folder fa-fw"></i>技艺</a></span></div>
             <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2018-07-21">2018-07-21</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 4218 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 9 分钟&nbsp;</div>
@@ -148,23 +163,27 @@
             </div><div class="content" id="content"><p>读书笔记。</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://github.com/bugxch/blogpics/blob/master/201807/cover.jpg?raw=true"
         data-srcset="https://github.com/bugxch/blogpics/blob/master/201807/cover.jpg?raw=true, https://github.com/bugxch/blogpics/blob/master/201807/cover.jpg?raw=true 1.5x, https://github.com/bugxch/blogpics/blob/master/201807/cover.jpg?raw=true 2x"
         data-sizes="auto"
         alt="https://github.com/bugxch/blogpics/blob/master/201807/cover.jpg?raw=true"
-        title="https://github.com/bugxch/blogpics/blob/master/201807/cover.jpg?raw=true" /></p>
+        title="https://github.com/bugxch/blogpics/blob/master/201807/cover.jpg?raw=true"
+        
+        
+    /></p>
 <p>这两周读了日本作者矢泽久雄写的<a href="https://book.douban.com/subject/26365491/" target="_blank" rel="noopener noreffer">《程序是怎么跑起来的》</a>，解开了我这个作为通信专业的软件从业者的很多困惑，为了避免日后遗忘，将一些看了这本书之后的问题的解答记录下来。</p>
 <p><strong>Q：电脑的 CPU 中包含哪些部分？各自的作用有哪些？</strong>
 <strong>A</strong>：CPU 包含寄存器，控制器，时钟和运算器四种主要的结构。如下图所示</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://github.com/bugxch/blogpics/blob/master/201807/computer1.jpg?raw=true"
         data-srcset="https://github.com/bugxch/blogpics/blob/master/201807/computer1.jpg?raw=true, https://github.com/bugxch/blogpics/blob/master/201807/computer1.jpg?raw=true 1.5x, https://github.com/bugxch/blogpics/blob/master/201807/computer1.jpg?raw=true 2x"
         data-sizes="auto"
         alt="https://github.com/bugxch/blogpics/blob/master/201807/computer1.jpg?raw=true"
-        title="https://github.com/bugxch/blogpics/blob/master/201807/computer1.jpg?raw=true" /></p>
+        title="https://github.com/bugxch/blogpics/blob/master/201807/computer1.jpg?raw=true"
+        
+        
+    /></p>
 <ul>
 <li>控制器负责将内存上的指令、数据等读入到寄存器，并根据运算的结果控制整个计算机；</li>
 <li>寄存器用来暂存数据、指令等处理对象，一般 CPU 包含 20～100 个不同的寄存器；</li>
@@ -227,12 +246,14 @@
 <strong>A</strong>：C 语言写成的源代码是高级语言程序，但是 CPU 运行的代码是本地机器语言，因此 C 的源代码并不能立即运行。实际上，一个 C 的源代码需要经过编译、和链接生成. exe 的可执行文件之后，电脑会将. exe 文件的副本复制到内存中再运行，基本的流程如下图所示：</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://github.com/bugxch/blogpics/blob/master/201807/computer2.jpg?raw=true"
         data-srcset="https://github.com/bugxch/blogpics/blob/master/201807/computer2.jpg?raw=true, https://github.com/bugxch/blogpics/blob/master/201807/computer2.jpg?raw=true 1.5x, https://github.com/bugxch/blogpics/blob/master/201807/computer2.jpg?raw=true 2x"
         data-sizes="auto"
         alt="https://github.com/bugxch/blogpics/blob/master/201807/computer2.jpg?raw=true"
-        title="https://github.com/bugxch/blogpics/blob/master/201807/computer2.jpg?raw=true" /></p>
+        title="https://github.com/bugxch/blogpics/blob/master/201807/computer2.jpg?raw=true"
+        
+        
+    /></p>
 <p><strong>Q：内存内部结构如何？内存的数据存取都有哪些数据结构？</strong>
 <strong>A</strong>：内存是计算机的主存储器，通过芯片与计算机相连，主要负责存储指令和数据，CPU 通过基址寄存器和变址寄存器读取和写入内存中的数据。内存由连续的长度为 8bit（1 个字节）的基本元素构成，程序启动之后 CPU 的控制寄存器根据时钟信号从内存中读取指令和数据。</p>
 <p>存取内存的数据结构包括<strong>数组、栈、堆、队列、链表和二叉树</strong>。我们可以通过指针直接访问和改变对应内存地址中的变量的数值。</p>
@@ -253,12 +274,14 @@ A：程序和数据是保存在计算机的硬盘中的，但是程序运行需�
 <p>虚拟内存。<strong>虚拟内存</strong>刚好与之相反，在运行比较大的程序或者内存资源比较紧张可以将部分磁盘当作<strong>假想的内存</strong>来用。实现虚拟内存机制需要在磁盘为内存预留空间，并在程序运行时与内存中的内容进行置换（swap），window 中提过<strong>分页式虚拟内存机制</strong>，如下图所示</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://github.com/bugxch/blogpics/blob/master/201807/vitualmem.jpg?raw=true"
         data-srcset="https://github.com/bugxch/blogpics/blob/master/201807/vitualmem.jpg?raw=true, https://github.com/bugxch/blogpics/blob/master/201807/vitualmem.jpg?raw=true 1.5x, https://github.com/bugxch/blogpics/blob/master/201807/vitualmem.jpg?raw=true 2x"
         data-sizes="auto"
         alt="https://github.com/bugxch/blogpics/blob/master/201807/vitualmem.jpg?raw=true"
-        title="https://github.com/bugxch/blogpics/blob/master/201807/vitualmem.jpg?raw=true" /></p>
+        title="https://github.com/bugxch/blogpics/blob/master/201807/vitualmem.jpg?raw=true"
+        
+        
+    /></p>
 </li>
 </ul>
 <p>一般虚拟内存的大小与内存相当或者是内存的两倍。</p>
@@ -360,22 +383,26 @@ A：程序和数据是保存在计算机的硬盘中的，但是程序运行需�
 <p>源程序到可执行文件的流程如下所示：</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://github.com/bugxch/blogpics/blob/master/201807/run.jpg?raw=true"
         data-srcset="https://github.com/bugxch/blogpics/blob/master/201807/run.jpg?raw=true, https://github.com/bugxch/blogpics/blob/master/201807/run.jpg?raw=true 1.5x, https://github.com/bugxch/blogpics/blob/master/201807/run.jpg?raw=true 2x"
         data-sizes="auto"
         alt="https://github.com/bugxch/blogpics/blob/master/201807/run.jpg?raw=true"
-        title="https://github.com/bugxch/blogpics/blob/master/201807/run.jpg?raw=true" /></p>
+        title="https://github.com/bugxch/blogpics/blob/master/201807/run.jpg?raw=true"
+        
+        
+    /></p>
 <p><strong>Q：可执行文件包含哪些内容？它加载到内存中是什么样子？</strong>
 <strong>A</strong>：可执行文件中包含了源程序的变量和函数的虚拟地址，在加载到内存之后需要必要的信息将虚拟地址转换成实际地址，转换需要的信息就在 exe 文件开始的部分，称为再配置信息。exe 文件被加载到内存之后，就将这些虚拟内存转换成实际内存，程序运行中会生成栈和堆，因此在内存中的样子如下图所示</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://github.com/bugxch/blogpics/blob/master/201807/memab.jpg?raw=true"
         data-srcset="https://github.com/bugxch/blogpics/blob/master/201807/memab.jpg?raw=true, https://github.com/bugxch/blogpics/blob/master/201807/memab.jpg?raw=true 1.5x, https://github.com/bugxch/blogpics/blob/master/201807/memab.jpg?raw=true 2x"
         data-sizes="auto"
         alt="https://github.com/bugxch/blogpics/blob/master/201807/memab.jpg?raw=true"
-        title="https://github.com/bugxch/blogpics/blob/master/201807/memab.jpg?raw=true" /></p>
+        title="https://github.com/bugxch/blogpics/blob/master/201807/memab.jpg?raw=true"
+        
+        
+    /></p>
 <p><strong>Q：c，o，a，lib，obj，dll 这些文件分别是什么？他们之间是什么关系？</strong>
 <strong>A</strong>：c 是 C 语言的源文件，如博文 <a href="http://blog.csdn.net/chlele0105/article/details/23691147" target="_blank" rel="noopener noreffer">Linux 的. a、.so 和. o 文件</a> 中所述</p>
 <blockquote>
@@ -664,6 +691,21 @@ A：程序和数据是保存在计算机的硬盘中的，但是程序运行需�
         <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.10"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2016 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank" rel="noopener noreferrer">bugxch</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
+        <script>
+            if('serviceWorker' in navigator) {
+                navigator.serviceWorker
+                    .register('/sw.min.js', { scope: '/' })
+                    .then(function(registration) {
+                        
+                    });
+          
+                navigator.serviceWorker
+                    .ready
+                    .then(function(registration) {
+                        
+                    });
+            }
+          </script>          
     </footer></div>
 
         <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">

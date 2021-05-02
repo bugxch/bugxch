@@ -18,7 +18,9 @@
 <meta name="twitter:title" content="2016，我的改变"/>
 <meta name="twitter:description" content="新年来到，2017 年我就三十岁了，盘点下过去一年我的变化。"/>
 <meta name="application-name" content="小猴子的烂笔头">
-<meta name="apple-mobile-web-app-title" content="小猴子的烂笔头"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="canonical" href="https://bugxch.github.io/2016%E6%88%91%E7%9A%84%E6%94%B9%E5%8F%98/" /><link rel="prev" href="https://bugxch.github.io/%E4%B8%93%E6%B3%A8%E5%8A%9B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" /><link rel="next" href="https://bugxch.github.io/%E4%BC%AF%E6%81%A9%E6%96%AF%E6%96%B0%E6%83%85%E7%BB%AA%E7%96%97%E6%B3%95/" /><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css">
+<meta name="apple-mobile-web-app-title" content="小猴子的烂笔头">
+
+<meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="canonical" href="https://bugxch.github.io/2016%E6%88%91%E7%9A%84%E6%94%B9%E5%8F%98/" /><link rel="prev" href="https://bugxch.github.io/%E4%B8%93%E6%B3%A8%E5%8A%9B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" /><link rel="next" href="https://bugxch.github.io/%E4%BC%AF%E6%81%A9%E6%96%AF%E6%96%B0%E6%83%85%E7%BB%AA%E7%96%97%E6%B3%95/" /><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"></noscript><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"></noscript><meta name="google-site-verification" content="UA-159591505-1" /><script type="application/ld+json">
@@ -54,7 +56,7 @@
                         document.body.setAttribute('theme', 'dark');
                     }
                     else {
-                        document.body.setAttribute('theme', 'white');
+                        document.body.setAttribute('theme', 'light');
                     }
                 }
             } else {
@@ -67,9 +69,22 @@
                         document.body.setAttribute('theme', 'dark');
                     }
                     else {
-                        document.body.setAttribute('theme', 'white');
+                        document.body.setAttribute('theme', 'light');
                     }
                 }
+            }
+            function getMeta(metaName) {
+                const metas = document.getElementsByTagName('meta'); 
+                for (let i = 0; i < metas.length; i++) {
+                    if (metas[i].getAttribute('name') === metaName) {
+                        return metas[i];
+                    }
+                }
+                return '';
+            }
+            let themeColorMeta = getMeta('theme-color');
+            if (document.body.getAttribute('theme') != 'light') {
+                themeColorMeta.content = '#000000';
             }
         </script>
         <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
@@ -135,7 +150,7 @@
                 <div class="container"><div class="toc" id="toc-auto">
             <h2 class="toc-title">目录</h2>
             <div class="toc-content always-active" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animated flipInX">2016，我的改变</h1><div class="post-meta">
+        </div><script>document.body.setAttribute("pageStyle", "normal")</script><article class="page single"><h1 class="single-title animated flipInX">2016，我的改变</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>bugxch</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E7%94%9F%E6%B4%BB/"><i class="far fa-folder fa-fw"></i>生活</a></span></div>
             <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2018-07-21">2018-07-21</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 3438 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 7 分钟&nbsp;</div>
@@ -177,12 +192,14 @@
             </div><div class="content" id="content"><p>新年来到，2017 年我就三十岁了，盘点下过去一年我的变化。</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://s-media-cache-ak0.pinimg.com/564x/e2/2d/2c/e22d2c529a7b86f3d59bab59004c2299.jpg"
         data-srcset="https://s-media-cache-ak0.pinimg.com/564x/e2/2d/2c/e22d2c529a7b86f3d59bab59004c2299.jpg, https://s-media-cache-ak0.pinimg.com/564x/e2/2d/2c/e22d2c529a7b86f3d59bab59004c2299.jpg 1.5x, https://s-media-cache-ak0.pinimg.com/564x/e2/2d/2c/e22d2c529a7b86f3d59bab59004c2299.jpg 2x"
         data-sizes="auto"
         alt="https://s-media-cache-ak0.pinimg.com/564x/e2/2d/2c/e22d2c529a7b86f3d59bab59004c2299.jpg"
-        title="goodbye" /></p>
+        title="goodbye"
+        
+        
+    /></p>
 <blockquote>
 <p>种一棵树最好的时间是十年前，其次是现在。 ——互联网</p>
 </blockquote>
@@ -190,12 +207,14 @@
 <h3 id="变化越来越快波及越来越广"><strong>变化越来越快，波及越来越广</strong></h3>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="http://cdnph.upi.com/ph/st/th/3161481114819/2016/i/14811176572474/v1.5/Donald-Trump-is-Time-magazines-2016-Person-of-the-Year.jpg?lg=5"
         data-srcset="http://cdnph.upi.com/ph/st/th/3161481114819/2016/i/14811176572474/v1.5/Donald-Trump-is-Time-magazines-2016-Person-of-the-Year.jpg?lg=5, http://cdnph.upi.com/ph/st/th/3161481114819/2016/i/14811176572474/v1.5/Donald-Trump-is-Time-magazines-2016-Person-of-the-Year.jpg?lg=5 1.5x, http://cdnph.upi.com/ph/st/th/3161481114819/2016/i/14811176572474/v1.5/Donald-Trump-is-Time-magazines-2016-Person-of-the-Year.jpg?lg=5 2x"
         data-sizes="auto"
         alt="http://cdnph.upi.com/ph/st/th/3161481114819/2016/i/14811176572474/v1.5/Donald-Trump-is-Time-magazines-2016-Person-of-the-Year.jpg?lg=5"
-        title="trump" /></p>
+        title="trump"
+        
+        
+    /></p>
 <p>世界不是线性时不变系统，它充满未知与突兀。英国脱欧，特朗普当选总统，表姐在老家读高中时从没想到会在武汉定居，丫丫在成都啃馒头时从没想过工资能超过四千。2016 年初房价上涨从上海一直波及到武汉和郑州，即便生活在二线城市躲清静，也躲不开汹涌的潮水。科技进步促使消费品成本快速降低，两三年时间老家几乎一半的家庭装了宽带，现在有人开始买小汽车和空调，基础设施急速向城镇靠拢，这样的节奏让我始料未及。
 上海的房价一个月就可能翻番，明天可能就有猎头打电话帮你跳槽到心仪的公司，可能变好也可能变坏。**明白世界多变这个道理，遇到坏事就不会焦虑，遇到好事就抓住机会。**今天的行业可能两三年就被淘汰，<strong>保持学习，持续更新</strong>。</p>
 <h3 id="接受现实但是寻求改变"><strong>接受现实，但是寻求改变</strong></h3>
@@ -219,12 +238,14 @@
 <h3 id="大事提前规划"><strong>大事提前规划</strong></h3>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://shopify-ecommerce-university.s3.amazonaws.com/production/legacy/guides/business-plan/banner-chapter-1.jpg"
         data-srcset="https://shopify-ecommerce-university.s3.amazonaws.com/production/legacy/guides/business-plan/banner-chapter-1.jpg, https://shopify-ecommerce-university.s3.amazonaws.com/production/legacy/guides/business-plan/banner-chapter-1.jpg 1.5x, https://shopify-ecommerce-university.s3.amazonaws.com/production/legacy/guides/business-plan/banner-chapter-1.jpg 2x"
         data-sizes="auto"
         alt="https://shopify-ecommerce-university.s3.amazonaws.com/production/legacy/guides/business-plan/banner-chapter-1.jpg"
-        title="plan" /></p>
+        title="plan"
+        
+        
+    /></p>
 <p>此条尤其适用于跳槽、买房、结婚、生子和退休储蓄。我 2013 年刚来上海，到手月薪 5500，没太想过买房。2015 年自己积蓄 20W，师傅友善地提醒我去看房，我还是没想好买房，结果 2016 年初房价大涨，现在望楼兴叹。如果我早两年提前规划提前看房呢？肯定会比现在好。<strong>对于买房、生育和退休这样长期规划的理财计划需要提早准备，不止理财需要耗费大量精力的事情都需要提前规划和行动，真到眼前再做很有可能就错过窗口期了。</strong></p>
 <h3 id="框架比细节优先完成比完美优先"><strong>框架比细节优先，完成比完美优先</strong></h3>
 <p>我是个完美主义者，特别容易花费大量精力和时间打磨细节，而影响整体工程的进度，在工作中如是，生活中亦如是。现在则先把代码接口定义好，整体框架完成，再一个个填充，文章也是一条条内容列清楚，再细致去完成。这个可能和围棋的道理比较相同，布局比较好后面就轻松很多，刚开始就纠结于一池一地的得失必然会失掉大局。</p>
@@ -235,12 +256,14 @@
 <h2 id="健身">健身</h2>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://getfitgetactive.files.wordpress.com/2016/02/wellness-banner-2.jpg?w=700"
         data-srcset="https://getfitgetactive.files.wordpress.com/2016/02/wellness-banner-2.jpg?w=700, https://getfitgetactive.files.wordpress.com/2016/02/wellness-banner-2.jpg?w=700 1.5x, https://getfitgetactive.files.wordpress.com/2016/02/wellness-banner-2.jpg?w=700 2x"
         data-sizes="auto"
         alt="https://getfitgetactive.files.wordpress.com/2016/02/wellness-banner-2.jpg?w=700"
-        title="keep fit" /></p>
+        title="keep fit"
+        
+        
+    /></p>
 <p><strong>身体最诚实</strong>，在健身上投入一分就回报一分，懈怠太久就出问题，尤其在压力和节奏特别大的时候。我从儿童节开始使用 “凌健身” 健身，每次 25min 左右的巨量无氧运动，累计健身时长 1360 分钟，消耗 18853 大卡，身体状态和精神状态大为改观。<strong>身体刚健，精神也不会脆弱。</strong></p>
 <h2 id="知识管理">知识管理</h2>
 <h3 id="书读不尽">书读不尽</h3>
@@ -270,12 +293,14 @@
 <p>2017 年，三十而立。我会更沉着地磨炼技能，更耐心地守望机会，更坚定地执行计划，更果断地一击即毙。<strong>KEEP SHARP, KEEP MOVING!</strong></p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://github.com/bugxch/blogpics/blob/master/201807/keepmovindg.jpg?raw=true"
         data-srcset="https://github.com/bugxch/blogpics/blob/master/201807/keepmovindg.jpg?raw=true, https://github.com/bugxch/blogpics/blob/master/201807/keepmovindg.jpg?raw=true 1.5x, https://github.com/bugxch/blogpics/blob/master/201807/keepmovindg.jpg?raw=true 2x"
         data-sizes="auto"
         alt="https://github.com/bugxch/blogpics/blob/master/201807/keepmovindg.jpg?raw=true"
-        title="https://github.com/bugxch/blogpics/blob/master/201807/keepmovindg.jpg?raw=true" /></p></div><div class="post-footer" id="post-footer">
+        title="https://github.com/bugxch/blogpics/blob/master/201807/keepmovindg.jpg?raw=true"
+        
+        
+    /></p></div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
@@ -308,6 +333,21 @@
         <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.10"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2016 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank" rel="noopener noreferrer">bugxch</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
+        <script>
+            if('serviceWorker' in navigator) {
+                navigator.serviceWorker
+                    .register('/sw.min.js', { scope: '/' })
+                    .then(function(registration) {
+                        
+                    });
+          
+                navigator.serviceWorker
+                    .ready
+                    .then(function(registration) {
+                        
+                    });
+            }
+          </script>          
     </footer></div>
 
         <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">

@@ -18,7 +18,9 @@
 <meta name="twitter:title" content="Iterator模式精解（C&#43;&#43;版本）"/>
 <meta name="twitter:description" content="从本文章开始，参考结城浩的《图解设计模式》写23种设计模式的系列介绍文章，结合网络上其他的设计模式的内容，使用C&#43;&#43;的语言编写这些设计模式，记录自己的设计模式的心得。"/>
 <meta name="application-name" content="小猴子的烂笔头">
-<meta name="apple-mobile-web-app-title" content="小猴子的烂笔头"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="canonical" href="https://bugxch.github.io/dp_1/" /><link rel="prev" href="https://bugxch.github.io/c_driven_table/" /><link rel="next" href="https://bugxch.github.io/dp_2/" /><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css">
+<meta name="apple-mobile-web-app-title" content="小猴子的烂笔头">
+
+<meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="canonical" href="https://bugxch.github.io/dp_1/" /><link rel="prev" href="https://bugxch.github.io/c_driven_table/" /><link rel="next" href="https://bugxch.github.io/dp_2/" /><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"></noscript><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"></noscript><meta name="google-site-verification" content="UA-159591505-1" /><script type="application/ld+json">
@@ -54,7 +56,7 @@
                         document.body.setAttribute('theme', 'dark');
                     }
                     else {
-                        document.body.setAttribute('theme', 'white');
+                        document.body.setAttribute('theme', 'light');
                     }
                 }
             } else {
@@ -67,9 +69,22 @@
                         document.body.setAttribute('theme', 'dark');
                     }
                     else {
-                        document.body.setAttribute('theme', 'white');
+                        document.body.setAttribute('theme', 'light');
                     }
                 }
+            }
+            function getMeta(metaName) {
+                const metas = document.getElementsByTagName('meta'); 
+                for (let i = 0; i < metas.length; i++) {
+                    if (metas[i].getAttribute('name') === metaName) {
+                        return metas[i];
+                    }
+                }
+                return '';
+            }
+            let themeColorMeta = getMeta('theme-color');
+            if (document.body.getAttribute('theme') != 'light') {
+                themeColorMeta.content = '#000000';
             }
         </script>
         <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
@@ -135,18 +150,20 @@
                 <div class="container"><div class="toc" id="toc-auto">
             <h2 class="toc-title">目录</h2>
             <div class="toc-content always-active" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animated flipInX">Iterator模式精解（C&#43;&#43;版本）</h1><h2 class="single-subtitle">设计模式精解系列之一</h2><div class="post-meta">
+        </div><script>document.body.setAttribute("pageStyle", "normal")</script><article class="page single"><h1 class="single-title animated flipInX">Iterator模式精解（C&#43;&#43;版本）</h1><h2 class="single-subtitle">设计模式精解系列之一</h2><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="https://bugxch.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>bugxch</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%8A%80%E8%89%BA/"><i class="far fa-folder fa-fw"></i>技艺</a></span></div>
             <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-04-10">2021-04-10</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 3618 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 8 分钟&nbsp;</div>
         </div><div class="featured-image"><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://pic.imgdb.cn/item/6086d967d1a9ae528f307ce1.jpg"
         data-srcset="https://pic.imgdb.cn/item/6086d967d1a9ae528f307ce1.jpg, https://pic.imgdb.cn/item/6086d967d1a9ae528f307ce1.jpg 1.5x, https://pic.imgdb.cn/item/6086d967d1a9ae528f307ce1.jpg 2x"
         data-sizes="auto"
         alt="https://pic.imgdb.cn/item/6086d967d1a9ae528f307ce1.jpg"
-        title="https://pic.imgdb.cn/item/6086d967d1a9ae528f307ce1.jpg" /></div><div class="details toc" id="toc-static"  kept="">
+        title="https://pic.imgdb.cn/item/6086d967d1a9ae528f307ce1.jpg"
+         height="auto"
+         width="auto"
+    /></div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
                     <span>目录</span>
                     <span><i class="details-icon fas fa-angle-right"></i></span>
@@ -191,12 +208,14 @@
 <p>一般都选用第一种设计模式的分类方法，总结如下</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://pic.imgdb.cn/item/608bf193d1a9ae528f3a4b89.png"
         data-srcset="https://pic.imgdb.cn/item/608bf193d1a9ae528f3a4b89.png, https://pic.imgdb.cn/item/608bf193d1a9ae528f3a4b89.png 1.5x, https://pic.imgdb.cn/item/608bf193d1a9ae528f3a4b89.png 2x"
         data-sizes="auto"
         alt="https://pic.imgdb.cn/item/608bf193d1a9ae528f3a4b89.png"
-        title="https://pic.imgdb.cn/item/608bf193d1a9ae528f3a4b89.png" /></p>
+        title="https://pic.imgdb.cn/item/608bf193d1a9ae528f3a4b89.png"
+        
+        
+    /></p>
 <h2 id="使用情景">使用情景</h2>
 <blockquote>
 <p>迭代器模式是一种行为设计模式， 让你能在不暴露集合底层表现形式 （列表、 栈和树等） 的情况下遍历集合中所有的元素。</p>
@@ -210,32 +229,38 @@
 </ol>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://refactoringguru.cn/images/patterns/diagrams/iterator/problem2.png?id=f9c1a746c787320291c8"
         data-srcset="https://refactoringguru.cn/images/patterns/diagrams/iterator/problem2.png?id=f9c1a746c787320291c8, https://refactoringguru.cn/images/patterns/diagrams/iterator/problem2.png?id=f9c1a746c787320291c8 1.5x, https://refactoringguru.cn/images/patterns/diagrams/iterator/problem2.png?id=f9c1a746c787320291c8 2x"
         data-sizes="auto"
         alt="https://refactoringguru.cn/images/patterns/diagrams/iterator/problem2.png?id=f9c1a746c787320291c8"
-        title="树的深度和广度遍历" /></p>
+        title="树的深度和广度遍历"
+        
+        
+    /></p>
 <h2 id="解决方案">解决方案</h2>
 <p>为了满足开闭原则，我们将定义一个迭代器的类，将迭代从集合种抽象出来，作为一个行为的迭代器处理。如下图所示，对于一个树结构，我们定义了两个迭代器的类，DFS和BFS两个迭代器，这样可以将元素遍历和树本身进行解耦。</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://refactoringguru.cn/images/patterns/diagrams/iterator/solution1.png?id=2f5fbcce6099d8ea09b2"
         data-srcset="https://refactoringguru.cn/images/patterns/diagrams/iterator/solution1.png?id=2f5fbcce6099d8ea09b2, https://refactoringguru.cn/images/patterns/diagrams/iterator/solution1.png?id=2f5fbcce6099d8ea09b2 1.5x, https://refactoringguru.cn/images/patterns/diagrams/iterator/solution1.png?id=2f5fbcce6099d8ea09b2 2x"
         data-sizes="auto"
         alt="https://refactoringguru.cn/images/patterns/diagrams/iterator/solution1.png?id=2f5fbcce6099d8ea09b2"
-        title="https://refactoringguru.cn/images/patterns/diagrams/iterator/solution1.png?id=2f5fbcce6099d8ea09b2" /></p>
+        title="https://refactoringguru.cn/images/patterns/diagrams/iterator/solution1.png?id=2f5fbcce6099d8ea09b2"
+        
+        
+    /></p>
 <h2 id="uml表示">UML表示</h2>
 <p>我们以《图解设计模式》中遍历书架中的书本为例，有如下的UML图</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://pic.imgdb.cn/item/6079a1d38322e6675cca8bee.png"
         data-srcset="https://pic.imgdb.cn/item/6079a1d38322e6675cca8bee.png, https://pic.imgdb.cn/item/6079a1d38322e6675cca8bee.png 1.5x, https://pic.imgdb.cn/item/6079a1d38322e6675cca8bee.png 2x"
         data-sizes="auto"
         alt="https://pic.imgdb.cn/item/6079a1d38322e6675cca8bee.png"
-        title="UML图示" /></p>
+        title="UML图示"
+        
+        
+    /></p>
 <p>对上面的这幅图做进一步的说明，</p>
 <ul>
 <li>Aggregate表示集合的接口，书架实现该接口，所以书架必须要有迭代器的方法；</li>
@@ -991,6 +1016,21 @@
         <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.10"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2016 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank" rel="noopener noreferrer">bugxch</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
+        <script>
+            if('serviceWorker' in navigator) {
+                navigator.serviceWorker
+                    .register('/sw.min.js', { scope: '/' })
+                    .then(function(registration) {
+                        
+                    });
+          
+                navigator.serviceWorker
+                    .ready
+                    .then(function(registration) {
+                        
+                    });
+            }
+          </script>          
     </footer></div>
 
         <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">

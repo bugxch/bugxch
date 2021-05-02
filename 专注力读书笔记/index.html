@@ -18,7 +18,9 @@
 <meta name="twitter:title" content="《专注力》读书笔记"/>
 <meta name="twitter:description" content="要记住，你的目标是尽可能多地把时间利用在能给你带来最大价值的事情上。"/>
 <meta name="application-name" content="小猴子的烂笔头">
-<meta name="apple-mobile-web-app-title" content="小猴子的烂笔头"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="canonical" href="https://bugxch.github.io/%E4%B8%93%E6%B3%A8%E5%8A%9B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" /><link rel="prev" href="https://bugxch.github.io/%E8%B0%A8%E6%85%8E%E6%B1%82%E8%AF%81%E5%B0%8F%E5%BF%83%E6%80%9D%E8%80%83/" /><link rel="next" href="https://bugxch.github.io/2016%E6%88%91%E7%9A%84%E6%94%B9%E5%8F%98/" /><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css">
+<meta name="apple-mobile-web-app-title" content="小猴子的烂笔头">
+
+<meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="canonical" href="https://bugxch.github.io/%E4%B8%93%E6%B3%A8%E5%8A%9B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" /><link rel="prev" href="https://bugxch.github.io/%E8%B0%A8%E6%85%8E%E6%B1%82%E8%AF%81%E5%B0%8F%E5%BF%83%E6%80%9D%E8%80%83/" /><link rel="next" href="https://bugxch.github.io/2016%E6%88%91%E7%9A%84%E6%94%B9%E5%8F%98/" /><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"></noscript><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"></noscript><meta name="google-site-verification" content="UA-159591505-1" /><script type="application/ld+json">
@@ -54,7 +56,7 @@
                         document.body.setAttribute('theme', 'dark');
                     }
                     else {
-                        document.body.setAttribute('theme', 'white');
+                        document.body.setAttribute('theme', 'light');
                     }
                 }
             } else {
@@ -67,9 +69,22 @@
                         document.body.setAttribute('theme', 'dark');
                     }
                     else {
-                        document.body.setAttribute('theme', 'white');
+                        document.body.setAttribute('theme', 'light');
                     }
                 }
+            }
+            function getMeta(metaName) {
+                const metas = document.getElementsByTagName('meta'); 
+                for (let i = 0; i < metas.length; i++) {
+                    if (metas[i].getAttribute('name') === metaName) {
+                        return metas[i];
+                    }
+                }
+                return '';
+            }
+            let themeColorMeta = getMeta('theme-color');
+            if (document.body.getAttribute('theme') != 'light') {
+                themeColorMeta.content = '#000000';
             }
         </script>
         <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
@@ -135,18 +150,20 @@
                 <div class="container"><div class="toc" id="toc-auto">
             <h2 class="toc-title">目录</h2>
             <div class="toc-content always-active" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animated flipInX">《专注力》读书笔记</h1><div class="post-meta">
+        </div><script>document.body.setAttribute("pageStyle", "normal")</script><article class="page single"><h1 class="single-title animated flipInX">《专注力》读书笔记</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>bugxch</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E9%98%85%E8%AF%BB/"><i class="far fa-folder fa-fw"></i>阅读</a></span></div>
             <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2018-07-21">2018-07-21</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 3166 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 7 分钟&nbsp;</div>
         </div><div class="featured-image"><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://img3.doubanio.com/lpic/s28133355.jpg"
         data-srcset="https://img3.doubanio.com/lpic/s28133355.jpg, https://img3.doubanio.com/lpic/s28133355.jpg 1.5x, https://img3.doubanio.com/lpic/s28133355.jpg 2x"
         data-sizes="auto"
         alt="https://img3.doubanio.com/lpic/s28133355.jpg"
-        title="https://img3.doubanio.com/lpic/s28133355.jpg" /></div><div class="details toc" id="toc-static"  kept="">
+        title="https://img3.doubanio.com/lpic/s28133355.jpg"
+         height="auto"
+         width="auto"
+    /></div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
                     <span>目录</span>
                     <span><i class="details-icon fas fa-angle-right"></i></span>
@@ -181,12 +198,14 @@
 <p>这是一个被说烂的话题，专注的重要性不言而喻，最好的方法莫过于更快地进入心流模式，如下图所示</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="http://upload-images.jianshu.io/upload_images/49434-132d60bc6f8ff553.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"
         data-srcset="http://upload-images.jianshu.io/upload_images/49434-132d60bc6f8ff553.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240, http://upload-images.jianshu.io/upload_images/49434-132d60bc6f8ff553.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240 1.5x, http://upload-images.jianshu.io/upload_images/49434-132d60bc6f8ff553.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240 2x"
         data-sizes="auto"
         alt="http://upload-images.jianshu.io/upload_images/49434-132d60bc6f8ff553.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"
-        title="心流" /></p>
+        title="心流"
+        
+        
+    /></p>
 <blockquote>
 <p>心流模式下当事人完全聚焦并沉浸到自己正在从事的活动中，长时间投入其中而不感到疲惫和厌倦，甚至感知不到时间的流逝。</p>
 </blockquote>
@@ -200,12 +219,14 @@
 <p>信息焦虑的最大原因就是网络时代巨量信息的大爆炸引发的<strong>信息成瘾</strong>。我手机里曾经装了很多的资讯类 APP，网易新闻，澎湃新闻，豌豆荚一览，华尔街见闻，每天上班间隙看看微博上有什么消息，刷刷这些 APP 有啥劲爆的新闻，晚上回家更是肆无忌惮，钻在被窝里把微信，微博，豆瓣，知乎，新闻通通刷一遍才肯放开手机悻悻然睡去。高密度强刺激快反馈的信息刺激改变了大脑的结构和化学成分，它处理这样的信息越来越顺手越来越停不下来，或者网上有一张非常有趣的图片，如果有 wifi 和充电器，我可以坐在厕所一直不起来；-)</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="http://upload-images.jianshu.io/upload_images/49434-74dbded62f474ec2.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"
         data-srcset="http://upload-images.jianshu.io/upload_images/49434-74dbded62f474ec2.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240, http://upload-images.jianshu.io/upload_images/49434-74dbded62f474ec2.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240 1.5x, http://upload-images.jianshu.io/upload_images/49434-74dbded62f474ec2.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240 2x"
         data-sizes="auto"
         alt="http://upload-images.jianshu.io/upload_images/49434-74dbded62f474ec2.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"
-        title="厕所与wifi" /></p>
+        title="厕所与wifi"
+        
+        
+    /></p>
 <p>作者在书里建议消除信息焦虑，可以包括在机场或者其他人群嘈杂的地方使用使用消音耳机，试着有目的地吸收信息，当你对于信息的使用缺乏目的性时，你便无法掌控信息。如果一开始便带有目的性，你会自动对信息进行筛选过滤，这能帮助你分辨有关及无关的信息。总而言之，除了断舍离，还可以减少信息的摄入数量，提高信息的质量。其实在收起电脑之后，我的信息焦虑缓解不少，另外，我卸载掉全部的资讯类 APP，使用 RSS 阅读器 <a href="https://feedly.com/" target="_blank" rel="noopener noreffer">feedly</a>（Google Reader 的绝佳替代品），每天午饭结束我在办公室刷刷当天的文章，这样重要的信息不会遗漏，也保证了我的静音时间。</p>
 <hr>
 <p>注：本文转自我的读书笔记<a href="https://book.douban.com/review/8062395/" target="_blank" rel="noopener noreffer">进展不顺利？或许这样做更有效（专注力）书评</a>，欢迎关注，欢迎点赞~</p></div><div class="post-footer" id="post-footer">
@@ -241,6 +262,21 @@
         <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.10"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2016 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank" rel="noopener noreferrer">bugxch</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
+        <script>
+            if('serviceWorker' in navigator) {
+                navigator.serviceWorker
+                    .register('/sw.min.js', { scope: '/' })
+                    .then(function(registration) {
+                        
+                    });
+          
+                navigator.serviceWorker
+                    .ready
+                    .then(function(registration) {
+                        
+                    });
+            }
+          </script>          
     </footer></div>
 
         <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">

@@ -18,7 +18,9 @@
 <meta name="twitter:title" content="Template Method模式精解（C&#43;&#43;版本）"/>
 <meta name="twitter:description" content="设计模式第三弹，设计模式行为型模式中的模板方法，也比较简单。"/>
 <meta name="application-name" content="小猴子的烂笔头">
-<meta name="apple-mobile-web-app-title" content="小猴子的烂笔头"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="canonical" href="https://bugxch.github.io/dp_3/" /><link rel="prev" href="https://bugxch.github.io/dp_2/" /><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css">
+<meta name="apple-mobile-web-app-title" content="小猴子的烂笔头">
+
+<meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="canonical" href="https://bugxch.github.io/dp_3/" /><link rel="prev" href="https://bugxch.github.io/dp_2/" /><link rel="next" href="https://bugxch.github.io/dp_4/" /><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"></noscript><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"></noscript><meta name="google-site-verification" content="UA-159591505-1" /><script type="application/ld+json">
@@ -30,7 +32,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/bugxch.github.io\/dp_3\/"
-        },"image": ["https:\/\/bugxch.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "C\/C\u002b\u002b, 设计模式","wordcount":  1055 ,
+        },"image": ["https:\/\/bugxch.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "C\/C\u002b\u002b, 设计模式","wordcount":  1088 ,
         "url": "https:\/\/bugxch.github.io\/dp_3\/","datePublished": "2021-04-30T19:52:15+08:00","dateModified": "2021-04-30T19:52:15+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "xxxx","logo": {
@@ -54,7 +56,7 @@
                         document.body.setAttribute('theme', 'dark');
                     }
                     else {
-                        document.body.setAttribute('theme', 'white');
+                        document.body.setAttribute('theme', 'light');
                     }
                 }
             } else {
@@ -67,9 +69,22 @@
                         document.body.setAttribute('theme', 'dark');
                     }
                     else {
-                        document.body.setAttribute('theme', 'white');
+                        document.body.setAttribute('theme', 'light');
                     }
                 }
+            }
+            function getMeta(metaName) {
+                const metas = document.getElementsByTagName('meta'); 
+                for (let i = 0; i < metas.length; i++) {
+                    if (metas[i].getAttribute('name') === metaName) {
+                        return metas[i];
+                    }
+                }
+                return '';
+            }
+            let themeColorMeta = getMeta('theme-color');
+            if (document.body.getAttribute('theme') != 'light') {
+                themeColorMeta.content = '#000000';
             }
         </script>
         <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
@@ -135,18 +150,20 @@
                 <div class="container"><div class="toc" id="toc-auto">
             <h2 class="toc-title">目录</h2>
             <div class="toc-content always-active" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animated flipInX">Template Method模式精解（C&#43;&#43;版本）</h1><h2 class="single-subtitle">设计模式精解系列之三</h2><div class="post-meta">
+        </div><script>document.body.setAttribute("pageStyle", "normal")</script><article class="page single"><h1 class="single-title animated flipInX">Template Method模式精解（C&#43;&#43;版本）</h1><h2 class="single-subtitle">设计模式精解系列之三</h2><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="https://bugxch.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>bugxch</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%8A%80%E8%89%BA/"><i class="far fa-folder fa-fw"></i>技艺</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-04-30">2021-04-30</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1055 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-04-30">2021-04-30</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1088 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;</div>
         </div><div class="featured-image"><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://pic.imgdb.cn/item/608bef5dd1a9ae528f268767.png"
         data-srcset="https://pic.imgdb.cn/item/608bef5dd1a9ae528f268767.png, https://pic.imgdb.cn/item/608bef5dd1a9ae528f268767.png 1.5x, https://pic.imgdb.cn/item/608bef5dd1a9ae528f268767.png 2x"
         data-sizes="auto"
         alt="https://pic.imgdb.cn/item/608bef5dd1a9ae528f268767.png"
-        title="https://pic.imgdb.cn/item/608bef5dd1a9ae528f268767.png" /></div><div class="details toc" id="toc-static"  kept="">
+        title="https://pic.imgdb.cn/item/608bef5dd1a9ae528f268767.png"
+         height="auto"
+         width="auto"
+    /></div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
                     <span>目录</span>
                     <span><i class="details-icon fas fa-angle-right"></i></span>
@@ -161,17 +178,19 @@
             </div><div class="content" id="content"><p>设计模式第三弹，设计模式<strong>行为型模式</strong>中的模板方法，也比较简单。</p>
 <h2 id="使用情景">使用情景</h2>
 <blockquote>
-<p>当你只希望客户端扩展某个特定算法步骤， 而不是整个算法或其结构时， 可使用模板方法模式。</p>
+<p>定义一个操作中的算法的股价，而将一些步骤延迟到子类中。Template Method使得子类可以不改变算法的结构（步骤）即可重定义该算法的某些特定步骤。</p>
 </blockquote>
 <p>模板方法将整个算法转换为一系列独立的步骤， 以便子类能对其进行扩展， 同时还可让超类中所定义的结构保持完整。可以设想我们上学时候临摹毛笔字，你可以使用墨汁沿着田字格中的汉字临摹，也可以使用红墨水临摹，无论用哪种颜色的墨水，最后完成的字的形状是一样的。</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://pic.imgdb.cn/item/608bf40bd1a9ae528f53b668.png"
         data-srcset="https://pic.imgdb.cn/item/608bf40bd1a9ae528f53b668.png, https://pic.imgdb.cn/item/608bf40bd1a9ae528f53b668.png 1.5x, https://pic.imgdb.cn/item/608bf40bd1a9ae528f53b668.png 2x"
         data-sizes="auto"
         alt="https://pic.imgdb.cn/item/608bf40bd1a9ae528f53b668.png"
-        title="图片来自网络" /></p>
+        title="图片来自网络"
+        
+        
+    /></p>
 <p>汉字的字形就是模板，每个学生使用不同的工具或者墨水按照模板习字，就是模板方法。</p>
 <h2 id="问题引入">问题引入</h2>
 <p>Template Method就是带有模板功能的模式，它有下面的特点：</p>
@@ -184,21 +203,25 @@
 <p>参考《图解设计模式》中第三章的例子，UML图及代码如下所示</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://pic.imgdb.cn/item/608bf6c0d1a9ae528f6ea0ee.png"
         data-srcset="https://pic.imgdb.cn/item/608bf6c0d1a9ae528f6ea0ee.png, https://pic.imgdb.cn/item/608bf6c0d1a9ae528f6ea0ee.png 1.5x, https://pic.imgdb.cn/item/608bf6c0d1a9ae528f6ea0ee.png 2x"
         data-sizes="auto"
         alt="https://pic.imgdb.cn/item/608bf6c0d1a9ae528f6ea0ee.png"
-        title="https://pic.imgdb.cn/item/608bf6c0d1a9ae528f6ea0ee.png" />
+        title="https://pic.imgdb.cn/item/608bf6c0d1a9ae528f6ea0ee.png"
+        
+        
+    />
 每个类的作用如下
 <img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://pic.imgdb.cn/item/608bf701d1a9ae528f712d27.png"
         data-srcset="https://pic.imgdb.cn/item/608bf701d1a9ae528f712d27.png, https://pic.imgdb.cn/item/608bf701d1a9ae528f712d27.png 1.5x, https://pic.imgdb.cn/item/608bf701d1a9ae528f712d27.png 2x"
         data-sizes="auto"
         alt="https://pic.imgdb.cn/item/608bf701d1a9ae528f712d27.png"
-        title="https://pic.imgdb.cn/item/608bf701d1a9ae528f712d27.png" /></p>
+        title="https://pic.imgdb.cn/item/608bf701d1a9ae528f712d27.png"
+        
+        
+    /></p>
 <ul>
 <li><code>AbstractDisplay</code>是抽象类，定义了整个的<strong>流程框架</strong>，即方法<code>display()</code>，该方法又由3个抽象方法实现<code>open(), print(), close()</code>；</li>
 <li><code>CharDisplay</code>和<code>StringDisplay</code>是具体的继承类，它们实现了抽象类中的抽象方法。
@@ -431,7 +454,8 @@
         </section>
     </div>
 
-    <div class="post-nav"><a href="/dp_2/" class="prev" rel="prev" title="Adapter模式精解（C&#43;&#43;版本）"><i class="fas fa-angle-left fa-fw"></i>Adapter模式精解（C&#43;&#43;版本）</a></div>
+    <div class="post-nav"><a href="/dp_2/" class="prev" rel="prev" title="Adapter模式精解（C&#43;&#43;版本）"><i class="fas fa-angle-left fa-fw"></i>Adapter模式精解（C&#43;&#43;版本）</a>
+            <a href="/dp_4/" class="next" rel="next" title="Factory Method模式精解（C&#43;&#43;版本）">Factory Method模式精解（C&#43;&#43;版本）<i class="fas fa-angle-right fa-fw"></i></a></div>
 </div>
 <div id="comments"><div id="disqus_thread" class="comment"></div><noscript>
                 Please enable JavaScript to view the comments powered by <a href="https://disqus.com/?ref_noscript">Disqus</a>.
@@ -440,6 +464,21 @@
         <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.10"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2016 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank" rel="noopener noreferrer">bugxch</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
+        <script>
+            if('serviceWorker' in navigator) {
+                navigator.serviceWorker
+                    .register('/sw.min.js', { scope: '/' })
+                    .then(function(registration) {
+                        
+                    });
+          
+                navigator.serviceWorker
+                    .ready
+                    .then(function(registration) {
+                        
+                    });
+            }
+          </script>          
     </footer></div>
 
         <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">

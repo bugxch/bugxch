@@ -4,9 +4,140 @@
         <link>https://bugxch.github.io/</link>
         <description>博观而约取，厚积而薄发</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>bugxch@126.com (bugxch)</managingEditor>
-            <webMaster>bugxch@126.com (bugxch)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 30 Apr 2021 19:52:15 &#43;0800</lastBuildDate>
+            <webMaster>bugxch@126.com (bugxch)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 02 May 2021 21:43:54 &#43;0800</lastBuildDate>
             <atom:link href="https://bugxch.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>Factory Method模式精解（C&#43;&#43;版本）</title>
+    <link>https://bugxch.github.io/dp_4/</link>
+    <pubDate>Sun, 02 May 2021 21:43:54 &#43;0800</pubDate>
+    <author>bugxch</author>
+    <guid>https://bugxch.github.io/dp_4/</guid>
+    <description><![CDATA[<div class="featured-image">
+                <img src="https://pic.imgdb.cn/item/608eae16d1a9ae528f502e1a.png" referrerpolicy="no-referrer">
+            </div><p>继续之前的设计模式第四弹，这次是大名鼎鼎的工厂方法模式。</p>
+<h2 id="使用情景">使用情景</h2>
+<blockquote>
+<p>定义一个用于创建对象的接口，让子类决定实例化哪一个类。Factory Method使一个类的实例化延迟到其子类。</p>
+</blockquote>
+<p>Factory有工厂的意思，简单来看，这个模式利用到了上一篇的<a href="https://bugxch.github.io/dp_3/" target="_blank" rel="noopener noreffer">Template Method模式</a>用来生成具体的实例，说得更清楚一点，工厂方法模式将创建对象的过程延迟到子类实现，其他的父类的步骤保持完整。</p>
+<h2 id="问题引入">问题引入</h2>
+<p>想象一个养殖业的农民，他刚开始仅仅在养马场养马，每个马都需要养殖长大之后在市面出售，后来他获得足够的利润之后，扩展业务也养牛，但是在牛场养牛，每头牛也是需要养殖长大之后在市面出售的。在刚开始的时候，我们需要记录每只马的养殖过程，后面还要记录它的售价。如果你前面只有养马的程序（包括生产、饲养、销售的过程），比如下面这样</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">Client</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="n">CreateHorse</span><span class="p">();</span>
+    <span class="n">FeedHorse</span><span class="p">();</span>
+    <span class="n">SellHorse</span><span class="p">();</span>
+<span class="k">private</span><span class="o">:</span>
+    <span class="n">Horse</span> <span class="n">horse_</span><span class="p">;</span>
+<span class="p">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>需要添加金养牛的程序，那么大多数情况会出现一个<code>switch</code>的分支，随着饲养的品种越来越多，最后会在生产、饲养和售卖的各个过程中出现多个<code>switch</code>分支。如果我是农场主，代码会陷入“分支瘫痪”，对维护这一套代码感到厌烦。比如下面这样</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">Client</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="n">CreateAnimal</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">animaltype</span> <span class="o">==</span> <span class="s">&#34;horse&#34;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// create horse
+</span><span class="c1"></span>        <span class="p">}</span> <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">animaltype</span> <span class="o">==</span> <span class="s">&#34;cow&#34;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// ceate cow
+</span><span class="c1"></span>        <span class="p">}</span> <span class="p">...</span>
+        <span class="k">else</span> <span class="p">{</span>
+            <span class="c1">// create others
+</span><span class="c1"></span>        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">FeedAnimal</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">animaltype</span> <span class="o">==</span> <span class="s">&#34;horse&#34;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// feed horse
+</span><span class="c1"></span>        <span class="p">}</span> <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">animaltype</span> <span class="o">==</span> <span class="s">&#34;cow&#34;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// feed cow
+</span><span class="c1"></span>        <span class="p">}</span> <span class="p">...</span>
+        <span class="k">else</span> <span class="p">{</span>
+            <span class="c1">// feed others
+</span><span class="c1"></span>        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">SellAnimal</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">animaltype</span> <span class="o">==</span> <span class="s">&#34;horse&#34;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// sell horse
+</span><span class="c1"></span>        <span class="p">}</span> <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">animaltype</span> <span class="o">==</span> <span class="s">&#34;cow&#34;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// sell cow
+</span><span class="c1"></span>        <span class="p">}</span> <span class="p">...</span>
+        <span class="k">else</span> <span class="p">{</span>
+            <span class="c1">// sell others
+</span><span class="c1"></span>        <span class="p">}</span>
+
+    <span class="p">}</span>
+<span class="k">private</span><span class="o">:</span>
+    <span class="kt">int</span> <span class="n">animaltype</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这样的方案有什么明显的缺点呢？</p>
+<ul>
+<li><strong>高耦合</strong>，这个大类中的函数有一处需要添加分支，每个函数就都需要变化，但是每个函数实际是售卖动物的不耦合的步骤（生产不影响饲养，饲养不影响售卖），这些步骤之间耦合太紧，导致“霰弹式修改”；</li>
+<li><strong>分支瘫痪</strong>，添加的类别越多，代码的<code>if/else/switch</code>的分支越多，最后陷入分支瘫痪的状态。</li>
+</ul>
+<h2 id="解决方案">解决方案</h2>
+<h2 id="uml表示及其代码">UML表示及其代码</h2>
+<h2 id="理解及体会">理解及体会</h2>
+<hr>
+<figure>
+     <figcaption>
+            <h4>欢迎扫码关注我的公众号</h4>
+        </figcaption>
+</figure>]]></description>
+</item><item>
     <title>Template Method模式精解（C&#43;&#43;版本）</title>
     <link>https://bugxch.github.io/dp_3/</link>
     <pubDate>Fri, 30 Apr 2021 19:52:15 &#43;0800</pubDate>
@@ -17,7 +148,7 @@
             </div><p>设计模式第三弹，设计模式<strong>行为型模式</strong>中的模板方法，也比较简单。</p>
 <h2 id="使用情景">使用情景</h2>
 <blockquote>
-<p>当你只希望客户端扩展某个特定算法步骤， 而不是整个算法或其结构时， 可使用模板方法模式。</p>
+<p>定义一个操作中的算法的股价，而将一些步骤延迟到子类中。Template Method使得子类可以不改变算法的结构（步骤）即可重定义该算法的某些特定步骤。</p>
 </blockquote>
 <p>模板方法将整个算法转换为一系列独立的步骤， 以便子类能对其进行扩展， 同时还可让超类中所定义的结构保持完整。可以设想我们上学时候临摹毛笔字，你可以使用墨汁沿着田字格中的汉字临摹，也可以使用红墨水临摹，无论用哪种颜色的墨水，最后完成的字的形状是一样的。</p>
 <p></p>
@@ -5122,261 +5253,5 @@
 <li><a href="https://www.geeksforgeeks.org/unordered_map-in-cpp-stl/" target="_blank" rel="noopener noreffer">unordered_map in C++ STL - GeeksforGeeks</a>，C++ stl中的unordered_map</li>
 <li><a href="https://www.geeksforgeeks.org/hashing-set-1-introduction/" target="_blank" rel="noopener noreffer">Hashing | Set 1 (Introduction) - GeeksforGeeks</a>，哈希表的介绍</li>
 </ul>]]></description>
-</item><item>
-    <title>使用linux vs code调试C&#43;&#43;程序</title>
-    <link>https://bugxch.github.io/manjarovscode/</link>
-    <pubDate>Sun, 26 Jul 2020 08:12:22 &#43;0800</pubDate>
-    <author>作者</author>
-    <guid>https://bugxch.github.io/manjarovscode/</guid>
-    <description><![CDATA[<p>最近练习leetcode编程，我希望在manjaro系统的vs code上可以单步调试C++代码，找了很多资料都不能正常运行，所以参考<a href="https://code.visualstudio.com/docs/cpp/cpp-debug" target="_blank" rel="noopener noreffer">官方资料</a>自己整好了，记录一下。</p>
-<h2 id="预置条件">预置条件</h2>
-<p>首先完成如下工作</p>
-<ol>
-<li>
-<p>安装vs code;</p>
-</li>
-<li>
-<p>安装插件，如下图所示</p>
-<p></p>
-</li>
-<li>
-<p>确认linux系统已经正确安装gcc，输入如下命令</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell">gcc -v <span class="c1"># 查看gcc版本</span>
-sudo pacman -S build-essential gdb <span class="c1"># 安装必要工具軟件</span>
-</code></pre></td></tr></table>
-</div>
-</div></li>
-</ol>
-<h2 id="创建hello-world工程">创建Hello world工程</h2>
-<p>在本地创建目录，我在本地创建了leetcode的目录，所以有如下的步骤</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell">mkdir project
-<span class="nb">cd</span> project
-mkdir 
-<span class="nb">cd</span> helloworld
-code . <span class="c1"># 在当前目录下打开vs code，当前打开的文件夹就是这个“工作空间”</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>阅读完本博客之后，你会在当前的目录下面创建下面的3个文件</p>
-<ul>
-<li><code>tasks.json</code> (compiler build settings)</li>
-<li><code>launch.json</code> (debugger settings)</li>
-</ul>
-<h3 id="添加源文件">添加源文件</h3>
-<p>如图所示，添加新的源文件<code>helloworld.cpp</code></p>
-<p></p>
-<p>在该文件中粘贴如下的源代码</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
-
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
-<span class="p">{</span>
-    <span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">msg</span> <span class="p">{</span><span class="s">&#34;Hello&#34;</span><span class="p">,</span> <span class="s">&#34;C++&#34;</span><span class="p">,</span> <span class="s">&#34;World&#34;</span><span class="p">,</span> <span class="s">&#34;from&#34;</span><span class="p">,</span> <span class="s">&#34;VS Code&#34;</span><span class="p">,</span> <span class="s">&#34;and the C++ extension!&#34;</span><span class="p">};</span>
-
-    <span class="k">for</span> <span class="p">(</span><span class="k">const</span> <span class="n">string</span><span class="o">&amp;</span> <span class="nl">word</span> <span class="p">:</span> <span class="n">msg</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">word</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; &#34;</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>然后保存该文件。</p>
-<p></p>
-<h3 id="构建helloworldcpp">构建helloworld.cpp</h3>
-<p>接下来，你将创建一个<code>task.json</code>文件告诉VS code如何构建(编译)当前的程序。这将触发g++编译器按照源代码创建一个可执行程序。在主菜单选择<strong>终端-&gt;配置默认生成任务</strong>，然后在下拉菜单选择g++ build active file，如下图所示</p>
-<p></p>
-<p>你将在<code>.vscode</code>文件夹下面看到<code>tasks.json</code>文件，我们进一步编辑这个文件</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
-	<span class="nt">&#34;version&#34;</span><span class="p">:</span> <span class="s2">&#34;2.0.0&#34;</span><span class="p">,</span>
-	<span class="nt">&#34;tasks&#34;</span><span class="p">:</span> <span class="p">[</span>
-		<span class="p">{</span>
-			<span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;shell&#34;</span><span class="p">,</span>
-			<span class="nt">&#34;label&#34;</span><span class="p">:</span> <span class="s2">&#34;C/C++: g++ build active file&#34;</span><span class="p">,</span>
-			<span class="nt">&#34;command&#34;</span><span class="p">:</span> <span class="s2">&#34;/usr/bin/g++&#34;</span><span class="p">,</span>
-			<span class="nt">&#34;args&#34;</span><span class="p">:</span> <span class="p">[</span>
-				<span class="s2">&#34;-g&#34;</span><span class="p">,</span>
-				<span class="s2">&#34;${file}&#34;</span><span class="p">,</span>
-				<span class="s2">&#34;-o&#34;</span><span class="p">,</span>
-				<span class="s2">&#34;${fileDirname}/${fileBasenameNoExtension}&#34;</span>
-			<span class="p">],</span>
-			<span class="nt">&#34;options&#34;</span><span class="p">:</span> <span class="p">{</span>
-				<span class="nt">&#34;cwd&#34;</span><span class="p">:</span> <span class="s2">&#34;${workspaceFolder}&#34;</span>
-			<span class="p">},</span>
-			<span class="nt">&#34;problemMatcher&#34;</span><span class="p">:</span> <span class="p">[</span>
-				<span class="s2">&#34;$gcc&#34;</span>
-			<span class="p">],</span>
-			<span class="nt">&#34;group&#34;</span><span class="p">:</span> <span class="p">{</span>
-				<span class="nt">&#34;kind&#34;</span><span class="p">:</span> <span class="s2">&#34;build&#34;</span><span class="p">,</span>
-				<span class="nt">&#34;isDefault&#34;</span><span class="p">:</span> <span class="kc">true</span>
-			<span class="p">}</span>
-		<span class="p">}</span>
-	<span class="p">]</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><blockquote>
-<p>关于json文件中变量的具体含义可以进一步参考<a href="https://code.visualstudio.com/docs/editor/variables-reference" target="_blank" rel="noopener noreffer">Visual Studio Code Variables Reference</a></p>
-</blockquote>
-<p>文件中的指令指定了程序如何运行，当前文件中的<code>args</code>参数指定了传输给gcc的参数，这些参数必须按照编译器期望的顺序排列。</p>
-<p>这个任务告诉g++将源文件<code>${file}</code>编译，在当前文件夹下面创建可执行文件<code>helloword</code>，注意可执行文件的名称和源文件相同，但是去掉了扩展后缀名。<code>label</code>字段表示你能看到的任务列表，你可以写成任何你想写的东西。<code>group</code>中的<code>&quot;isDefault&quot;: true</code>表示你可以使用<code>Ctrl+Shift+B</code>运行该任务，这个仅仅是为了使用上的方便，你依然可以通过菜单中的选项运行该任务。</p>
-<h3 id="运行编译程序">运行编译程序</h3>
-<p>回到原来的<code>helloworld.cpp</code>程序，按下<code>Ctrl+Shift+B</code>运行该任务，请留意编辑器下方的终端的打印，在任务运行结束之后一般会提示成功或者失败，如果运行顺利，你可以看到如下的提示</p>
-<p></p>
-<p>如果留意可以看到当前的文件夹中已经生成了可执行程序<code>helloworld</code>文件，打开新的终端，即可运行该程序</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell">./helloworld <span class="c1"># 运行可执行程序</span>
-</code></pre></td></tr></table>
-</div>
-</div><p></p>
-<h3 id="修改tasksjson">修改tasks.json</h3>
-<p>你可以修改这个文件中的参数，比如将<code>${workspaceFolder}/*.cpp</code>替换<code>${file}</code>，或者也可以将<code>${fileDirname}/${fileBasenameNoExtension}</code>替换成一个硬编码的程序名称<code>helloworld.out</code>。</p>
-<h3 id="调试源程序">调试源程序</h3>
-<p>接下来你将创建<code>launch.json</code>文件，当按下<code>F5</code>的时候VS Code调用GDB的调试器用于调试程序。找到菜单中的<strong>运行 &gt; 添加配置</strong>，然后选择<strong>C++ (GDB/LLDB)</strong>，如下图所示</p>
-<p></p>
-<p>我们选择<strong>g++ build and debug active file</strong>，你可以看到此处VS Code自动创建了文件<code>launch.json</code>文件，文件的内容如下</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
-    <span class="err">//</span> <span class="err">使用</span> <span class="err">IntelliSense</span> <span class="err">了解相关属性。</span> 
-    <span class="err">//</span> <span class="err">悬停以查看现有属性的描述。</span>
-    <span class="err">//</span> <span class="err">欲了解更多信息，请访问:</span> <span class="err">https://go.microsoft.com/fwlink/?linkid=830387</span>
-    <span class="nt">&#34;version&#34;</span><span class="p">:</span> <span class="s2">&#34;0.2.0&#34;</span><span class="p">,</span>
-    <span class="nt">&#34;configurations&#34;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="p">{</span>
-            <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;g++ - 生成和调试活动文件&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;cppdbg&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;request&#34;</span><span class="p">:</span> <span class="s2">&#34;launch&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;program&#34;</span><span class="p">:</span> <span class="s2">&#34;${fileDirname}/${fileBasenameNoExtension}&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;args&#34;</span><span class="p">:</span> <span class="p">[],</span>
-            <span class="nt">&#34;stopAtEntry&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-            <span class="nt">&#34;cwd&#34;</span><span class="p">:</span> <span class="s2">&#34;${workspaceFolder}&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;environment&#34;</span><span class="p">:</span> <span class="p">[],</span>
-            <span class="nt">&#34;externalConsole&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-            <span class="nt">&#34;MIMode&#34;</span><span class="p">:</span> <span class="s2">&#34;gdb&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;setupCommands&#34;</span><span class="p">:</span> <span class="p">[</span>
-                <span class="p">{</span>
-                    <span class="nt">&#34;description&#34;</span><span class="p">:</span> <span class="s2">&#34;为 gdb 启用整齐打印&#34;</span><span class="p">,</span>
-                    <span class="nt">&#34;text&#34;</span><span class="p">:</span> <span class="s2">&#34;-enable-pretty-printing&#34;</span><span class="p">,</span>
-                    <span class="nt">&#34;ignoreFailures&#34;</span><span class="p">:</span> <span class="kc">true</span>
-                <span class="p">}</span>
-            <span class="p">],</span>
-            <span class="nt">&#34;preLaunchTask&#34;</span><span class="p">:</span> <span class="s2">&#34;C/C++: g++ build active file&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;miDebuggerPath&#34;</span><span class="p">:</span> <span class="s2">&#34;/usr/bin/gdb&#34;</span>
-        <span class="p">}</span>
-    <span class="p">]</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>很明显在这个文件中<code>program</code>指定了需要debug的程序，和之前的文件一样，此处就是没有后缀名的与源文件一样的程序，这个例子中就是<code>helloworld</code>。默认情况下，C++插件不会在代码中插入任何断点，所以<code>stopAtEntry</code>是<code>false</code>。如果将该项改为<code>true</code>，那么就可以让调试器停在主函数的断点处。</p>
-<h3 id="开始调试">开始调试</h3>
-<p>回到源文件，按下<code>F5</code>就可以开始调试了，在代码编辑器的上访可以看到调试的控制条，包括了单步调试，跳过调试，重启调试和停止调试的功能。稍微探索一下就可以发现，<code>F9</code>是添加断点，其他的调试方法鼠标悬停在上面都会显示快捷键，你看到的编辑器应该是这样的</p>
-<p></p>
-<p>调试中可以看到每个变量的值，以及监视窗口。</p>
-<blockquote>
-<p>需要注意的是，当前的版本（2019年3月份之后）不会在单步调试模式下将cout的结果打印出来，只有程序运行完成之后才会统一打印出来。</p>
-</blockquote>]]></description>
 </item></channel>
 </rss>

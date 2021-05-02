@@ -18,7 +18,9 @@
 <meta name="twitter:title" content="《软技能》读书笔记"/>
 <meta name="twitter:description" content="现实生活中失败是必要的里程碑，它能带领我们离成功越来越近。学会拥抱失败，期待失败，接受失败，并准备直面失败。"/>
 <meta name="application-name" content="小猴子的烂笔头">
-<meta name="apple-mobile-web-app-title" content="小猴子的烂笔头"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="canonical" href="https://bugxch.github.io/%E8%BD%AF%E6%8A%80%E8%83%BD%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" /><link rel="prev" href="https://bugxch.github.io/%E5%BB%BA%E7%AB%8B%E9%98%85%E8%AF%BB%E4%BD%93%E7%B3%BB/" /><link rel="next" href="https://bugxch.github.io/%E8%BD%AC-%E4%BB%80%E4%B9%88%E6%89%8D%E6%98%AF%E5%AF%8C%E4%BA%BA%E6%80%9D%E7%BB%B4/" /><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css">
+<meta name="apple-mobile-web-app-title" content="小猴子的烂笔头">
+
+<meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="canonical" href="https://bugxch.github.io/%E8%BD%AF%E6%8A%80%E8%83%BD%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" /><link rel="prev" href="https://bugxch.github.io/%E5%BB%BA%E7%AB%8B%E9%98%85%E8%AF%BB%E4%BD%93%E7%B3%BB/" /><link rel="next" href="https://bugxch.github.io/%E8%BD%AC-%E4%BB%80%E4%B9%88%E6%89%8D%E6%98%AF%E5%AF%8C%E4%BA%BA%E6%80%9D%E7%BB%B4/" /><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"></noscript><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"></noscript><meta name="google-site-verification" content="UA-159591505-1" /><script type="application/ld+json">
@@ -54,7 +56,7 @@
                         document.body.setAttribute('theme', 'dark');
                     }
                     else {
-                        document.body.setAttribute('theme', 'white');
+                        document.body.setAttribute('theme', 'light');
                     }
                 }
             } else {
@@ -67,9 +69,22 @@
                         document.body.setAttribute('theme', 'dark');
                     }
                     else {
-                        document.body.setAttribute('theme', 'white');
+                        document.body.setAttribute('theme', 'light');
                     }
                 }
+            }
+            function getMeta(metaName) {
+                const metas = document.getElementsByTagName('meta'); 
+                for (let i = 0; i < metas.length; i++) {
+                    if (metas[i].getAttribute('name') === metaName) {
+                        return metas[i];
+                    }
+                }
+                return '';
+            }
+            let themeColorMeta = getMeta('theme-color');
+            if (document.body.getAttribute('theme') != 'light') {
+                themeColorMeta.content = '#000000';
             }
         </script>
         <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
@@ -135,7 +150,7 @@
                 <div class="container"><div class="toc" id="toc-auto">
             <h2 class="toc-title">目录</h2>
             <div class="toc-content always-active" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animated flipInX">《软技能》读书笔记</h1><div class="post-meta">
+        </div><script>document.body.setAttribute("pageStyle", "normal")</script><article class="page single"><h1 class="single-title animated flipInX">《软技能》读书笔记</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>bugxch</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E9%98%85%E8%AF%BB/"><i class="far fa-folder fa-fw"></i>阅读</a></span></div>
             <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2018-07-21">2018-07-21</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2588 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 6 分钟&nbsp;</div>
@@ -156,12 +171,14 @@
             </div><div class="content" id="content"><p>现实生活中失败是必要的里程碑，它能带领我们离成功越来越近。学会拥抱失败，期待失败，接受失败，并准备<strong>直面失败。</strong></p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://img3.doubanio.com/lpic/s28889106.jpg"
         data-srcset="https://img3.doubanio.com/lpic/s28889106.jpg, https://img3.doubanio.com/lpic/s28889106.jpg 1.5x, https://img3.doubanio.com/lpic/s28889106.jpg 2x"
         data-sizes="auto"
         alt="https://img3.doubanio.com/lpic/s28889106.jpg"
-        title="封面" /></p>
+        title="封面"
+        
+        
+    /></p>
 <p>2 月份在上海书城闲逛时候看到<a href="https://book.douban.com/subject/26835090/" target="_blank" rel="noopener noreffer">《软技能》</a>这本书，作者的很多观点让人耳目一新，当时在书城读了一半，回来后果断买了本，受益匪浅。全书最宝贵精神财富有两点：</p>
 <blockquote>
 <ol>
@@ -171,12 +188,14 @@
 </blockquote>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://github.com/bugxch/blogpics/blob/master/201807/readingnotes.jpg?raw=true"
         data-srcset="https://github.com/bugxch/blogpics/blob/master/201807/readingnotes.jpg?raw=true, https://github.com/bugxch/blogpics/blob/master/201807/readingnotes.jpg?raw=true 1.5x, https://github.com/bugxch/blogpics/blob/master/201807/readingnotes.jpg?raw=true 2x"
         data-sizes="auto"
         alt="https://github.com/bugxch/blogpics/blob/master/201807/readingnotes.jpg?raw=true"
-        title="https://github.com/bugxch/blogpics/blob/master/201807/readingnotes.jpg?raw=true" /></p>
+        title="https://github.com/bugxch/blogpics/blob/master/201807/readingnotes.jpg?raw=true"
+        
+        
+    /></p>
 <p>书里的内容非常庞杂，作者分了职业、自我营销、学习、生产力、理财、健身、精神七大篇，我将其中的对我影响比较大的观点记录如下。</p>
 <h2 id="职业">职业</h2>
 <ul>
@@ -199,12 +218,14 @@
 <p>**在任何公司里，最有用的就是那种看似没有克服不了的障碍的人，成为这种人是获得晋升的可靠方法，**俗称 “救火队长”。</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="http://uncomonresilience.com/wp-content/uploads/2015/10/are-you-a-problem-solver1.jpg"
         data-srcset="http://uncomonresilience.com/wp-content/uploads/2015/10/are-you-a-problem-solver1.jpg, http://uncomonresilience.com/wp-content/uploads/2015/10/are-you-a-problem-solver1.jpg 1.5x, http://uncomonresilience.com/wp-content/uploads/2015/10/are-you-a-problem-solver1.jpg 2x"
         data-sizes="auto"
         alt="http://uncomonresilience.com/wp-content/uploads/2015/10/are-you-a-problem-solver1.jpg"
-        title="problem" /></p>
+        title="problem"
+        
+        
+    /></p>
 <ul>
 <li>应对职业倦怠的唯一方法，就是硬着头皮穿过那堵墙。制定计划，坚决执行。</li>
 </ul>
@@ -215,12 +236,14 @@
 <p>个人博客。建立自己的<strong>专业博客</strong>，使自己的技能和服务<strong>输出可见化</strong>，高质量输出，乐于分享，<a href="http://www.ruanyifeng.com/blog/" target="_blank" rel="noopener noreffer">阮一峰的网络日志</a>也是非常好的案例。如果你比较懒，不想自己搭博客，简书和知乎专栏也不错哦；</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="http://www.it131.org/wp-content/uploads/2017/05/it.png"
         data-srcset="http://www.it131.org/wp-content/uploads/2017/05/it.png, http://www.it131.org/wp-content/uploads/2017/05/it.png 1.5x, http://www.it131.org/wp-content/uploads/2017/05/it.png 2x"
         data-sizes="auto"
         alt="http://www.it131.org/wp-content/uploads/2017/05/it.png"
-        title="月光" /></p>
+        title="月光"
+        
+        
+    /></p>
 </li>
 <li>
 <p>社交媒体。Twitter/Facebook/Weibo/Linkedin，甚至包括别人的博客，多与大牛互动，多分享自己的文章（当然前提是有用有料高质量）；</p>
@@ -234,12 +257,14 @@
 <li>
 <p>培训 / 演讲 / 报告。当然最好是在有影响力的技术大会上作报告，但是如果水平不够，也可以在你们同事之间小范围写个 PPT 交流交流~<img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://www.ethos3.com/wp-content/uploads/2014/07/presentation.remote.review.tech_.ethos3_..jpg"
         data-srcset="https://www.ethos3.com/wp-content/uploads/2014/07/presentation.remote.review.tech_.ethos3_..jpg, https://www.ethos3.com/wp-content/uploads/2014/07/presentation.remote.review.tech_.ethos3_..jpg 1.5x, https://www.ethos3.com/wp-content/uploads/2014/07/presentation.remote.review.tech_.ethos3_..jpg 2x"
         data-sizes="auto"
         alt="https://www.ethos3.com/wp-content/uploads/2014/07/presentation.remote.review.tech_.ethos3_..jpg"
-        title="报告" /></p>
+        title="报告"
+        
+        
+    /></p>
 </li>
 </ul>
 <h2 id="技艺">技艺</h2>
@@ -247,22 +272,26 @@
 <p>**确定范围，筛选资料，边学边做，乐为人师。**这四点 hin 重要，**聚焦学习目标，做持续有效的练习，付诸实践，并将心得分享给他人，**具体可以参考<a href="http://ed998bd4.wiz03.com/share/s/3JCoLk2U7k8l2kGhj_2dyznK2gKdrs1tbk_92y27dn2JEEaK" target="_blank" rel="noopener noreffer">《十步学习法》学习笔记</a>。</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="http://upload-images.jianshu.io/upload_images/717603-6b1252537dcf2cd8.png?imageMogr2/auto-orient/strip%7CimageView2/2"
         data-srcset="http://upload-images.jianshu.io/upload_images/717603-6b1252537dcf2cd8.png?imageMogr2/auto-orient/strip%7CimageView2/2, http://upload-images.jianshu.io/upload_images/717603-6b1252537dcf2cd8.png?imageMogr2/auto-orient/strip%7CimageView2/2 1.5x, http://upload-images.jianshu.io/upload_images/717603-6b1252537dcf2cd8.png?imageMogr2/auto-orient/strip%7CimageView2/2 2x"
         data-sizes="auto"
         alt="http://upload-images.jianshu.io/upload_images/717603-6b1252537dcf2cd8.png?imageMogr2/auto-orient/strip%7CimageView2/2"
-        title="十步学习法" /></p>
+        title="十步学习法"
+        
+        
+    /></p>
 <h2 id="生产力">生产力</h2>
 <p>提升生产力的秘诀：设定大目标，然后<strong>分解</strong>成小目标，制定年度 / 季度 / 月 / 周计划，**将所有的目标分解并落实到细小的时间点上，坚定执行，**专注于当前的任务。</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="http://blacktipit.com/wp-content/uploads/2016/05/productivity-secrets.png"
         data-srcset="http://blacktipit.com/wp-content/uploads/2016/05/productivity-secrets.png, http://blacktipit.com/wp-content/uploads/2016/05/productivity-secrets.png 1.5x, http://blacktipit.com/wp-content/uploads/2016/05/productivity-secrets.png 2x"
         data-sizes="auto"
         alt="http://blacktipit.com/wp-content/uploads/2016/05/productivity-secrets.png"
-        title="生产力" /></p>
+        title="生产力"
+        
+        
+    /></p>
 <ul>
 <li><strong>缓慢稳定的节奏工作</strong>，要优于快速但缺乏持久和坚持的工作方式。</li>
 <li><strong>戒掉电视 / 新闻媒体 / 社交网站</strong>，将时间用在最好的地方。</li>
@@ -320,6 +349,21 @@
         <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.10"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2016 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank" rel="noopener noreferrer">bugxch</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
+        <script>
+            if('serviceWorker' in navigator) {
+                navigator.serviceWorker
+                    .register('/sw.min.js', { scope: '/' })
+                    .then(function(registration) {
+                        
+                    });
+          
+                navigator.serviceWorker
+                    .ready
+                    .then(function(registration) {
+                        
+                    });
+            }
+          </script>          
     </footer></div>
 
         <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">

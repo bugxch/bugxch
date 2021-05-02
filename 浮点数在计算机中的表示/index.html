@@ -18,7 +18,9 @@
 <meta name="twitter:title" content="浮点数在计算机中的表示"/>
 <meta name="twitter:description" content="接上一篇博客《为什么会有补码？》，我仅仅分析了整数在计算机中表示方式，但是计算机中的浮点数又是如何表示的呢？"/>
 <meta name="application-name" content="小猴子的烂笔头">
-<meta name="apple-mobile-web-app-title" content="小猴子的烂笔头"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="canonical" href="https://bugxch.github.io/%E6%B5%AE%E7%82%B9%E6%95%B0%E5%9C%A8%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%AD%E7%9A%84%E8%A1%A8%E7%A4%BA/" /><link rel="prev" href="https://bugxch.github.io/%E5%8D%95%E9%93%BE%E8%A1%A8%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" /><link rel="next" href="https://bugxch.github.io/git%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%80/" /><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css">
+<meta name="apple-mobile-web-app-title" content="小猴子的烂笔头">
+
+<meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="canonical" href="https://bugxch.github.io/%E6%B5%AE%E7%82%B9%E6%95%B0%E5%9C%A8%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%AD%E7%9A%84%E8%A1%A8%E7%A4%BA/" /><link rel="prev" href="https://bugxch.github.io/%E5%8D%95%E9%93%BE%E8%A1%A8%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" /><link rel="next" href="https://bugxch.github.io/git%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%80/" /><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"></noscript><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"></noscript><meta name="google-site-verification" content="UA-159591505-1" /><script type="application/ld+json">
@@ -54,7 +56,7 @@
                         document.body.setAttribute('theme', 'dark');
                     }
                     else {
-                        document.body.setAttribute('theme', 'white');
+                        document.body.setAttribute('theme', 'light');
                     }
                 }
             } else {
@@ -67,9 +69,22 @@
                         document.body.setAttribute('theme', 'dark');
                     }
                     else {
-                        document.body.setAttribute('theme', 'white');
+                        document.body.setAttribute('theme', 'light');
                     }
                 }
+            }
+            function getMeta(metaName) {
+                const metas = document.getElementsByTagName('meta'); 
+                for (let i = 0; i < metas.length; i++) {
+                    if (metas[i].getAttribute('name') === metaName) {
+                        return metas[i];
+                    }
+                }
+                return '';
+            }
+            let themeColorMeta = getMeta('theme-color');
+            if (document.body.getAttribute('theme') != 'light') {
+                themeColorMeta.content = '#000000';
             }
         </script>
         <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
@@ -135,7 +150,7 @@
                 <div class="container"><div class="toc" id="toc-auto">
             <h2 class="toc-title">目录</h2>
             <div class="toc-content always-active" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animated flipInX">浮点数在计算机中的表示</h1><div class="post-meta">
+        </div><script>document.body.setAttribute("pageStyle", "normal")</script><article class="page single"><h1 class="single-title animated flipInX">浮点数在计算机中的表示</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>bugxch</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%8A%80%E8%89%BA/"><i class="far fa-folder fa-fw"></i>技艺</a></span></div>
             <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2018-07-21">2018-07-21</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1657 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;</div>
@@ -160,12 +175,14 @@
             </div><div class="content" id="content"><p>接上一篇博客<a href="https://bugxch.github.io/2017/12/13/%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%A1%A5%E7%A0%81%EF%BC%9F/" target="_blank" rel="noopener noreffer">《为什么会有补码？》</a>，我仅仅分析了整数在计算机中表示方式，但是计算机中的浮点数又是如何表示的呢？</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://rh6stzxdcl1wf9gj1fkj14uc-wpengine.netdna-ssl.com/wp-content/uploads/2017/09/Fig-1.png"
         data-srcset="https://rh6stzxdcl1wf9gj1fkj14uc-wpengine.netdna-ssl.com/wp-content/uploads/2017/09/Fig-1.png, https://rh6stzxdcl1wf9gj1fkj14uc-wpengine.netdna-ssl.com/wp-content/uploads/2017/09/Fig-1.png 1.5x, https://rh6stzxdcl1wf9gj1fkj14uc-wpengine.netdna-ssl.com/wp-content/uploads/2017/09/Fig-1.png 2x"
         data-sizes="auto"
         alt="https://rh6stzxdcl1wf9gj1fkj14uc-wpengine.netdna-ssl.com/wp-content/uploads/2017/09/Fig-1.png"
-        title="https://rh6stzxdcl1wf9gj1fkj14uc-wpengine.netdna-ssl.com/wp-content/uploads/2017/09/Fig-1.png" /></p>
+        title="https://rh6stzxdcl1wf9gj1fkj14uc-wpengine.netdna-ssl.com/wp-content/uploads/2017/09/Fig-1.png"
+        
+        
+    /></p>
 <h2 id="引子">引子</h2>
 <p>首先，使用之前博客的程序，可以看到如下的这些实数在计算机中的计算结果是</p>
 <table>
@@ -205,12 +222,14 @@
 <p>IEEE 754 规定了二进制浮点数在计算中的存储方式，我们以 C 语言中的 float 为例来具体说明。无论是 32 位系统还是 64 位系统，计算机中的 float 占用 4 个字节，我们就使用这些字节来存储任意的浮点数，可以参考下图</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="http://www.c-jump.com/bcc/common/Talk2/Cxx/IEEE_754_fp_standard/const_images/ieee.gif"
         data-srcset="http://www.c-jump.com/bcc/common/Talk2/Cxx/IEEE_754_fp_standard/const_images/ieee.gif, http://www.c-jump.com/bcc/common/Talk2/Cxx/IEEE_754_fp_standard/const_images/ieee.gif 1.5x, http://www.c-jump.com/bcc/common/Talk2/Cxx/IEEE_754_fp_standard/const_images/ieee.gif 2x"
         data-sizes="auto"
         alt="http://www.c-jump.com/bcc/common/Talk2/Cxx/IEEE_754_fp_standard/const_images/ieee.gif"
-        title="http://www.c-jump.com/bcc/common/Talk2/Cxx/IEEE_754_fp_standard/const_images/ieee.gif" /></p>
+        title="http://www.c-jump.com/bcc/common/Talk2/Cxx/IEEE_754_fp_standard/const_images/ieee.gif"
+        
+        
+    /></p>
 <p>转化成对应的数学表示形式，浮点数 VV
 $$
 V = (-1)^s\times M\times 2^E
@@ -232,12 +251,14 @@ $$</p>
 <p>依照上面的方法，可以依次确认其他 3 个浮点数的表示形式。这都是比较常规的<strong>规格化</strong>数据的处理方法，IEEE 针对一些特殊的数字（绝对值特别接近 0 的数字或者无穷大无穷小），引入了一些特殊的规定，称为<strong>非规格化</strong>表示方法，总结如下。</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://github.com/bugxch/blogpics/blob/master/201807/normal.png?raw=true"
         data-srcset="https://github.com/bugxch/blogpics/blob/master/201807/normal.png?raw=true, https://github.com/bugxch/blogpics/blob/master/201807/normal.png?raw=true 1.5x, https://github.com/bugxch/blogpics/blob/master/201807/normal.png?raw=true 2x"
         data-sizes="auto"
         alt="https://github.com/bugxch/blogpics/blob/master/201807/normal.png?raw=true"
-        title="https://github.com/bugxch/blogpics/blob/master/201807/normal.png?raw=true" /></p>
+        title="https://github.com/bugxch/blogpics/blob/master/201807/normal.png?raw=true"
+        
+        
+    /></p>
 <ul>
 <li>规格化数据。如果指数部分既不是 0 也不是 255（<strong>EE 不全为 0 或者不全为 1</strong>），就是规格化存储方式，具体的计算方法与之前介绍的相同。</li>
 <li>非规格化数据。<strong>EE 全为 0</strong> 就是非规格化的数据，此时的指数固定为 1-127 或者 1-1023，有效数字 MM 的计算不再舍弃第一位的 1，而是 0.xxxxxxxx 的小数部分，这样就可以表示 0 和非常接近 0 的小数字。需要注意的是，0 有两种表示。</li>
@@ -257,12 +278,14 @@ $$</p>
 <p>如果需要计算最大的规格化数字，那么其在内存中的表示应该是 s=1,M=1.11…1，E=111…10s=1,M=1.11…1，E=111…10，最后的结果就是 1.1111…1×2127=3.4×10381.1111…1×2127=3.4×1038，其他的基本可以推测出来了，如下表所示</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://github.com/bugxch/blogpics/blob/master/201807/digits.png?raw=true"
         data-srcset="https://github.com/bugxch/blogpics/blob/master/201807/digits.png?raw=true, https://github.com/bugxch/blogpics/blob/master/201807/digits.png?raw=true 1.5x, https://github.com/bugxch/blogpics/blob/master/201807/digits.png?raw=true 2x"
         data-sizes="auto"
         alt="https://github.com/bugxch/blogpics/blob/master/201807/digits.png?raw=true"
-        title="https://github.com/bugxch/blogpics/blob/master/201807/digits.png?raw=true" /></p>
+        title="https://github.com/bugxch/blogpics/blob/master/201807/digits.png?raw=true"
+        
+        
+    /></p>
 <h2 id="参考资料">参考资料</h2>
 <ul>
 <li><a href="http://www.ruanyifeng.com/blog/2010/06/ieee_floating-point_representation.html" target="_blank" rel="noopener noreffer">浮点数的二进制表示 - 阮一峰的网络日志</a></li>
@@ -302,6 +325,21 @@ $$</p>
         <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.10"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2016 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank" rel="noopener noreferrer">bugxch</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
+        <script>
+            if('serviceWorker' in navigator) {
+                navigator.serviceWorker
+                    .register('/sw.min.js', { scope: '/' })
+                    .then(function(registration) {
+                        
+                    });
+          
+                navigator.serviceWorker
+                    .ready
+                    .then(function(registration) {
+                        
+                    });
+            }
+          </script>          
     </footer></div>
 
         <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">

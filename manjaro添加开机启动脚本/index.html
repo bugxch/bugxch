@@ -18,7 +18,9 @@
 <meta name="twitter:title" content="Manjaro添加开机启动脚本"/>
 <meta name="twitter:description" content="如何给manjaro添加开机启动脚本。"/>
 <meta name="application-name" content="小猴子的烂笔头">
-<meta name="apple-mobile-web-app-title" content="小猴子的烂笔头"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="canonical" href="https://bugxch.github.io/manjaro%E6%B7%BB%E5%8A%A0%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8%E8%84%9A%E6%9C%AC/" /><link rel="prev" href="https://bugxch.github.io/manjaro%E5%AE%89%E8%A3%85cuda%E6%95%99%E7%A8%8B/" /><link rel="next" href="https://bugxch.github.io/kindle%E6%9C%80%E4%BD%B3%E6%8E%92%E7%89%88%E8%AE%B0%E5%BD%95/" /><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css">
+<meta name="apple-mobile-web-app-title" content="小猴子的烂笔头">
+
+<meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="canonical" href="https://bugxch.github.io/manjaro%E6%B7%BB%E5%8A%A0%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8%E8%84%9A%E6%9C%AC/" /><link rel="prev" href="https://bugxch.github.io/manjaro%E5%AE%89%E8%A3%85cuda%E6%95%99%E7%A8%8B/" /><link rel="next" href="https://bugxch.github.io/kindle%E6%9C%80%E4%BD%B3%E6%8E%92%E7%89%88%E8%AE%B0%E5%BD%95/" /><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"></noscript><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"></noscript><meta name="google-site-verification" content="UA-159591505-1" /><script type="application/ld+json">
@@ -54,7 +56,7 @@
                         document.body.setAttribute('theme', 'dark');
                     }
                     else {
-                        document.body.setAttribute('theme', 'white');
+                        document.body.setAttribute('theme', 'light');
                     }
                 }
             } else {
@@ -67,9 +69,22 @@
                         document.body.setAttribute('theme', 'dark');
                     }
                     else {
-                        document.body.setAttribute('theme', 'white');
+                        document.body.setAttribute('theme', 'light');
                     }
                 }
+            }
+            function getMeta(metaName) {
+                const metas = document.getElementsByTagName('meta'); 
+                for (let i = 0; i < metas.length; i++) {
+                    if (metas[i].getAttribute('name') === metaName) {
+                        return metas[i];
+                    }
+                }
+                return '';
+            }
+            let themeColorMeta = getMeta('theme-color');
+            if (document.body.getAttribute('theme') != 'light') {
+                themeColorMeta.content = '#000000';
             }
         </script>
         <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
@@ -135,7 +150,7 @@
                 <div class="container"><div class="toc" id="toc-auto">
             <h2 class="toc-title">目录</h2>
             <div class="toc-content always-active" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animated flipInX">Manjaro添加开机启动脚本</h1><div class="post-meta">
+        </div><script>document.body.setAttribute("pageStyle", "normal")</script><article class="page single"><h1 class="single-title animated flipInX">Manjaro添加开机启动脚本</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>bugxch</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%8A%80%E8%89%BA/"><i class="far fa-folder fa-fw"></i>技艺</a></span></div>
             <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2019-02-24">2019-02-24</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 526 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 2 分钟&nbsp;</div>
@@ -153,12 +168,14 @@
             </div><div class="content" id="content"><p>如何给manjaro添加开机启动脚本。</p>
 <p><img
         class="lazyload"
-        src="/svg/loading.min.svg"
         data-src="https://wiki.manjaro.org/images/thumb/e/ea/New_logo_tex.png/800px-New_logo_tex.png"
         data-srcset="https://wiki.manjaro.org/images/thumb/e/ea/New_logo_tex.png/800px-New_logo_tex.png, https://wiki.manjaro.org/images/thumb/e/ea/New_logo_tex.png/800px-New_logo_tex.png 1.5x, https://wiki.manjaro.org/images/thumb/e/ea/New_logo_tex.png/800px-New_logo_tex.png 2x"
         data-sizes="auto"
         alt="https://wiki.manjaro.org/images/thumb/e/ea/New_logo_tex.png/800px-New_logo_tex.png"
-        title="https://wiki.manjaro.org/images/thumb/e/ea/New_logo_tex.png/800px-New_logo_tex.png" /></p>
+        title="https://wiki.manjaro.org/images/thumb/e/ea/New_logo_tex.png/800px-New_logo_tex.png"
+        
+        
+    /></p>
 <p>前段时间折腾小黑T450安装了Manjaro系统，又安装了sublime text 3，顺便参考<a href="https://packagecontrol.io/installation" target="_blank" rel="noopener noreffer">Installation Package Control指导</a>安装了package control插件，但是很不幸国内的package control页面已经被屏蔽了。因此，需要给package control设置代理，根据<a href="https://segmentfault.com/a/1190000007621085" target="_blank" rel="noopener noreffer">《SublimeText 安装 PackageControl 及 HTTP 代理配置 - Tony的技术笔记 - SegmentFault 思否》</a>我看到一个方法是配置完设置之后，在shell中运行的命令</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -268,6 +285,21 @@ chmod +x /etc/AutoExec.sh
         <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.10"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2016 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank" rel="noopener noreferrer">bugxch</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
+        <script>
+            if('serviceWorker' in navigator) {
+                navigator.serviceWorker
+                    .register('/sw.min.js', { scope: '/' })
+                    .then(function(registration) {
+                        
+                    });
+          
+                navigator.serviceWorker
+                    .ready
+                    .then(function(registration) {
+                        
+                    });
+            }
+          </script>          
     </footer></div>
 
         <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
