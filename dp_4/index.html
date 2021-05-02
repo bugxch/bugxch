@@ -32,7 +32,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/bugxch.github.io\/dp_4\/"
-        },"image": ["https:\/\/bugxch.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "C\/C\u002b\u002b, 设计模式","wordcount":  798 ,
+        },"image": ["https:\/\/bugxch.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "C\/C\u002b\u002b, 设计模式","wordcount":  805 ,
         "url": "https:\/\/bugxch.github.io\/dp_4\/","datePublished": "2021-05-02T21:43:54+08:00","dateModified": "2021-05-02T21:43:54+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "xxxx","logo": {
@@ -152,7 +152,7 @@
             <div class="toc-content always-active" id="toc-content-auto"></div>
         </div><script>document.body.setAttribute("pageStyle", "normal")</script><article class="page single"><h1 class="single-title animated flipInX">Factory Method模式精解（C&#43;&#43;版本）</h1><h2 class="single-subtitle">设计模式精解系列之四</h2><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="https://bugxch.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>bugxch</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%8A%80%E8%89%BA/"><i class="far fa-folder fa-fw"></i>技艺</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-05-02">2021-05-02</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 798 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-05-02">2021-05-02</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 805 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 2 分钟&nbsp;</div>
         </div><div class="featured-image"><img
         class="lazyload"
@@ -180,7 +180,7 @@
             </div><div class="content" id="content"><p>继续之前的设计模式第四弹，这次是大名鼎鼎的工厂方法模式。</p>
 <h2 id="使用情景">使用情景</h2>
 <blockquote>
-<p>定义一个用于创建对象的接口，让子类决定实例化哪一个类。Factory Method使一个类的实例化延迟到其子类。</p>
+<p>定义一个用于创建对象的接口，让子类决定实例化哪一个类。Factory Method是创建型模式，使一个类的实例化延迟到其子类。</p>
 </blockquote>
 <p>Factory有工厂的意思，简单来看，这个模式利用到了上一篇的<a href="https://bugxch.github.io/dp_3/" target="_blank" rel="noopener noreffer">Template Method模式</a>用来生成具体的实例，说得更清楚一点，工厂方法模式将创建对象的过程延迟到子类实现，其他的父类的步骤保持完整。</p>
 <h2 id="问题引入">问题引入</h2>
