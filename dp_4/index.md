@@ -75,7 +75,7 @@ private:
 ## UML表示及其代码
 参考解决方案的内容，我们画出这些类的UML的图，如下所示
 
-![](https://pic.imgdb.cn/item/608f450fd1a9ae528fe8c25c.png)
+![](https://pic.imgdb.cn/item/608f4683d1a9ae528ff55eb5.png)
 
 具体的代码如下所示
 ```cpp
