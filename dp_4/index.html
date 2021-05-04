@@ -32,15 +32,10 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/bugxch.github.io\/dp_4\/"
-        },"image": ["https:\/\/bugxch.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "C\/C\u002b\u002b, 设计模式","wordcount":  1324 ,
+        },"image": ["https:\/\/bugxch.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "C\/C\u002b\u002b, 设计模式","wordcount":  1328 ,
         "url": "https:\/\/bugxch.github.io\/dp_4\/","datePublished": "2021-05-02T21:43:54+08:00","dateModified": "2021-05-02T21:43:54+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
-            "name": "xxxx","logo": {
-                    "@type": "ImageObject",
-                    "url": "https:\/\/bugxch.github.io\/images\/avatar.png",
-                    "width":  528 ,
-                    "height":  560 
-                }},"author": {
+            "name": "xxxx","logo": "https:\/\/bugxch.github.io\/images\/avatar.png"},"author": {
                 "@type": "Person",
                 "name": "bugxch"
             },"description": ""
@@ -152,7 +147,7 @@
             <div class="toc-content always-active" id="toc-content-auto"></div>
         </div><script>document.body.setAttribute("pageStyle", "normal")</script><article class="page single"><h1 class="single-title animated flipInX">Factory Method模式精解（C&#43;&#43;版本）</h1><h2 class="single-subtitle">设计模式精解系列之四</h2><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="https://bugxch.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>bugxch</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%8A%80%E8%89%BA/"><i class="far fa-folder fa-fw"></i>技艺</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-05-02">2021-05-02</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1324 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-05-02">2021-05-02</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1328 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;</div>
         </div><div class="featured-image"><img
         class="lazyload"
@@ -160,9 +155,7 @@
         data-srcset="https://pic.imgdb.cn/item/608eae16d1a9ae528f502e1a.png, https://pic.imgdb.cn/item/608eae16d1a9ae528f502e1a.png 1.5x, https://pic.imgdb.cn/item/608eae16d1a9ae528f502e1a.png 2x"
         data-sizes="auto"
         alt="https://pic.imgdb.cn/item/608eae16d1a9ae528f502e1a.png"
-        title="https://pic.imgdb.cn/item/608eae16d1a9ae528f502e1a.png"
-         height="auto"
-         width="auto"
+        title="https://pic.imgdb.cn/item/608eae16d1a9ae528f502e1a.png" height="auto" width="auto"
     /></div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
                     <span>目录</span>
@@ -314,8 +307,6 @@
         data-sizes="auto"
         alt="https://pic.imgdb.cn/item/608f4683d1a9ae528ff55eb5.png"
         title="https://pic.imgdb.cn/item/608f4683d1a9ae528ff55eb5.png"
-        
-        
     /></p>
 <p>具体的代码如下所示</p>
 <div class="highlight"><div class="chroma">
@@ -384,8 +375,6 @@
 </span><span class="lnt">62
 </span><span class="lnt">63
 </span><span class="lnt">64
-</span><span class="lnt">65
-</span><span class="lnt">66
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
@@ -394,28 +383,26 @@
 <span class="k">class</span> <span class="nc">Animal</span> <span class="p">{</span>
 <span class="k">public</span><span class="o">:</span>
 	<span class="k">virtual</span> <span class="kt">void</span> <span class="n">Sell</span><span class="p">()</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="n">Animal</span><span class="p">(</span><span class="kt">int</span> <span class="n">price</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="kt">int</span> <span class="n">id</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">:</span><span class="n">price_</span><span class="p">(</span><span class="n">price</span><span class="p">),</span> <span class="n">id_</span><span class="p">(</span><span class="n">id</span><span class="p">)</span> <span class="p">{};</span>
+<span class="k">protected</span><span class="o">:</span>
+	<span class="kt">int</span> <span class="n">price_</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">id_</span><span class="p">;</span>
 <span class="p">};</span>
 
 <span class="k">class</span> <span class="nc">Horse</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Animal</span> <span class="p">{</span>
 <span class="k">public</span><span class="o">:</span>
-	<span class="n">Horse</span><span class="p">(</span><span class="kt">int</span> <span class="n">price</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="kt">int</span> <span class="n">id</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">:</span> <span class="n">price_</span><span class="p">(</span><span class="n">price</span><span class="p">),</span> <span class="n">id_</span><span class="p">(</span><span class="n">id</span><span class="p">)</span> <span class="p">{};</span>
-	<span class="kt">void</span> <span class="nf">Sell</span><span class="p">()</span> <span class="p">{</span>
+	<span class="kt">void</span> <span class="n">Sell</span><span class="p">()</span> <span class="p">{</span>
 		<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">id_</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;: Horse sell &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">price_</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; yuan</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
 	<span class="p">}</span>
-<span class="k">private</span><span class="o">:</span>
-	<span class="kt">int</span> <span class="n">price_</span><span class="p">;</span>
-	<span class="kt">int</span> <span class="n">id_</span><span class="p">;</span>
+	<span class="n">Horse</span><span class="p">(</span><span class="kt">int</span> <span class="n">price</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="kt">int</span> <span class="n">id</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">:</span> <span class="n">Animal</span><span class="p">(</span><span class="n">price</span><span class="p">,</span> <span class="n">id</span><span class="p">)</span> <span class="p">{};</span>
 <span class="p">};</span>
 
 <span class="k">class</span> <span class="nc">Cow</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Animal</span> <span class="p">{</span>
 <span class="k">public</span><span class="o">:</span>
-	<span class="n">Cow</span><span class="p">(</span><span class="kt">int</span> <span class="n">price</span> <span class="o">=</span> <span class="mi">7</span><span class="p">,</span> <span class="kt">int</span> <span class="n">id</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">:</span> <span class="n">price_</span><span class="p">(</span><span class="n">price</span><span class="p">),</span> <span class="n">id_</span><span class="p">(</span><span class="n">id</span><span class="p">)</span> <span class="p">{};</span>
-	<span class="kt">void</span> <span class="nf">Sell</span><span class="p">()</span> <span class="p">{</span>
+	<span class="kt">void</span> <span class="n">Sell</span><span class="p">()</span> <span class="p">{</span>
 		<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">id_</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;: Cow sell &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">price_</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; yuan</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
 	<span class="p">}</span>
-<span class="k">private</span><span class="o">:</span>
-	<span class="kt">int</span> <span class="n">price_</span><span class="p">;</span>
-	<span class="kt">int</span> <span class="n">id_</span><span class="p">;</span>
+	<span class="n">Cow</span><span class="p">(</span><span class="kt">int</span> <span class="n">price</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="kt">int</span> <span class="n">id</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">:</span> <span class="n">Animal</span><span class="p">(</span><span class="n">price</span><span class="p">,</span> <span class="n">id</span><span class="p">)</span> <span class="p">{};</span>
 <span class="p">};</span>
 
 <span class="k">class</span> <span class="nc">Farm</span> <span class="p">{</span>
@@ -442,7 +429,7 @@
 <span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
 <span class="p">{</span>
 	<span class="n">Farm</span><span class="o">*</span> <span class="n">factory</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HorseFarm</span><span class="p">();</span>
-	<span class="n">Animal</span><span class="o">*</span> <span class="n">horse</span> <span class="o">=</span> <span class="n">factory</span><span class="o">-&gt;</span><span class="n">Create</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">32</span><span class="p">);</span>
+	<span class="n">Animal</span><span class="o">*</span> <span class="n">horse</span> <span class="o">=</span> <span class="n">factory</span><span class="o">-&gt;</span><span class="n">Create</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">32</span><span class="p">);</span>
 	<span class="n">horse</span><span class="o">-&gt;</span><span class="n">Sell</span><span class="p">();</span>
 
 	<span class="n">factory</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CowFarm</span><span class="p">();</span>
@@ -492,23 +479,7 @@
             </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.10"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2016 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank" rel="noopener noreferrer">bugxch</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
-        </div>
-        <script>
-            if('serviceWorker' in navigator) {
-                navigator.serviceWorker
-                    .register('/sw.min.js', { scope: '/' })
-                    .then(function(registration) {
-                        
-                    });
-          
-                navigator.serviceWorker
-                    .ready
-                    .then(function(registration) {
-                        
-                    });
-            }
-          </script>          
-    </footer></div>
+        </div></footer></div>
 
         <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
                 <i class="fas fa-arrow-up fa-fw"></i>

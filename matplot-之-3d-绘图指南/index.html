@@ -35,12 +35,7 @@
         },"image": ["https:\/\/bugxch.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "python","wordcount":  2198 ,
         "url": "https:\/\/bugxch.github.io\/matplot-%E4%B9%8B-3d-%E7%BB%98%E5%9B%BE%E6%8C%87%E5%8D%97\/","datePublished": "2018-07-21T20:39:09+00:00","dateModified": "2018-07-21T20:39:09+00:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
-            "name": "xxxx","logo": {
-                    "@type": "ImageObject",
-                    "url": "https:\/\/bugxch.github.io\/images\/avatar.png",
-                    "width":  528 ,
-                    "height":  560 
-                }},"author": {
+            "name": "xxxx","logo": "https:\/\/bugxch.github.io\/images\/avatar.png"},"author": {
                 "@type": "Person",
                 "name": "bugxch"
             },"description": ""
@@ -177,8 +172,6 @@
         data-sizes="auto"
         alt="https://github.com/bugxch/blogpics/blob/master/201807/3d_demo.png?raw=true"
         title="https://github.com/bugxch/blogpics/blob/master/201807/3d_demo.png?raw=true"
-        
-        
     /></p>
 <p>本文稿翻译自 <a href="https://matplotlib.org/mpl_toolkits/mplot3d/tutorial.html" target="_blank" rel="noopener noreffer">mplot3d tutorial — Matplotlib 2.0.2 documentation</a>。</p>
 <p>使用 matplotlib 绘制 3D 图像，一般要加入一个新的 axes 类型 Axes3D:</p>
@@ -204,8 +197,6 @@ ax = fig.add_subplot(111, projection=&#39;3d&#39;)
         data-sizes="auto"
         alt="https://github.com/bugxch/blogpics/blob/master/201807/3dax.png?raw=true"
         title="https://github.com/bugxch/blogpics/blob/master/201807/3dax.png?raw=true"
-        
-        
     />
 3D 图形分为如下几类：</p>
 <h2 id="线形图">线形图</h2>
@@ -284,8 +275,6 @@ ax = fig.add_subplot(111, projection=&#39;3d&#39;)
         data-sizes="auto"
         alt="https://matplotlib.org/mpl_examples/mplot3d/lines3d_demo.png"
         title="line3d"
-        
-        
     /></p>
 <p>从这个例子可以看出，matplot 画图的基本步骤包括：导入必要的模块，创建 figure 对象，设置 3D 的 ax，创建自变量，写出函数关系式，绘制图形。</p>
 <h2 id="散点图">散点图</h2>
@@ -415,8 +404,6 @@ ax = fig.add_subplot(111, projection=&#39;3d&#39;)
         data-sizes="auto"
         alt="https://matplotlib.org/mpl_examples/mplot3d/scatter3d_demo.png"
         title="scatter"
-        
-        
     /></p>
 <h2 id="线框图">线框图</h2>
 <p><code>Axes3D.plot_wireframe(X, Y, Z, args, kwargs)</code></p>
@@ -514,8 +501,6 @@ ax = fig.add_subplot(111, projection=&#39;3d&#39;)
         data-sizes="auto"
         alt="https://matplotlib.org/mpl_examples/mplot3d/wire3d_demo.png"
         title="frame"
-        
-        
     /></p>
 <p>其中<code>rstride</code>和<code>cstride</code>分别代表采样的密度，这里是每隔 10 个点计算一个 Z 值，如果设置成 1，绘制的图形会更密集，如下图所示</p>
 <p><img
@@ -525,8 +510,6 @@ ax = fig.add_subplot(111, projection=&#39;3d&#39;)
         data-sizes="auto"
         alt="https://github.com/bugxch/blogpics/blob/master/201807/framce.png?raw=true"
         title="https://github.com/bugxch/blogpics/blob/master/201807/framce.png?raw=true"
-        
-        
     /></p>
 <h2 id="表面图">表面图</h2>
 <p><code>Axes3D.plot_surface(X, Y, Z, *args, **kwargs)</code></p>
@@ -688,8 +671,6 @@ ax = fig.add_subplot(111, projection=&#39;3d&#39;)
         data-sizes="auto"
         alt="https://matplotlib.org/mpl_examples/mplot3d/surface3d_demo.png"
         title="plot3d"
-        
-        
     /></p>
 <p>参考图形知道<code>cm</code>用来做 color mapping，重新设置<code>arange</code>的步长为 0.01，可以得到如下的图形</p>
 <p><img
@@ -699,8 +680,6 @@ ax = fig.add_subplot(111, projection=&#39;3d&#39;)
         data-sizes="auto"
         alt="https://github.com/bugxch/blogpics/blob/master/201807/cr.png?raw=true"
         title="https://github.com/bugxch/blogpics/blob/master/201807/cr.png?raw=true"
-        
-        
     /></p>
 <p>表面光滑细致多了。</p>
 <h2 id="2d3d-图形共存">2D/3D 图形共存</h2>
@@ -810,8 +789,6 @@ ax = fig.add_subplot(111, projection=&#39;3d&#39;)
         data-sizes="auto"
         alt="https://matplotlib.org/_images/2dcollections3d_demo.png"
         title="2d/3d"
-        
-        
     /></p>
 <p>从上面的代码，可以看出如何设置坐标轴的取值范围，设置 label 的方法。</p>
 <h2 id="加入文字">加入文字</h2>
@@ -924,8 +901,6 @@ ax = fig.add_subplot(111, projection=&#39;3d&#39;)
         data-sizes="auto"
         alt="https://matplotlib.org/_images/text3d_demo.png"
         title="text"
-        
-        
     /></p></div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
@@ -958,23 +933,7 @@ ax = fig.add_subplot(111, projection=&#39;3d&#39;)
             </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.10"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2016 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank" rel="noopener noreferrer">bugxch</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
-        </div>
-        <script>
-            if('serviceWorker' in navigator) {
-                navigator.serviceWorker
-                    .register('/sw.min.js', { scope: '/' })
-                    .then(function(registration) {
-                        
-                    });
-          
-                navigator.serviceWorker
-                    .ready
-                    .then(function(registration) {
-                        
-                    });
-            }
-          </script>          
-    </footer></div>
+        </div></footer></div>
 
         <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
                 <i class="fas fa-arrow-up fa-fw"></i>

@@ -35,12 +35,7 @@
         },"image": ["https:\/\/bugxch.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "计算机","wordcount":  4218 ,
         "url": "https:\/\/bugxch.github.io\/%E6%9E%81%E7%AE%80%E7%89%88%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86\/","datePublished": "2018-07-21T21:59:51+00:00","dateModified": "2018-07-21T21:59:51+00:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
-            "name": "xxxx","logo": {
-                    "@type": "ImageObject",
-                    "url": "https:\/\/bugxch.github.io\/images\/avatar.png",
-                    "width":  528 ,
-                    "height":  560 
-                }},"author": {
+            "name": "xxxx","logo": "https:\/\/bugxch.github.io\/images\/avatar.png"},"author": {
                 "@type": "Person",
                 "name": "bugxch"
             },"description": ""
@@ -168,8 +163,6 @@
         data-sizes="auto"
         alt="https://github.com/bugxch/blogpics/blob/master/201807/cover.jpg?raw=true"
         title="https://github.com/bugxch/blogpics/blob/master/201807/cover.jpg?raw=true"
-        
-        
     /></p>
 <p>这两周读了日本作者矢泽久雄写的<a href="https://book.douban.com/subject/26365491/" target="_blank" rel="noopener noreffer">《程序是怎么跑起来的》</a>，解开了我这个作为通信专业的软件从业者的很多困惑，为了避免日后遗忘，将一些看了这本书之后的问题的解答记录下来。</p>
 <p><strong>Q：电脑的 CPU 中包含哪些部分？各自的作用有哪些？</strong>
@@ -181,8 +174,6 @@
         data-sizes="auto"
         alt="https://github.com/bugxch/blogpics/blob/master/201807/computer1.jpg?raw=true"
         title="https://github.com/bugxch/blogpics/blob/master/201807/computer1.jpg?raw=true"
-        
-        
     /></p>
 <ul>
 <li>控制器负责将内存上的指令、数据等读入到寄存器，并根据运算的结果控制整个计算机；</li>
@@ -251,8 +242,6 @@
         data-sizes="auto"
         alt="https://github.com/bugxch/blogpics/blob/master/201807/computer2.jpg?raw=true"
         title="https://github.com/bugxch/blogpics/blob/master/201807/computer2.jpg?raw=true"
-        
-        
     /></p>
 <p><strong>Q：内存内部结构如何？内存的数据存取都有哪些数据结构？</strong>
 <strong>A</strong>：内存是计算机的主存储器，通过芯片与计算机相连，主要负责存储指令和数据，CPU 通过基址寄存器和变址寄存器读取和写入内存中的数据。内存由连续的长度为 8bit（1 个字节）的基本元素构成，程序启动之后 CPU 的控制寄存器根据时钟信号从内存中读取指令和数据。</p>
@@ -279,8 +268,6 @@ A：程序和数据是保存在计算机的硬盘中的，但是程序运行需�
         data-sizes="auto"
         alt="https://github.com/bugxch/blogpics/blob/master/201807/vitualmem.jpg?raw=true"
         title="https://github.com/bugxch/blogpics/blob/master/201807/vitualmem.jpg?raw=true"
-        
-        
     /></p>
 </li>
 </ul>
@@ -388,8 +375,6 @@ A：程序和数据是保存在计算机的硬盘中的，但是程序运行需�
         data-sizes="auto"
         alt="https://github.com/bugxch/blogpics/blob/master/201807/run.jpg?raw=true"
         title="https://github.com/bugxch/blogpics/blob/master/201807/run.jpg?raw=true"
-        
-        
     /></p>
 <p><strong>Q：可执行文件包含哪些内容？它加载到内存中是什么样子？</strong>
 <strong>A</strong>：可执行文件中包含了源程序的变量和函数的虚拟地址，在加载到内存之后需要必要的信息将虚拟地址转换成实际地址，转换需要的信息就在 exe 文件开始的部分，称为再配置信息。exe 文件被加载到内存之后，就将这些虚拟内存转换成实际内存，程序运行中会生成栈和堆，因此在内存中的样子如下图所示</p>
@@ -400,8 +385,6 @@ A：程序和数据是保存在计算机的硬盘中的，但是程序运行需�
         data-sizes="auto"
         alt="https://github.com/bugxch/blogpics/blob/master/201807/memab.jpg?raw=true"
         title="https://github.com/bugxch/blogpics/blob/master/201807/memab.jpg?raw=true"
-        
-        
     /></p>
 <p><strong>Q：c，o，a，lib，obj，dll 这些文件分别是什么？他们之间是什么关系？</strong>
 <strong>A</strong>：c 是 C 语言的源文件，如博文 <a href="http://blog.csdn.net/chlele0105/article/details/23691147" target="_blank" rel="noopener noreffer">Linux 的. a、.so 和. o 文件</a> 中所述</p>
@@ -690,23 +673,7 @@ A：程序和数据是保存在计算机的硬盘中的，但是程序运行需�
             </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.10"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2016 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank" rel="noopener noreferrer">bugxch</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
-        </div>
-        <script>
-            if('serviceWorker' in navigator) {
-                navigator.serviceWorker
-                    .register('/sw.min.js', { scope: '/' })
-                    .then(function(registration) {
-                        
-                    });
-          
-                navigator.serviceWorker
-                    .ready
-                    .then(function(registration) {
-                        
-                    });
-            }
-          </script>          
-    </footer></div>
+        </div></footer></div>
 
         <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
                 <i class="fas fa-arrow-up fa-fw"></i>

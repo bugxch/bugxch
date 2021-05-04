@@ -85,28 +85,26 @@ using namespace std;
 class Animal {
 public:
 	virtual void Sell() = 0;
+	Animal(int price = 5, int id = 0) :price_(price), id_(id) {};
+protected:
+	int price_;
+	int id_;
 };
 
 class Horse : public Animal {
 public:
-	Horse(int price = 5, int id = 0) : price_(price), id_(id) {};
 	void Sell() {
 		cout << id_ << ": Horse sell " << price_ << " yuan\n";
 	}
-private:
-	int price_;
-	int id_;
+	Horse(int price = 5, int id = 0) : Animal(price, id) {};
 };
 
 class Cow : public Animal {
 public:
-	Cow(int price = 7, int id = 0) : price_(price), id_(id) {};
 	void Sell() {
 		cout << id_ << ": Cow sell " << price_ << " yuan\n";
 	}
-private:
-	int price_;
-	int id_;
+	Cow(int price = 5, int id = 0) : Animal(price, id) {};
 };
 
 class Farm {
@@ -133,7 +131,7 @@ public:
 int main()
 {
 	Farm* factory = new HorseFarm();
-	Animal* horse = factory->Create(0, 32);
+	Animal* horse = factory->Create(1, 32);
 	horse->Sell();
 
 	factory = new CowFarm();

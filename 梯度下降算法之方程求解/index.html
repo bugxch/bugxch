@@ -35,12 +35,7 @@
         },"image": ["https:\/\/bugxch.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "机器学习","wordcount":  1955 ,
         "url": "https:\/\/bugxch.github.io\/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E7%AE%97%E6%B3%95%E4%B9%8B%E6%96%B9%E7%A8%8B%E6%B1%82%E8%A7%A3\/","datePublished": "2018-07-21T20:41:31+00:00","dateModified": "2018-07-21T20:41:31+00:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
-            "name": "xxxx","logo": {
-                    "@type": "ImageObject",
-                    "url": "https:\/\/bugxch.github.io\/images\/avatar.png",
-                    "width":  528 ,
-                    "height":  560 
-                }},"author": {
+            "name": "xxxx","logo": "https:\/\/bugxch.github.io\/images\/avatar.png"},"author": {
                 "@type": "Person",
                 "name": "bugxch"
             },"description": ""
@@ -174,8 +169,6 @@
         data-sizes="auto"
         alt="https://bigsnarf.files.wordpress.com/2016/07/fff.png?w=630"
         title="gradienet"
-        
-        
     /></p>
 <h2 id="问题">问题</h2>
 <p>梯度下降算法用于求数学方程的极大值极小值问题，这篇文章讲解如何利用梯度下降算法求解方程 $x^5+e^x+3x−3=0$ 的根；</p>
@@ -188,8 +181,6 @@
         data-sizes="auto"
         alt="https://github.com/bugxch/blogpics/blob/master/201807/figure1.png?raw=true"
         title="https://github.com/bugxch/blogpics/blob/master/201807/figure1.png?raw=true"
-        
-        
     /></p>
 <p>从函数图像大体可以判断，方程的根在 0 附近，但是很明显 0 不是方程的根，看图只能猜出个大概，那怎么做才能得到更精确的解呢？</p>
 <p>有一个可行的方法在 x = 0 附近找一堆很接近的数字，比如 [−0.5:0.05:1][−0.5:0.05:1]，一个个代入方程的左边，看看<strong>它的值离 0 有多近</strong>：距离 0 越近，说明我们选取的值离方程的根也越近。数学上定义两个数距离就是绝对值，但是因为绝对值不便于计算，所以将其替换成等价的差的平方，即 F(x)=(f(x)−0)2F(x)=(f(x)−0)2，以此度量结果距离 0 的程度，称之为<strong>损失函数</strong>。</p>
@@ -269,8 +260,6 @@ x: 0.950, f(x): 3.2095, F(x): 10.3008
         data-sizes="auto"
         alt="https://github.com/bugxch/blogpics/blob/master/201807/f2.png?raw=true"
         title="https://github.com/bugxch/blogpics/blob/master/201807/f2.png?raw=true"
-        
-        
     /></p>
 <p>我们假定方程的根是 x0x0，**除了 x0x0，其他点的函数值都比该点处的高，而且从两边向内，越是靠近 x0x0，函数的值越接近 0。**而且可以发现，从两边向 x0x0 移动，方向刚好就是该点处切线的斜率 F′(x)F′(x) 的相反数。</p>
 <p><img
@@ -280,8 +269,6 @@ x: 0.950, f(x): 3.2095, F(x): 10.3008
         data-sizes="auto"
         alt="http://www.big-data.tips/wp-content/uploads/2016/06/gradient-types.jpg"
         title="斜率"
-        
-        
     /></p>
 <p>于是得到启发，挑选一个初始点，沿着该点的斜率相反的方向迭代，必然越来越靠近方程的根，所以有下面的算法：</p>
 <blockquote>
@@ -509,23 +496,7 @@ times 54, x: 0.4631846723920, f(x): -0.0000000000000
             </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.10"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2016 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank" rel="noopener noreferrer">bugxch</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
-        </div>
-        <script>
-            if('serviceWorker' in navigator) {
-                navigator.serviceWorker
-                    .register('/sw.min.js', { scope: '/' })
-                    .then(function(registration) {
-                        
-                    });
-          
-                navigator.serviceWorker
-                    .ready
-                    .then(function(registration) {
-                        
-                    });
-            }
-          </script>          
-    </footer></div>
+        </div></footer></div>
 
         <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
                 <i class="fas fa-arrow-up fa-fw"></i>

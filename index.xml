@@ -213,8 +213,6 @@
 </span><span class="lnt">62
 </span><span class="lnt">63
 </span><span class="lnt">64
-</span><span class="lnt">65
-</span><span class="lnt">66
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
@@ -223,28 +221,26 @@
 <span class="k">class</span> <span class="nc">Animal</span> <span class="p">{</span>
 <span class="k">public</span><span class="o">:</span>
 	<span class="k">virtual</span> <span class="kt">void</span> <span class="n">Sell</span><span class="p">()</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="n">Animal</span><span class="p">(</span><span class="kt">int</span> <span class="n">price</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="kt">int</span> <span class="n">id</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">:</span><span class="n">price_</span><span class="p">(</span><span class="n">price</span><span class="p">),</span> <span class="n">id_</span><span class="p">(</span><span class="n">id</span><span class="p">)</span> <span class="p">{};</span>
+<span class="k">protected</span><span class="o">:</span>
+	<span class="kt">int</span> <span class="n">price_</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">id_</span><span class="p">;</span>
 <span class="p">};</span>
 
 <span class="k">class</span> <span class="nc">Horse</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Animal</span> <span class="p">{</span>
 <span class="k">public</span><span class="o">:</span>
-	<span class="n">Horse</span><span class="p">(</span><span class="kt">int</span> <span class="n">price</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="kt">int</span> <span class="n">id</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">:</span> <span class="n">price_</span><span class="p">(</span><span class="n">price</span><span class="p">),</span> <span class="n">id_</span><span class="p">(</span><span class="n">id</span><span class="p">)</span> <span class="p">{};</span>
-	<span class="kt">void</span> <span class="nf">Sell</span><span class="p">()</span> <span class="p">{</span>
+	<span class="kt">void</span> <span class="n">Sell</span><span class="p">()</span> <span class="p">{</span>
 		<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">id_</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;: Horse sell &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">price_</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; yuan</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
 	<span class="p">}</span>
-<span class="k">private</span><span class="o">:</span>
-	<span class="kt">int</span> <span class="n">price_</span><span class="p">;</span>
-	<span class="kt">int</span> <span class="n">id_</span><span class="p">;</span>
+	<span class="n">Horse</span><span class="p">(</span><span class="kt">int</span> <span class="n">price</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="kt">int</span> <span class="n">id</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">:</span> <span class="n">Animal</span><span class="p">(</span><span class="n">price</span><span class="p">,</span> <span class="n">id</span><span class="p">)</span> <span class="p">{};</span>
 <span class="p">};</span>
 
 <span class="k">class</span> <span class="nc">Cow</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Animal</span> <span class="p">{</span>
 <span class="k">public</span><span class="o">:</span>
-	<span class="n">Cow</span><span class="p">(</span><span class="kt">int</span> <span class="n">price</span> <span class="o">=</span> <span class="mi">7</span><span class="p">,</span> <span class="kt">int</span> <span class="n">id</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">:</span> <span class="n">price_</span><span class="p">(</span><span class="n">price</span><span class="p">),</span> <span class="n">id_</span><span class="p">(</span><span class="n">id</span><span class="p">)</span> <span class="p">{};</span>
-	<span class="kt">void</span> <span class="nf">Sell</span><span class="p">()</span> <span class="p">{</span>
+	<span class="kt">void</span> <span class="n">Sell</span><span class="p">()</span> <span class="p">{</span>
 		<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">id_</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;: Cow sell &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">price_</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; yuan</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
 	<span class="p">}</span>
-<span class="k">private</span><span class="o">:</span>
-	<span class="kt">int</span> <span class="n">price_</span><span class="p">;</span>
-	<span class="kt">int</span> <span class="n">id_</span><span class="p">;</span>
+	<span class="n">Cow</span><span class="p">(</span><span class="kt">int</span> <span class="n">price</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="kt">int</span> <span class="n">id</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">:</span> <span class="n">Animal</span><span class="p">(</span><span class="n">price</span><span class="p">,</span> <span class="n">id</span><span class="p">)</span> <span class="p">{};</span>
 <span class="p">};</span>
 
 <span class="k">class</span> <span class="nc">Farm</span> <span class="p">{</span>
@@ -271,7 +267,7 @@
 <span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
 <span class="p">{</span>
 	<span class="n">Farm</span><span class="o">*</span> <span class="n">factory</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HorseFarm</span><span class="p">();</span>
-	<span class="n">Animal</span><span class="o">*</span> <span class="n">horse</span> <span class="o">=</span> <span class="n">factory</span><span class="o">-&gt;</span><span class="n">Create</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">32</span><span class="p">);</span>
+	<span class="n">Animal</span><span class="o">*</span> <span class="n">horse</span> <span class="o">=</span> <span class="n">factory</span><span class="o">-&gt;</span><span class="n">Create</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">32</span><span class="p">);</span>
 	<span class="n">horse</span><span class="o">-&gt;</span><span class="n">Sell</span><span class="p">();</span>
 
 	<span class="n">factory</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CowFarm</span><span class="p">();</span>

@@ -35,12 +35,7 @@
         },"image": ["https:\/\/bugxch.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "计算机","wordcount":  573 ,
         "url": "https:\/\/bugxch.github.io\/%E5%AD%97%E8%8A%82%E5%BA%8F\/","datePublished": "2018-07-21T20:32:35+00:00","dateModified": "2018-07-21T20:32:35+00:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
-            "name": "xxxx","logo": {
-                    "@type": "ImageObject",
-                    "url": "https:\/\/bugxch.github.io\/images\/avatar.png",
-                    "width":  528 ,
-                    "height":  560 
-                }},"author": {
+            "name": "xxxx","logo": "https:\/\/bugxch.github.io\/images\/avatar.png"},"author": {
                 "@type": "Person",
                 "name": "bugxch"
             },"description": ""
@@ -168,8 +163,6 @@
         data-sizes="auto"
         alt="https://github.com/bugxch/blogpics/blob/master/201807/zijiexu.png?raw=true"
         title="https://github.com/bugxch/blogpics/blob/master/201807/zijiexu.png?raw=true"
-        
-        
     /></p>
 <p>字节序是数据在内存中存放顺序。字节分高有效位和低有效位，最左边是高位最右边是低位。我们按照地址生长的方向依次往内存写入数据，如果高有效位的数据先写入就是 big endian，如果低有效位先写入就是 little endian。字节序仅仅与数据的存储方式有关，与语言没有关系，没有 java 字节序或者 C 字节序的区分。</p>
 <p>举个例子，存入一个 4 字节的数据 0x0A0B0C0D，最高有效位的字节是 0A，最低有效位的字节是 0D，如果在内存存储中，0A 位于连续内存最小的那个就是 big endian，反之如果最小地址存储 0D 就是 little endian。</p>
@@ -180,8 +173,6 @@
         data-sizes="auto"
         alt="https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Big-Endian.svg/320px-Big-Endian.svg.png"
         title="big endian"
-        
-        
     /></p>
 <p>big endian 存放顺序是最高有效位，次高有效位，一直顺序存储到最低有效位，数据和内存都是按照顺序依次连续存储的。little endian 也是依次存储，但是高低位刚好相反，如下图所示</p>
 <p><img
@@ -191,8 +182,6 @@
         data-sizes="auto"
         alt="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Little-Endian.svg/320px-Little-Endian.svg.png"
         title="little endian"
-        
-        
     /></p>
 <p>需要注意的是，无论是 4 个字节还是 8 个字节，存储的顺序都是在<strong>连续内存</strong>上<strong>依照</strong>高位到低位或者低位到高位的<strong>顺序</strong>读取和写入，比如我们有 3 个字节 0x123456，如果内存中保存的数据从小内存地址到大内存地址依次位 0x12,0x34, 0x56，那么就是 big endian，反之是 little endian。</p>
 <p>附上 C 语言测试字节序的程序</p>
@@ -256,23 +245,7 @@
             </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.10"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2016 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank" rel="noopener noreferrer">bugxch</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
-        </div>
-        <script>
-            if('serviceWorker' in navigator) {
-                navigator.serviceWorker
-                    .register('/sw.min.js', { scope: '/' })
-                    .then(function(registration) {
-                        
-                    });
-          
-                navigator.serviceWorker
-                    .ready
-                    .then(function(registration) {
-                        
-                    });
-            }
-          </script>          
-    </footer></div>
+        </div></footer></div>
 
         <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
                 <i class="fas fa-arrow-up fa-fw"></i>

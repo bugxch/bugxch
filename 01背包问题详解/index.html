@@ -35,12 +35,7 @@
         },"image": ["https:\/\/bugxch.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "动态规划, leetcode","wordcount":  5532 ,
         "url": "https:\/\/bugxch.github.io\/01%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%E8%AF%A6%E8%A7%A3\/","datePublished": "2020-02-22T00:00:00+00:00","dateModified": "2020-02-22T00:00:00+00:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
-            "name": "xxxx","logo": {
-                    "@type": "ImageObject",
-                    "url": "https:\/\/bugxch.github.io\/images\/avatar.png",
-                    "width":  528 ,
-                    "height":  560 
-                }},"author": {
+            "name": "xxxx","logo": "https:\/\/bugxch.github.io\/images\/avatar.png"},"author": {
                 "@type": "Person",
                 "name": "bugxch"
             },"description": "01背包问题的详细推导过程"
@@ -333,8 +328,6 @@ $$
         data-sizes="auto"
         alt="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/_u80CC_u53051582427182205.png"
         title="背包"
-        
-        
     /></p>
 <ol>
 <li>
@@ -359,8 +352,6 @@ $$
         data-sizes="auto"
         alt="https://github.com/bugxch/blogpics/blob/master/202002/image-20200223120801234.png?raw=true"
         title="image-20200223120801234"
-        
-        
     /></p>
 <p>**终于水落石出！**将递推关系式中的$i$换成$i-1$，于是得到如下的结果</p>
 <p><img
@@ -370,8 +361,6 @@ $$
         data-sizes="auto"
         alt="https://github.com/bugxch/blogpics/blob/master/202002/image-20200223120832675.png?raw=true"
         title="image-20200223120832675"
-        
-        
     /></p>
 <hr>
 <h3 id="初始条件及推导方法">初始条件及推导方法</h3>
@@ -429,8 +418,6 @@ $$
         data-sizes="auto"
         alt="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223091313487.png"
         title="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223091313487.png"
-        
-        
     /></p>
 </li>
 <li>
@@ -442,8 +429,6 @@ $$
         data-sizes="auto"
         alt="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223091338864.png"
         title="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223091338864.png"
-        
-        
     /></p>
 </li>
 <li>
@@ -462,8 +447,6 @@ $$
         data-sizes="auto"
         alt="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223093129212.png"
         title="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223093129212.png"
-        
-        
     /></p>
 </li>
 <li>
@@ -482,8 +465,6 @@ $$
         data-sizes="auto"
         alt="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223094741518.png"
         title="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223094741518.png"
-        
-        
     /></p>
 </li>
 <li>
@@ -495,8 +476,6 @@ $$
         data-sizes="auto"
         alt="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223095049499.png"
         title="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223095049499.png"
-        
-        
     /></p>
 <p>所以最终的结果是用3个物件填充空间为4的背包，得到的最大价值为$V[3,4] = 17$。</p>
 </li>
@@ -514,8 +493,6 @@ $$
         data-sizes="auto"
         alt="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/_u80CC_u53051582427182205.png"
         title="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/_u80CC_u53051582427182205.png"
-        
-        
     /></p>
 <p>总的问题与子问题有相同的结构，如果第$i+1$个物品已经验证放入背包中了，更小的问题是**使用$i$个物件填充大小为$C-w_{i+1}$空间**，那么我们应该考察$V[i,C-w_{i}]$是否与$V[i-1,C-w_{i}]$的值相等。所以回溯的算法如下：</p>
 <ol>
@@ -544,8 +521,6 @@ $$
         data-sizes="auto"
         alt="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223105102842.png"
         title="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223105102842.png"
-        
-        
     /></p>
 </li>
 <li>
@@ -557,8 +532,6 @@ $$
         data-sizes="auto"
         alt="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223105256019.png"
         title="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223105256019.png"
-        
-        
     /></p>
 </li>
 <li>
@@ -570,8 +543,6 @@ $$
         data-sizes="auto"
         alt="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223105624569.png"
         title="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223105624569.png"
-        
-        
     /></p>
 </li>
 </ol>
@@ -816,8 +787,6 @@ $$
         data-sizes="auto"
         alt="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223110538410.png"
         title="https://raw.githubusercontent.com/bugxch/blogpics/master/202002/image-20200223110538410.png"
-        
-        
     /></p>
 <h2 id="参考资料">参考资料</h2>
 <ul>
@@ -857,23 +826,7 @@ $$
             </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.10"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2016 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank" rel="noopener noreferrer">bugxch</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
-        </div>
-        <script>
-            if('serviceWorker' in navigator) {
-                navigator.serviceWorker
-                    .register('/sw.min.js', { scope: '/' })
-                    .then(function(registration) {
-                        
-                    });
-          
-                navigator.serviceWorker
-                    .ready
-                    .then(function(registration) {
-                        
-                    });
-            }
-          </script>          
-    </footer></div>
+        </div></footer></div>
 
         <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
                 <i class="fas fa-arrow-up fa-fw"></i>
