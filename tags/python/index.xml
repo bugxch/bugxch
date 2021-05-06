@@ -296,12 +296,12 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-  
+
 <span class="n">data_out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="n">data_out</span><span class="p">)</span>
-  
+
 <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="s1">&#39;data.txt&#39;</span><span class="p">,</span><span class="n">data_out</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&#34;</span><span class="si">%.4f</span><span class="s2">&#34;</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
-  
+
 <span class="n">dataout</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">&#39;data.txt&#39;</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="n">dataout</span><span class="p">)</span>
 </code></pre></td></tr></table>
@@ -344,11 +344,11 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-  
+
 <span class="n">data_out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
 <span class="n">data_out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">data_out</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="n">data_out</span><span class="p">)</span>
-  
+
 <span class="n">data_out</span><span class="o">.</span><span class="n">tofile</span><span class="p">(</span><span class="s1">&#39;data.bin&#39;</span><span class="p">)</span>
 <span class="n">dataout</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="s1">&#39;data.bin&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="n">dataout</span><span class="p">)</span>
@@ -371,10 +371,10 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-  
+
 <span class="n">data_out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="n">data_out</span><span class="p">)</span>
-  
+
 <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;data.npy&#39;</span><span class="p">,</span> <span class="n">data_out</span><span class="p">)</span>
 <span class="n">dataout</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;data.npy&#39;</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="n">dataout</span><span class="p">)</span>

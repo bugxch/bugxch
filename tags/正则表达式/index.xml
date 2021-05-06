@@ -255,7 +255,7 @@ To: editor@example.com
 </tr>
 <tr>
 <td>IP 地址 (IP Address)</td>
-<td><code>((2[0-4]\d\|25[0-5]\|[01]?\d\d?)\.){3}(2[0-4]\d\|25[0-5]\|[01]?\d\d?)</code></td>
+<td><code>((2[0-4]\d|25[0-5]|[01]?\d\d?)\.){3}(2[0-4]\d|25[0-5]|[01]?\d\d?)</code></td>
 </tr>
 <tr>
 <td>电子邮件 (Email)</td>
@@ -267,7 +267,7 @@ To: editor@example.com
 </tr>
 <tr>
 <td>HTML 标记 (包含内容或自闭合)</td>
-<td><code>&lt;(.*)(.*)&gt;.*&lt;\/\1&gt;\|&lt;(.*) \/&gt;</code></td>
+<td><code>&lt;(.*)(.*)&gt;.*&lt;\/\1&gt;|&lt;(.*) \/&gt;</code></td>
 </tr>
 <tr>
 <td>密码 (由数字 / 大写字母 / 小写字母 / 标点符号组成，四种都必有，8 位以上)</td>
