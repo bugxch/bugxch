@@ -5,6 +5,107 @@
         <description>C/C&#43;&#43; - 标签 - Dive Into Think</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>bugxch@126.com (bugxch)</managingEditor>
             <webMaster>bugxch@126.com (bugxch)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><atom:link href="https://bugxch.github.io/tags/c/c&#43;&#43;/" rel="self" type="application/rss+xml" /><item>
+    <title>二分法学习心得</title>
+    <link>https://bugxch.github.io/binary_search/</link>
+    <pubDate>Thu, 06 May 2021 22:33:59 &#43;0800</pubDate>
+    <author>bugxch</author>
+    <guid>https://bugxch.github.io/binary_search/</guid>
+    <description><![CDATA[<div class="featured-image">
+                <img src="https://pic.imgdb.cn/item/60940147d1a9ae528fdc3a1d.png" referrerpolicy="no-referrer">
+            </div><p>最近在准备考试，做了一些二分搜索的题目，感觉有点意思，记录下做题的心得。</p>
+<p>二分法很容易在左右区间的选择上出现问题，我在做完一些题目之后，发现针对不同的情况需要使用不同的区间的处理策略，在这里记录下。</p>
+<h2 id="基本原理">基本原理</h2>
+<p>二分法适用于在单调递增或者递减的序列以$O(logn)$的复杂度快速找到目标值。注意，这里的使用情景包括了严格或者非严格的情况，我们举例说明。</p>
+<h3 id="基本模板">基本模板</h3>
+<p>我们通过解答力扣上的这道<a href="https://leetcode-cn.com/problems/guess-number-higher-or-lower/" target="_blank" rel="noopener noreffer">374. 猜数字大小</a>题目，给出二分查找的基本模板。这道题目就是最传统的猜大小的谜题，标准的解答模板的代码如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cm">/**
+</span><span class="cm"> * Forward declaration of guess API.
+</span><span class="cm"> * @param  num   your guess
+</span><span class="cm"> * @return 	     -1 if num is lower than the guess number
+</span><span class="cm"> *			      1 if num is higher than the guess number
+</span><span class="cm"> *               otherwise return 0
+</span><span class="cm"> * int guess(int num);
+</span><span class="cm"> */</span>
+
+<span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="kt">int</span> <span class="n">guessNumber</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">left</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">right</span> <span class="o">=</span> <span class="n">n</span><span class="p">;</span>
+
+        <span class="k">while</span> <span class="p">(</span><span class="n">left</span> <span class="o">&lt;=</span> <span class="n">right</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">mid</span> <span class="o">=</span> <span class="n">left</span> <span class="o">+</span> <span class="p">((</span><span class="n">right</span> <span class="o">-</span> <span class="n">left</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span><span class="p">);</span>
+            <span class="kt">int</span> <span class="n">rlt</span> <span class="o">=</span> <span class="n">guess</span><span class="p">(</span><span class="n">mid</span><span class="p">);</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">rlt</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="n">mid</span><span class="p">;</span>
+            <span class="p">}</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">rlt</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">right</span> <span class="o">=</span> <span class="n">mid</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="p">}</span>  <span class="k">else</span> <span class="p">{</span>
+                <span class="n">left</span> <span class="o">=</span> <span class="n">mid</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>如果想真正理解二分查找，那么需要真正理解下面的<strong>关键细节</strong>:</p>
+<ol>
+<li>如何保证在任意情况下，<code>while</code>的判断条件不会陷入死循环？</li>
+<li>在每次判断与target的差异之后，如何变更区间更高效？</li>
+</ol>
+<h3 id="变化类型">变化类型</h3>
+<h2 id="实践题目">实践题目</h2>
+<h2 id="参考资料">参考资料</h2>
+<ol>
+<li><a href="https://segmentfault.com/a/1190000016825704" target="_blank" rel="noopener noreffer">二分查找、二分边界查找算法的模板代码总结 - SegmentFault 思否</a>，给我很多启发的一篇文章</li>
+</ol>
+<hr>
+<figure>
+     <figcaption>
+            <h4>欢迎扫码关注我的公众号</h4>
+        </figcaption>
+</figure>]]></description>
+</item><item>
     <title>Factory Method模式精解（C&#43;&#43;版本）</title>
     <link>https://bugxch.github.io/dp_4/</link>
     <pubDate>Sun, 02 May 2021 21:43:54 &#43;0800</pubDate>
