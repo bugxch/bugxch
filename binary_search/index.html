@@ -32,7 +32,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/bugxch.github.io\/binary_search\/"
-        },"image": ["https:\/\/bugxch.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "C\/C\u002b\u002b, leetcode, algorithm","wordcount":  527 ,
+        },"image": ["https:\/\/bugxch.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "C\/C\u002b\u002b, leetcode, algorithm","wordcount":  557 ,
         "url": "https:\/\/bugxch.github.io\/binary_search\/","datePublished": "2021-05-06T22:33:59+08:00","dateModified": "2021-05-06T22:33:59+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "xxxx","logo": "https:\/\/bugxch.github.io\/images\/avatar.png"},"author": {
@@ -147,7 +147,7 @@
             <div class="toc-content always-active" id="toc-content-auto"></div>
         </div><script>document.body.setAttribute("pageStyle", "normal")</script><article class="page single"><h1 class="single-title animated flipInX">二分法学习心得</h1><h2 class="single-subtitle">算法精进系列</h2><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="https://bugxch.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>bugxch</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%8A%80%E8%89%BA/"><i class="far fa-folder fa-fw"></i>技艺</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-05-06">2021-05-06</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 527 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-05-06">2021-05-06</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 557 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 2 分钟&nbsp;</div>
         </div><div class="featured-image"><img
         class="lazyload"
@@ -165,7 +165,7 @@
   <ul>
     <li><a href="#基本原理">基本原理</a>
       <ul>
-        <li><a href="#基本模板">基本模板</a></li>
+        <li><a href="#理解要点">理解要点</a></li>
         <li><a href="#变化类型">变化类型</a></li>
       </ul>
     </li>
@@ -177,7 +177,6 @@
 <p>二分法很容易在左右区间的选择上出现问题，我在做完一些题目之后，发现针对不同的情况需要使用不同的区间的处理策略，在这里记录下。</p>
 <h2 id="基本原理">基本原理</h2>
 <p>二分法适用于在单调递增或者递减的序列以$O(logn)$的复杂度快速找到目标值。注意，这里的使用情景包括了严格或者非严格的情况，我们举例说明。</p>
-<h3 id="基本模板">基本模板</h3>
 <p>我们通过解答力扣上的这道<a href="https://leetcode-cn.com/problems/guess-number-higher-or-lower/" target="_blank" rel="noopener noreffer">374. 猜数字大小</a>题目，给出二分查找的基本模板。这道题目就是最传统的猜大小的谜题，标准的解答模板的代码如下</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -249,16 +248,20 @@
 <span class="p">};</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>如果想真正理解二分查找，那么需要真正理解下面的<strong>关键细节</strong>:</p>
+</div><h3 id="理解要点">理解要点</h3>
+<p>如果想真正理解二分查找，那么需要真正理解下面的<strong>关键细节</strong>:</p>
+<blockquote>
 <ol>
 <li>如何保证在任意情况下，<code>while</code>的判断条件不会陷入死循环？</li>
 <li>在每次判断与target的差异之后，如何变更区间更高效？</li>
 </ol>
+</blockquote>
 <h3 id="变化类型">变化类型</h3>
 <h2 id="实践题目">实践题目</h2>
 <h2 id="参考资料">参考资料</h2>
 <ol>
 <li><a href="https://segmentfault.com/a/1190000016825704" target="_blank" rel="noopener noreffer">二分查找、二分边界查找算法的模板代码总结 - SegmentFault 思否</a>，给我很多启发的一篇文章</li>
+<li><a href="https://en.wikipedia.org/wiki/Binary_search_algorithm" target="_blank" rel="noopener noreffer">Binary search algorithm</a>，维基百科页面，英文版里面的内容很详尽</li>
 </ol>
 <hr>
 <figure><img src="https://pic.downk.cc/item/5ff098c63ffa7d37b39c239f.jpg"/><figcaption>
