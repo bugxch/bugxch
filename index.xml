@@ -15,10 +15,55 @@
     <description><![CDATA[<div class="featured-image">
                 <img src="https://pic.imgdb.cn/item/60940147d1a9ae528fdc3a1d.png" referrerpolicy="no-referrer">
             </div><p>最近在准备考试，做了一些二分搜索的题目，感觉有点意思，记录下做题的心得。</p>
-<p>二分法很容易在左右区间的选择上出现问题，我在做完一些题目之后，发现针对不同的情况需要使用不同的区间的处理策略，在这里记录下。</p>
+<h2 id="文章目标">文章目标</h2>
+<p>通过阅读本文，可以彻底搞懂二分查找的基本原理及各种变体，可以独立完成下面的力扣题目</p>
+<table>
+<thead>
+<tr>
+<th>力扣题目</th>
+<th>考查点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://leetcode-cn.com/problems/guess-number-higher-or-lower/" target="_blank" rel="noopener noreffer">374. 猜数字大小</a></td>
+<td>基本模板</td>
+</tr>
+<tr>
+<td><a href="https://leetcode-cn.com/problems/sqrtx/" target="_blank" rel="noopener noreffer">69. x 的平方根</a></td>
+<td>基本模板</td>
+</tr>
+<tr>
+<td><a href="https://leetcode-cn.com/problems/first-bad-version/?utm_source=LCUS&amp;utm_medium=ip_redirect&amp;utm_campaign=transfer2china" target="_blank" rel="noopener noreffer">278. 第一个错误的版本</a></td>
+<td>查找左边界</td>
+</tr>
+<tr>
+<td><a href="https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/" target="_blank" rel="noopener noreffer">153. 寻找旋转排序数组中的最小值</a></td>
+<td>寻找旋转数组中的目标值（无重复元素）</td>
+</tr>
+<tr>
+<td><a href="https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array-ii/" target="_blank" rel="noopener noreffer">154. 寻找旋转排序数组中的最小值 II</a></td>
+<td>寻找旋转数组中的目标值（包含重复元素）</td>
+</tr>
+<tr>
+<td><a href="https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/" target="_blank" rel="noopener noreffer">34. 在排序数组中查找元素的第一个和最后一个位置</a></td>
+<td>查找左右边界</td>
+</tr>
+</tbody>
+</table>
 <h2 id="基本原理">基本原理</h2>
-<p>二分法适用于在单调递增或者递减的序列以$O(logn)$的复杂度快速找到目标值。注意，这里的使用情景包括了严格或者非严格的情况，我们举例说明。</p>
-<p>我们通过解答力扣上的这道<a href="https://leetcode-cn.com/problems/guess-number-higher-or-lower/" target="_blank" rel="noopener noreffer">374. 猜数字大小</a>题目，给出二分查找的基本模板。这道题目就是最传统的猜大小的谜题，标准的解答模板的代码如下</p>
+<p>在计算机科学中，二分搜索又被成为<strong>半区间</strong>搜索，对数搜索或者二分chop，它用于在排序数列中找到目标值的位置。基本的算法包含如下步骤：二分搜索比较数列中间元素与目标值，如果目标值与中间元素匹配，那直接返回中间的位置。如果目标值比中间元素小，继续搜索低半边的数列，如果目标值比中间元素大，那么继续搜索高半边。<strong>每次在比较元素之后搜索的区间会减少一半（去掉目标值不可能在的那一半区间）</strong>，所以在最坏的情况下，算法的复杂度是$O(logn)$。下面是二分搜索与线性搜索的比较示意图，在同一个排序的数列上，查找目标值为37的序列值。</p>
+<p></p>
+<p>序列长度是17，</p>
+<ol>
+<li>二分查找第一次寻找整个搜索区间的中间的index（从0开始计数）为(0 + 16) / 2 = 8的数字23，23比37小，所以<strong>更新查找区间</strong>[9,16]；</li>
+<li>查找新区间的中间index = (9 + 16) /2 = 12，结果是数字41，比37大，<strong>更新查找区间</strong>
+[9, 11];</li>
+<li>查找新区间的中间index = (9 + 11) / 2 = 10，结果是数字31，比37大，继续<strong>更新查找区间</strong>[11, 11]，此时中间元素就是第11号元素，即37，找到目标值，查找结束。</li>
+</ol>
+<p>参考上面的算法步骤，可以看出二分搜索的关键步骤包括<strong>比较目标值</strong>以及<strong>更新区间</strong>两部分，原理在下面的图片中给出，</p>
+<p></p>
+<p>使用上面的基本模板我们就可以解答文章开始列出的第一道题目了，<a href="https://leetcode-cn.com/problems/guess-number-higher-or-lower/" target="_blank" rel="noopener noreffer">374. 猜数字大小</a>题目，给出二分查找的基本模板。这道题目就是最传统的猜大小的谜题，标准的解答模板的代码如下</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -89,8 +134,11 @@
 <span class="p">};</span>
 </code></pre></td></tr></table>
 </div>
-</div><h3 id="理解要点">理解要点</h3>
-<p>如果想真正理解二分查找，那么需要真正理解下面的<strong>关键细节</strong>:</p>
+</div><h3 id="区间更新谜题">区间更新谜题</h3>
+<blockquote>
+<p><em>Although the basic idea of binary search is comparatively straightforward, the details can be surprisingly tricky</em>  &ndash; <strong>Donald Knuth</strong></p>
+</blockquote>
+<p>二分法很容易在左右区间的选择上出现问题，如果想真正理解二分查找，那么需要理解下面的<strong>关键细节</strong>:</p>
 <blockquote>
 <ol>
 <li>如何保证在任意情况下，<code>while</code>的判断条件不会陷入死循环？</li>
