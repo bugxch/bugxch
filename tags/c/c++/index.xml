@@ -59,7 +59,7 @@
 [9, 11];</li>
 <li>查找新区间的中间index = (9 + 11) / 2 = 10，结果是数字31，比37大，继续<strong>更新查找区间</strong>[11, 11]，此时中间元素就是第11号元素，即37，找到目标值，查找结束。</li>
 </ol>
-<p>参考上面的算法步骤，可以看出二分搜索的关键步骤包括<strong>比较目标值</strong>以及<strong>更新区间</strong>两部分，原理在下面的图片中给出，</p>
+<p>参考上面的算法步骤，可以看出二分搜索的关键步骤包括<strong>比较目标值</strong>以及<strong>更新区间</strong>两部分，伪代码在下面的图片中给出，</p>
 <p></p>
 <p>使用上面的基本模板我们就可以解答文章开始列出的第一道题目了，<a href="https://leetcode-cn.com/problems/guess-number-higher-or-lower/" target="_blank" rel="noopener noreffer">374. 猜数字大小</a>题目，给出二分查找的基本模板。这道题目就是最传统的猜大小的谜题，标准的解答模板的代码如下</p>
 <div class="highlight"><div class="chroma">
