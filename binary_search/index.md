@@ -48,14 +48,14 @@ public:
         int left = 1;
         int right = n;
 
-        while (left <= right) {
-            int mid = left + ((right - left) >> 1);
+        while (left <= right) { // detail 1
+            int mid = left + ((right - left) >> 1); // detail 2
             int rlt = guess(mid);
-
+		
             if (rlt == 0) {
                 return mid;
             }
-
+			// detail 3
             if (rlt == -1) {
                 right = mid - 1;
             }  else {
@@ -67,13 +67,14 @@ public:
 };
 ```
 
-### 区间更新谜题
+### 技术细节
 
 > *Although the basic idea of binary search is comparatively straightforward, the details can be surprisingly tricky*  -- **Donald Knuth**
 
-二分法很容易在左右区间的选择上出现问题，如果想真正理解二分查找，那么需要理解下面的**关键细节**:
-> 1. 如何保证在任意情况下，`while`的判断条件不会陷入死循环？
-> 2. 在每次判断与target的差异之后，如何变更区间更高效？
+就像高德纳所说，二分法的思想简单且易于理解，但是二分法的细节却藏了很多坑，**魔鬼就在细节中**。为了透彻理解二分法的实现，有必要对上面的代码的下面3个技术细节（标记为`detail`注释的地方）进行深究。
+> 1. 为什么循环的入口条件是`left <= right`？
+> 2. 为什么中点是`mid = left + ((right - left) >> 1)`？
+> 3. 在每次判断与target的差距之后，区间是如何调整的？
 
 ### 变化类型
 

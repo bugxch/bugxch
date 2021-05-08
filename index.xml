@@ -115,15 +115,15 @@
         <span class="kt">int</span> <span class="n">left</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
         <span class="kt">int</span> <span class="n">right</span> <span class="o">=</span> <span class="n">n</span><span class="p">;</span>
 
-        <span class="k">while</span> <span class="p">(</span><span class="n">left</span> <span class="o">&lt;=</span> <span class="n">right</span><span class="p">)</span> <span class="p">{</span>
-            <span class="kt">int</span> <span class="n">mid</span> <span class="o">=</span> <span class="n">left</span> <span class="o">+</span> <span class="p">((</span><span class="n">right</span> <span class="o">-</span> <span class="n">left</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span><span class="p">);</span>
-            <span class="kt">int</span> <span class="n">rlt</span> <span class="o">=</span> <span class="n">guess</span><span class="p">(</span><span class="n">mid</span><span class="p">);</span>
-
+        <span class="k">while</span> <span class="p">(</span><span class="n">left</span> <span class="o">&lt;=</span> <span class="n">right</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// detail 1
+</span><span class="c1"></span>            <span class="kt">int</span> <span class="n">mid</span> <span class="o">=</span> <span class="n">left</span> <span class="o">+</span> <span class="p">((</span><span class="n">right</span> <span class="o">-</span> <span class="n">left</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span><span class="p">);</span> <span class="c1">// detail 2
+</span><span class="c1"></span>            <span class="kt">int</span> <span class="n">rlt</span> <span class="o">=</span> <span class="n">guess</span><span class="p">(</span><span class="n">mid</span><span class="p">);</span>
+		
             <span class="k">if</span> <span class="p">(</span><span class="n">rlt</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
                 <span class="k">return</span> <span class="n">mid</span><span class="p">;</span>
             <span class="p">}</span>
-
-            <span class="k">if</span> <span class="p">(</span><span class="n">rlt</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+			<span class="c1">// detail 3
+</span><span class="c1"></span>            <span class="k">if</span> <span class="p">(</span><span class="n">rlt</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
                 <span class="n">right</span> <span class="o">=</span> <span class="n">mid</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
             <span class="p">}</span>  <span class="k">else</span> <span class="p">{</span>
                 <span class="n">left</span> <span class="o">=</span> <span class="n">mid</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
@@ -134,15 +134,16 @@
 <span class="p">};</span>
 </code></pre></td></tr></table>
 </div>
-</div><h3 id="区间更新谜题">区间更新谜题</h3>
+</div><h3 id="技术细节">技术细节</h3>
 <blockquote>
 <p><em>Although the basic idea of binary search is comparatively straightforward, the details can be surprisingly tricky</em>  &ndash; <strong>Donald Knuth</strong></p>
 </blockquote>
-<p>二分法很容易在左右区间的选择上出现问题，如果想真正理解二分查找，那么需要理解下面的<strong>关键细节</strong>:</p>
+<p>就像高德纳所说，二分法的思想简单且易于理解，但是二分法的细节却藏了很多坑，<strong>魔鬼就在细节中</strong>。为了透彻理解二分法的实现，有必要对上面的代码的下面3个技术细节（标记为<code>detail</code>注释的地方）进行深究。</p>
 <blockquote>
 <ol>
-<li>如何保证在任意情况下，<code>while</code>的判断条件不会陷入死循环？</li>
-<li>在每次判断与target的差异之后，如何变更区间更高效？</li>
+<li>为什么循环的入口条件是<code>left &lt;= right</code>？</li>
+<li>为什么中点是<code>mid = left + ((right - left) &gt;&gt; 1)</code>？</li>
+<li>在每次判断与target的差距之后，区间是如何调整的？</li>
 </ol>
 </blockquote>
 <h3 id="变化类型">变化类型</h3>
