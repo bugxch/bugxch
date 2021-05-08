@@ -30,7 +30,7 @@
 - [ ] [C++性能优化指南](https://book.douban.com/subject/27666339/)，C++性能优化的建议书籍
 - [ ] [像哲学家一样生活](https://book.douban.com/subject/27167270/)，一本讲究生活哲学的书籍
 - [ ] [发现之旅](https://book.douban.com/subject/10439064/)，顺着绿植发现的一本好书
-- [ ] [薄世宁医学通识讲义](https://book.douban.com/subject/34842793/)，过年回家火车上看到有人在都的书，了解下身体和疾病终身有益
+- [x] [薄世宁医学通识讲义](https://book.douban.com/subject/34842793/)，过年回家火车上看到有人在都的书，了解下身体和疾病终身有益
 ### 2020
 - [ ] [《浪潮之巅》](https://book.douban.com/subject/33474750/)，2020年了解行业内容主要看的书
 ### 2019
