@@ -59,9 +59,38 @@
 [9, 11];</li>
 <li>查找新区间的中间index = (9 + 11) / 2 = 10，结果是数字31，比37大，继续<strong>更新查找区间</strong>[11, 11]，此时中间元素就是第11号元素，即37，找到目标值，查找结束。</li>
 </ol>
-<p>参考上面的算法步骤，可以看出二分搜索的关键步骤包括<strong>比较目标值</strong>以及<strong>更新区间</strong>两部分，伪代码在下面的图片中给出，</p>
-<p></p>
-<p>使用上面的基本模板我们就可以解答文章开始列出的第一道题目了，<a href="https://leetcode-cn.com/problems/guess-number-higher-or-lower/" target="_blank" rel="noopener noreffer">374. 猜数字大小</a>题目，给出二分查找的基本模板。这道题目就是最传统的猜大小的谜题，标准的解答模板的代码如下</p>
+<p>参考上面的算法步骤，可以看出二分搜索的关键步骤包括<strong>比较目标值</strong>以及<strong>更新区间</strong>两部分，伪代码如下，</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="k">function</span> binary_search<span class="o">(</span>A, n, T<span class="o">)</span> is
+    L :<span class="o">=</span> <span class="m">0</span>
+    R :<span class="o">=</span> n − <span class="m">1</span>
+    <span class="k">while</span> L ≤ R <span class="k">do</span>
+        m :<span class="o">=</span> floor<span class="o">((</span>L + R<span class="o">)</span> / 2<span class="o">)</span>
+        <span class="k">if</span> A<span class="o">[</span>m<span class="o">]</span> &lt; T <span class="k">then</span>
+            L :<span class="o">=</span> m + <span class="m">1</span>
+        <span class="k">else</span> <span class="k">if</span> A<span class="o">[</span>m<span class="o">]</span> &gt; T <span class="k">then</span>
+            R :<span class="o">=</span> m − <span class="m">1</span>
+        <span class="k">else</span>:
+            <span class="k">return</span> m
+    <span class="k">return</span> unsuccessful
+</code></pre></td></tr></table>
+</div>
+</div><p>使用上面的基本模板我们就可以解答文章开始列出的第一道题目了，<a href="https://leetcode-cn.com/problems/guess-number-higher-or-lower/" target="_blank" rel="noopener noreffer">374. 猜数字大小</a>题目，给出二分查找的基本模板。这道题目就是最传统的猜大小的谜题，标准的解答模板的代码如下</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -137,15 +166,234 @@
 <p><em>Although the basic idea of binary search is comparatively straightforward, the details can be surprisingly tricky</em>  &ndash; <strong>Donald Knuth</strong></p>
 </blockquote>
 <p>就像高德纳所说，二分法的思想简单且易于理解，但是二分法的细节却藏了很多坑，<strong>魔鬼就在细节中</strong>。为了透彻理解二分法的实现，有必要对上面的代码的下面3个技术细节（标记为<code>detail</code>注释的地方）进行深究。</p>
+<h4 id="为什么循环的入口条件是left--right">为什么循环的入口条件是<code>left &lt;= right</code>？</h4>
+<blockquote>
+<p>无论何时$[left, right]$表示<strong>包含目标值</strong>可能存在的搜索区间</p>
+</blockquote>
+<p>注意这是个<strong>左闭右闭</strong>的闭区间，单纯从数学角度出发，这个区间<strong>最短的长度就是1</strong>，也就是$left = right$的时候。如果$left &gt;  right$了，那$[left, right]$就是<strong>空集</strong>，这个集合<strong>肯定不包含目标值</strong>，也就<strong>没有继续搜索的必要</strong>了，所以循环退出。</p>
+<h4 id="为什么中点是mid--left--right---left--1">为什么中点是<code>mid = left + ((right - left) &gt;&gt; 1)</code>？</h4>
+<p>这里的中点转换成数学表示就是
+$$
+\begin{align}
+mid = \left \lfloor\frac{left + right}{2}  \right \rfloor
+\end{align}
+$$
+其实，我们还有另外一种选择，将中间值定为
+$$
+\begin{align}
+mid = \left \lceil\frac{left + right}{2}  \right \rceil
+\end{align}
+$$
+呢？这两个计算公式有什么区别？最大的区别在于$right = left + 1$的时候，也就是搜索区间长度为2的时候，如下图所示，第1个公式结果是$mid = 4$，而第2个公式的结果是$mid = 5$，请注意<strong>这个重要的区别</strong>。</p>
+<p></p>
+<p>实际上根据数学公式推导，第1个公式$mid = \left \lfloor\frac{left + right}{2}  \right \rfloor = \left \lfloor\frac{left + left + 1}{2}  \right \rfloor = left$，而第2个公式$mid = \left \lceil\frac{left + right}{2}  \right \rceil = \left \lceil\frac{left + left + 1}{2}  \right \rceil = left + \lceil 0.5\rceil = left + 1 = right$，请记住这个重要的结论。</p>
+<blockquote>
+<p><strong>当搜索区间的左右两端点挨着的时候，floor函数的中点是左端点，ceil函数的中点是右端点</strong>。</p>
+</blockquote>
+<p>至于为何基础模板选择floor而没有选择ceil，在后面的变化类型一节很关键。</p>
+<h4 id="在每次判断与target的差距之后搜索区间为什么是这么调整的">在每次判断与target的差距之后，搜索区间为什么是这么调整的？</h4>
+<p>二分法另一个容易搞错的问题是区间调整，$left$和$right$好像可以选择$mid$的3个边界值$mid, mid - 1, mid + 1$中的任意一个，其实<strong>调整的原则</strong>很简单，</p>
+<blockquote>
+<p><strong>排除</strong>target不可能存在的区间，<strong>保留</strong>可能存在的区间，而且保证<strong>无论何时都可以退出循环条件</strong></p>
+</blockquote>
+<p>在基础模板中，根据mid的值与目标值的差距，搜索区间$[left, right]$的调整分3种情况：</p>
+<ol>
+<li>如果和目标值相同$A[mid] = A[target]$，直接<strong>跳出循环</strong>，返回mid(代码第21行)；</li>
+<li>如果比目标值小$A[mid] &lt; A[target]$，更新$left = mid + 1$，继续搜索。</li>
+<li>如果比目标值大$A[mid] &gt; A[target]$，更新$right = mid - 1$，继续搜索。</li>
+</ol>
+<p>情况2的调整情况，看如下图示</p>
+<p></p>
+<p>因为我们查找的是一个严格单增的序列，所以如果mid的值比target小，那么可以肯定</p>
+<ol>
+<li>很显然，target必然不在左半边$[left, mid - 1]$上，所以<strong>排除这个不可能的区间</strong>，包含target的区间变成$[mid, right]$；</li>
+<li>新搜索区间不包含mid，因为$A[mid] &lt; A[target]$，而且是严格单增函数，所以$mid &lt; target$，所以$mid$必然不是$target$，区间进一步缩小为$[mid + 1, right]$。</li>
+</ol>
+<p>第3种情况的调整策略与第2种相同，此处不再赘述。需要注意，这样的策略<strong>是否最终可以跳出循环</strong>？这个循环的退出条件是$left &gt; right$。对照上面的3种情况：第1种直接跳出；第2种每次调整之后新的$left$必然比原来的$left$大，也就是说$left$是不断变大的；同理，第3种情况$right$也是在不断变小的。所以随着区间的调整，必然会在某一步满足退出的条件。</p>
+<hr>
+<p>结合上面的分析，如果满足下面的条件，二分搜索的代码就是可以顺利运行的。</p>
 <blockquote>
 <ol>
-<li>为什么循环的入口条件是<code>left &lt;= right</code>？</li>
-<li>为什么中点是<code>mid = left + ((right - left) &gt;&gt; 1)</code>？</li>
-<li>在每次判断与target的差距之后，区间是如何调整的？</li>
+<li>每次调整区间，<strong>排除</strong>target不可能存在的区间，<strong>保留</strong>可能存在的区间</li>
+<li>区间调整的策略可以保证，<strong>无论何种情况都可以退出循环条件</strong></li>
 </ol>
 </blockquote>
-<h3 id="变化类型">变化类型</h3>
-<h2 id="实践题目">实践题目</h2>
+<h3 id="深入探究">深入探究</h3>
+<p>满足上一节提出的条件，我们稍微改动一下之前的基础代码，下面的代码也可以通过力扣的测试题，</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="kt">int</span> <span class="n">guessNumber</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">left</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">right</span> <span class="o">=</span> <span class="n">n</span><span class="p">;</span>
+
+        <span class="k">while</span> <span class="p">(</span><span class="n">left</span> <span class="o">&lt;</span> <span class="n">right</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 退出条件变了
+</span><span class="c1"></span>            <span class="kt">int</span> <span class="n">mid</span> <span class="o">=</span> <span class="n">left</span> <span class="o">+</span> <span class="p">((</span><span class="n">right</span> <span class="o">-</span> <span class="n">left</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span><span class="p">);</span>
+            <span class="c1">// 调整策略的分支从3个变成了2个
+</span><span class="c1"></span>            <span class="k">if</span> <span class="p">(</span><span class="n">guess</span><span class="p">(</span><span class="n">mid</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">right</span> <span class="o">=</span> <span class="n">mid</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="k">else</span> <span class="p">{</span>
+                <span class="n">left</span> <span class="o">=</span> <span class="n">mid</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+		<span class="c1">// 返回的条件也变了
+</span><span class="c1"></span>        <span class="k">if</span> <span class="p">(</span><span class="n">guess</span><span class="p">(</span><span class="n">left</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="n">left</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>再仔细考察一下，上面的代码，3个地方发生变化（已经在注释种标出）依然可以通过测试，其实还是按照上面的3个原则来看。</p>
+<ol>
+<li>
+<p>每次调整区间，<strong>排除</strong>target不可能存在的区间，<strong>保留</strong>可能存在的区间</p>
+<p>重新分析之前的3种情况，比较特殊是第1点，如果$A[mid] = A[target]$，此时我们可以说或者，这两种情况分别对应两种调整策略</p>
+<ul>
+<li>$target$位于$[left, mid]$区间，调整$right = mid$；</li>
+<li>$target$位于$[mid, right]$区间，调整$left = mid$</li>
+</ul>
+<p>这两个策略看起来似乎都可以，结合其他两种情况，如果将3个分支合并为2个，应该有2种调整策略</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># solution 1，另一种正确的方案</span>
+<span class="k">function</span> binary_search_alternative<span class="o">(</span>A, n, T<span class="o">)</span> is
+    L :<span class="o">=</span> <span class="m">0</span>
+    R :<span class="o">=</span> n − <span class="m">1</span>
+    <span class="k">while</span> L &lt; R <span class="k">do</span>
+        m :<span class="o">=</span> floor<span class="o">((</span>L + R<span class="o">)</span> / 2<span class="o">)</span>
+        <span class="k">if</span> A<span class="o">[</span>m<span class="o">]</span> &gt;<span class="o">=</span> T <span class="k">then</span>
+            R :<span class="o">=</span> m
+        <span class="k">else</span>:
+            L :<span class="o">=</span> m + <span class="m">1</span>
+    <span class="k">if</span> A<span class="o">[</span>L<span class="o">]</span> <span class="o">=</span> T <span class="k">then</span>
+        <span class="k">return</span> L
+    <span class="k">return</span> unsuccessful
+</code></pre></td></tr></table>
+</div>
+</div><p>或者</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># solution 2，错误示范</span>
+<span class="k">function</span> binary_search_alternative<span class="o">(</span>A, n, T<span class="o">)</span> is
+    L :<span class="o">=</span> <span class="m">0</span>
+    R :<span class="o">=</span> n − <span class="m">1</span>
+    <span class="k">while</span> L &lt; R <span class="k">do</span>
+        m :<span class="o">=</span> floor<span class="o">((</span>L + R<span class="o">)</span> / 2<span class="o">)</span>
+        <span class="k">if</span> A<span class="o">[</span>m<span class="o">]</span> &lt;<span class="o">=</span> T <span class="k">then</span>
+            L :<span class="o">=</span> m
+        <span class="k">else</span>:
+            R :<span class="o">=</span> m - <span class="m">1</span>
+    <span class="k">if</span> A<span class="o">[</span>L<span class="o">]</span> <span class="o">=</span> T <span class="k">then</span>
+        <span class="k">return</span> L
+    <span class="k">return</span> unsuccessful
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>区间调整的策略可以保证，<strong>无论何种情况都可以退出循环条件</strong></p>
+<p>我们再看上面的两种伪代码，退出的条件是$left &gt;= right$，考察$left = right -1$的情况，如果在搜索的若干步之后搜索的区间变成下面的情况</p>
+<p></p>
+<p>下一步搜索的$mid = 4$，按照方案2，如果此时走第1个判断分支（代码第7~8行），那么调整$left = mid = 4$，再次进入之后<strong>会发现陷入死循环</strong>，核心原因在于中点的选择上，因为使用的是floor函数，导致left永远恒等于mid，换句或说，$left$永远不再增加，而且也进不到更新$right$的分支，陷入死循环，考察方案1就没有这种情况。那如果是这样，我们改造下方案2，将中点的函数选成ceil是不是就ok了？</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># solution 3，solution 2的改造</span>
+<span class="k">function</span> binary_search_alternative<span class="o">(</span>A, n, T<span class="o">)</span> is
+    L :<span class="o">=</span> <span class="m">0</span>
+    R :<span class="o">=</span> n − <span class="m">1</span>
+    <span class="k">while</span> L &lt; R <span class="k">do</span>
+        m :<span class="o">=</span> ceil<span class="o">((</span>L + R<span class="o">)</span> / 2<span class="o">)</span> <span class="c1"># ceil取代floor函数</span>
+        <span class="k">if</span> A<span class="o">[</span>m<span class="o">]</span> &lt;<span class="o">=</span> T <span class="k">then</span>
+            L :<span class="o">=</span> m
+        <span class="k">else</span>:
+            R :<span class="o">=</span> m - <span class="m">1</span>
+    <span class="k">if</span> A<span class="o">[</span>L<span class="o">]</span> <span class="o">=</span> T <span class="k">then</span>
+        <span class="k">return</span> L
+    <span class="k">return</span> unsuccessful
+</code></pre></td></tr></table>
+</div>
+</div><p>再考察一下上面的搜索区间左右端点相邻的情况，下一次搜索的$mid = 5$，无论走哪一个判断分支，最终$left = right$，跳出循环，所以</p>
+<blockquote>
+<p>中点的选择需要结合区间调整的策略来看，保证无论走哪个分支<strong>都不能出现死循环</strong></p>
+</blockquote>
+</li>
+</ol>
+<h3 id="变种题目">变种题目</h3>
 <h2 id="参考资料">参考资料</h2>
 <ol>
 <li><a href="https://segmentfault.com/a/1190000016825704" target="_blank" rel="noopener noreffer">二分查找、二分边界查找算法的模板代码总结 - SegmentFault 思否</a>，给我很多启发的一篇文章</li>
