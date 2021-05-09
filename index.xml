@@ -154,7 +154,7 @@
         <span class="k">while</span> <span class="p">(</span><span class="n">left</span> <span class="o">&lt;=</span> <span class="n">right</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// detail 1
 </span><span class="c1"></span>            <span class="kt">int</span> <span class="n">mid</span> <span class="o">=</span> <span class="n">left</span> <span class="o">+</span> <span class="p">((</span><span class="n">right</span> <span class="o">-</span> <span class="n">left</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span><span class="p">);</span> <span class="c1">// detail 2
 </span><span class="c1"></span>            <span class="kt">int</span> <span class="n">rlt</span> <span class="o">=</span> <span class="n">guess</span><span class="p">(</span><span class="n">mid</span><span class="p">);</span>
-		
+
             <span class="k">if</span> <span class="p">(</span><span class="n">rlt</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
                 <span class="k">return</span> <span class="n">mid</span><span class="p">;</span>
             <span class="p">}</span>
@@ -237,7 +237,7 @@ $$
 </ul>
 <p>满足上面的条件2。</p>
 <hr>
-<p>结合上面的分析，按照如下的步骤写出二分查找，判断$A[mid]$与$A[target]$大小的3种情况，确定每个分支的区间调整策略，结合中点的计算规则，满足如下2个条件，</p>
+<p>结合上面的分析，按照如下的步骤写出二分查找，从分支判断入手，判断$A[mid]$与$A[target]$大小的3种情况，确定每个分支的区间调整策略，结合中点的计算规则，满足如下2个条件，</p>
 <blockquote>
 <ol>
 <li><strong>排除</strong>target不可能存在的区间，<strong>保留</strong>可能存在的区间</li>
@@ -443,8 +443,119 @@ $$
 <h3 id="重复元素左边界">重复元素左边界</h3>
 <p>参考<a href="https://leetcode-cn.com/problems/first-bad-version/?utm_source=LCUS&amp;utm_medium=ip_redirect&amp;utm_campaign=transfer2china" target="_blank" rel="noopener noreffer">278. 第一个错误的版本</a>，从某个版本开始，版本就已经不可用了，但是在这个版本之前，所有的版本均可用，需要找出第一个不可用的版本。假如说，我们有100个版本，从第70个版本开始不用，那么怎么快速找到70呢？如下所示</p>
 <p></p>
-<p>题目要找到最左边第一个true对应的下标70。</p>
-<h3 id="重复元素右边界">重复元素右边界</h3>
+<p>题目要找到最左边第一个true对应的下标70，也是找到重复的<code>true</code>区间的左边界。初始化$left = 0, right = 100$，我们还是从判断分支入手，</p>
+<ol>
+<li>如果$A[mid] = true$，那么$target$可能位于$[mid + 1, right]$区间，调整$left = mid + 1$；</li>
+<li>如果$A[mid] = false$，那么$target$可能位于$[left, mid]$区间，调整$right = mid$</li>
+</ol>
+<p>结合中点的计算原则$mid = floor((left + right)/ 2)$，判断$right = left + 1$时候，2个判断分支最终都可以跳出循环。最终代码如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="c1">// The API isBadVersion is defined for you.
+</span><span class="c1">// bool isBadVersion(int version);
+</span><span class="c1"></span>
+<span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="kt">int</span> <span class="n">firstBadVersion</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">left</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">right</span> <span class="o">=</span> <span class="n">n</span><span class="p">;</span>
+
+        <span class="k">while</span> <span class="p">(</span><span class="n">left</span> <span class="o">&lt;</span> <span class="n">right</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">mid</span> <span class="o">=</span> <span class="n">left</span> <span class="o">+</span> <span class="p">((</span><span class="n">right</span> <span class="o">-</span> <span class="n">left</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span><span class="p">);</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">isBadVersion</span><span class="p">(</span><span class="n">mid</span><span class="p">)</span> <span class="o">==</span> <span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">left</span> <span class="o">=</span> <span class="n">mid</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="n">right</span> <span class="o">=</span> <span class="n">mid</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        
+        <span class="k">return</span> <span class="n">left</span><span class="p">;</span>            
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>更一般的，假如我们要查找序列$[1,2,3,4,4,5,6,6,7,7,9,10,10,10]$中的最左边的10的index，该如何处理？从分支判断入手，</p>
+<ol>
+<li>如果$A[mid] \lt 10$，那么10可能位于区间$[mid + 1, right]$区间，调整$left = mid + 1$；</li>
+<li>如果$A[mid] =  10$，那么10可能位于区间$[left, mid]$区间，调整$right = mid$；</li>
+<li>如果$A[mid] \gt  10$，那么10可能位于区间$[left, mid - 1]$区间，调整$right = mid - 1$</li>
+</ol>
+<p>合并分支2和分支3，变成</p>
+<ol>
+<li>如果$A[mid] \lt 10$，那么10可能位于区间$[mid + 1, right]$区间，调整$left = mid + 1$；</li>
+<li>如果$A[mid] \ge  10$，那么10可能位于区间$[left, mid]$区间，调整$right = mid$</li>
+</ol>
+<p>判断当$left = right - 1$时，两个分支都可以顺利退出。代码如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="kt">int</span> <span class="n">CheckVal</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">left</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">right</span> <span class="o">=</span> <span class="n">n</span><span class="p">;</span>
+
+        <span class="k">while</span> <span class="p">(</span><span class="n">left</span> <span class="o">&lt;</span> <span class="n">right</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">mid</span> <span class="o">=</span> <span class="n">left</span> <span class="o">+</span> <span class="p">((</span><span class="n">right</span> <span class="o">-</span> <span class="n">left</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span><span class="p">);</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">left</span> <span class="o">=</span> <span class="n">mid</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="n">right</span> <span class="o">=</span> <span class="n">mid</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="n">left</span><span class="p">]</span> <span class="o">==</span> <span class="mi">10</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="n">left</span><span class="p">;</span>  
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>       
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="重复元素右边界">重复元素右边界</h3>
 <h3 id="旋转数组无重复元素">旋转数组（无重复元素）</h3>
 <h3 id="旋转数组-包含重复元素左边界">旋转数组（ 包含重复元素）左边界</h3>
 <h2 id="参考资料">参考资料</h2>

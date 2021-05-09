@@ -70,7 +70,7 @@ public:
         while (left <= right) { // detail 1
             int mid = left + ((right - left) >> 1); // detail 2
             int rlt = guess(mid);
-		
+
             if (rlt == 0) {
                 return mid;
             }
@@ -103,13 +103,13 @@ public:
 这里的中点转换成数学表示就是
 $$
 \begin{align}
-mid = \left \lfloor\frac{left + right}{2}  \right \rfloor 
+mid = \left \lfloor\frac{left + right}{2}  \right \rfloor
 \end{align}
 $$
 其实，我们还有另外一种选择，将中间值定为
 $$
 \begin{align}
-mid = \left \lceil\frac{left + right}{2}  \right \rceil 
+mid = \left \lceil\frac{left + right}{2}  \right \rceil
 \end{align}
 $$
 第2种方式的中点值的选择是否可行？从后面的分析，**其实是可行的。**那这两个计算公式有什么区别？最大的区别在于$right = left + 1$的时候，也就是搜索区间长度为2左右端点挨着的时候，如下图所示，下一次循环计算mid，第1个公式结果是$mid = 4$，而第2个公式的结果是$mid = 5$，
@@ -159,7 +159,7 @@ $$
 
 ---
 
-结合上面的分析，按照如下的步骤写出二分查找，判断$A[mid]$与$A[target]$大小的3种情况，确定每个分支的区间调整策略，结合中点的计算规则，满足如下2个条件，
+结合上面的分析，按照如下的步骤写出二分查找，从分支判断入手，判断$A[mid]$与$A[target]$大小的3种情况，确定每个分支的区间调整策略，结合中点的计算规则，满足如下2个条件，
 
 > 1. **排除**target不可能存在的区间，**保留**可能存在的区间
 > 2. 结合中点函数的计算原则，需要保证**任意判断分支为true时最后都可以跳出循环，尤其当$right = left + 1$时**
@@ -252,7 +252,7 @@ public:
 
    1. 第2个判断分支为true，$right = mid - 1 = 3 < left$，退出循环；
    2. 第1个判断分支为true（代码第7~8行），那么调整$left = mid = 4$，再次进入之后**会发现陷入死循环**，核心原因在于中点的选择上，因为使用的是floor函数，导致left永远恒等于mid，换句或说，$left$永远不再增加，而且也进不到更新$right$的分支，陷入死循环，考察方案1就没有这种情况。那如果是这样，我们改造下方案2，将中点的函数选成ceil是不是就ok了？
-   
+
    ```shell
    # solution 3，solution 2的改造
    function binary_search_alternative(A, n, T) is
@@ -268,9 +268,9 @@ public:
            return L
        return unsuccessful
    ```
-   
+
    再考察一下上面的搜索区间左右端点相邻的情况，下一次搜索的$mid = 5$，无论走哪一个判断分支，最终$left = right$，跳出循环，所以
-   
+
    > 中点的选择需要结合区间调整的策略来看，保证无论哪个分支为true**都不能出现死循环**
 
 #### 判断条件变更
@@ -293,7 +293,72 @@ public:
 
 ![](https://pic.imgdb.cn/item/609726b8d1a9ae528f1f0aa7.png)
 
-题目要找到最左边第一个true对应的下标70。
+题目要找到最左边第一个true对应的下标70，也是找到重复的`true`区间的左边界。初始化$left = 0, right = 100$，我们还是从判断分支入手，
+
+1. 如果$A[mid] = true$，那么$target$可能位于$[mid + 1, right]$区间，调整$left = mid + 1$；
+2. 如果$A[mid] = false$，那么$target$可能位于$[left, mid]$区间，调整$right = mid$
+
+结合中点的计算原则$mid = floor((left + right)/ 2)$，判断$right = left + 1$时候，2个判断分支最终都可以跳出循环。最终代码如下
+
+```cpp
+// The API isBadVersion is defined for you.
+// bool isBadVersion(int version);
+
+class Solution {
+public:
+    int firstBadVersion(int n) {
+        int left = 1;
+        int right = n;
+
+        while (left < right) {
+            mid = left + ((right - left) >> 1);
+            if (isBadVersion(mid) == false) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+        
+        return left;            
+    }
+};
+```
+
+更一般的，假如我们要查找序列$[1,2,3,4,4,5,6,6,7,7,9,10,10,10]$中的最左边的10的index，该如何处理？从分支判断入手，
+
+1. 如果$A[mid] \lt 10$，那么10可能位于区间$[mid + 1, right]$区间，调整$left = mid + 1$；
+2. 如果$A[mid] =  10$，那么10可能位于区间$[left, mid]$区间，调整$right = mid$；
+3. 如果$A[mid] \gt  10$，那么10可能位于区间$[left, mid - 1]$区间，调整$right = mid - 1$
+
+合并分支2和分支3，变成
+
+1. 如果$A[mid] \lt 10$，那么10可能位于区间$[mid + 1, right]$区间，调整$left = mid + 1$；
+2. 如果$A[mid] \ge  10$，那么10可能位于区间$[left, mid]$区间，调整$right = mid$
+
+判断当$left = right - 1$时，两个分支都可以顺利退出。代码如下
+
+```cpp
+class Solution {
+public:
+    int CheckVal(int n) {
+        int left = 1;
+        int right = n;
+
+        while (left < right) {
+            mid = left + ((right - left) >> 1);
+            if (A[mid] < 10) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+        if (A[left] == 10) {
+            return left;  
+        }
+        return -1;       
+    }
+};
+```
 
 ### 重复元素右边界
 
