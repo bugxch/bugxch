@@ -50,16 +50,21 @@
 </tbody>
 </table>
 <h2 id="基本原理">基本原理</h2>
-<p>在计算机科学中，二分搜索又被成为<strong>半区间</strong>搜索，对数搜索或者二分chop，它用于在排序数列中找到目标值的位置。基本的算法包含如下步骤：二分搜索比较数列中间元素与目标值，如果目标值与中间元素匹配，那直接返回中间的位置。如果目标值比中间元素小，继续搜索低半边的数列，如果目标值比中间元素大，那么继续搜索高半边。<strong>每次在比较元素之后搜索的区间会减少一半（去掉目标值不可能在的那一半区间）</strong>，所以在最坏的情况下，算法的复杂度是$O(logn)$。下面是二分搜索与线性搜索的比较示意图，在同一个排序的数列上，查找目标值为37的序列值。</p>
+<p>在计算机科学中，二分搜索又被成为<strong>半区间</strong>搜索，对数搜索或者二分chop，它用于在排序数列中找到目标值的位置。算法不断比较数列中间元素与目标值，</p>
+<ol>
+<li>如果目标值与中间元素匹配，那直接返回中间的位置；</li>
+<li>如果目标值比中间元素小，继续搜索低半边的数列；</li>
+<li>如果目标值比中间元素大，那么继续搜索高半边</li>
+</ol>
+<p>注意到<strong>每次在比较元素之后搜索的区间会减少一半（去掉目标值不可能在的那一半区间）</strong>，所以在最坏的情况下，算法的复杂度是$O(logn)$。下面是二分搜索与线性搜索的比较示意图，在同一个排序的数列上，查找目标值为37的序列值。</p>
 <p></p>
 <p>序列长度是17，</p>
 <ol>
-<li>二分查找第一次寻找整个搜索区间的中间的index（从0开始计数）为(0 + 16) / 2 = 8的数字23，23比37小，所以<strong>更新查找区间</strong>[9,16]；</li>
-<li>查找新区间的中间index = (9 + 16) /2 = 12，结果是数字41，比37大，<strong>更新查找区间</strong>
-[9, 11];</li>
-<li>查找新区间的中间index = (9 + 11) / 2 = 10，结果是数字31，比37大，继续<strong>更新查找区间</strong>[11, 11]，此时中间元素就是第11号元素，即37，找到目标值，查找结束。</li>
+<li>二分查找第一次寻找整个搜索区间的中间的index（从0开始计数）为(0 + 16) / 2 = 8的数字23，23比37小，所以<strong>更新查找区间为</strong>[9,16]；</li>
+<li>查找新区间的中间index = (9 + 16) /2 = 12，结果是数字41，比37大，<strong>更新查找区间</strong>为[9, 11];</li>
+<li>查找新区间的中间index = (9 + 11) / 2 = 10，结果是数字31，比37大，继续<strong>更新查找区间</strong>为[11, 11]，此时中间元素就是第11号元素，即37，找到目标值，查找结束。</li>
 </ol>
-<p>参考上面的算法步骤，可以看出二分搜索的关键步骤包括<strong>比较目标值</strong>以及<strong>更新区间</strong>两部分，伪代码如下，</p>
+<p>根据以上算法步骤，很顺利就可以写出下面的伪代码，</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -74,9 +79,11 @@
 </span><span class="lnt">10
 </span><span class="lnt">11
 </span><span class="lnt">12
+</span><span class="lnt">13
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="k">function</span> binary_search<span class="o">(</span>A, n, T<span class="o">)</span> is
+<pre class="chroma"><code class="language-shell" data-lang="shell">// basic template
+<span class="k">function</span> binary_search<span class="o">(</span>A, n, T<span class="o">)</span> is
     L :<span class="o">=</span> <span class="m">0</span>
     R :<span class="o">=</span> n − <span class="m">1</span>
     <span class="k">while</span> L ≤ R <span class="k">do</span>
@@ -161,18 +168,20 @@
 <span class="p">};</span>
 </code></pre></td></tr></table>
 </div>
-</div><h3 id="技术细节">技术细节</h3>
+</div><h3 id="关键技术细节">关键技术细节</h3>
 <blockquote>
 <p><em>Although the basic idea of binary search is comparatively straightforward, the details can be surprisingly tricky</em>  &ndash; <strong>Donald Knuth</strong></p>
 </blockquote>
 <p>就像高德纳所说，二分法的思想简单且易于理解，但是二分法的细节却藏了很多坑，<strong>魔鬼就在细节中</strong>。为了透彻理解二分法的实现，有必要对上面的代码的下面3个技术细节（标记为<code>detail</code>注释的地方）进行深究。</p>
-<h4 id="为什么循环的入口条件是left--right">为什么循环的入口条件是<code>left &lt;= right</code>？</h4>
+<h4 id="循环的入口条件">循环的入口条件</h4>
+<p>代码16行，为什么循环的入口条件是<code>left &lt;= right</code>？</p>
 <blockquote>
-<p>无论何时$[left, right]$表示<strong>包含目标值</strong>可能存在的搜索区间</p>
+<p>无论何时$[left, right]$表示<strong>可能包含目标值</strong>的搜索区间</p>
 </blockquote>
 <p>注意这是个<strong>左闭右闭</strong>的闭区间，单纯从数学角度出发，这个区间<strong>最短的长度就是1</strong>，也就是$left = right$的时候。如果$left &gt;  right$了，那$[left, right]$就是<strong>空集</strong>，这个集合<strong>肯定不包含目标值</strong>，也就<strong>没有继续搜索的必要</strong>了，所以循环退出。</p>
-<h4 id="为什么中点是mid--left--right---left--1">为什么中点是<code>mid = left + ((right - left) &gt;&gt; 1)</code>？</h4>
-<p>这里的中点转换成数学表示就是
+<h4 id="中点位置">中点位置</h4>
+<p>为什么是<code>mid = left + ((right - left) &gt;&gt; 1)</code>，也就是数学的$floor((left + right) / 2)$?
+这里的中点转换成数学表示就是
 $$
 \begin{align}
 mid = \left \lfloor\frac{left + right}{2}  \right \rfloor
@@ -184,42 +193,58 @@ $$
 mid = \left \lceil\frac{left + right}{2}  \right \rceil
 \end{align}
 $$
-呢？这两个计算公式有什么区别？最大的区别在于$right = left + 1$的时候，也就是搜索区间长度为2的时候，如下图所示，第1个公式结果是$mid = 4$，而第2个公式的结果是$mid = 5$，请注意<strong>这个重要的区别</strong>。</p>
+第2种方式的中点值的选择是否可行？从后面的分析，**其实是可行的。**那这两个计算公式有什么区别？最大的区别在于$right = left + 1$的时候，也就是搜索区间长度为2左右端点挨着的时候，如下图所示，下一次循环计算mid，第1个公式结果是$mid = 4$，而第2个公式的结果是$mid = 5$，</p>
 <p></p>
-<p>实际上根据数学公式推导，第1个公式$mid = \left \lfloor\frac{left + right}{2}  \right \rfloor = \left \lfloor\frac{left + left + 1}{2}  \right \rfloor = left$，而第2个公式$mid = \left \lceil\frac{left + right}{2}  \right \rceil = \left \lceil\frac{left + left + 1}{2}  \right \rceil = left + \lceil 0.5\rceil = left + 1 = right$，请记住这个重要的结论。</p>
+<p>，第1个公式$mid = \left \lfloor\frac{left + right}{2}  \right \rfloor = \left \lfloor\frac{left + left + 1}{2}  \right \rfloor = left$，而第2个公式$mid = \left \lceil\frac{left + right}{2}  \right \rceil = \left \lceil\frac{left + left + 1}{2}  \right \rceil = left + \lceil 0.5\rceil = left + 1 = right$，请记住这个重要的结论。</p>
 <blockquote>
-<p><strong>当搜索区间的左右两端点挨着的时候，floor函数的中点是左端点，ceil函数的中点是右端点</strong>。</p>
+<p>当搜索区间的<strong>左右两端点挨着</strong>的时候（即$right = left + 1)$，floor函数计算的中点mid是left，ceil函数计算的中点mid是right</p>
 </blockquote>
-<p>至于为何基础模板选择floor而没有选择ceil，在后面的变化类型一节很关键。</p>
-<h4 id="在每次判断与target的差距之后搜索区间为什么是这么调整的">在每次判断与target的差距之后，搜索区间为什么是这么调整的？</h4>
-<p>二分法另一个容易搞错的问题是区间调整，$left$和$right$好像可以选择$mid$的3个边界值$mid, mid - 1, mid + 1$中的任意一个，其实<strong>调整的原则</strong>很简单，</p>
+<p>请记住这个<strong>特殊的区间情况</strong>，至于为何基础模板选择floor而没有选择ceil，在后面的变化类型一节很关键。</p>
+<h4 id="搜索区间调整">搜索区间调整</h4>
+<p>在每次判断与target的差距之后，搜索区间为什么是这么调整的？
+二分法另一个容易搞错的问题是区间调整，$left$和$right$好像可以选择$mid$的3个边界值$mid, mid - 1, mid + 1$中的任意一个，其实<strong>调整的原则</strong>很简单，</p>
 <blockquote>
-<p><strong>排除</strong>target不可能存在的区间，<strong>保留</strong>可能存在的区间，而且保证<strong>无论何时都可以退出循环条件</strong></p>
+<ol>
+<li><strong>排除</strong>target不可能存在的区间，<strong>保留</strong>可能存在的区间</li>
+<li>结合中点函数的计算原则，需要保证<strong>任意判断分支为true时最后都可以跳出循环，尤其当$right = left + 1$时</strong></li>
+</ol>
 </blockquote>
-<p>在基础模板中，根据mid的值与目标值的差距，搜索区间$[left, right]$的调整分3种情况：</p>
+<p><strong>第2条简直就是区间调整和中点选择的试金石</strong>。基础模板中，根据mid的值与目标值的差距，搜索区间$[left, right]$的调整有3个判断分支：</p>
 <ol>
 <li>如果和目标值相同$A[mid] = A[target]$，直接<strong>跳出循环</strong>，返回mid(代码第21行)；</li>
-<li>如果比目标值小$A[mid] &lt; A[target]$，更新$left = mid + 1$，继续搜索。</li>
-<li>如果比目标值大$A[mid] &gt; A[target]$，更新$right = mid - 1$，继续搜索。</li>
+<li>如果比目标值大$A[mid] &gt; A[target]$，更新$right = mid - 1$，搜索区间长度进一步减少；</li>
+<li>如果比目标值小$A[mid] &lt; A[target]$，更新$left = mid + 1$，搜索区间长度进一步减少</li>
 </ol>
-<p>情况2的调整情况，看如下图示</p>
+<p>分支3的调整情况，看如下图示</p>
 <p></p>
 <p>因为我们查找的是一个严格单增的序列，所以如果mid的值比target小，那么可以肯定</p>
 <ol>
 <li>很显然，target必然不在左半边$[left, mid - 1]$上，所以<strong>排除这个不可能的区间</strong>，包含target的区间变成$[mid, right]$；</li>
 <li>新搜索区间不包含mid，因为$A[mid] &lt; A[target]$，而且是严格单增函数，所以$mid &lt; target$，所以$mid$必然不是$target$，区间进一步缩小为$[mid + 1, right]$。</li>
 </ol>
-<p>第3种情况的调整策略与第2种相同，此处不再赘述。需要注意，这样的策略<strong>是否最终可以跳出循环</strong>？这个循环的退出条件是$left &gt; right$。对照上面的3种情况：第1种直接跳出；第2种每次调整之后新的$left$必然比原来的$left$大，也就是说$left$是不断变大的；同理，第3种情况$right$也是在不断变小的。所以随着区间的调整，必然会在某一步满足退出的条件。</p>
+<p>分支2情况的调整策略与分支3的同理，此处不再赘述。需要注意，这样的策略<strong>是否可以退出循环</strong>？这个循环的退出条件是$left &gt; right$。对照上面的3个判断分支分别为true的情况：</p>
+<ol>
+<li>第1个判断分支直接退出循环，符合条件；</li>
+<li>同理，第2个判断分支每次判断之后$right$在变小，所以必然在若干次之后比$left$小，直至退出循环</li>
+<li>第3个判断分支每次调整之后$left$在变大，所以所以必然在若干次之后比$right$大，直至退出循环</li>
+</ol>
+<p>所以随着区间的调整，必然会在某一步满足退出的条件。<strong>特别的</strong>，当$right = left + 1$时，$mid = left$；</p>
+<ul>
+<li>第2个判断分支，$right = mid - 1 = left - 1 = right - 2 &lt; left = right - 1$，跳出循环</li>
+<li>第3个判断分支，$left = mid + 1 = left + 1 = right$，再次进入循环，此时$mid = left = right$，$left = mid + 1 = right + 1 &gt; right$，可以看到在迭代2次之后也退出循环</li>
+</ul>
+<p>满足上面的条件2。</p>
 <hr>
-<p>结合上面的分析，如果满足下面的条件，二分搜索的代码就是可以顺利运行的。</p>
+<p>结合上面的分析，按照如下的步骤写出二分查找，判断$A[mid]$与$A[target]$大小的3种情况，确定每个分支的区间调整策略，结合中点的计算规则，满足如下2个条件，</p>
 <blockquote>
 <ol>
-<li>每次调整区间，<strong>排除</strong>target不可能存在的区间，<strong>保留</strong>可能存在的区间</li>
-<li>区间调整的策略可以保证，<strong>无论何种情况都可以退出循环条件</strong></li>
+<li><strong>排除</strong>target不可能存在的区间，<strong>保留</strong>可能存在的区间</li>
+<li>结合中点函数的计算原则，需要保证<strong>任意判断分支为true时最后都可以跳出循环，尤其当$right = left + 1$时</strong></li>
 </ol>
 </blockquote>
 <h3 id="深入探究">深入探究</h3>
-<p>满足上一节提出的条件，我们稍微改动一下之前的基础代码，下面的代码也可以通过力扣的测试题，</p>
+<h4 id="分支合并">分支合并</h4>
+<p>当前的基础代码有3个判断分支，是否可以将3个分支合并成2个呢？下面的基础模板就可以。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -278,10 +303,10 @@ $$
 <ol>
 <li>
 <p>每次调整区间，<strong>排除</strong>target不可能存在的区间，<strong>保留</strong>可能存在的区间</p>
-<p>重新分析之前的3种情况，比较特殊是第1点，如果$A[mid] = A[target]$，此时我们可以说或者，这两种情况分别对应两种调整策略</p>
+<p>重新分析之前的3个判断分支，比较特殊是第1点，如果$A[mid] = A[target]$，那么$mid = target$，很明显</p>
 <ul>
-<li>$target$位于$[left, mid]$区间，调整$right = mid$；</li>
-<li>$target$位于$[mid, right]$区间，调整$left = mid$</li>
+<li>判断分支1与判断分支2合并，当$A[mid] \ge A[target]$，$target \le mid$，所以$target$<strong>可能位于</strong>$[left, mid]$区间，调整$right = mid$，注意此处$right \ne mid -1$</li>
+<li>判断分支1与判断分支3合并，当$A[mid] \le A[target]$，$target \ge mid$，所以$target$<strong>可能位于</strong>$[mid, right]$区间，调整$left = mid$，注意此处$left \ne mid +1$</li>
 </ul>
 <p>这两个策略看起来似乎都可以，结合其他两种情况，如果将3个分支合并为2个，应该有2种调整策略</p>
 <div class="highlight"><div class="chroma">
@@ -351,10 +376,14 @@ $$
 </div>
 </div></li>
 <li>
-<p>区间调整的策略可以保证，<strong>无论何种情况都可以退出循环条件</strong></p>
-<p>我们再看上面的两种伪代码，退出的条件是$left &gt;= right$，考察$left = right -1$的情况，如果在搜索的若干步之后搜索的区间变成下面的情况</p>
+<p>结合中点函数的计算原则，需要保证<strong>任意判断分支为true时最后都可以跳出循环，尤其当$right = left + 1$时</strong></p>
+<p>我们再看上面的两种伪代码，退出的条件是$left &gt;= right$，直接考察$left = right -1$的情况，如果在搜索的若干步之后搜索的区间变成下面的情况</p>
 <p></p>
-<p>下一步搜索的$mid = 4$，按照方案2，如果此时走第1个判断分支（代码第7~8行），那么调整$left = mid = 4$，再次进入之后<strong>会发现陷入死循环</strong>，核心原因在于中点的选择上，因为使用的是floor函数，导致left永远恒等于mid，换句或说，$left$永远不再增加，而且也进不到更新$right$的分支，陷入死循环，考察方案1就没有这种情况。那如果是这样，我们改造下方案2，将中点的函数选成ceil是不是就ok了？</p>
+<p>下一步搜索的$mid = 4$，按照方案2，如果此时</p>
+<ol>
+<li>第2个判断分支为true，$right = mid - 1 = 3 &lt; left$，退出循环；</li>
+<li>第1个判断分支为true（代码第7~8行），那么调整$left = mid = 4$，再次进入之后<strong>会发现陷入死循环</strong>，核心原因在于中点的选择上，因为使用的是floor函数，导致left永远恒等于mid，换句或说，$left$永远不再增加，而且也进不到更新$right$的分支，陷入死循环，考察方案1就没有这种情况。那如果是这样，我们改造下方案2，将中点的函数选成ceil是不是就ok了？</li>
+</ol>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -389,11 +418,33 @@ $$
 </div>
 </div><p>再考察一下上面的搜索区间左右端点相邻的情况，下一次搜索的$mid = 5$，无论走哪一个判断分支，最终$left = right$，跳出循环，所以</p>
 <blockquote>
-<p>中点的选择需要结合区间调整的策略来看，保证无论走哪个分支<strong>都不能出现死循环</strong></p>
+<p>中点的选择需要结合区间调整的策略来看，保证无论哪个分支为true<strong>都不能出现死循环</strong></p>
 </blockquote>
 </li>
 </ol>
-<h3 id="变种题目">变种题目</h3>
+<h4 id="判断条件变更">判断条件变更</h4>
+<p>需要注意，其他2个的模板的循环条件为$left &lt; right$，当前$left &lt;= right$时退出，如果$left = right$，那么搜索的区间只剩下一个元素，说明其他的元素不符合条件。如果最后的这个元素依然不是target，那么所有的元素也不是了,所以在最后我们加了一个判断，</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">    <span class="k">if</span> A<span class="o">[</span>L<span class="o">]</span> <span class="o">=</span> T <span class="k">then</span>
+        <span class="k">return</span> L
+    <span class="k">return</span> unsuccessful
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="变种题目">变种题目</h2>
+<p>理解上面的分析过程之后，进入进阶版的二分法题目。</p>
+<h3 id="重复元素左边界">重复元素左边界</h3>
+<p>参考<a href="https://leetcode-cn.com/problems/first-bad-version/?utm_source=LCUS&amp;utm_medium=ip_redirect&amp;utm_campaign=transfer2china" target="_blank" rel="noopener noreffer">278. 第一个错误的版本</a>，从某个版本开始，版本就已经不可用了，但是在这个版本之前，所有的版本均可用，需要找出第一个不可用的版本。假如说，我们有100个版本，从第70个版本开始不用，那么怎么快速找到70呢？如下所示</p>
+<p></p>
+<p>题目要找到最左边第一个true对应的下标70。</p>
+<h3 id="重复元素右边界">重复元素右边界</h3>
+<h3 id="旋转数组无重复元素">旋转数组（无重复元素）</h3>
+<h3 id="旋转数组-包含重复元素左边界">旋转数组（ 包含重复元素）左边界</h3>
 <h2 id="参考资料">参考资料</h2>
 <ol>
 <li><a href="https://segmentfault.com/a/1190000016825704" target="_blank" rel="noopener noreffer">二分查找、二分边界查找算法的模板代码总结 - SegmentFault 思否</a>，给我很多启发的一篇文章</li>
