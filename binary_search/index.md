@@ -418,7 +418,7 @@ public:
 1. 初始化搜索范围，$left = 0, right = n - 1 = 6$；
 
 2. $mid = 3$，从判断$A[3] = 7$与$target$的值入手，但是比较棘手的是$target$是多少呢（我们不知道最小值是0，仅仅知道这是一个旋转序列）？那我们根据什么判断$target$存在的可能区间呢？注意下面这幅图
-  ![](https://pic.imgdb.cn/item/6097bf1ad1a9ae528f81404e.png)
+    ![](https://pic.imgdb.cn/item/6097bf1ad1a9ae528f81404e.png)
 
   这个旋转数组分为前后两个区间，前面区间每一个数字都比后面区间的数字大（因为没有重复数字），分别称为高半区间和低半区间。很明显，
 
@@ -466,11 +466,11 @@ public:
 
    ![](https://pic.imgdb.cn/item/6097c60ed1a9ae528fb1f46a.png)
 
-   再仔细想想，其实在这一步，我们不需要知道我们位于哪个区间，我们要清楚$mid$跟最小值的index时什么关系，参考下面的图
+   再仔细想想，其实在这一步，我们不需要知道我们位于哪个区间，我们要清楚$mid$跟最小值的index的关系，参考下面的图
 
    ![](https://assets.leetcode-cn.com/solution-static/154/1.png)
 
-   考虑数组中的最后一个元素$x$，在最小值右侧的元素，它们的值一定都小于等于 x*x*；而在最小值左侧的元素，它们的值一定都大于等于 $x$，假定中点为$pilot$，比较$A[pilot]$与$A[right]$的大小，可以间接判断出$pilot$和$target$的位置关系。
+   考虑数组中的最后一个元素$A[right]$，在最小值右侧的元素，它们的值一定都小于等于$A[right]$；而在最小值左侧的元素，它们的值一定都大于等于 $A[right]$。假定中点为$pilot$，比较$A[pilot]$与$A[right]$的大小，可以间接判断出$pilot$和$target$的位置关系。
 
    第一种情况，$A[pilot]<A[high]$，说明此时最小的点位于$pilot$的左边，所以更新$right = pilot$；
 

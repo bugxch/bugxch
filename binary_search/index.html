@@ -32,7 +32,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/bugxch.github.io\/binary_search\/"
-        },"image": ["https:\/\/bugxch.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "C\/C\u002b\u002b, leetcode, algorithm","wordcount":  7549 ,
+        },"image": ["https:\/\/bugxch.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "C\/C\u002b\u002b, leetcode, algorithm","wordcount":  7569 ,
         "url": "https:\/\/bugxch.github.io\/binary_search\/","datePublished": "2021-05-06T22:33:59+08:00","dateModified": "2021-05-06T22:33:59+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "xxxx","logo": "https:\/\/bugxch.github.io\/images\/avatar.png"},"author": {
@@ -147,7 +147,7 @@
             <div class="toc-content always-active" id="toc-content-auto"></div>
         </div><script>document.body.setAttribute("pageStyle", "normal")</script><article class="page single"><h1 class="single-title animated flipInX">二分搜索——从入门到精通</h1><h2 class="single-subtitle">算法精进系列</h2><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="https://bugxch.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>bugxch</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%8A%80%E8%89%BA/"><i class="far fa-folder fa-fw"></i>技艺</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-05-06">2021-05-06</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 7549 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-05-06">2021-05-06</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 7569 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 16 分钟&nbsp;</div>
         </div><div class="featured-image"><img
         class="lazyload"
@@ -942,7 +942,7 @@ $$
         alt="https://pic.imgdb.cn/item/6097c60ed1a9ae528fb1f46a.png"
         title="https://pic.imgdb.cn/item/6097c60ed1a9ae528fb1f46a.png"
     /></p>
-<p>再仔细想想，其实在这一步，我们不需要知道我们位于哪个区间，我们要清楚$mid$跟最小值的index时什么关系，参考下面的图</p>
+<p>再仔细想想，其实在这一步，我们不需要知道我们位于哪个区间，我们要清楚$mid$跟最小值的index的关系，参考下面的图</p>
 <p><img
         class="lazyload"
         data-src="https://assets.leetcode-cn.com/solution-static/154/1.png"
@@ -951,7 +951,7 @@ $$
         alt="https://assets.leetcode-cn.com/solution-static/154/1.png"
         title="https://assets.leetcode-cn.com/solution-static/154/1.png"
     /></p>
-<p>考虑数组中的最后一个元素$x$，在最小值右侧的元素，它们的值一定都小于等于 x<em>x</em>；而在最小值左侧的元素，它们的值一定都大于等于 $x$，假定中点为$pilot$，比较$A[pilot]$与$A[right]$的大小，可以间接判断出$pilot$和$target$的位置关系。</p>
+<p>考虑数组中的最后一个元素$A[right]$，在最小值右侧的元素，它们的值一定都小于等于$A[right]$；而在最小值左侧的元素，它们的值一定都大于等于 $A[right]$。假定中点为$pilot$，比较$A[pilot]$与$A[right]$的大小，可以间接判断出$pilot$和$target$的位置关系。</p>
 <p>第一种情况，$A[pilot]&lt;A[high]$，说明此时最小的点位于$pilot$的左边，所以更新$right = pilot$；</p>
 <p><img
         class="lazyload"
