@@ -1,4 +1,4 @@
-# 杂记
+# 收集有趣好玩的事情
 
 
 ![](https://pic.imgdb.cn/item/608ad1d1d1a9ae528f74229d.png)
@@ -16,4 +16,3 @@
 - [好书推荐-什么值得读-推荐一本好书](https://www.shenmezhidedu.com/)，好书推荐网站
 - [书伴](https://bookfere.com/)，kindle配套的不错的网站
 - [卢昌海个人主页](https://www.changhai.org/index.php)，卢昌海的个人网站
-

@@ -1,8 +1,8 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
-        <title>重构 - 标签 - Dive Into Think</title>
+        <title>重构 - 标签 - 致力于把技术要点写清楚</title>
         <link>https://bugxch.github.io/tags/%E9%87%8D%E6%9E%84/</link>
-        <description>重构 - 标签 - Dive Into Think</description>
+        <description>重构 - 标签 - 致力于把技术要点写清楚</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>bugxch@126.com (bugxch)</managingEditor>
             <webMaster>bugxch@126.com (bugxch)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 22 Jan 2021 08:07:14 &#43;0800</lastBuildDate><atom:link href="https://bugxch.github.io/tags/%E9%87%8D%E6%9E%84/" rel="self" type="application/rss+xml" /><item>
     <title>[转载]表驱动法代码实践</title>

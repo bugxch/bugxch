@@ -1,8 +1,8 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
-        <title>机器学习 - 标签 - Dive Into Think</title>
+        <title>机器学习 - 标签 - 致力于把技术要点写清楚</title>
         <link>https://bugxch.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</link>
-        <description>机器学习 - 标签 - Dive Into Think</description>
+        <description>机器学习 - 标签 - 致力于把技术要点写清楚</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>bugxch@126.com (bugxch)</managingEditor>
             <webMaster>bugxch@126.com (bugxch)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 05 Aug 2018 08:15:17 &#43;0000</lastBuildDate><atom:link href="https://bugxch.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="self" type="application/rss+xml" /><item>
     <title>牛顿迭代法</title>

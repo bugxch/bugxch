@@ -1,8 +1,8 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
-        <title>pytorch - 标签 - Dive Into Think</title>
+        <title>pytorch - 标签 - 致力于把技术要点写清楚</title>
         <link>https://bugxch.github.io/tags/pytorch/</link>
-        <description>pytorch - 标签 - Dive Into Think</description>
+        <description>pytorch - 标签 - 致力于把技术要点写清楚</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>bugxch@126.com (bugxch)</managingEditor>
             <webMaster>bugxch@126.com (bugxch)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 06 Dec 2019 21:53:20 &#43;0000</lastBuildDate><atom:link href="https://bugxch.github.io/tags/pytorch/" rel="self" type="application/rss+xml" /><item>
     <title>Tensorboad查看pytorch模型</title>

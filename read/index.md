@@ -1,4 +1,4 @@
-# 读书
+# 罗马不是一天建成的
 
 
 ![](https://pic.imgdb.cn/item/60986fa0d1a9ae528f5f4fb0.jpg)
@@ -13,8 +13,10 @@
 - [ ] [Head First 设计模式（中文版） (豆瓣)](https://book.douban.com/subject/2243615/)，这本书是零基础入门的，写的不错
 - [ ] [设计模式解析(第2版·修订版) (豆瓣)](https://book.douban.com/subject/26881757/)，这本书也很不错
 ### 编程语言
-- [ ] [C++ Primer 中文版（第 5 版）](https://book.douban.com/subject/25708312/)
+- [ ] [C++ Primer 中文版（第 5 版）](https://book.douban.com/subject/25708312/)，C++经典介绍，大而全，看起来比较费劲
 - [ ] [C++性能优化指南](https://book.douban.com/subject/27666339/)，C++性能优化的建议书籍
+- [ ] [笨办法学Python 3](https://book.douban.com/subject/30237842/)，学习python的入门书
+- [ ] [“笨办法”学Python 3：进阶篇](https://book.douban.com/subject/35043941/)，上一本的进阶篇
 ### 社科及其他
 - [ ] [金融的解释](https://book.douban.com/subject/26032227//)，金融学入门教程，上下班路上微信读书听书（2021年1月底），上下班听这些文史财经类的书籍还是可以的
 - [x] [异类](https://book.douban.com/subject/25863621/)，成功的秘诀

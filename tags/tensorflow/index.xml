@@ -1,8 +1,8 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
-        <title>tensorflow - 标签 - Dive Into Think</title>
+        <title>tensorflow - 标签 - 致力于把技术要点写清楚</title>
         <link>https://bugxch.github.io/tags/tensorflow/</link>
-        <description>tensorflow - 标签 - Dive Into Think</description>
+        <description>tensorflow - 标签 - 致力于把技术要点写清楚</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>bugxch@126.com (bugxch)</managingEditor>
             <webMaster>bugxch@126.com (bugxch)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Wed, 14 Nov 2018 07:09:58 &#43;0000</lastBuildDate><atom:link href="https://bugxch.github.io/tags/tensorflow/" rel="self" type="application/rss+xml" /><item>
     <title>tf中的padding方式SAME和VALID有什么区别?</title>

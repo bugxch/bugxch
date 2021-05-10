@@ -1,8 +1,8 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
-        <title>正则表达式 - 标签 - Dive Into Think</title>
+        <title>正则表达式 - 标签 - 致力于把技术要点写清楚</title>
         <link>https://bugxch.github.io/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</link>
-        <description>正则表达式 - 标签 - Dive Into Think</description>
+        <description>正则表达式 - 标签 - 致力于把技术要点写清楚</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>bugxch@126.com (bugxch)</managingEditor>
             <webMaster>bugxch@126.com (bugxch)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 21 Jul 2018 21:12:46 &#43;0000</lastBuildDate><atom:link href="https://bugxch.github.io/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="self" type="application/rss+xml" /><item>
     <title>正则表达式详解（上）</title>

@@ -1,8 +1,8 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
-        <title>迭代器模式 - 标签 - Dive Into Think</title>
+        <title>迭代器模式 - 标签 - 致力于把技术要点写清楚</title>
         <link>https://bugxch.github.io/tags/%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F/</link>
-        <description>迭代器模式 - 标签 - Dive Into Think</description>
+        <description>迭代器模式 - 标签 - 致力于把技术要点写清楚</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>bugxch@126.com (bugxch)</managingEditor>
             <webMaster>bugxch@126.com (bugxch)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 10 Apr 2021 22:15:09 &#43;0800</lastBuildDate><atom:link href="https://bugxch.github.io/tags/%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F/" rel="self" type="application/rss+xml" /><item>
     <title>Iterator模式精解（C&#43;&#43;版本）</title>
