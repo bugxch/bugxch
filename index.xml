@@ -492,8 +492,8 @@ $$
                 <span class="n">right</span> <span class="o">=</span> <span class="n">mid</span><span class="p">;</span>
             <span class="p">}</span>
         <span class="p">}</span>
-        
-        <span class="k">return</span> <span class="n">left</span><span class="p">;</span>            
+
+        <span class="k">return</span> <span class="n">left</span><span class="p">;</span>
     <span class="p">}</span>
 <span class="p">};</span>
 </code></pre></td></tr></table>
@@ -549,9 +549,9 @@ $$
             <span class="p">}</span>
         <span class="p">}</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="n">left</span><span class="p">]</span> <span class="o">==</span> <span class="mi">10</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">return</span> <span class="n">left</span><span class="p">;</span>  
+            <span class="k">return</span> <span class="n">left</span><span class="p">;</span>
         <span class="p">}</span>
-        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>       
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
     <span class="p">}</span>
 <span class="p">};</span>
 </code></pre></td></tr></table>
@@ -608,9 +608,9 @@ $$
             <span class="p">}</span>
         <span class="p">}</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="n">left</span><span class="p">]</span> <span class="o">==</span> <span class="mi">10</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">return</span> <span class="n">left</span><span class="p">;</span>  
+            <span class="k">return</span> <span class="n">left</span><span class="p">;</span>
         <span class="p">}</span>
-        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>       
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
     <span class="p">}</span>
 <span class="p">};</span>
 </code></pre></td></tr></table>

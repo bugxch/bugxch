@@ -325,8 +325,8 @@ public:
                 right = mid;
             }
         }
-        
-        return left;            
+
+        return left;
     }
 };
 ```
@@ -360,9 +360,9 @@ public:
             }
         }
         if (A[left] == 10) {
-            return left;  
+            return left;
         }
-        return -1;       
+        return -1;
     }
 };
 ```
@@ -398,9 +398,9 @@ public:
             }
         }
         if (A[left] == 10) {
-            return left;  
+            return left;
         }
-        return -1;       
+        return -1;
     }
 };
 ```
@@ -468,21 +468,21 @@ public:
 
    再仔细想想，其实在这一步，我们不需要知道我们位于哪个区间，我们要清楚$mid$跟最小值的index的关系，参考下面的图
 
-   ![](https://assets.leetcode-cn.com/solution-static/154/1.png)
+   ![](https://pic.imgdb.cn/item/60993c5ed1a9ae528f9a5b8c.png)
 
    考虑数组中的最后一个元素$A[right]$，在最小值右侧的元素，它们的值一定都小于等于$A[right]$；而在最小值左侧的元素，它们的值一定都大于等于 $A[right]$。假定中点为$pilot$，比较$A[pilot]$与$A[right]$的大小，可以间接判断出$pilot$和$target$的位置关系。
 
    第一种情况，$A[pilot]<A[high]$，说明此时最小的点位于$pilot$的左边，所以更新$right = pilot$；
 
-   ![](https://assets.leetcode-cn.com/solution-static/154/2.png)
+   ![](https://pic.imgdb.cn/item/60993c92d1a9ae528f9c81bd.png)
 
    第二种情况，$A[pilot]>A[high]$，说明此时最小的点位于$pilot$的右边，所以更新$left = pilot + 1$；
 
-   ![](https://assets.leetcode-cn.com/solution-static/154/3.png)
+   ![](https://pic.imgdb.cn/item/60993cb1d1a9ae528f9dcd0e.png)
 
    第三种情况，$A[pilot]=A[high]$，此时唯一可以确定的是最小值在$high$的左边，所以更新$right = right - 1$
 
-   ![](https://assets.leetcode-cn.com/solution-static/154/4.png)
+   ![](https://pic.imgdb.cn/item/60993cd1d1a9ae528f9f2e8c.png)
 
 则有如下的答案
 
