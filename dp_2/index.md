@@ -94,7 +94,3 @@ private:
 	Banner* banner_;
 };
 ```
-
----
-
-{{< figure src="https://pic.downk.cc/item/5ff098c63ffa7d37b39c239f.jpg" title="欢迎扫码关注我的公众号" >}}

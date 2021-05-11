@@ -755,11 +755,7 @@ $$
 <li><a href="https://segmentfault.com/a/1190000016825704" target="_blank" rel="noopener noreffer">二分查找、二分边界查找算法的模板代码总结 - SegmentFault 思否</a>，给我很多启发的一篇文章</li>
 <li><a href="https://en.wikipedia.org/wiki/Binary_search_algorithm" target="_blank" rel="noopener noreffer">Binary search algorithm</a>，维基百科页面，英文版里面的内容很详尽</li>
 </ol>
-<hr>
-<figure><figcaption>
-            <h4>欢迎扫码关注我的公众号</h4>
-        </figcaption>
-</figure>]]></description>
+<hr>]]></description>
 </item><item>
     <title>Factory Method模式精解（C&#43;&#43;版本）</title>
     <link>https://bugxch.github.io/dp_4/</link>
@@ -1035,11 +1031,7 @@ $$
 <span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
-</div><hr>
-<figure><figcaption>
-            <h4>欢迎扫码关注我的公众号</h4>
-        </figcaption>
-</figure>]]></description>
+</div>]]></description>
 </item><item>
     <title>Template Method模式精解（C&#43;&#43;版本）</title>
     <link>https://bugxch.github.io/dp_3/</link>
@@ -1272,11 +1264,7 @@ $$
 +----------+
 </code></pre></td></tr></table>
 </div>
-</div><hr>
-<figure><figcaption>
-            <h4>欢迎扫码关注我的公众号</h4>
-        </figcaption>
-</figure>]]></description>
+</div>]]></description>
 </item><item>
     <title>Adapter模式精解（C&#43;&#43;版本）</title>
     <link>https://bugxch.github.io/dp_2/</link>
@@ -1446,11 +1434,7 @@ $$
 <span class="p">};</span>
 </code></pre></td></tr></table>
 </div>
-</div><hr>
-<figure><figcaption>
-            <h4>欢迎扫码关注我的公众号</h4>
-        </figcaption>
-</figure>]]></description>
+</div>]]></description>
 </item><item>
     <title>Iterator模式精解（C&#43;&#43;版本）</title>
     <link>https://bugxch.github.io/dp_1/</link>
@@ -2210,12 +2194,7 @@ $$
 <li><a href="https://design-patterns.readthedocs.io/zh_CN/latest/" target="_blank" rel="noopener noreffer">图说设计模式 — Graphic Design Patterns</a></li>
 <li><a href="https://edu.heibai.org/%E5%9B%BE%E8%A7%A3%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F.pdf" target="_blank" rel="noopener noreffer">图灵程序设计丛书 图解设计模式</a>，图解设计模式的pdf下载地址</li>
 <li><a href="https://refactoringguru.cn/design-patterns/catalog" target="_blank" rel="noopener noreffer">设计模式目录：22种设计模式</a>，乌克兰的某个程序员写的设计模式的网页，非常不错</li>
-</ol>
-<hr>
-<figure><figcaption>
-            <h4>欢迎扫码关注我的公众号</h4>
-        </figcaption>
-</figure>]]></description>
+</ol>]]></description>
 </item><item>
     <title>[转载]表驱动法代码实践</title>
     <link>https://bugxch.github.io/c_driven_table/</link>
@@ -3833,11 +3812,7 @@ $$
 <p>注：夹带一些私货，最近上下班会用耳机后台听tinyfool的一些视频，下面这个是关于学习曲线和规律的，启发比较大。如果要成为一个高手，需要在某个领域有一个合理的学习曲线（视频中所说的乐学者的学习曲线），认真练习和总结，持续学习，总会有所小成。因为这个讲座，最近开始阅读之前买了一直没看的《思考，快与慢》和《异类》这两本书，等读完了写个读书笔记。视频见下方</p>
 <div class="bilibili"><iframe src="//player.bilibili.com/player.html?bvid=BV1uU4y147Zi&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe></div>
 
-<hr>
-<figure><figcaption>
-            <h4>欢迎扫码关注我的公众号</h4>
-        </figcaption>
-</figure>]]></description>
+<hr>]]></description>
 </item><item>
     <title>请回答2020</title>
     <link>https://bugxch.github.io/%E8%AF%B7%E5%9B%9E%E7%AD%942020/</link>
@@ -4086,11 +4061,7 @@ $$
         </figcaption>
 </figure>
 
-<hr>
-<figure><figcaption>
-            <h4>欢迎扫码关注我的公众号</h4>
-        </figcaption>
-</figure>]]></description>
+<hr>]]></description>
 </item><item>
     <title>LeetCode区间问题总结</title>
     <link>https://bugxch.github.io/intersection/</link>

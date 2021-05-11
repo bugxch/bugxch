@@ -423,6 +423,3 @@ int main()
 1. [图说设计模式 — Graphic Design Patterns](https://design-patterns.readthedocs.io/zh_CN/latest/)
 2. [图灵程序设计丛书 图解设计模式](https://edu.heibai.org/%E5%9B%BE%E8%A7%A3%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F.pdf)，图解设计模式的pdf下载地址
 3. [设计模式目录：22种设计模式](https://refactoringguru.cn/design-patterns/catalog)，乌克兰的某个程序员写的设计模式的网页，非常不错
----
-
-{{< figure src="https://pic.downk.cc/item/5ff098c63ffa7d37b39c239f.jpg" title="欢迎扫码关注我的公众号" >}}

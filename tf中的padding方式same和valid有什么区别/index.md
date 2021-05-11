@@ -24,7 +24,7 @@ Tensorflow中的padding有两种方式，其中的SAME方式比较特殊，可�
   然后，如果输入的是字符串选项，补的pad都可以映射到padding这个参数上，
 
   - `VALID`模式表示不在任何维度补pad，等价于`padding =[[0, 0], [0, 0], [0, 0], [0, 0]]`；
-  
+
   - `SAME`模式表示在`stride`的尺度下，`Wo`与`Wi`保持在stride$S$下保持一致（以宽度维度为例），需要满足如下关系
     $$
     W_{o}=\left\lceil\frac{W_{i}}{S}\right\rceil
@@ -42,11 +42,11 @@ Tensorflow中的padding有两种方式，其中的SAME方式比较特殊，可�
     P_{a}=\left(W_{o}-1\right) S+W_{k}-W_{i}
     $$
     这是需要补的总的pad，tensorflow的补充pad是尽量两边对称的，
-  
+
     - 如果$P_a$是偶数，那么两边都补$P_l = P_a/2$；
     - 如果$P_a$是奇数，那么左边补$P_l = \lfloor{P_a/2}\rfloor$，右边是$P_r = P_a-P_l$。
-    
-    
+
+
 
   参考如下的代码
 
@@ -251,12 +251,12 @@ std::function<void(OpSchema&)> ConvOpSchemaGenerator(const char* filter_desc) {
     \end{aligned}
     \end{equation}
     $$
-    
+
     下面的分析有两种情况，对应代码第23行，
-    
+
     - 如果$W_i$是$S$的整数倍，那么$W_i = nS$，带入上面的公式有$P_a = W_k - S$；
     - 如果$W_i$不是$S$的整数倍，那么$W_i = nS+m, m \gt 0$，带入上面的公式有$P_a = W_k - m$，这个$m$就是$W_i$被Stride相除之后的余数，即代码中的`residual`。
-    
+
     `SAME_UPPER`和`SAME_LOWER`对应$P_a$是奇数的情况，如果是偶数，结果一样，如果是奇数，那么`SAME_UPPER`放小半部分$\lfloor{P_a/2}\rfloor$，`SAME_LOWER`放大半部分$P_a - \lfloor{P_a/2}\rfloor$。
 
 ## 举例
@@ -279,7 +279,7 @@ std::function<void(OpSchema&)> ConvOpSchemaGenerator(const char* filter_desc) {
                    |________________|
                                   |_________________|
                                                  |________________|
-    
+
     ```
     在这个例子中$W_i = 13, W_k = 6, S = 5$。
 
@@ -288,8 +288,3 @@ std::function<void(OpSchema&)> ConvOpSchemaGenerator(const char* filter_desc) {
 - [TensorFlow中CNN的两种padding方式“SAME”和“VALID” - wuzqChom的博客 - CSDN博客](https://blog.csdn.net/wuzqChom/article/details/74785643)
 - [python - What is the difference between 'SAME' and 'VALID' padding in tf.nn.max\_pool of tensorflow? - Stack Overflow](https://stackoverflow.com/questions/37674306/what-is-the-difference-between-same-and-valid-padding-in-tf-nn-max-pool-of-t)
 - [What does the 'same' padding parameter in convolution mean in TensorFlow? - Quora](https://www.quora.com/What-does-the-same-padding-parameter-in-convolution-mean-in-TensorFlow)
-
-
-~~~
-
-~~~
