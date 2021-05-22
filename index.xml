@@ -4366,7 +4366,9 @@ $$
 <span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
-</div><h2 id="参考资料">参考资料</h2>
+</div><h2 id="sort函数与lambda表达式">sort函数与lambda表达式</h2>
+<p>lambda函数有非常强大的代码表现力，sort与lambda结合可以解决很多问题，比如<a href="https://leetcode-cn.com/problems/rank-teams-by-votes/" target="_blank" rel="noopener noreffer">1366. 通过投票对团队排名 - 力扣（LeetCode）</a>。我们首先解决这道题，然后再在此基础上进行扩展，解决更难的题目。</p>
+<h2 id="参考资料">参考资料</h2>
 <ul>
 <li><a href="http://c.biancheng.net/view/7457.html" target="_blank" rel="noopener noreffer">C++ sort()排序函数用法详解</a>，c语言中文网的介绍</li>
 <li><a href="https://www.geeksforgeeks.org/sort-c-stl/" target="_blank" rel="noopener noreffer">std::sort() in C++ STL - GeeksforGeeks</a>，国外的网站介绍</li>

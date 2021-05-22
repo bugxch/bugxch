@@ -87,6 +87,8 @@ int main() {
     return 0;
 }
 ```
+## sort函数与lambda表达式
+lambda函数有非常强大的代码表现力，sort与lambda结合可以解决很多问题，比如[1366. 通过投票对团队排名 - 力扣（LeetCode）](https://leetcode-cn.com/problems/rank-teams-by-votes/)。我们首先解决这道题，然后再在此基础上进行扩展，解决更难的题目。
 
 ## 参考资料
 
