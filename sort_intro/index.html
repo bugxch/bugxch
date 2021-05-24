@@ -34,7 +34,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/bugxch.github.io\/sort_intro\/"
-        },"image": ["https:\/\/bugxch.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "STL, c\u002b\u002b, 转载","wordcount":  3325 ,
+        },"image": ["https:\/\/bugxch.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "STL, c\u002b\u002b, 转载","wordcount":  3330 ,
         "url": "https:\/\/bugxch.github.io\/sort_intro\/","datePublished": "2020-08-15T21:25:46+08:00","dateModified": "2021-05-24T23:02:04+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "xxxx","logo": "https:\/\/bugxch.github.io\/images\/avatar.png"},"author": {
@@ -153,7 +153,7 @@
             <div class="toc-content always-active" id="toc-content-auto"></div>
         </div><script>document.body.setAttribute("pageStyle", "normal")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">C&#43;&#43;中的sort函数详解</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>bugxch</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%8A%80%E8%89%BA/"><i class="far fa-folder fa-fw"></i>技艺</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-08-15">2020-08-15</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 3325 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-08-15">2020-08-15</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 3330 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 7 分钟&nbsp;</div>
         </div><div class="featured-image"><img
         class="lazyload"
@@ -634,7 +634,7 @@
 <li>如果第一名决出胜者，那么该选手获得第一名，剩下的选手角逐第二名；</li>
 <li>如果第二名决出胜者，那么该选手获得第一名，剩下的选手就是第三名。</li>
 </ul>
-<p>如果参选人数超过3人，那么依此类推，直到所有名次所有人都占用为止。这里有一种特殊情况，如果有若干人获得相同的名次，那么以人名的字母排序。比如，如果A和B都得了第一名，那么排序A在前，B在后。注意上面的26行~36行的代码。它表示从第一名到最后一名排序，</p>
+<p>如果参选人数超过3人，那么依此类推，直到所有名次所有人都占用为止。这里有一种特殊情况，如果有若干人在所有名次获得相同的选票，那么以人名的字母排序。比如，如果A和B都得了第一名，那么排序A在前，B在后。注意上面的26行~36行的代码。它表示从第一名到最后一名排序，</p>
 <ul>
 <li>如果两个选手的在第<code>i</code>个名次上票数相同，那么在第<code>i</code>个名次上不做任何操作（我们认为他们的名次是不分先后的），继续下一个名次<code>i++</code>的比较（第33行）；</li>
 <li>如果两个选手在第<code>i</code>个名次上票数不同，那么以票数多者优先排序，退出循环，后面的名次不需要再比较了（第31行）；</li>
