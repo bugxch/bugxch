@@ -4364,13 +4364,313 @@ $$
 <span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
-</div><h2 id="sort函数与lambda表达式">sort函数与lambda表达式</h2>
-<p>lambda函数有非常强大的代码表现力，sort与lambda结合可以解决很多问题，比如<a href="https://leetcode-cn.com/problems/rank-teams-by-votes/" target="_blank" rel="noopener noreffer">1366. 通过投票对团队排名 - 力扣（LeetCode）</a>。我们首先解决这道题，然后再在此基础上进行扩展，解决更难的题目。</p>
-<h2 id="参考资料">参考资料</h2>
+</div><h2 id="再探自定义比较函数">再探自定义比较函数</h2>
+<h3 id="一元谓词和二元谓词">一元谓词和二元谓词</h3>
+<p>sort的自定义比较函数在C++中成为<strong>谓词</strong>，在泛型编程中作为参数使用。按照接受参数的个数不同，谓词分为一元谓词和二元谓词两种。</p>
 <ul>
+<li>
+<p>一元谓词，比如<code>for_each</code>中使用，因为该算法是顺序遍历容器中的每个元素，对每个元素进行操作，所以是一元谓词，如下面的代码片段</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">str</span> <span class="o">=</span> <span class="p">{</span> <span class="s">&#34;i&#34;</span><span class="p">,</span> <span class="s">&#34;love&#34;</span><span class="p">,</span> <span class="s">&#34;leetcode&#34;</span><span class="p">,</span> <span class="s">&#34;i&#34;</span><span class="p">,</span> <span class="s">&#34;love&#34;</span><span class="p">,</span> <span class="s">&#34;coding&#34;</span> <span class="p">};</span>
+<span class="kt">void</span> <span class="nf">printEle</span><span class="p">(</span><span class="n">string</span> <span class="n">str</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">str</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; &#34;</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">for_each</span><span class="p">(</span><span class="n">str</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">str</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="n">printEle</span><span class="p">)</span> <span class="c1">// printEle是一元谓词
+</span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>二元谓词，sort算法是对容器的两个元素进行比较，所以接受两个参数，比如上面的<code>mycomp</code>函数。</p>
+</li>
+</ul>
+<h3 id="可调用对象">可调用对象</h3>
+<p>谓词就是一个可调用对象(callable object)，在C++中可调用对象包括4种类型：函数、函数指针、重载函数调用符的类（可以像函数一样使用的类）以及<strong>lambda表达式</strong>。其实在上面的代码片段中，已经在sort算法中使用过函数以及重载函数调用符的类。此处重点介绍一下lambda表达式。lambda表达式的介绍很多，此处直接贴出来参考资料3中的总结表格</p>
+<p></p>
+<p>从表格中可以看出捕获的类型，分为不捕获局部变量、按值捕获、按引用捕获，混合捕获这几种。参考<a href="https://zh.cppreference.com/w/cpp/algorithm/sort" target="_blank" rel="noopener noreffer">std::sort参考手册</a>中的代码，<code>sort</code>的用法如下所示</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cp">#include</span> <span class="cpf">&lt;algorithm&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;functional&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;array&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp"></span> 
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="mi">10</span><span class="o">&gt;</span> <span class="n">s</span> <span class="o">=</span> <span class="p">{</span><span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">};</span> 
+ 
+    <span class="c1">// 用默认的 operator&lt; 排序
+</span><span class="c1"></span>    <span class="n">std</span><span class="o">::</span><span class="n">sort</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">s</span><span class="p">.</span><span class="n">end</span><span class="p">());</span>
+    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="nl">a</span> <span class="p">:</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">a</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; &#34;</span><span class="p">;</span>
+    <span class="p">}</span>   
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="sc">&#39;\n&#39;</span><span class="p">;</span>
+ 
+    <span class="c1">// 用标准库比较函数对象排序
+</span><span class="c1"></span>    <span class="n">std</span><span class="o">::</span><span class="n">sort</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">s</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="n">std</span><span class="o">::</span><span class="n">greater</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">());</span>
+    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="nl">a</span> <span class="p">:</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">a</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; &#34;</span><span class="p">;</span>
+    <span class="p">}</span>   
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="sc">&#39;\n&#39;</span><span class="p">;</span>
+ 
+    <span class="c1">// 用自定义函数对象排序
+</span><span class="c1"></span>    <span class="k">struct</span> <span class="p">{</span>
+        <span class="kt">bool</span> <span class="k">operator</span><span class="p">()(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">)</span> <span class="k">const</span>
+        <span class="p">{</span>   
+            <span class="k">return</span> <span class="n">a</span> <span class="o">&lt;</span> <span class="n">b</span><span class="p">;</span>
+        <span class="p">}</span>   
+    <span class="p">}</span> <span class="n">customLess</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">sort</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">s</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="n">customLess</span><span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="nl">a</span> <span class="p">:</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">a</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; &#34;</span><span class="p">;</span>
+    <span class="p">}</span>   
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="sc">&#39;\n&#39;</span><span class="p">;</span>
+ 
+    <span class="c1">// 用 lambda 表达式排序
+</span><span class="c1"></span>    <span class="n">std</span><span class="o">::</span><span class="n">sort</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">s</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="p">[](</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">b</span> <span class="o">&lt;</span> <span class="n">a</span><span class="p">;</span>   
+    <span class="p">});</span>
+    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="nl">a</span> <span class="p">:</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">a</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; &#34;</span><span class="p">;</span>
+    <span class="p">}</span> 
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="sc">&#39;\n&#39;</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>输出</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">0 1 2 3 4 5 6 7 8 9 
+9 8 7 6 5 4 3 2 1 0 
+0 1 2 3 4 5 6 7 8 9 
+9 8 7 6 5 4 3 2 1 0
+</code></pre></td></tr></table>
+</div>
+</div><p>表示了3种谓词，标准库、函数对象和lambda表达式。这里的二元谓词，告诉了<code>sort</code>，当比较<strong>其中两个元素</strong>的时候该如何处理两个元素的位置。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">struct</span> <span class="p">{</span>
+        <span class="kt">bool</span> <span class="nf">operator</span><span class="p">()(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">)</span> <span class="k">const</span>
+        <span class="p">{</span>   
+            <span class="k">return</span> <span class="n">a</span> <span class="o">&lt;</span> <span class="n">b</span><span class="p">;</span>
+        <span class="p">}</span>   
+    <span class="p">}</span> <span class="n">customLess</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>当上面的函数返回为<code>true</code>时候，那么将<code>a</code>排在<code>b</code>的前面，上面的代码种当<code>a &lt; b</code>时结果为<code>true</code>，所以小的元素排在前面，下面通过做题来示例它的用法。</p>
+<h3 id="具体题目">具体题目</h3>
+<p>参考<a href="https://leetcode-cn.com/problems/rank-teams-by-votes/" target="_blank" rel="noopener noreffer">1366. 通过投票对团队排名 - 力扣（LeetCode）</a>，具体的代码如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+	<span class="n">Solution</span><span class="p">()</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+	<span class="n">string</span> <span class="nf">rankTeams</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;&amp;</span> <span class="n">votes</span><span class="p">)</span> 
+	<span class="p">{</span>
+		<span class="n">unordered_map</span><span class="o">&lt;</span><span class="kt">char</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">ranks</span><span class="p">;</span>
+
+		<span class="k">for</span> <span class="p">(</span><span class="k">auto</span><span class="o">&amp;</span> <span class="nl">vote</span> <span class="p">:</span> <span class="n">votes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="p">{</span>
+			<span class="n">ranks</span><span class="p">[</span><span class="n">vote</span><span class="p">].</span><span class="n">resize</span><span class="p">(</span><span class="n">votes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">size</span><span class="p">());</span>
+		<span class="p">}</span>
+
+		<span class="k">for</span> <span class="p">(</span><span class="k">auto</span><span class="o">&amp;</span> <span class="nl">vote</span> <span class="p">:</span> <span class="n">votes</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">vote</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+			<span class="p">{</span>
+				<span class="n">ranks</span><span class="p">[</span><span class="n">vote</span><span class="p">[</span><span class="n">i</span><span class="p">]][</span><span class="n">i</span><span class="p">]</span><span class="o">++</span><span class="p">;</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+
+		<span class="k">using</span> <span class="n">PCV</span> <span class="o">=</span> <span class="n">pair</span><span class="o">&lt;</span><span class="kt">char</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span><span class="p">;</span>
+		<span class="n">vector</span><span class="o">&lt;</span><span class="n">PCV</span><span class="o">&gt;</span> <span class="n">ranking</span><span class="p">;</span>
+		<span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="n">iter</span> <span class="o">=</span> <span class="n">ranks</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span> <span class="n">iter</span> <span class="o">!=</span> <span class="n">ranks</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="n">iter</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">ranking</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span> <span class="n">iter</span><span class="o">-&gt;</span><span class="n">first</span><span class="p">,</span> <span class="n">iter</span><span class="o">-&gt;</span><span class="n">second</span> <span class="p">});</span>
+		<span class="p">}</span>
+		
+        <span class="c1">// lambda表达式
+</span><span class="c1"></span>		<span class="n">sort</span><span class="p">(</span><span class="n">ranking</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">ranking</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="p">[](</span><span class="n">PCV</span><span class="o">&amp;</span> <span class="n">a</span><span class="p">,</span> <span class="n">PCV</span><span class="o">&amp;</span> <span class="n">b</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+                <span class="k">while</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">a</span><span class="p">.</span><span class="n">second</span><span class="p">.</span><span class="n">size</span><span class="p">())</span> <span class="p">{</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">second</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">b</span><span class="p">.</span><span class="n">second</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="p">{</span>
+                        <span class="k">return</span> <span class="n">a</span><span class="p">.</span><span class="n">second</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">b</span><span class="p">.</span><span class="n">second</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+                    <span class="p">}</span>
+                    <span class="n">i</span><span class="o">++</span><span class="p">;</span>
+                <span class="p">}</span>
+                <span class="k">return</span> <span class="n">a</span><span class="p">.</span><span class="n">first</span> <span class="o">&lt;</span> <span class="n">b</span><span class="p">.</span><span class="n">first</span><span class="p">;</span>
+            <span class="p">});</span>
+		<span class="n">string</span> <span class="n">res</span><span class="p">;</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">ranking</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">res</span> <span class="o">+=</span> <span class="n">ranking</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">first</span><span class="p">;</span>
+		<span class="p">}</span>
+		<span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>以题目中的示例1分析题意</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center">第一名得票</th>
+<th style="text-align:center">第二名得票</th>
+<th style="text-align:center">第三名得票</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">A</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">2</td>
+</tr>
+<tr>
+<td style="text-align:center">B</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">3</td>
+</tr>
+<tr>
+<td style="text-align:center">C</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">0</td>
+</tr>
+</tbody>
+</table>
+<p>有5个人投票，如果给ABC的3人，从第一名到第三名依次唱票，</p>
+<ul>
+<li>如果第一名决出胜者，那么该选手获得第一名，剩下的选手角逐第二名；</li>
+<li>如果第二名决出胜者，那么该选手获得第一名，剩下的选手就是第三名。</li>
+</ul>
+<p>如果参选人数超过3人，那么依此类推，直到所有名次所有人都占用为止。这里有一种特殊情况，如果有若干人获得相同的名次，那么以人名的字母排序。比如，如果A和B都得了第一名，那么排序A在前，B在后。注意上面的26行~36行的代码。它表示从第一名到最后一名排序，</p>
+<ul>
+<li>如果两个选手的在第<code>i</code>个名次上票数相同，那么在第<code>i</code>个名次上不做任何操作（我们认为他们的名次是不分先后的），继续下一个名次<code>i++</code>的比较（第33行）；</li>
+<li>如果两个选手在第<code>i</code>个名次上票数不同，那么以票数多者优先排序，退出循环，后面的名次不需要再比较了（第31行）；</li>
+<li>如果在两个选手在所有的名次上票数均相同，那么最后按照人名排序（第35行）</li>
+</ul>
+<p>这里的代码告诉了<code>sort</code>函数该如何对当前所有选手中的两个选手的名次进行排序，它会将其中的两两进行比较给出答案（如何两两比较，我们不用关心），<strong>从微观层面告诉<code>sort</code>函数的两个元素的操作方法</strong>，它就能将所有的选手按照这个方法排好序，这个就是lambda表达式的意义。</p>
+<h2 id="参考资料">参考资料</h2>
+<ol>
 <li><a href="http://c.biancheng.net/view/7457.html" target="_blank" rel="noopener noreffer">C++ sort()排序函数用法详解</a>，c语言中文网的介绍</li>
 <li><a href="https://www.geeksforgeeks.org/sort-c-stl/" target="_blank" rel="noopener noreffer">std::sort() in C++ STL - GeeksforGeeks</a>，国外的网站介绍</li>
-</ul>]]></description>
+<li><a href="https://book.douban.com/subject/25708312/" target="_blank" rel="noopener noreffer">C++ Primer 中文版</a>中的10.3节</li>
+</ol>]]></description>
 </item><item>
     <title>广度优先搜索详解</title>
     <link>https://bugxch.github.io/dfs_intro/</link>

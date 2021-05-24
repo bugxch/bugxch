@@ -1,0 +1,909 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>BFS - 标签 - 致力于把技术要点写清楚</title>
+        <link>https://bugxch.github.io/tags/bfs/</link>
+        <description>BFS - 标签 - 致力于把技术要点写清楚</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>bugxch@126.com (bugxch)</managingEditor>
+            <webMaster>bugxch@126.com (bugxch)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 08 Aug 2020 11:24:24 &#43;0800</lastBuildDate><atom:link href="https://bugxch.github.io/tags/bfs/" rel="self" type="application/rss+xml" /><item>
+    <title>广度优先搜索详解</title>
+    <link>https://bugxch.github.io/dfs_intro/</link>
+    <pubDate>Sat, 08 Aug 2020 11:24:24 &#43;0800</pubDate>
+    <author>bugxch</author>
+    <guid>https://bugxch.github.io/dfs_intro/</guid>
+    <description><![CDATA[<p>总结一下广度优先搜索的原理和用法。</p>
+<p></p>
+<h2 id="引子">引子</h2>
+<p>先看这道题<a href="https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/" target="_blank" rel="noopener noreffer">104. 二叉树的最大深度</a>，题目中给出一个二叉树，求这个二叉树的最大深度。例子中给出下面的二叉树</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">    <span class="m">3</span>
+   / <span class="se">\
+</span><span class="se"></span>  <span class="m">9</span>  <span class="m">20</span>
+    /  <span class="se">\
+</span><span class="se"></span>   <span class="m">15</span>   <span class="m">7</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这个如何解决呢？肉眼可见，最大深度是3。</p>
+<h3 id="构建二叉树">构建二叉树</h3>
+<p>首先为了便于调试，需要构建一颗二叉树，题目中的给出的是二叉树的层序遍历的结果，我们用<code>INT_MAX</code>代替null，使用如下函数构造二叉树</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="kt">void</span> <span class="nf">ConstructBinTree</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">nodes</span><span class="p">,</span> <span class="n">TreeNode</span> <span class="o">*</span><span class="n">root</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">nodes</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">INT_MAX</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">root</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">queue</span><span class="o">&lt;</span><span class="n">TreeNode</span> <span class="o">*&gt;</span> <span class="n">iq</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">id</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">root</span><span class="o">-&gt;</span><span class="n">val</span> <span class="o">=</span> <span class="n">nodes</span><span class="p">[</span><span class="n">id</span><span class="o">++</span><span class="p">];</span>
+    <span class="n">iq</span><span class="p">.</span><span class="n">emplace</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
+
+    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">iq</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">id</span> <span class="o">&lt;</span> <span class="n">nodes</span><span class="p">.</span><span class="n">size</span><span class="p">())</span>
+    <span class="p">{</span>
+        <span class="n">TreeNode</span> <span class="o">*</span><span class="n">node</span> <span class="o">=</span> <span class="n">iq</span><span class="p">.</span><span class="n">front</span><span class="p">();</span>
+        <span class="n">iq</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+
+        <span class="c1">// check vectors for left node
+</span><span class="c1"></span>        <span class="k">if</span> <span class="p">(</span><span class="n">nodes</span><span class="p">[</span><span class="n">id</span><span class="p">]</span> <span class="o">!=</span> <span class="n">INT_MAX</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">TreeNode</span> <span class="o">*</span><span class="n">leftNode</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TreeNode</span><span class="p">;</span>
+            <span class="n">leftNode</span><span class="o">-&gt;</span><span class="n">val</span> <span class="o">=</span> <span class="n">nodes</span><span class="p">[</span><span class="n">id</span><span class="p">];</span>
+            <span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">=</span> <span class="n">leftNode</span><span class="p">;</span>
+            <span class="n">iq</span><span class="p">.</span><span class="n">emplace</span><span class="p">(</span><span class="n">leftNode</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">else</span>
+        <span class="p">{</span>
+            <span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="n">id</span><span class="o">++</span><span class="p">;</span>
+		
+        <span class="c1">// add right node
+</span><span class="c1"></span>        <span class="k">if</span> <span class="p">(</span><span class="n">nodes</span><span class="p">[</span><span class="n">id</span><span class="p">]</span> <span class="o">!=</span> <span class="n">INT_MAX</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">TreeNode</span> <span class="o">*</span><span class="n">rightNode</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TreeNode</span><span class="p">;</span>
+            <span class="n">rightNode</span><span class="o">-&gt;</span><span class="n">val</span> <span class="o">=</span> <span class="n">nodes</span><span class="p">[</span><span class="n">id</span><span class="p">];</span>
+            <span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">=</span> <span class="n">rightNode</span><span class="p">;</span>
+            <span class="n">iq</span><span class="p">.</span><span class="n">emplace</span><span class="p">(</span><span class="n">rightNode</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">else</span>
+        <span class="p">{</span>
+            <span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="n">id</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>下面是中序遍历二叉树</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="kt">void</span> <span class="nf">ScanBinMiddle</span><span class="p">(</span><span class="n">TreeNode</span> <span class="o">*</span><span class="n">tree</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">tree</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// handle value
+</span><span class="c1"></span>    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">tree</span><span class="o">-&gt;</span><span class="n">val</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; &#34;</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">ScanBinMiddle</span><span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">ScanBinMiddle</span><span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="递归解法">递归解法</h3>
+<p>二叉树的比较普遍的解法是使用递归，我们需要找出递归的关系式，然后用程序写出来。递归解决问题的思路包括下面两点</p>
+<h4 id="描述变量">描述变量</h4>
+<p>我们有一个关于目标变量的描述，在这个题目中目标变量是整棵树的最大深度，放弃整体的概念，假设你站在根节点往下看，会看到它有左右两个子树，每棵树又有自己的节点和深度。所以假定推导的变量是</p>
+<blockquote>
+<p><code>maxdepth[node]</code>表示以<code>node</code>为根节点的树的最大深度</p>
+</blockquote>
+<h4 id="递归关系式">递归关系式</h4>
+<p>查看这个值和左右子树的关系是什么？3这个node的最大深度是9这个node最大深度和20这个node的最大深度的最大值 + 1，重新表述下就是下面的关系式<code>maxD[node] = max(maxD[node-&gt;left], maxD[node-&gt;right]) + 1</code>。</p>
+<h4 id="终止条件">终止条件</h4>
+<p>终止条件比较简单，在访问到null节点的时候返回0即可，因为以这个节点为根的树是不存在的，所以深度为0。于是有下面的代码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="kt">int</span> <span class="nf">maxDepth</span><span class="p">(</span><span class="n">TreeNode</span><span class="o">*</span> <span class="n">root</span><span class="p">)</span> 
+<span class="p">{</span>	
+    <span class="c1">// 终止条件
+</span><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="n">root</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span>
+	<span class="c1">// 关系式
+</span><span class="c1"></span>    <span class="k">return</span> <span class="n">max</span><span class="p">(</span><span class="n">maxDepth</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">),</span> <span class="n">maxDepth</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="广度优先搜索算法bfs">广度优先搜索算法（BFS）</h3>
+<p>不使用递归，还有另一种解法，一层层观察整棵树，第一层1个节点，第二层2个节点，第三层2个节点。每一层的节点之间使用左右子树联系起来，所以根据第1层的节点可以访问第2层的节点，根据第2层的节点可以访问第3层的节点，所以可以这么做。记录整棵树最深的深度是<code>maxdepth = 0</code>，</p>
+<ol>
+<li>访问第一层的根节点，如果非空则<code>maxdepth++</code>，否则返回；</li>
+<li>查看第一层的根节点是否有左右子树，有的话再分别访问左子树和右子树，<code>maxdepth++</code>；</li>
+<li>循环步骤2，直到所有的节点都被访问到。</li>
+</ol>
+<p>这里可以使用<strong>队列</strong>保存需要被访问的节点，如下图所示，分别在头和尾弹出和插入节点，</p>
+<p></p>
+<p>结合上面的步骤，<code>depth = 1</code>，将root的根节点添加到队列结尾</p>
+<ol>
+<li>我们一次将一层的节点放入到队列中；</li>
+<li>判断当前队列是否为空。
+<ul>
+<li>如果当前的队列不为空，那么将队列中的每个节点pop出来之后再考察这个节点的左右子树，如果有就将它们插入到队列的尾巴，<code>depth++</code>；</li>
+<li>如果当前队列为空，return</li>
+</ul>
+</li>
+</ol>
+<p>所以有了下面的代码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="kt">int</span> <span class="nf">maxDepth</span><span class="p">(</span><span class="n">TreeNode</span><span class="o">*</span> <span class="n">root</span><span class="p">)</span> 
+<span class="p">{</span>
+    <span class="c1">// 如果为空，那么返回0
+</span><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="n">root</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">queue</span><span class="o">&lt;</span><span class="n">TreeNode</span> <span class="o">*&gt;</span> <span class="n">qu</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">depth</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="c1">// 添加根节点
+</span><span class="c1"></span>    <span class="n">qu</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
+    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">qu</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">qz</span> <span class="o">=</span> <span class="n">qu</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">qz</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 考察队列中的每个节点，是否有左子树和右子树
+</span><span class="c1"></span>            <span class="n">TreeNode</span> <span class="o">*</span> <span class="n">node</span> <span class="o">=</span> <span class="n">qu</span><span class="p">.</span><span class="n">front</span><span class="p">();</span>
+            <span class="n">qu</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+            <span class="c1">// 如果有左右子节点，那么添加到队列中
+</span><span class="c1"></span>            <span class="k">if</span> <span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">qu</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>
+            <span class="p">}</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">qu</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="n">depth</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">depth</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>下图是资料3中的图示过程，简单明了。</p>
+<p></p>
+<h2 id="数据结构">数据结构</h2>
+<h3 id="队列">队列</h3>
+<p>使用<strong>队列</strong>保存每一层的节点，如下图所示，队列是先进先出的数据结构，包括如下的属性和方法</p>
+<p></p>
+<ul>
+<li>队列头（front），表示队列最开始的元素；</li>
+<li>队列尾（rear），表示队列最后加入的元素；</li>
+<li>队列长度，当前的队列长度，就是rear - front + 1；</li>
+<li>出队（pop），队列头弹出，队列长度-1，front++；</li>
+<li>入队（push），队列尾添加元素，队列长度+1，rear++</li>
+</ul>
+<h3 id="stl中的queue">STL中的queue</h3>
+<p>C++的stl使用queue表示队列，常用的操作和属性如下表所示</p>
+<ul>
+<li><code>front()</code>：返回 queue 中第一个元素的引用。如果 queue 是常量，就返回一个常引用；如果 queue 为空，返回值是未定义的。</li>
+<li><code>back()</code>：返回 queue 中最后一个元素的引用。如果 queue 是常量，就返回一个常引用；如果 queue 为空，返回值是未定义的。</li>
+<li><code>push(const T&amp; obj)</code>：在 queue 的尾部添加一个元素的副本。这是通过调用底层容器的成员函数 push_back() 来完成的。</li>
+<li><code>push(T&amp;&amp; obj)</code>：以移动的方式在 queue 的尾部添加元素。这是通过调用底层容器的具有右值引用参数的成员函数 push_back() 来完成的。</li>
+<li><code>pop()</code>：删除 queue 中的第一个元素。</li>
+<li><code>size()</code>：返回 queue 中元素的个数。</li>
+<li><code>empty()</code>：如果 queue 中没有元素的话，返回 true。</li>
+<li><code>emplace()</code>：用传给 emplace() 的参数调用 T 的构造函数，在 queue 的尾部生成对象。</li>
+<li><code>swap(queue&lt;T&gt; &amp;other_q)</code>：将当前 queue 中的元素和参数 queue 中的元素交换。它们需要包含相同类型的元素。也可以调用全局函数模板 swap() 来完成同样的操作。</li>
+</ul>
+<p>典型的使用方法如下，</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="c1">// CPP program to illustrate 
+</span><span class="c1">// Application of push() and pop() function 
+</span><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt; </span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;queue&gt; </span><span class="cp">
+</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span> 
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> 
+<span class="p">{</span> 
+	<span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> 
+	<span class="c1">// Empty Queue 
+</span><span class="c1"></span>	<span class="n">queue</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">myqueue</span><span class="p">;</span> 
+	<span class="n">myqueue</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span> 
+	<span class="n">myqueue</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="mi">13</span><span class="p">);</span> 
+	<span class="n">myqueue</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> 
+	<span class="n">myqueue</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="mi">9</span><span class="p">);</span> 
+	<span class="n">myqueue</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span> 
+	<span class="c1">// queue becomes 5, 13, 0, 9, 4 
+</span><span class="c1"></span>
+	<span class="c1">// Counting number of elements in queue 
+</span><span class="c1"></span>	<span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">myqueue</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span> 
+		<span class="n">myqueue</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span> 
+		<span class="n">c</span><span class="o">++</span><span class="p">;</span> 
+	<span class="p">}</span> 
+	<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">c</span><span class="p">;</span> 
+<span class="p">}</span> 
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="典型题目">典型题目</h2>
+<h3 id="二叉树的右视图">二叉树的右视图</h3>
+<p>题目链接见<a href="https://leetcode-cn.com/problems/binary-tree-right-side-view/" target="_blank" rel="noopener noreffer">199. 二叉树的右视图 - 力扣（LeetCode）</a>，如果有了上面题目的框架，这个题目其实很简单，既然每次遍历队列保存的<strong>这一层所有节点</strong>，而且节点的顺序是从左到右保存的，所以可以在每一层遍历的时候将队列的最后一个node加入到这个vector中，代码如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">rightSideView</span><span class="p">(</span><span class="n">TreeNode</span><span class="o">*</span> <span class="n">root</span><span class="p">)</span> 
+<span class="p">{</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">rlt</span><span class="p">;</span>
+    <span class="c1">// empty rlt for empty tree
+</span><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="n">root</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">rlt</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">queue</span><span class="o">&lt;</span><span class="n">TreeNode</span> <span class="o">*&gt;</span> <span class="n">qu</span><span class="p">;</span>
+    <span class="n">qu</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
+    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">qu</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">qz</span> <span class="o">=</span> <span class="n">qu</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+        <span class="c1">// add the last node in the current queue
+</span><span class="c1"></span>        <span class="n">rlt</span><span class="p">.</span><span class="n">emplace_back</span><span class="p">(</span><span class="n">qu</span><span class="p">.</span><span class="n">back</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">val</span><span class="p">);</span>
+        <span class="c1">// add nodes of next layer into the queue
+</span><span class="c1"></span>        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">qz</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">TreeNode</span> <span class="o">*</span> <span class="n">node</span> <span class="o">=</span> <span class="n">qu</span><span class="p">.</span><span class="n">front</span><span class="p">();</span>
+            <span class="n">qu</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">qu</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>
+            <span class="p">}</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">qu</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">rlt</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="二叉树中所有距离为-k-的结点">二叉树中所有距离为 K 的结点</h3>
+<p>题目见<a href="https://leetcode-cn.com/problems/all-nodes-distance-k-in-binary-tree/" target="_blank" rel="noopener noreffer">863. 二叉树中所有距离为 K 的结点 - 力扣（LeetCode）</a>，这道题稍微有点复杂，观察给出的例子（如下图），与5的节点距离为2的节点除了4和7之外还有1，如果仅仅给出4和7是比较简单的，只要以5为根节点，记录depth = 1，套用引子中的程序，将depth = K + 1的所有的节点列出来即可。</p>
+<p></p>
+<p>但是往上回溯比较难，换一个思路，我们遍历整个二叉树，</p>
+<ol>
+<li>记录每个节点的<code>father</code>节点，<code>left</code>节点和<code>right</code>节点，将二叉树变成图，表示A与这3个节点的任意一个都是连通的；</li>
+<li>初始化目标节点的<code>depth = 1</code>，以该节点为圆心，遍历所有的节点，打印出来所有<code>depth = K + 1</code>的节点</li>
+</ol>
+<p>第2步实际上是对BFS算法的升维，将二叉树转换为图，代码如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">distanceK</span><span class="p">(</span><span class="n">TreeNode</span> <span class="o">*</span><span class="n">root</span><span class="p">,</span> <span class="n">TreeNode</span> <span class="o">*</span><span class="n">target</span><span class="p">,</span> <span class="kt">int</span> <span class="n">K</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">TreeNode</span> <span class="o">*</span><span class="p">,</span> <span class="n">TreeNode</span> <span class="o">*&gt;</span> <span class="n">umap</span><span class="p">;</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">rlt</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">root</span> <span class="o">==</span> <span class="k">nullptr</span> <span class="o">||</span> <span class="n">target</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="n">rlt</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="cm">/************ PART 1 ************/</span>
+    <span class="c1">// find the father node of all the nodes in the tree
+</span><span class="c1"></span>    <span class="n">queue</span><span class="o">&lt;</span><span class="n">TreeNode</span> <span class="o">*&gt;</span> <span class="n">qu</span><span class="p">;</span>
+    <span class="n">umap</span><span class="p">[</span><span class="n">root</span><span class="p">]</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+    <span class="n">qu</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
+    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">qu</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span>
+    <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">qz</span> <span class="o">=</span> <span class="n">qu</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">qz</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">TreeNode</span> <span class="o">*</span><span class="n">node</span> <span class="o">=</span> <span class="n">qu</span><span class="p">.</span><span class="n">front</span><span class="p">();</span>
+            <span class="n">qu</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">qu</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>
+                <span class="c1">// father node
+</span><span class="c1"></span>                <span class="n">umap</span><span class="p">[</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">]</span> <span class="o">=</span> <span class="n">node</span><span class="p">;</span>
+            <span class="p">}</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">qu</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
+                <span class="c1">// father node
+</span><span class="c1"></span>                <span class="n">umap</span><span class="p">[</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">]</span> <span class="o">=</span> <span class="n">node</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="cm">/************ PART 2 ************/</span>
+    <span class="c1">// find the node with depth of K
+</span><span class="c1"></span>    <span class="n">queue</span><span class="o">&lt;</span><span class="n">TreeNode</span> <span class="o">*&gt;</span> <span class="n">newQ</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">depth</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">TreeNode</span> <span class="o">*</span><span class="p">,</span> <span class="kt">bool</span><span class="o">&gt;</span> <span class="n">usedmap</span><span class="p">;</span>
+    <span class="n">usedmap</span><span class="p">[</span><span class="n">target</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="n">newQ</span><span class="p">.</span><span class="n">emplace</span><span class="p">(</span><span class="n">target</span><span class="p">);</span>
+    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">newQ</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">depth</span> <span class="o">&lt;=</span> <span class="n">K</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">qz</span> <span class="o">=</span> <span class="n">newQ</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">qz</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">TreeNode</span> <span class="o">*</span><span class="n">node</span> <span class="o">=</span> <span class="n">newQ</span><span class="p">.</span><span class="n">front</span><span class="p">();</span>
+            <span class="n">usedmap</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+            <span class="n">newQ</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">depth</span> <span class="o">==</span> <span class="n">K</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">rlt</span><span class="p">.</span><span class="n">emplace_back</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">val</span><span class="p">);</span>
+                <span class="k">continue</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">usedmap</span><span class="p">.</span><span class="n">count</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span>
+            <span class="p">{</span>
+                <span class="n">newQ</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>
+            <span class="p">}</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">usedmap</span><span class="p">.</span><span class="n">count</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span>
+            <span class="p">{</span>
+                <span class="n">newQ</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
+            <span class="p">}</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">umap</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">!=</span> <span class="k">nullptr</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">usedmap</span><span class="p">.</span><span class="n">count</span><span class="p">(</span><span class="n">umap</span><span class="p">[</span><span class="n">node</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span>
+            <span class="p">{</span>
+                <span class="n">newQ</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">umap</span><span class="p">[</span><span class="n">node</span><span class="p">]);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="n">depth</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">//BFS for final rlt
+</span><span class="c1"></span>    <span class="k">return</span> <span class="n">rlt</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这个程序分为前后两大部分，</p>
+<ol>
+<li>第一部分遍历二叉树的每一个节点，记录每个节点的父节点，这里我们使用了哈希表来保存每个节点和它的父节点；</li>
+<li>第二部分就是核心代码，以target为圆心，将二叉树当作图来遍历，如果这个node有左右节点或者父节点，则表示它跟其他的节点之间联通，则使用BFS算法访问整个图网络。这里尤其要注意，遍<strong>历图需要标记当前图中的节点是否被访问过</strong>，否则会被多次重复遍历而陷入到死循环中，在这个程序里面，使用<code>usedmap</code>来做这件事，其实也可以使用<code>vector&lt;TreeNode *&gt;</code>来记录。</li>
+</ol>
+<p>为了方便调试，再补一个寻找target node的程序</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="n">TreeNode</span> <span class="o">*</span><span class="nf">FindTargetNode</span><span class="p">(</span><span class="n">TreeNode</span> <span class="o">*</span><span class="n">root</span><span class="p">,</span> <span class="kt">int</span> <span class="n">targetVal</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">root</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="k">nullptr</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">queue</span><span class="o">&lt;</span><span class="n">TreeNode</span> <span class="o">*&gt;</span> <span class="n">qu</span><span class="p">;</span>
+    <span class="n">qu</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
+    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">qu</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span>
+    <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">qz</span> <span class="o">=</span> <span class="n">qu</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">qz</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">TreeNode</span> <span class="o">*</span><span class="n">node</span> <span class="o">=</span> <span class="n">qu</span><span class="p">.</span><span class="n">front</span><span class="p">();</span>
+            <span class="n">qu</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">val</span> <span class="o">==</span> <span class="n">targetVal</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="k">return</span> <span class="n">node</span><span class="p">;</span>
+            <span class="p">}</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">qu</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>
+            <span class="p">}</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">qu</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="颜色交替的最短路径">颜色交替的最短路径</h3>
+<p>题目见<a href="https://leetcode-cn.com/problems/shortest-path-with-alternating-colors/" target="_blank" rel="noopener noreffer">1129. 颜色交替的最短路径 - 力扣（LeetCode）</a>，这道题难度要大一点，但是后面的方法仍然是BFS，代码如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span><span class="lnt">84
+</span><span class="lnt">85
+</span><span class="lnt">86
+</span><span class="lnt">87
+</span><span class="lnt">88
+</span><span class="lnt">89
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+    <span class="k">enum</span> <span class="nc">color</span> <span class="p">{</span><span class="n">RED</span><span class="p">,</span> <span class="n">BLUE</span><span class="p">};</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">shortestAlternatingPaths</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;&amp;</span> <span class="n">red_edges</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;&amp;</span> <span class="n">blue_edges</span><span class="p">)</span> <span class="p">{</span>
+
+        <span class="c1">// 由于存在自环或者平行边，所以定义哈希表保存每个结点对应的多条边并初始化
+</span><span class="c1"></span>        <span class="n">unordered_map</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">redGraph</span><span class="p">;</span>
+        <span class="n">unordered_map</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">blueGraph</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="k">auto</span><span class="o">&amp;</span> <span class="nl">red</span> <span class="p">:</span> <span class="n">red_edges</span><span class="p">)</span> <span class="n">redGraph</span><span class="p">[</span><span class="n">red</span><span class="p">[</span><span class="mi">0</span><span class="p">]].</span><span class="n">push_back</span><span class="p">(</span><span class="n">red</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+        <span class="k">for</span> <span class="p">(</span><span class="k">auto</span><span class="o">&amp;</span> <span class="nl">blue</span> <span class="p">:</span> <span class="n">blue_edges</span><span class="p">)</span> <span class="n">blueGraph</span><span class="p">[</span><span class="n">blue</span><span class="p">[</span><span class="mi">0</span><span class="p">]].</span><span class="n">push_back</span><span class="p">(</span><span class="n">blue</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+
+        <span class="k">const</span> <span class="kt">int</span> <span class="n">colorNum</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+        <span class="k">const</span> <span class="kt">int</span> <span class="n">maxNode</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+
+        <span class="c1">// 由于存在环和平行边，用数组 visit[x][y][color]=true 代表从节点x到节点y的且颜色为color的边被访问过，防止重复访问
+</span><span class="c1"></span>        <span class="c1">// 第三维[2]有两维，第0维代表红色是否访问，第1维代表蓝色是否访问
+</span><span class="c1"></span>        <span class="c1">// 所有的点初始化为0代表为被访问过
+</span><span class="c1"></span>        <span class="kt">bool</span> <span class="n">visited</span><span class="p">[</span><span class="n">maxNode</span><span class="p">][</span><span class="n">maxNode</span><span class="p">][</span><span class="n">colorNum</span><span class="p">];</span>
+        <span class="n">memset</span><span class="p">(</span><span class="n">visited</span><span class="p">,</span> <span class="nb">false</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">visited</span><span class="p">));</span>
+
+        <span class="c1">// step用于记录当前的步长，即从节点0到各节点的步长，从0逐渐+1自增
+</span><span class="c1"></span>        <span class="c1">// res代表节点 0 到节点 X 的最短路径的长度，初始化为最大值
+</span><span class="c1"></span>        <span class="kt">int</span> <span class="n">step</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">res</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">INT_MAX</span><span class="p">);</span>
+
+        <span class="c1">// 定义队列进行BFS，并进行初始化，pair&lt;int, int&gt;的意思是 &lt;当前节点, 路径上颜色&gt;
+</span><span class="c1"></span>        <span class="c1">// 队列初始化先进&lt;0, 1&gt;, 再进&lt;0, 0&gt;，即我们先访问蓝色，再访问红色。
+</span><span class="c1"></span>        <span class="n">queue</span><span class="o">&lt;</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="n">color</span><span class="o">&gt;&gt;</span> <span class="n">myQue</span><span class="p">;</span> <span class="c1">// &lt;node, color&gt; means start from node and select the edge with color
+</span><span class="c1"></span>        <span class="n">myQue</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">make_pair</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">BLUE</span><span class="p">));</span>
+        <span class="n">myQue</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">make_pair</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">RED</span><span class="p">));</span>
+
+        <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">myQue</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span>
+        <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">size</span> <span class="o">=</span> <span class="n">myQue</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+            <span class="o">++</span><span class="n">step</span><span class="p">;</span>
+
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="c1">// 队首元素出队列，得到其节点，以及颜色
+</span><span class="c1"></span>                <span class="kt">int</span> <span class="n">curNode</span> <span class="o">=</span> <span class="n">myQue</span><span class="p">.</span><span class="n">front</span><span class="p">().</span><span class="n">first</span><span class="p">;</span>
+                <span class="kt">int</span> <span class="n">curColor</span> <span class="o">=</span> <span class="n">myQue</span><span class="p">.</span><span class="n">front</span><span class="p">().</span><span class="n">second</span><span class="p">;</span>
+                <span class="n">myQue</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+
+                <span class="c1">//若当前已访问的为蓝色边，希望下一个节点的边是红色；反之亦然
+</span><span class="c1"></span>                <span class="k">if</span> <span class="p">(</span><span class="n">curColor</span> <span class="o">==</span> <span class="n">BLUE</span><span class="p">)</span>
+                <span class="p">{</span>
+                    <span class="c1">// 遍历当前节点每一个相邻的节点，寻找相连的红色边
+</span><span class="c1"></span>                    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span><span class="o">&amp;</span> <span class="nl">nextNode</span> <span class="p">:</span> <span class="n">blueGraph</span><span class="p">[</span><span class="n">curNode</span><span class="p">])</span>
+                    <span class="p">{</span>
+                        <span class="c1">// 如果 curNode 和 nextNode 相连的红色边未被访问过，访问并加入队列
+</span><span class="c1"></span>                        <span class="c1">// 同时需要更新两点之间的最短路径
+</span><span class="c1"></span>                        <span class="k">if</span> <span class="p">(</span><span class="n">visited</span><span class="p">[</span><span class="n">curNode</span><span class="p">][</span><span class="n">nextNode</span><span class="p">][</span><span class="n">RED</span><span class="p">]</span> <span class="o">==</span> <span class="nb">false</span><span class="p">)</span>
+                        <span class="p">{</span>
+                            <span class="n">res</span><span class="p">[</span><span class="n">nextNode</span><span class="p">]</span> <span class="o">=</span> <span class="n">min</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="n">nextNode</span><span class="p">],</span> <span class="n">step</span><span class="p">);</span>
+
+                            <span class="c1">// make_pair&lt;nextNode, 0&gt; 的含义是标记当前访问的边为红色，下次应该访问蓝色的
+</span><span class="c1"></span>                            <span class="n">myQue</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">make_pair</span><span class="p">(</span><span class="n">nextNode</span><span class="p">,</span> <span class="n">RED</span><span class="p">));</span>
+                            <span class="n">visited</span><span class="p">[</span><span class="n">curNode</span><span class="p">][</span><span class="n">nextNode</span><span class="p">][</span><span class="n">RED</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+                        <span class="p">}</span>
+                    <span class="p">}</span>
+                <span class="p">}</span>
+                <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">curColor</span> <span class="o">==</span> <span class="n">RED</span><span class="p">)</span>
+                <span class="p">{</span>
+                    <span class="c1">// 遍历当前节点每一个相邻的节点，寻找相连的蓝色边
+</span><span class="c1"></span>                    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span><span class="o">&amp;</span> <span class="nl">nextNode</span> <span class="p">:</span> <span class="n">redGraph</span><span class="p">[</span><span class="n">curNode</span><span class="p">])</span>
+                    <span class="p">{</span>
+                        <span class="c1">// 如果 curNode 和 nextNode 相连的蓝色边未被访问过，访问并加入队列
+</span><span class="c1"></span>                        <span class="c1">// 同时需要更新两点之间的最短路径
+</span><span class="c1"></span>                        <span class="k">if</span> <span class="p">(</span><span class="n">visited</span><span class="p">[</span><span class="n">curNode</span><span class="p">][</span><span class="n">nextNode</span><span class="p">][</span><span class="n">BLUE</span><span class="p">]</span> <span class="o">==</span> <span class="nb">false</span><span class="p">)</span>
+                        <span class="p">{</span>
+                            <span class="n">res</span><span class="p">[</span><span class="n">nextNode</span><span class="p">]</span> <span class="o">=</span> <span class="n">min</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="n">nextNode</span><span class="p">],</span> <span class="n">step</span><span class="p">);</span>
+
+                            <span class="c1">// make_pair&lt;nextNode, 1&gt; 的含义是标记当前访问的边为蓝色，下次应该访问红色的
+</span><span class="c1"></span>                            <span class="n">myQue</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">make_pair</span><span class="p">(</span><span class="n">nextNode</span><span class="p">,</span> <span class="n">BLUE</span><span class="p">));</span>
+                            <span class="n">visited</span><span class="p">[</span><span class="n">curNode</span><span class="p">][</span><span class="n">nextNode</span><span class="p">][</span><span class="n">BLUE</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+                        <span class="p">}</span>
+                    <span class="p">}</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="c1">// 根据题意，0 到自身的距离为0；在上述操作后，若 0 到其他节点距离仍为INT_MAX，说明不存在符合要求的路径，设置为-1；
+</span><span class="c1"></span>        <span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="k">if</span> <span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">INT_MAX</span><span class="p">)</span> <span class="n">res</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+
+        <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>从代码可以看出，</p>
+<ol>
+<li>使用<code>blueGraph/redGraph</code>保存图中的节点，数据结构是哈希 +  vector，哈希的键是节点，值是和该节点直接相连的其他节点；</li>
+<li>使用<code>visited</code>三维数组标识节点是否被访问过的信息；</li>
+<li>使用队列<code>myQueue</code>保存BFS中的node，这个队列中的元素是<code>&lt;node, expectColor&gt;</code>，即从<code>node</code>出发，从<code>node</code>起始的边的颜色，如果存在这样的边，那么将这条边的终点node和它的下一条不同颜色的边push进队列，循环往复直到所有的边都被访问到为止。</li>
+</ol>
+<h3 id="接雨水-ii">接雨水 II</h3>
+<p>题目见<a href="https://leetcode-cn.com/problems/trapping-rain-water-ii/" target="_blank" rel="noopener noreffer">407. 接雨水 II - 力扣（LeetCode）</a>，「待补充」。</p>
+<h2 id="参考资料">参考资料</h2>
+<ul>
+<li><a href="https://www.wikiwand.com/zh-hans/%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2" target="_blank" rel="noopener noreffer">深度优先搜索 - Wikiwand</a>，维基百科介绍</li>
+<li><a href="https://labuladong.gitbook.io/algo/di-ling-zhang-bi-du-xi-lie/bfs-kuang-jia" target="_blank" rel="noopener noreffer">BFS 算法解题套路框架 - labuladong的算法小抄</a>，非常直观富有启发性的介绍文章</li>
+<li><a href="https://www.cnblogs.com/python27/archive/2011/12/09/2282486.html" target="_blank" rel="noopener noreffer">【算法16】递归算法的时间复杂度终结篇 - python27 - 博客园</a>，如何评价递归算法的复杂度</li>
+<li><a href="https://developer.aliyun.com/article/756316" target="_blank" rel="noopener noreffer">图文详解 DFS 和 BFS | 算法必看系列知识二十四-阿里云开发者社区</a>，图解DFS和BFS的过程</li>
+</ul>]]></description>
+</item></channel>
+</rss>

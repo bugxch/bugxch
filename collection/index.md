@@ -5,7 +5,7 @@
 
 ---
 
-## 网站
+## 个人博客
 
 - [产品沉思录 · Product Thinking](https://pmthinking.com/)，2020年发现的比较好的产品的网站
 - [LoveIt](https://hugoloveit.com/zh-cn/)，当前网站的主题介绍文章，可以参考文章插入图片、视频和音乐
@@ -18,3 +18,7 @@
 - [好书推荐-什么值得读-推荐一本好书](https://www.shenmezhidedu.com/)，好书推荐网站
 - [书伴](https://bookfere.com/)，kindle配套的不错的网站
 - [卢昌海个人主页](https://www.changhai.org/index.php)，卢昌海的个人网站
+
+## 技术网站
+
+- [cppreference.com](https://zh.cppreference.com/w/%E9%A6%96%E9%A1%B5)，c++参考手册中文版

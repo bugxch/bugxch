@@ -1,0 +1,713 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>正则表达式 - 标签 - 致力于把技术要点写清楚</title>
+        <link>https://bugxch.github.io/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</link>
+        <description>正则表达式 - 标签 - 致力于把技术要点写清楚</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>bugxch@126.com (bugxch)</managingEditor>
+            <webMaster>bugxch@126.com (bugxch)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 21 Jul 2018 21:12:46 &#43;0000</lastBuildDate><atom:link href="https://bugxch.github.io/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="self" type="application/rss+xml" /><item>
+    <title>正则表达式详解（上）</title>
+    <link>https://bugxch.github.io/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%AF%A6%E8%A7%A3%E4%B8%8A/</link>
+    <pubDate>Sat, 21 Jul 2018 21:12:46 &#43;0000</pubDate>
+    <author>bugxch</author>
+    <guid>https://bugxch.github.io/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%AF%A6%E8%A7%A3%E4%B8%8A/</guid>
+    <description><![CDATA[<p>简单来说，正则表达式是根据一定的语法规则组合而成的用来匹配具有某种模式的文本的字符串。</p>
+<p><a href="https://www.wikiwand.com/zh-hans/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F" target="_blank" rel="noopener noreffer">维基百科</a>定义如下：</p>
+<blockquote>
+<p><strong>正则表达式</strong>，又称<strong>正规表示式</strong>、<strong>正规表示法、正规运算式、规则运算式、常规表示法</strong>（英语：Regular Expression，在代码中常简写为 regex、regexp 或 RE），<a href="https://www.wikiwand.com/zh-hans/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6" target="_blank" rel="noopener noreffer">计算机科学</a>的一个概念。正则表达式使用单个字符串来描述、匹配一系列符合某个句法规则的<a href="https://www.wikiwand.com/zh-hans/%E5%AD%97%E7%AC%A6%E4%B8%B2" target="_blank" rel="noopener noreffer">字符串</a>。在很多<a href="https://www.wikiwand.com/zh-hans/%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8" target="_blank" rel="noopener noreffer">文本编辑器</a>里，正则表达式通常被用来<strong>检索、替换</strong>那些符合某个模式的文本。</p>
+</blockquote>
+<p>正则表达式在台湾又译作正规表达式，英文名称表示 “某种规则的表达式” 的意思，目前<strong>主流的文本编辑器</strong>(source insight/sublimtext/ultra edit/emacs/notepad++/vim) 和<strong>主流计算机语言</strong>（perl/python/PHP/java/.NET/tcl/c/c++）都支持正则表达式。它**简单，优美，功能强大，妙用无穷。**大数据时代的到来，因其快捷强大的文本处理能力必然在数据挖掘处理中发挥越来越重要的作用。</p>
+<p>正则表达式由一般字符和特殊字符组成，一般字符指常见的字符本身，比如<code>123Aaf0=;~#@%</code>这些简单字符。通过简单地排列组合这些字符可以实现对复杂字符串的精确匹配。先放一张 python 的正则字符列表，下面逐一介绍。</p>
+<p></p>
+<ul>
+<li>
+<p><strong>元字符</strong></p>
+<p>除了一般字符之外，python 规定了<code>.^$*+?{}[]()\|</code>这 14 个元字符，它们分别具有特殊的含义，有的代表量词，有的代表分组，有的代表逻辑等等（具体可参见上表）。正则表达式使用<code>\</code>作为转义字符，例如 \ s 代表空格，使用 \ t 代表 tab 等，我们将<strong>转义字符与其组合归类到一般字符</strong>。</p>
+<p>注意字符集<code>[]</code>，它匹配<strong>内容</strong>是括号中的任何一个字符，比如<code>[a0d]</code>表示匹配 a 或者 0 或者 d，而不是匹配<code>a0</code>，<code>0d</code>或者<code>a0d</code>。关于字符集需要注意如下两点：</p>
+</li>
+</ul>
+<ol>
+<li><strong>字符集中的特殊字符都失去了它们本身代表的涵义，而成为符号自身</strong>，比如<code>[a\.0]</code>匹配<code>dlkll\fd</code>，因为其中有<code>\</code>；</li>
+<li>字符集前面最前面为<code>^</code>表示<strong>不匹配字符集中的任意字符</strong>，比如<code>[^\da-f]</code>表示不匹配数字及字母 a~f 中的任意字符。</li>
+</ol>
+<p>与 python 原生的字符串方法不同的是，正则表达式可以使用<strong>量词，位置匹配，字符组合，分组捕获</strong>等更强大的功能实现更复杂的字符处理功能。</p>
+<ul>
+<li>
+<p>量词
+特殊字符中的<code>+*?</code>三个字符是量词字符，描述<strong>在它们之前紧挨着它们</strong>的字符<strong>连续重复的数量</strong>。比如量词<code>a{100}</code>就代表 a 连续重复 100 次，而<code>a+</code>表示 a 出现至少一次，其他的具体的内容可参见表格。</p>
+</li>
+<li>
+<p>位置字符
+正则表达式不仅可以匹配字符也可以匹配位置，这些字符包括<code>^$\b\A\Z\B</code>，比如匹配以 Atom 开头的行，就是<code>^Atom</code>，其他字符的具体含义可以参见表格。</p>
+</li>
+<li>
+<p>逻辑
+<code>|</code>表示或，所有的字符中<strong>优先级最低</strong>，比如<code>girl|boy</code>表示匹配 girl 或者 boy，而不是<code>girloy</code>或者<code>girboy</code>。</p>
+</li>
+</ul>
+<h5 id="初识正则表达式">初识正则表达式</h5>
+<p>有了以上的基础知识，就可以完成大部分简单的正则表达式了，比如<a href="https://docs.python.org/3/howto/regex.html" target="_blank" rel="noopener noreffer">官方文档</a>中的例子，尝试用正则表达式<code>a[bcd]*b</code>去匹配<code>abcbd</code>。具体的匹配步骤如下表所示</p>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Matched</th>
+<th>Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>a</code></td>
+<td>正则表达式中的 <code>a</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>abcbd</code></td>
+<td>引擎匹配 <code>[bcd]*</code>，匹配尽可能多的字符直到目标字符串结尾</td>
+</tr>
+<tr>
+<td>3</td>
+<td>失败</td>
+<td>引擎尝试匹配 <code>b</code>，但是目前已经到了字符串结尾，所以无字符匹配，失败 /</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>abcb</code></td>
+<td>回溯一个字符（即<code>d</code>），因此 <code>[bcd]*</code> 少匹配一个字符</td>
+</tr>
+<tr>
+<td>5</td>
+<td>失败</td>
+<td>再次尝试匹配 <code>b</code> ，但是当前未匹配字符只有 <code>'d'</code>，再次失败</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>abc</code></td>
+<td>再次回溯一个字符（即<code>b</code>）， 因而 <code>[bcd]*</code>仅仅匹配<code>bc</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>abcb</code></td>
+<td>再次尝试匹配 <code>b</code> 。 这次未匹配字符当前位置就是 <code>'b'</code>，因此成功</td>
+</tr>
+</tbody>
+</table>
+<p>从以上的匹配过程可以看到，正则表达式匹配过程就是引擎从左到右逐个搜索目标字符串，<strong>匹配正则表达式中所有字符代表的模式</strong>，如果搜索完整个字符串仍然没有找到就失败。推荐使用网站 <a href="https://regex101.com/" target="_blank" rel="noopener noreffer">regex101.com</a> 选择 python 语言，练习正则表达式。网站截图如下所示，它用蓝色底块标识了表达式匹配的内容，直观好用。</p>
+<h5 id="贪婪模式">贪婪模式</h5>
+<p>上面的例子里的第二步，<code>*</code>会<strong>尽可能地匹配符合表达式的所有字符</strong>，引擎就像一个<strong>贪婪</strong>的胖子，<strong>一口气吞下所有可以吞下去的东西</strong>，这就是正则表达式的<strong>贪婪模式</strong>。构造正则表达式时需要特别小心地处理具有相同属性的量词字符<code>?{m,n}+</code>，不然往往会产生意想不到的结果。</p>
+<p>比如使用正则表达式<code>&lt;.*&gt;</code>尝试匹配<code>&lt;a&gt;b&lt;c&gt;</code>的中的<code>&lt;a&gt;</code>，却匹配了整个表达式。为了仅仅匹配<code>&lt;a&gt;</code>，需要在<code>*</code>后加上<code>?</code>，即使用<code>&lt;.*?&gt;</code>就能成功。二者的具体的区别如下表所示</p>
+<table>
+<thead>
+<tr>
+<th>表达式</th>
+<th>步骤</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;.*&gt;</code></td>
+<td>先匹配<code>&lt;</code>，再匹配<code>.*</code>，此时吞下所有的符号，最后从最后一个字符开始，吐一个字符匹配一次<code>&gt;</code>，直到成功为止</td>
+</tr>
+<tr>
+<td><code>&lt;.*?&gt;</code></td>
+<td>先匹配<code>&lt;</code>，再匹配<code>.*?</code>，此时一个字符一个字符吞，每吞一个字符就立马匹配<code>&gt;</code>，直到成功为止</td>
+</tr>
+</tbody>
+</table>
+<p>在量词之后加上<code>?</code>表示<strong>非贪婪模式</strong>或者<strong>最小模式</strong>，吐到第三个字符为止，因此它找到了最小的<code>&lt;.*&gt;</code>的模式。</p>
+<h5 id="零宽字符">零宽字符</h5>
+<p>正则表达式中字符<code>\b^$\A\Z\B|</code>不占有任何字符，但是定义字符的边界，它们都是<strong>零宽 (zero-width)</strong> 字符。比如<code>\b\w+\b</code>表示匹配一个单词，而其中的<code>\b</code>表示单词的边界。</p>
+<h5 id="分组捕获">分组捕获</h5>
+<p>字符处理不仅仅需要判断是否匹配，我们常常希望提取相关模式的字符串，获得对应的信息，比如从网页源代码中提取邮件地址。此时就可以利用正则表达式的分组功能捕获字符，上面表中的的 group 就可以抓取不同的分组字符。比如，需要从下面字符中提取邮件的发件人信息</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">From: author@example.com
+User-Agent: Thunderbird 1.5.0.9 (X11/20061227)
+MIME-Version: 1.0
+To: editor@example.com
+</code></pre></td></tr></table>
+</div>
+</div><p>使用<code>^From:\s*([\w@.]+)</code>抓取信息，其中有 2 个括号，就是分别<strong>分组捕获</strong>发件人和日期。从左到右以<code>(</code>的出现顺序为序，分别是第 1 个分组第 2 个分组依次类推，使用编号就可以重复对应括号分组的模式。</p>
+<p>举个例子，匹配类似<code>abba</code>的单词，使用正则表达式<code>\b([a-zA-Z])([a-zA-Z])\2\1\b</code>，其中的 \ 1 和 \ 2 就分别表示与第 1 个和第 2 个分组相同的内容，依次类推。</p>
+<p>如果分组很多，数字编号数数会很累，也可以使用<code>(?P&lt;name&gt;...)</code>命名，之后再使用<code>(?P=name)</code>引用，比如下面的代码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">&gt;&gt;&gt; p = re.compile(r&#39;(?P&lt;word&gt;\b\w+\b)&#39;)
+&gt;&gt;&gt; m = p.search( &#39;(((( Lots of punctuation )))&#39; )
+&gt;&gt;&gt; m.group(&#39;word&#39;)
+&#39;Lots&#39;
+&gt;&gt;&gt; m.group(1)
+&#39;Lots&#39;
+</code></pre></td></tr></table>
+</div>
+</div><p>其中的<code>&lt;word&gt;</code>表示匹配的分组名字是<code>word</code>，使用 group() 方法使用名字即可调用这个分组内容。</p>
+<h5 id="零宽断言">零宽断言</h5>
+<p>除此之外，还有如下 5 个特殊的分组匹配符号和正常的匹配符号相似，但是它们匹配<code>...</code>的表达式，却不<strong>捕获内容</strong>。</p>
+<ul>
+<li>
+<p><code>(?:...)</code>。非捕获分组，表示匹配… 表示的表达式，但是它不捕获内容，因此不能以<code>\1</code>和<code>&lt;name&gt;</code>的方式被引用。比如</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="n">m</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&#34;([abc])+&#34;</span><span class="p">,</span> <span class="s2">&#34;abc&#34;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">m</span><span class="o">.</span><span class="n">groups</span><span class="p">()</span>
+<span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">,)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">m</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&#34;(?:[abc])+&#34;</span><span class="p">,</span> <span class="s2">&#34;abc&#34;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">m</span><span class="o">.</span><span class="n">groups</span><span class="p">()</span>
+<span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+<p>第二个表达式什么都没有匹配。</p>
+<ul>
+<li>
+<p><code>(?=...)</code>。肯定正序环视 (<em>Positive lookahead</em>)，跟在匹配字符之后，表示接下来匹配… 的字符，比如<code>Isaac (?=Asimov)</code>匹配后面跟着 Asimov 的 Isaac。</p>
+</li>
+<li>
+<p><code>(?!...)</code>。否定正序环视 (<em>Negative lookahead</em>) 与上面的意思刚好相反，表示不匹配…。</p>
+<p>举个例子匹配形如<code>foo.txt</code>的文件名，但是要求文件的扩展名不是<code>bar</code>，就可以使用<code>.*[.](?!bar).*$</code>匹配。</p>
+</li>
+<li>
+<p><code>(?&lt;=...)</code>。肯定逆序环视 (<em>Positive lookbehind</em>) 跟在匹配字符之后，表示之前匹配… 的字符，比如<code>(?&lt;=abc)def</code>匹配<code>abcdef</code>，表示之前为<code>abc</code>的<code>def</code>。</p>
+</li>
+<li>
+<p><code>(?&lt;!...)</code>。否定逆序环视 (<em>Negative lookbehind</em>) 表示之前不匹配…，与上一条意思刚好相反。</p>
+</li>
+</ul>
+<h5 id="符号优先级">符号优先级</h5>
+<p>另一个需要留心的问题是正则表达式的优先级，它表示解读正则表达式时对一般字符及字符组（用<code>()</code>括起来的一般字符的组合）的<strong>粘度</strong>，最低的是<code>|</code>（表中未列出），具体可参考如下的优先级列表。</p>
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>\</td>
+<td>转义符</td>
+</tr>
+<tr>
+<td>(), (?:), (?=), []</td>
+<td>圆括号和方括号</td>
+</tr>
+<tr>
+<td>*, +, ?, {n}, {n,}, {n,m}</td>
+<td>限定符</td>
+</tr>
+<tr>
+<td>^, $, \ 任何元字符、任何字符</td>
+<td>定位点和序列（即：位置和顺序）</td>
+</tr>
+</tbody>
+</table>
+<h5 id="正则表达式举例">正则表达式举例</h5>
+<p>结合以上的例子，解读如下正则表达式。</p>
+<ol>
+<li><code>[-+]?(\d*\.\d+|\d+)</code></li>
+</ol>
+<p>拿到一个正则表达式，<strong>首先看它有哪些运算符</strong>，然后依照<strong>从最高到最低优先级</strong>每个运算符去粘挨着它的字符，按照<strong>尽量多地将相同优先级的字符粘在在一起形成更大的字符</strong>，比如<code>d*\.\d+</code>就是一个大字符，最后就将所有的运算符和字符遍历完为止。</p>
+<p>这个正则表达式匹配<code>+.989</code>，<code>-9.989</code>，<code>+989</code>，<code>-989</code>，<code>.989</code>这些小数或者整数。</p>
+<ol>
+<li><code>[1-9]\d{4,}</code>
+匹配 1 个数字和至少 4 个数字，实际上是 QQ 号码</li>
+<li><code>Windows(?=95|98|NT)</code>
+匹配后面跟着 95，98 或者 NT 的 Windows</li>
+<li><code>[1-9]\d{5}</code>
+匹配中国邮政编码</li>
+</ol>
+<p>附表</p>
+<p>此外附上网站 <a href="http://deerchao.net/tutorials/regex/common.htm%E3%80%81" target="_blank" rel="noopener noreffer">deerchao</a> 总结的常见正则表达式列表</p>
+<table>
+<thead>
+<tr>
+<th>说明</th>
+<th>正则表达式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>网址（URL）</td>
+<td><code>[a-zA-z]+://[^\s]*</code></td>
+</tr>
+<tr>
+<td>IP 地址 (IP Address)</td>
+<td><code>((2[0-4]\d|25[0-5]|[01]?\d\d?)\.){3}(2[0-4]\d|25[0-5]|[01]?\d\d?)</code></td>
+</tr>
+<tr>
+<td>电子邮件 (Email)</td>
+<td><code>\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*</code></td>
+</tr>
+<tr>
+<td>QQ 号码</td>
+<td><code>[1-9]\d{4,}</code></td>
+</tr>
+<tr>
+<td>HTML 标记 (包含内容或自闭合)</td>
+<td><code>&lt;(.*)(.*)&gt;.*&lt;\/\1&gt;|&lt;(.*) \/&gt;</code></td>
+</tr>
+<tr>
+<td>密码 (由数字 / 大写字母 / 小写字母 / 标点符号组成，四种都必有，8 位以上)</td>
+<td><code>(?=^.{8,}\$)(?=.*\d)(?=.*\W+)(?=.*[A-Z])(?=.*[a-z])(?!.*\n).*$</code></td>
+</tr>
+<tr>
+<td>日期 (年 - 月 - 日)</td>
+<td><code>(\d{4}\d{2})-((1[0-2])(0?[1-9]))-(([12][0-9])(3[01])(0?[1-9]))</code></td>
+</tr>
+<tr>
+<td>日期 (月 / 日 / 年)</td>
+<td><code>((1[0-2])(0?[1-9]))/(([12][0-9])(3[01])(0?[1-9]))/(\d{4}\d{2})</code></td>
+</tr>
+<tr>
+<td>时间 (小时: 分钟, 24 小时制)</td>
+<td><code>((10?)[0-9]2[0-3]):([0-5][0-9])</code></td>
+</tr>
+<tr>
+<td>汉字 (字符)</td>
+<td><code>[\u4e00-\u9fa5]</code></td>
+</tr>
+<tr>
+<td>中文及全角标点符号 (字符)</td>
+<td><code>[\u3000-\u301e\ufe10-\ufe19\ufe30-\ufe44\ufe50-\ufe6b\uff01-\uffee]</code></td>
+</tr>
+<tr>
+<td>中国大陆固定电话号码</td>
+<td><code>(\d{4}-\d{3}-)?(\d{8}\d{7})</code></td>
+</tr>
+<tr>
+<td>中国大陆手机号码</td>
+<td><code>1\d{10}</code></td>
+</tr>
+<tr>
+<td>中国大陆邮政编码</td>
+<td><code>[1-9]\d{5}</code></td>
+</tr>
+<tr>
+<td>中国大陆身份证号 (15 位或 18 位)</td>
+<td><code>\d{15}(\d\d[0-9xX])?</code></td>
+</tr>
+<tr>
+<td>非负整数 (正整数或零)</td>
+<td><code>\d+</code></td>
+</tr>
+<tr>
+<td>正整数</td>
+<td><code>[0-9]*[1-9][0-9]*</code></td>
+</tr>
+<tr>
+<td>负整数</td>
+<td><code>-[0-9]*[1-9][0-9]*</code></td>
+</tr>
+<tr>
+<td>整数</td>
+<td><code>-?\d+</code></td>
+</tr>
+<tr>
+<td>小数</td>
+<td><code>(-?\d+)(\.\d+)?</code></td>
+</tr>
+<tr>
+<td>不包含 abc 的单词</td>
+<td><code>\b((?!abc)\w)+\b</code></td>
+</tr>
+</tbody>
+</table>]]></description>
+</item><item>
+    <title>正则表达式详解（下）</title>
+    <link>https://bugxch.github.io/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%AF%A6%E8%A7%A3%E4%B8%8B/</link>
+    <pubDate>Sat, 21 Jul 2018 21:10:56 &#43;0000</pubDate>
+    <author>bugxch</author>
+    <guid>https://bugxch.github.io/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%AF%A6%E8%A7%A3%E4%B8%8B/</guid>
+    <description><![CDATA[<p>书接上文，在下篇中主要介绍如何在 python 中使用正则表达式实现文本的匹配和替换工作。</p>
+<h2 id="匹配字符串">匹配字符串</h2>
+<p>python 的 re 模块支持正则表达式，基本步骤是使用 compile 编译正则表达式为 pattern 实例，之后使用实例匹配目标文本（一般使用方法 match 和 search）。先来看一个简单的例子，</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># encoding: UTF-8</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+<span class="n">string</span> <span class="o">=</span> <span class="s2">&#34;Tutorial.  0123456789 _ + -., !@  # $%^&amp;*();\/|&lt;&gt;</span><span class="se">\&#34;\&#39;</span><span class="s2">12345 - 98.7 3.141 .6180 9,000 + 42 55.123.4567 + 1 - (800) - 555 - 2468 foo@demo.net ar.ba@test.co.uk www.demo.com&#34;</span>
+<span class="n">pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&#34;\d+&#34;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">M</span><span class="p">)</span>
+<span class="n">sear</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;sear&#39;</span><span class="p">,</span> <span class="n">sear</span><span class="p">)</span>
+
+<span class="n">mat</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;mat&#39;</span><span class="p">,</span> <span class="n">mat</span><span class="p">)</span>
+
+<span class="n">fin</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;fin&#39;</span><span class="p">,</span> <span class="n">fin</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>代码第 4 行，使用正则表达式<code>r&quot;\d+&quot;</code>compile 编译一个 pattern 的实例。</p>
+<blockquote>
+<p>为什么要在正则表达式之前加个<code>r</code>呢？</p>
+</blockquote>
+<p>此处的<code>r</code>表示 raw，即原始输入。因为<code>\</code>在 python 的字符串中也是转义字符，此处的功能与正则表达式中的功能有冲突。<code>compile</code>中的表达式从输入到真正的表达式的意思执行需要经过两次解读，<strong>python 本身解读之后将字符串表达的意思传递给正则表达式，正则引擎再解读之后执行</strong>，问题就出在两次解读上。</p>
+<p>以最终匹配<code>\section</code>为例，如果不加<code>r</code>使用 python 第 5 行的参数就该是<code>\\\\section</code>，即<code>pattern = re.compile(&quot;\\\\section&quot;, re.M)</code>。第一次解读，python 将其理解为<code>\\section</code>传递给正则引擎，正则理解为要匹配<code>\section</code>，如下表所示</p>
+<table>
+<thead>
+<tr>
+<th>Characters</th>
+<th>Stage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>\section</code></td>
+<td>希望匹配的字符串</td>
+</tr>
+<tr>
+<td><code>\\section</code></td>
+<td>正则引擎添加反斜线 <a href="https://bugxch.github.io/library/re.html#re.compile" target="_blank" rel="noopener noreffer"><code>re.compile()</code></a></td>
+</tr>
+<tr>
+<td><code>&quot;\\\\section&quot;</code></td>
+<td>python 字符串为表示<code>\</code>字符再添加反斜线</td>
+</tr>
+</tbody>
+</table>
+<p>所以为了匹配 1 个<code>\</code>最后需要写 4 个<code>\</code>，实在麻烦，**为了便利，因此使用r在字符串之前，表示去掉 Python 的解读，仅保留正则引擎的解读。**比如下表中的参数写法就能省掉很多不必要的<code>\</code>，十分方便。</p>
+<table>
+<thead>
+<tr>
+<th>Regular String</th>
+<th>Raw string</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&quot;ab*&quot;</code></td>
+<td><code>r&quot;ab*&quot;</code></td>
+</tr>
+<tr>
+<td><code>&quot;\\section&quot;</code></td>
+<td><code>r&quot;\section&quot;</code></td>
+</tr>
+<tr>
+<td><code>&quot;\\w+\\s+\\1&quot;</code></td>
+<td><code>r&quot;\w+\s+\1&quot;</code></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><code>re.M</code>是个什么东东？</p>
+</blockquote>
+<p>上面的代码中，compile 还包含了<code>re.M</code>作为一个 flag，它是<code>MULTILINE</code>的缩写，表示匹配多行模式，除了多行模式之外（具体含义见下表），python 还有其他的 flag 影响表达式匹配的规则。</p>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ASCII</code>, <code>A</code></td>
+<td>使得 <code>\w</code>, <code>\b</code>, <code>\s</code> 和 <code>\d</code> 仅仅匹配 ASCII 文本</td>
+</tr>
+<tr>
+<td><code>DOTALL</code>, <code>S</code></td>
+<td>使得 <code>.</code> 匹配换行符在内的所有字符</td>
+</tr>
+<tr>
+<td><code>IGNORECASE</code>, <code>I</code></td>
+<td>忽略大小写</td>
+</tr>
+<tr>
+<td><code>LOCALE</code>, <code>L</code></td>
+<td>使用 locale 匹配</td>
+</tr>
+<tr>
+<td><code>MULTILINE</code>, <code>M</code></td>
+<td>多行匹配，影响 <code>^</code> 和 <code>$</code></td>
+</tr>
+<tr>
+<td><code>VERBOSE</code>, <code>X</code> (for ‘extended’)</td>
+<td>忽略表达式中的空格，允许插入注释</td>
+</tr>
+</tbody>
+</table>
+<p>需要说明的是<code>X</code>模式，使用方法如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">charref</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&#34;&#34;&#34;
+</span><span class="s2"> &amp;[#]                # Start of a numeric entity reference
+</span><span class="s2"> (
+</span><span class="s2">     0[0-7]+         # Octal form
+</span><span class="s2">   | [0-9]+          # Decimal form
+</span><span class="s2">   | x[0-9a-fA-F]+   # Hexadecimal form
+</span><span class="s2"> )
+</span><span class="s2"> ;                   # Trailing semicolon
+</span><span class="s2">&#34;&#34;&#34;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">VERBOSE</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>表达式内部加入了注释，而且可以多行显示，可以使用它表示复杂的表达式，非常方便。</p>
+<blockquote>
+<p>匹配正则表达式的方法</p>
+</blockquote>
+<p>pattern 的对象建立之后，就是可以使用 re 的方法匹配字符串了。最重要的方法有下表中的四个。</p>
+<table>
+<thead>
+<tr>
+<th>方法或者属性</th>
+<th>目的</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>match()</code></td>
+<td>表达式是否匹配字符串的开头</td>
+</tr>
+<tr>
+<td><code>search()</code></td>
+<td>浏览整个字符串，匹配其中任意位置</td>
+</tr>
+<tr>
+<td><code>findall()</code></td>
+<td>匹配所有的字符子串，返回列表</td>
+</tr>
+<tr>
+<td><code>finditer()</code></td>
+<td>匹配所有的字符子串，返回 <a href="https://bugxch.github.io/glossary.html#term-iterator" target="_blank" rel="noopener noreffer">iterator</a>.</td>
+</tr>
+</tbody>
+</table>
+<p>运行上面的代码如下所示</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span>
+<span class="n">sear</span> <span class="o">&lt;</span><span class="n">_sre</span><span class="o">.</span><span class="n">SRE_Match</span> <span class="nb">object</span><span class="p">;</span> <span class="n">span</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">21</span><span class="p">),</span> <span class="n">match</span><span class="o">=</span><span class="s1">&#39;0123456789&#39;</span><span class="o">&gt;</span>
+<span class="n">mat</span> <span class="bp">None</span>
+<span class="n">fin</span> <span class="p">[</span><span class="s1">&#39;0123456789&#39;</span><span class="p">,</span> <span class="s1">&#39;12345&#39;</span><span class="p">,</span> <span class="s1">&#39;98&#39;</span><span class="p">,</span> <span class="s1">&#39;7&#39;</span><span class="p">,</span> <span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">&#39;141&#39;</span><span class="p">,</span> <span class="s1">&#39;6180&#39;</span><span class="p">,</span> <span class="s1">&#39;9&#39;</span><span class="p">,</span> <span class="s1">&#39;000&#39;</span><span class="p">,</span> <span class="s1">&#39;42&#39;</span><span class="p">,</span> <span class="s1">&#39;55&#39;</span><span class="p">,</span> <span class="s1">&#39;123&#39;</span><span class="p">,</span> <span class="s1">&#39;4567&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;800&#39;</span><span class="p">,</span> <span class="s1">&#39;555&#39;</span><span class="p">,</span> <span class="s1">&#39;2468&#39;</span><span class="p">]</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>sear 匹配成功，返回匹配的对象。mat 匹配失败，fin 匹配成功并且返回了字符列表。</p>
+<p>匹配成功之后对象有如下方法</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>目的</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>group()</code></td>
+<td>返回匹配的字符串</td>
+</tr>
+<tr>
+<td><code>start()</code></td>
+<td>返回匹配字符串的开始位置</td>
+</tr>
+<tr>
+<td><code>end()</code></td>
+<td>返回匹配字符串的结束位置</td>
+</tr>
+<tr>
+<td><code>span()</code></td>
+<td>返回匹配字符串开始位置和结束位置的元组 (start, end)</td>
+</tr>
+</tbody>
+</table>
+<p><code>group()</code>在上篇中讲过，它在字符捕获时候非常有用，字符的分组从 0 开始，其中第 0 个代表所有匹配的内容，1 代表匹配的第一组，以此类推。比如下面的代码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">&gt;&gt;&gt; p = re.compile(&#39;(a(b)c)d&#39;)
+&gt;&gt;&gt; m = p.match(&#39;abcd&#39;)
+&gt;&gt;&gt; m.group(0)
+&#39;abcd&#39;
+&gt;&gt;&gt; m.group(1)
+&#39;abc&#39;
+&gt;&gt;&gt; m.group(2)
+&#39;b&#39;
+</code></pre></td></tr></table>
+</div>
+</div><p>可以将<code>group(0)</code>理解成没有分组符号匹配的所有字符，而之后的编号代表分组依次匹配的子串。</p>
+<h2 id="修改字符串">修改字符串</h2>
+<p>模块级别的字符串修改方法如下表所示。</p>
+<table>
+<thead>
+<tr>
+<th>方法和属性</th>
+<th>目的</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>split()</code></td>
+<td>使用 pattern 将目标字符串分割，并返回列表</td>
+</tr>
+<tr>
+<td><code>sub()</code></td>
+<td>查找所有匹配的子串，并替换之，返回替换之后的字符串</td>
+</tr>
+<tr>
+<td><code>subn()</code></td>
+<td>查找所有匹配的子串，并替换之，返回替换之后的字符串和次数</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><code>.split</code>(<em>string</em>[, <em>maxsplit=0</em>]) 将字符串分割，其中有参数最大分块，默认将分割成最多的块。</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\W+&#39;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">p</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;This is a test, short and sweet, of split().&#39;</span><span class="p">)</span>
+<span class="p">[</span><span class="s1">&#39;This&#39;</span><span class="p">,</span> <span class="s1">&#39;is&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="s1">&#39;short&#39;</span><span class="p">,</span> <span class="s1">&#39;and&#39;</span><span class="p">,</span> <span class="s1">&#39;sweet&#39;</span><span class="p">,</span> <span class="s1">&#39;of&#39;</span><span class="p">,</span> <span class="s1">&#39;split&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">p</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;This is a test, short and sweet, of split().&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="p">[</span><span class="s1">&#39;This&#39;</span><span class="p">,</span> <span class="s1">&#39;is&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;test, short and sweet, of split().&#39;</span><span class="p">]</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="替换字符串">替换字符串</h2>
+<ul>
+<li><code>.sub</code>(<em>replacement</em>, <em>string</em>[, <em>count=0</em>]) 将 string 中所有符合 pattern 模式替换成 replacement，count 表示替换的次数。看如下的例子</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span> <span class="s1">&#39;(blue|white|red)&#39;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">p</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span> <span class="s1">&#39;colour&#39;</span><span class="p">,</span> <span class="s1">&#39;blue socks and red shoes&#39;</span><span class="p">)</span>
+<span class="s1">&#39;colour socks and colour shoes&#39;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">p</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span> <span class="s1">&#39;colour&#39;</span><span class="p">,</span> <span class="s1">&#39;blue socks and red shoes&#39;</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="s1">&#39;colour socks and red shoes&#39;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>方法<code>subn()</code>与<code>sub()</code>类似，但是它返回一个元组，其中包含替换之后的字符串，以及替换的次数，下面是另一个例子</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span> <span class="s1">&#39;(blue|white|red)&#39;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">p</span><span class="o">.</span><span class="n">subn</span><span class="p">(</span> <span class="s1">&#39;colour&#39;</span><span class="p">,</span> <span class="s1">&#39;blue socks and red shoes&#39;</span><span class="p">)</span>
+<span class="p">(</span><span class="s1">&#39;colour socks and colour shoes&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">p</span><span class="o">.</span><span class="n">subn</span><span class="p">(</span> <span class="s1">&#39;colour&#39;</span><span class="p">,</span> <span class="s1">&#39;no colours at all&#39;</span><span class="p">)</span>
+<span class="p">(</span><span class="s1">&#39;no colours at all&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>特别地，替换可以使用分组，这在交换字符串的位置时非常有用。举例如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="n">strin</span> <span class="o">=</span> <span class="s1">&#39;This is part1 and part2&#39;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;(.*)(part1)(.*)(part2)&#39;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">p</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\1\4\3\2&#39;</span><span class="p">,</span> <span class="n">strin</span><span class="p">)</span>
+<span class="s1">&#39;This is part2 and part1&#39;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>我们还可以使用之前的名字分组，除了使用<code>\number</code>指代第几个分组之外，还可以使用<code>\g&lt;number&gt;</code>指代已经命名的分组。一个典型的例子如下所示</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;section{ (?P&lt;name&gt; [^}]* ) }&#39;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">VERBOSE</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">p</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;subsection{\1}&#39;</span><span class="p">,</span><span class="s1">&#39;section{First}&#39;</span><span class="p">)</span>
+<span class="s1">&#39;subsection{First}&#39;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">p</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;subsection{\g&lt;1&gt;}&#39;</span><span class="p">,</span><span class="s1">&#39;section{First}&#39;</span><span class="p">)</span>
+<span class="s1">&#39;subsection{First}&#39;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">p</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;subsection{\g&lt;name&gt;}&#39;</span><span class="p">,</span><span class="s1">&#39;section{First}&#39;</span><span class="p">)</span>
+<span class="s1">&#39;subsection{First}&#39;</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="使用正则表达式">使用正则表达式</h2>
+<p>考虑使用正则表达式之前，先想想是否可以使用字符串方法就能解决问题。如果仅仅匹配和替换固定字符串，python 自带的字符串方法速度更快，效率更高，不是每个字符串的替换都需要使用正则表达式。</p>
+<h2 id="未尽事宜">未尽事宜</h2>
+<p>相信以上介绍的内容能够解决大部分的字符处理问题，但是对于专业大数据处理可能还需要了解正则表达式更多的内容，比如不同语言的正则表达式语法，以及复杂正则表达式的匹配效率。这些比较深入的知识可以参考 Jeffrey E.F. Friedl 的<a href="http://datamining.xmu.edu.cn/documentation/books/mastering_regular_expressions.pdf" target="_blank" rel="noopener noreffer">《精通正则表达式》</a>，里面有非常专业的解释，相信它可以帮你解决正则表达式的绝大部分疑问。</p>
+<p></p>]]></description>
+</item></channel>
+</rss>

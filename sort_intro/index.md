@@ -87,10 +87,176 @@ int main() {
     return 0;
 }
 ```
-## sort函数与lambda表达式
-lambda函数有非常强大的代码表现力，sort与lambda结合可以解决很多问题，比如[1366. 通过投票对团队排名 - 力扣（LeetCode）](https://leetcode-cn.com/problems/rank-teams-by-votes/)。我们首先解决这道题，然后再在此基础上进行扩展，解决更难的题目。
+## 再探自定义比较函数
+
+### 一元谓词和二元谓词
+
+sort的自定义比较函数在C++中成为**谓词**，在泛型编程中作为参数使用。按照接受参数的个数不同，谓词分为一元谓词和二元谓词两种。
+
+- 一元谓词，比如`for_each`中使用，因为该算法是顺序遍历容器中的每个元素，对每个元素进行操作，所以是一元谓词，如下面的代码片段
+
+  ```cpp
+  vector<string> str = { "i", "love", "leetcode", "i", "love", "coding" };
+  void printEle(string str)
+  {
+      cout << str << " ";
+  }
+  for_each(str.begin(), str.end(), printEle) // printEle是一元谓词
+  ```
+
+- 二元谓词，sort算法是对容器的两个元素进行比较，所以接受两个参数，比如上面的`mycomp`函数。
+
+### 可调用对象
+
+谓词就是一个可调用对象(callable object)，在C++中可调用对象包括4种类型：函数、函数指针、重载函数调用符的类（可以像函数一样使用的类）以及**lambda表达式**。其实在上面的代码片段中，已经在sort算法中使用过函数以及重载函数调用符的类。此处重点介绍一下lambda表达式。lambda表达式的介绍很多，此处直接贴出来参考资料3中的总结表格
+
+![](https://pic.imgdb.cn/item/60a9bec435c5199ba7e61a53.png)
+
+从表格中可以看出捕获的类型，分为不捕获局部变量、按值捕获、按引用捕获，混合捕获这几种。参考[std::sort参考手册](https://zh.cppreference.com/w/cpp/algorithm/sort)中的代码，`sort`的用法如下所示
+
+```cpp
+#include <algorithm>
+#include <functional>
+#include <array>
+#include <iostream>
+ 
+int main()
+{
+    std::array<int, 10> s = {5, 7, 4, 2, 8, 6, 1, 9, 0, 3}; 
+ 
+    // 用默认的 operator< 排序
+    std::sort(s.begin(), s.end());
+    for (auto a : s) {
+        std::cout << a << " ";
+    }   
+    std::cout << '\n';
+ 
+    // 用标准库比较函数对象排序
+    std::sort(s.begin(), s.end(), std::greater<int>());
+    for (auto a : s) {
+        std::cout << a << " ";
+    }   
+    std::cout << '\n';
+ 
+    // 用自定义函数对象排序
+    struct {
+        bool operator()(int a, int b) const
+        {   
+            return a < b;
+        }   
+    } customLess;
+    std::sort(s.begin(), s.end(), customLess);
+    for (auto a : s) {
+        std::cout << a << " ";
+    }   
+    std::cout << '\n';
+ 
+    // 用 lambda 表达式排序
+    std::sort(s.begin(), s.end(), [](int a, int b) {
+        return b < a;   
+    });
+    for (auto a : s) {
+        std::cout << a << " ";
+    } 
+    std::cout << '\n';
+}
+```
+
+输出
+
+```
+0 1 2 3 4 5 6 7 8 9 
+9 8 7 6 5 4 3 2 1 0 
+0 1 2 3 4 5 6 7 8 9 
+9 8 7 6 5 4 3 2 1 0
+```
+
+表示了3种谓词，标准库、函数对象和lambda表达式。这里的二元谓词，告诉了`sort`，当比较**其中两个元素**的时候该如何处理两个元素的位置。
+
+```cpp
+struct {
+        bool operator()(int a, int b) const
+        {   
+            return a < b;
+        }   
+    } customLess;
+```
+
+当上面的函数返回为`true`时候，那么将`a`排在`b`的前面，上面的代码种当`a < b`时结果为`true`，所以小的元素排在前面，下面通过做题来示例它的用法。
+
+### 具体题目
+
+参考[1366. 通过投票对团队排名 - 力扣（LeetCode）](https://leetcode-cn.com/problems/rank-teams-by-votes/)，具体的代码如下
+
+```cpp
+class Solution {
+public:
+	Solution() = default;
+	string rankTeams(vector<string>& votes) 
+	{
+		unordered_map<char, vector<int>> ranks;
+
+		for (auto& vote : votes[0]) {
+			ranks[vote].resize(votes[0].size());
+		}
+
+		for (auto& vote : votes) {
+			for (int i = 0; i < vote.size(); i++)
+			{
+				ranks[vote[i]][i]++;
+			}
+		}
+
+		using PCV = pair<char, vector<int>>;
+		vector<PCV> ranking;
+		for (auto iter = ranks.begin(); iter != ranks.end(); iter++) {
+			ranking.push_back({ iter->first, iter->second });
+		}
+		
+        // lambda表达式
+		sort(ranking.begin(), ranking.end(), [](PCV& a, PCV& b)
+            {
+                int i = 0;
+                while (i < a.second.size()) {
+                    if (a.second[i] != b.second[i]) {
+                        return a.second[i] > b.second[i];
+                    }
+                    i++;
+                }
+                return a.first < b.first;
+            });
+		string res;
+		for (int i = 0; i < ranking.size(); i++) {
+			res += ranking[i].first;
+		}
+		return res;
+	}
+};
+```
+
+以题目中的示例1分析题意
+
+|      | 第一名得票 | 第二名得票 | 第三名得票 |
+| :--: | :--------: | :--------: | :--------: |
+|  A   |     5      |     0      |     2      |
+|  B   |     0      |     2      |     3      |
+|  C   |     0      |     3      |     0      |
+
+有5个人投票，如果给ABC的3人，从第一名到第三名依次唱票，
+
+- 如果第一名决出胜者，那么该选手获得第一名，剩下的选手角逐第二名；
+- 如果第二名决出胜者，那么该选手获得第一名，剩下的选手就是第三名。
+
+如果参选人数超过3人，那么依此类推，直到所有名次所有人都占用为止。这里有一种特殊情况，如果有若干人获得相同的名次，那么以人名的字母排序。比如，如果A和B都得了第一名，那么排序A在前，B在后。注意上面的26行~36行的代码。它表示从第一名到最后一名排序，
+
+- 如果两个选手的在第`i`个名次上票数相同，那么在第`i`个名次上不做任何操作（我们认为他们的名次是不分先后的），继续下一个名次`i++`的比较（第33行）；
+- 如果两个选手在第`i`个名次上票数不同，那么以票数多者优先排序，退出循环，后面的名次不需要再比较了（第31行）；
+- 如果在两个选手在所有的名次上票数均相同，那么最后按照人名排序（第35行）
+
+这里的代码告诉了`sort`函数该如何对当前所有选手中的两个选手的名次进行排序，它会将其中的两两进行比较给出答案（如何两两比较，我们不用关心），**从微观层面告诉`sort`函数的两个元素的操作方法**，它就能将所有的选手按照这个方法排好序，这个就是lambda表达式的意义。
 
 ## 参考资料
 
-- [C++ sort()排序函数用法详解](http://c.biancheng.net/view/7457.html)，c语言中文网的介绍
-- [std::sort() in C++ STL - GeeksforGeeks](https://www.geeksforgeeks.org/sort-c-stl/)，国外的网站介绍
+1. [C++ sort()排序函数用法详解](http://c.biancheng.net/view/7457.html)，c语言中文网的介绍
+2. [std::sort() in C++ STL - GeeksforGeeks](https://www.geeksforgeeks.org/sort-c-stl/)，国外的网站介绍
+3. [C++ Primer 中文版](https://book.douban.com/subject/25708312/)中的10.3节
