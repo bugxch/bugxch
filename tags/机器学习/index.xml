@@ -1,0 +1,455 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>机器学习 - 标签 - 致力于把技术要点写清楚</title>
+        <link>https://bugxch.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</link>
+        <description>机器学习 - 标签 - 致力于把技术要点写清楚</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>bugxch@126.com (bugxch)</managingEditor>
+            <webMaster>bugxch@126.com (bugxch)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 05 Aug 2018 08:15:17 &#43;0000</lastBuildDate><atom:link href="https://bugxch.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="self" type="application/rss+xml" /><item>
+    <title>牛顿迭代法</title>
+    <link>https://bugxch.github.io/%E7%89%9B%E9%A1%BF%E8%BF%AD%E4%BB%A3%E6%B3%95/</link>
+    <pubDate>Sun, 05 Aug 2018 08:15:17 &#43;0000</pubDate>
+    <author>bugxch</author>
+    <guid>https://bugxch.github.io/%E7%89%9B%E9%A1%BF%E8%BF%AD%E4%BB%A3%E6%B3%95/</guid>
+    <description><![CDATA[<p>最近的工作中，在求算子softamx时需要使用牛顿迭代法，记录下。</p>
+<p></p>
+<h2 id="基本思想">基本思想</h2>
+<p>牛顿迭代法的具体内容可以参考 <a href="https://www.wikiwand.com/zh/%E7%89%9B%E9%A1%BF%E6%B3%95" target="_blank" rel="noopener noreffer">牛顿迭代法</a>的维基百科页面。</p>
+<h3 id="几何直觉">几何直觉</h3>
+<p>观察本文上面的图片，凭借我们的直觉可以发现，**如果在函数$f(x)$的根附近的点$x_n$上画一条切线，这条切线与$x$轴的交点$x_{n+1}$比$x_n$更加接近方程的根**。如果在$x_{n+1}$这个点继续使用上一次的方法，再画一条切线，可以想见新的切线与$x$轴的交点肯定比$x_{n+1}$更接近根，如此迭代就会越来越逼近方程的根。下面这幅图表示的更清晰</p>
+<p></p>
+<p>所以，据此可以推导出如下的方程，
+$$
+\frac{0 - f(x_n)}{x_{n+1} - x_n} = f'(x_n)
+$$
+进一步化简可以得到，
+$$
+x_{n+1}=x_{n}-{\frac {f(x_{n})}{f'(x_{n})}}
+$$
+这就是牛顿迭代法的基本公式。</p>
+<p>但是牛顿迭代法不一定总是有效，已有证明牛顿迭代法的二次收敛必须满足以下条件：</p>
+<blockquote>
+<ul>
+<li>$f'(x)\neq 0$;</li>
+<li>对于所有$x\in I$，其中$I$为区间$[α − r, α + r]$，且$x_{0}$在区间其中$I$内，即$ r\geqslant \left|a-x_{0}\right|$的，对于所有$x\in I$，$f''(x)$是连续的;</li>
+<li>$x_{0}$足够接近根 α。</li>
+</ul>
+</blockquote>
+<p>所以使用牛顿迭代法，首先需要选择离方程的根足够近的起点，而且这个起点的切线斜率不能为0。</p>
+<h3 id="公式推导">公式推导</h3>
+<p>牛顿迭代法的另一种推导方式是使用泰勒展开式
+$$
+f(x)=f(x_0)+f^\prime(x_0)(x-x_0)+\frac{1}{2}f^{\prime\prime}(x_0)(x-x_0)^2+\dots + \frac{1}{n!}f^{(n)}(x_0)(x-x_0)^n + o(x-x_0)^n
+$$
+使用一阶展开近似可以得到
+$$
+f(x)=f(x_0)+f^\prime(x_0)(x-x_0)
+$$
+化简就可以得到之前的方程(2)。</p>
+<h3 id="牛顿迭代法求极值">牛顿迭代法求极值</h3>
+<p>使用牛顿迭代法可以求函数的极值，通过迭代的方法求方程$f(x)$的极值。根据微积分原理，令$f'(x) = 0$的$x$就是函数的极值所在，同样利用泰勒公式展开到二阶，有
+$$
+f(x)=f(x_0)+f^\prime(x_0)(x-x_0)+\frac{1}{2}f^{\prime\prime}(x_0)(x-x_0)^2
+$$
+两边同时对$x$求导数，并令其为0，我们就能得到
+$$
+f^\prime(x_0)+f^{\prime\prime}(x_0)(x-x_0) = 0
+$$
+同样可以得到
+$$
+x=x_0-{\frac {f''(x_{0})}{f'(x_{0})}}
+$$
+这就是牛顿迭代法求极值的理论依据。</p>
+<h3 id="指令迭代">指令迭代</h3>
+<blockquote>
+<p>假设计算机中有求倒数的指令$y = rec(x) = 1/x$，但是精度不高，如何通过牛顿迭代法提高精度？</p>
+</blockquote>
+<p>可以这么想，假设我们的输入是$a$，那么我们对输入求倒数就等价于求方程$a = 1/x$的根，也就是求方程$f(x) = 1/x -a$的根，那么根据牛顿迭代法，如果我们找到一个初值$x_0$，就可以按照如下的方程来迭代
+$$
+x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}=2x_n - ax_{n}^2
+$$
+而刚好这个初值就是指令使用一次之后的结果（相比随意找一个数字，这个值离根更近），即$x_0 = 1/a = rec(a)$。</p>
+<h2 id="方程举例">方程举例</h2>
+<p>下面我们使用牛顿迭代法用C++的代码求解一个数的立方根，假定这个数是$a$，该问题等价于求方程$x^3 = a$的根，也就是求方程$f(x) = x^3 - a$的根。根据牛顿迭代法，可以按照如下的步骤求根</p>
+<ol>
+<li>
+<p>确定迭代的终止条件，我们假设假定$|x_n^3 - a |&lt; 0.00001$即停止该迭代；</p>
+</li>
+<li>
+<p>确定初始点，即选择合适的$x_0$。很明显如果$a = 0$，方程的根就是0，我们选取1作为初始点；</p>
+</li>
+<li>
+<p>确认迭代方程，根据方程(2)，我们的迭代方程是</p>
+<p>$$
+x_{n+1} = \frac{2x_n}{3}+\frac{a}{3x_n^2}
+$$</p>
+</li>
+</ol>
+<p>于是，我们的程序如下所示</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;math.h&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">double</span> <span class="n">a</span><span class="p">,</span><span class="n">x0</span><span class="p">,</span><span class="n">x1</span><span class="p">,</span><span class="n">rsl</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">times</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">a</span><span class="p">;</span>  <span class="c1">//输入需要求解的数字
+</span><span class="c1"></span>
+    <span class="n">x0</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
+    <span class="n">rsl</span> <span class="o">=</span> <span class="n">fabs</span><span class="p">(</span><span class="n">x0</span><span class="o">*</span><span class="n">x0</span><span class="o">*</span><span class="n">x0</span> <span class="o">-</span> <span class="n">a</span><span class="p">);</span>
+
+    <span class="k">while</span><span class="p">(</span><span class="n">rsl</span> <span class="o">&gt;</span> <span class="mf">0.00001</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">x1</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="mf">3.0</span><span class="p">)</span><span class="o">*</span><span class="n">x0</span> <span class="o">+</span> <span class="n">a</span><span class="o">/</span><span class="p">(</span><span class="mf">3.0</span><span class="o">*</span><span class="n">x0</span><span class="o">*</span><span class="n">x0</span><span class="p">);</span>
+        <span class="n">x0</span> <span class="o">=</span> <span class="n">x1</span><span class="p">;</span>
+        <span class="n">rsl</span> <span class="o">=</span> <span class="n">fabs</span><span class="p">(</span><span class="n">x1</span><span class="o">*</span><span class="n">x1</span><span class="o">*</span><span class="n">x1</span> <span class="o">-</span> <span class="n">a</span><span class="p">);</span>
+        <span class="n">times</span><span class="o">++</span><span class="p">;</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">times</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; : &#34;</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;actual data -- &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">x1</span><span class="o">*</span><span class="n">x1</span><span class="o">*</span><span class="n">x1</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;, result -- &#34;</span> \
+            <span class="o">&lt;&lt;</span> <span class="n">rsl</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Final x is &#34;</span><span class="o">&lt;&lt;</span> <span class="n">x1</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; and result is &#34;</span><span class="o">&lt;&lt;</span> <span class="n">x1</span><span class="o">*</span><span class="n">x1</span><span class="o">*</span><span class="n">x1</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>使用这个程序求解-34.5的立方根结果如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="m">1</span> : actual data -- -1271.41, result -- 1236.91
+<span class="m">2</span> : actual data -- -392.257, result -- 357.757
+<span class="m">3</span> : actual data -- -132.242, result -- 97.7418
+<span class="m">4</span> : actual data -- -56.6032, result -- 22.1032
+<span class="m">5</span> : actual data -- -37.2522, result -- 2.75222
+<span class="m">6</span> : actual data -- -34.5672, result -- 0.0672223
+<span class="m">7</span> : actual data -- -34.5, result -- 4.35659e-05
+<span class="m">8</span> : actual data -- -34.5, result -- 1.83391e-11
+Final x is -3.25542 and result is -34.5
+</code></pre></td></tr></table>
+</div>
+</div><p>可以看出通过8轮迭代就找到了-34.5的近似根-3.25542。</p>]]></description>
+</item><item>
+    <title>梯度下降算法之方程求解</title>
+    <link>https://bugxch.github.io/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E7%AE%97%E6%B3%95%E4%B9%8B%E6%96%B9%E7%A8%8B%E6%B1%82%E8%A7%A3/</link>
+    <pubDate>Sat, 21 Jul 2018 20:41:31 &#43;0000</pubDate>
+    <author>bugxch</author>
+    <guid>https://bugxch.github.io/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E7%AE%97%E6%B3%95%E4%B9%8B%E6%96%B9%E7%A8%8B%E6%B1%82%E8%A7%A3/</guid>
+    <description><![CDATA[<p>从上个月专攻机器学习，从本篇开始，我会陆续写机器学习的内容，都是我的学习笔记。</p>
+<p></p>
+<h2 id="问题">问题</h2>
+<p>梯度下降算法用于求数学方程的极大值极小值问题，这篇文章讲解如何利用梯度下降算法求解方程 $x^5+e^x+3x−3=0$ 的根；</p>
+<h2 id="方法">方法</h2>
+<p>首先来解决第一个问题，从方程的形式我们就能初步判断，它很可能没有闭式解。我能想到的最直观的解决方法就是画出函数图，函数图与 x 轴的交点就是方程的解，那先画个图看看</p>
+<p></p>
+<p>从函数图像大体可以判断，方程的根在 0 附近，但是很明显 0 不是方程的根，看图只能猜出个大概，那怎么做才能得到更精确的解呢？</p>
+<p>有一个可行的方法在 x = 0 附近找一堆很接近的数字，比如 [−0.5:0.05:1][−0.5:0.05:1]，一个个代入方程的左边，看看<strong>它的值离 0 有多近</strong>：距离 0 越近，说明我们选取的值离方程的根也越近。数学上定义两个数距离就是绝对值，但是因为绝对值不便于计算，所以将其替换成等价的差的平方，即 F(x)=(f(x)−0)2F(x)=(f(x)−0)2，以此度量结果距离 0 的程度，称之为<strong>损失函数</strong>。</p>
+<p>我们代入计算得到如下的结果</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">x: -0.500, f(x): -3.9247, F(x): 15.4034
+x: -0.450, f(x): -3.7308, F(x): 13.9191
+x: -0.400, f(x): -3.5399, F(x): 12.5310
+x: -0.350, f(x): -3.3506, F(x): 11.2263
+x: -0.300, f(x): -3.1616, F(x): 9.9958
+x: -0.250, f(x): -2.9722, F(x): 8.8338
+x: -0.200, f(x): -2.7816, F(x): 7.7372
+x: -0.150, f(x): -2.5894, F(x): 6.7048
+x: -0.100, f(x): -2.3952, F(x): 5.7369
+x: -0.050, f(x): -2.1988, F(x): 4.8346
+x: -0.000, f(x): -2.0000, F(x): 4.0000
+x: 0.050, f(x): -1.7987, F(x): 3.2354
+x: 0.100, f(x): -1.5948, F(x): 2.5434
+x: 0.150, f(x): -1.3881, F(x): 1.9268
+x: 0.200, f(x): -1.1783, F(x): 1.3883
+x: 0.250, f(x): -0.9650, F(x): 0.9312
+x: 0.300, f(x): -0.7477, F(x): 0.5591
+x: 0.350, f(x): -0.5257, F(x): 0.2763
+x: 0.400, f(x): -0.2979, F(x): 0.0888
+x: 0.450, f(x): -0.0632, F(x): 0.0040
+x: 0.500, f(x): 0.1800, F(x): 0.0324
+x: 0.550, f(x): 0.4336, F(x): 0.1880
+x: 0.600, f(x): 0.6999, F(x): 0.4898
+x: 0.650, f(x): 0.9816, F(x): 0.9635
+x: 0.700, f(x): 1.2818, F(x): 1.6431
+x: 0.750, f(x): 1.6043, F(x): 2.5738
+x: 0.800, f(x): 1.9532, F(x): 3.8151
+x: 0.850, f(x): 2.3334, F(x): 5.4445
+x: 0.900, f(x): 2.7501, F(x): 7.5630
+x: 0.950, f(x): 3.2095, F(x): 10.3008
+</code></pre></td></tr></table>
+</div>
+</div><p>可以看出，x = 0.5，结果已经很接近 0 了，方程的根应该在 0.45~0.50 之间，而且 0.45 时，F(x) 的值更小，说明离 0.45 距离更近。接下来，一个可行的方法是将这段再细分成更小的区间，再如上面这样尝试，直到结果满意为止。但是这样做太过机械，每次需要手动调整区间和步长，有没有一种方法可以自动调整呢？</p>
+<p>再回到我们的问题，求解方程的根，就是找到一个点使得损失函数最小，我们画出来这个函数的曲线看看</p>
+<p></p>
+<p>我们假定方程的根是 x0x0，**除了 x0x0，其他点的函数值都比该点处的高，而且从两边向内，越是靠近 x0x0，函数的值越接近 0。**而且可以发现，从两边向 x0x0 移动，方向刚好就是该点处切线的斜率 F′(x)F′(x) 的相反数。</p>
+<p></p>
+<p>于是得到启发，挑选一个初始点，沿着该点的斜率相反的方向迭代，必然越来越靠近方程的根，所以有下面的算法：</p>
+<blockquote>
+<ol>
+<li>对于方程 f(x)=0f(x)=0，舍设定损失函数 F(x)=(f(x)−0)2F(x)=(f(x)−0)2；</li>
+<li>设定一个初值 x0x0，代入损失函数求得结果，如果大于 0，那么找到一个新的值 x1=x0−αF′(x0)x1=x0−αF′(x0)，考察损失函数是否为 0；</li>
+<li>反复迭代第 2 步，直到达到满意的精度为止。</li>
+</ol>
+</blockquote>
+<p>上面的算法中，有三个参数需要注意：</p>
+<ul>
+<li>αα，称为学习率，代表了曲线逼近的速度，这个参数可以自己设定；</li>
+<li>迭代次数，第 2 步运行的次数，迭代次数越多，我们离理想的结果越接近；</li>
+<li>精度，定义为 |F(x)||F(x)|，表示迭代的效果</li>
+</ul>
+<p>这三个参数中，迭代次数和精度可以作为迭代的终止条件，比如迭代次数达到 10000 次或者精度达到某个很小的数值 σσ 就终止运行。</p>
+<p>下面我们使用 python 程序来演示该算法的效果：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># _*_ coding: utf-8 _*_
+import numpy as np
+
+# 定义函数f(x)
+    e = 2.71828182845904590
+    return x**5 + e**x + 3*x - 3
+
+#定义损失函数
+def loss_fun(x):
+    return (problem(x) - 0)**2
+
+#计算损失函数的斜率
+def slope_fx(x):
+    delta  = 0.0000001;
+    return (loss_fun(x+delta) - loss_fun(x-delta))/(2.0*delta)
+
+#代入f(x)，计算数值
+def calcu_loss_fun(x,maxTimes,alpha):
+        for i in range(maxTimes):
+            x = x - slope_fx(x)*alpha;
+            print &#39;times %d, x: %.13f, f(x): %.13f&#39; % (i, x, problem(x))
+alpha = 0.01
+maxTimes = 100
+x = 0.0;
+
+calcu_loss_fun(x,maxTimes,alpha)
+</code></pre></td></tr></table>
+</div>
+</div><p>其中的<code>slope_fx</code>计算方程的斜率，利用导数定义 f′(x)=f(x+Δx)−f(x)Δxf′(x)=f(x+Δx)−f(x)Δx。程序计算结果如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">times 1, x: 0.2724712244717, f(x): -0.8678788871194
+times 2, x: 0.3478163723702, f(x): -0.5354882897920
+times 3, x: 0.3958941025006, f(x): -0.3168805921512
+times 4, x: 0.4251012218626, f(x): -0.1810687680246
+times 5, x: 0.4420964369242, f(x): -0.1008566369730
+times 6, x: 0.4516717013511, f(x): -0.0552506486831
+times 7, x: 0.4569525930429, f(x): -0.0299651603458
+times 8, x: 0.4598276021739, f(x): -0.0161585445219
+times 9, x: 0.4613811940466, f(x): -0.0086856358075
+times 10, x: 0.4622172450759, f(x): -0.0046606160693
+times 11, x: 0.4626661379649, f(x): -0.0024984737671
+times 12, x: 0.4629068614830, f(x): -0.0013387061269
+times 13, x: 0.4630358664583, f(x): -0.0007170954782
+times 14, x: 0.4631049762781, f(x): -0.0003840652503
+times 15, x: 0.4631419923255, f(x): -0.0002056832476
+times 16, x: 0.4631618165349, f(x): -0.0001101474736
+times 17, x: 0.4631724329502, f(x): -0.0000589848326
+times 18, x: 0.4631781181683, f(x): -0.0000315864570
+times 19, x: 0.4631811626230, f(x): -0.0000169144811
+times 20, x: 0.4631827929259, f(x): -0.0000090576372
+times 21, x: 0.4631836659475, f(x): -0.0000048503201
+times 22, x: 0.4631841334466, f(x): -0.0000025973198
+times 23, x: 0.4631843837899, f(x): -0.0000013908497
+times 24, x: 0.4631845178473, f(x): -0.0000007447918
+times 25, x: 0.4631845896343, f(x): -0.0000003988315
+times 26, x: 0.4631846280757, f(x): -0.0000002135719
+times 27, x: 0.4631846486609, f(x): -0.0000001143664
+times 28, x: 0.4631846596842, f(x): -0.0000000612425
+times 29, x: 0.4631846655870, f(x): -0.0000000327950
+times 30, x: 0.4631846687480, f(x): -0.0000000175615
+times 31, x: 0.4631846704407, f(x): -0.0000000094041
+times 32, x: 0.4631846713471, f(x): -0.0000000050358
+times 33, x: 0.4631846718325, f(x): -0.0000000026967
+times 34, x: 0.4631846720924, f(x): -0.0000000014440
+times 35, x: 0.4631846722316, f(x): -0.0000000007733
+times 36, x: 0.4631846723061, f(x): -0.0000000004141
+times 37, x: 0.4631846723460, f(x): -0.0000000002217
+times 38, x: 0.4631846723674, f(x): -0.0000000001187
+times 39, x: 0.4631846723788, f(x): -0.0000000000636
+times 40, x: 0.4631846723850, f(x): -0.0000000000340
+times 41, x: 0.4631846723882, f(x): -0.0000000000182
+times 42, x: 0.4631846723900, f(x): -0.0000000000098
+times 43, x: 0.4631846723909, f(x): -0.0000000000052
+times 44, x: 0.4631846723914, f(x): -0.0000000000028
+times 45, x: 0.4631846723917, f(x): -0.0000000000015
+times 46, x: 0.4631846723919, f(x): -0.0000000000008
+times 47, x: 0.4631846723919, f(x): -0.0000000000004
+times 48, x: 0.4631846723920, f(x): -0.0000000000002
+times 49, x: 0.4631846723920, f(x): -0.0000000000001
+times 50, x: 0.4631846723920, f(x): -0.0000000000001
+times 51, x: 0.4631846723920, f(x): -0.0000000000000
+times 52, x: 0.4631846723920, f(x): -0.0000000000000
+times 53, x: 0.4631846723920, f(x): -0.0000000000000
+times 54, x: 0.4631846723920, f(x): -0.0000000000000
+</code></pre></td></tr></table>
+</div>
+</div><p>迭代 52 次，就已经达到了理想的效果。</p>
+<h2 id="参考资料">参考资料</h2>
+<ul>
+<li><a href="https://ctmakro.github.io/site/on_learning/gd.html" target="_blank" rel="noopener noreffer">Gradient Descent 梯度下降法</a></li>
+<li><a href="http://www.big-data.tips/gradient-descent" target="_blank" rel="noopener noreffer">Gradient Descent | Big Data Mining &amp; Machine Learning</a></li>
+</ul>]]></description>
+</item></channel>
+</rss>
