@@ -8,6 +8,8 @@
 
 | 书籍 | 状态 | 类别 | 阅读年份 | 读书笔记 | 推荐星级 |
 | :--: | :--: | :----------: | :------: | :------: | ---- |
+| [构建之法](https://book.douban.com/subject/27069503/) | 想读 | 软件工程 | 2021 | 待输出 | ⭐⭐⭐⭐⭐ |
+| [Effective Modern C++](https://book.douban.com/subject/25923597/) | 想读 | 编程语言 | 2021 | 待输出 | ⭐⭐⭐⭐⭐ |
 | [Effective C++ ](https://book.douban.com/subject/5387403/) | 在读 | 编程语言 | 2021 | 待输出 | ⭐⭐⭐⭐⭐ |
 | [我的几何人生 ](https://book.douban.com/subject/35308863/) | **读过** | 社科人文 | 2021 | 待输出 | ⭐⭐⭐⭐⭐ |
 | [代码整洁之道:程序员的职业素养 ](https://book.douban.com/subject/26919457/) | **读过** | 软件工程 | 2021 | 待输出 | ⭐⭐⭐⭐⭐ |
