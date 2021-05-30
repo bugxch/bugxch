@@ -8,6 +8,7 @@
 
 | 书籍 | 状态 | 类别 | 阅读年份 | 读书笔记 | 推荐星级 |
 | :--: | :--: | :----------: | :------: | :------: | ---- |
+| [C++语言导学](https://book.douban.com/subject/26416562/) | 想读 |  编程语言 | 2021 | 待输出 | ⭐⭐⭐⭐⭐ |
 | [构建之法](https://book.douban.com/subject/27069503/) | 想读 | 软件工程 | 2021 | 待输出 | ⭐⭐⭐⭐⭐ |
 | [Effective Modern C++](https://book.douban.com/subject/25923597/) | 想读 | 编程语言 | 2021 | 待输出 | ⭐⭐⭐⭐⭐ |
 | [Effective C++ ](https://book.douban.com/subject/5387403/) | 在读 | 编程语言 | 2021 | 待输出 | ⭐⭐⭐⭐⭐ |
