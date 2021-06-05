@@ -22,3 +22,7 @@
 ## 技术网站
 
 - [cppreference.com](https://zh.cppreference.com/w/%E9%A6%96%E9%A1%B5)，c++参考手册中文版
+- [现代 C++ 教程: 高速上手 C++ 11/14/17/20](https://changkun.de/modern-cpp/)，现代C++高速上手
+[Problem Solving with Algorithms and Data Structures using Python — Problem Solving with Algorithms and Data Structures](https://runestone.academy/runestone/books/published/pythonds/index.html)，python数据结构与算法
+- [Rust 程序设计语言 - Rust 程序设计语言 简体中文版](https://kaisery.github.io/trpl-zh-cn/title-page.html)，Rust语言教程
+
