@@ -30,10 +30,7 @@
 - [Learn CSS](https://web.dev/learn/css/)，google的CSS教程
 - [Problem Solving with Algorithms and Data Structures using Python — Problem Solving with Algorithms and Data Structures](https://runestone.academy/runestone/books/published/pythonds/index.html)，python的数据结构与算法
 
-
-
 ## 其他网站
 
 - [必应壁纸｜必应美图 -超高质量的必应壁纸4K无水印下载](https://www.todaybing.com/)
--
 
