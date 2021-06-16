@@ -7,9 +7,9 @@
             <webMaster>bugxch@126.com (bugxch)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Thu, 06 May 2021 22:33:59 &#43;0800</lastBuildDate><atom:link href="https://bugxch.github.io/posts/" rel="self" type="application/rss+xml" /><item>
     <title>二分搜索——从入门到精通</title>
     <link>https://bugxch.github.io/binary_search/</link>
-    <pubDate>Thu, 06 May 2021 22:33:59 &#43;0800</pubDate>
-    <author>bugxch</author>
-    <guid>https://bugxch.github.io/binary_search/</guid>
+    <pubDate>Thu, 06 May 2021 22:33:59 &#43;0800</pubDate><author>
+        <name>bugxch</name>
+    </author><guid>https://bugxch.github.io/binary_search/</guid>
     <description><![CDATA[<div class="featured-image">
                 <img src="https://pic.imgdb.cn/item/60940147d1a9ae528fdc3a1d.png" referrerpolicy="no-referrer">
             </div><p>最近在准备考试，做了一些二分搜索的题目，感觉有点意思，记录下做题的心得😁。</p>
@@ -759,9 +759,9 @@ $$
 </item><item>
     <title>Factory Method模式精解（C&#43;&#43;版本）</title>
     <link>https://bugxch.github.io/dp_4/</link>
-    <pubDate>Sun, 02 May 2021 21:43:54 &#43;0800</pubDate>
-    <author>bugxch</author>
-    <guid>https://bugxch.github.io/dp_4/</guid>
+    <pubDate>Sun, 02 May 2021 21:43:54 &#43;0800</pubDate><author>
+        <name>bugxch</name>
+    </author><guid>https://bugxch.github.io/dp_4/</guid>
     <description><![CDATA[<div class="featured-image">
                 <img src="https://pic.imgdb.cn/item/608eae16d1a9ae528f502e1a.png" referrerpolicy="no-referrer">
             </div><p>继续之前的设计模式第四弹，这次是大名鼎鼎的工厂方法模式。</p>
@@ -1035,9 +1035,9 @@ $$
 </item><item>
     <title>Template Method模式精解（C&#43;&#43;版本）</title>
     <link>https://bugxch.github.io/dp_3/</link>
-    <pubDate>Fri, 30 Apr 2021 19:52:15 &#43;0800</pubDate>
-    <author>bugxch</author>
-    <guid>https://bugxch.github.io/dp_3/</guid>
+    <pubDate>Fri, 30 Apr 2021 19:52:15 &#43;0800</pubDate><author>
+        <name>bugxch</name>
+    </author><guid>https://bugxch.github.io/dp_3/</guid>
     <description><![CDATA[<div class="featured-image">
                 <img src="https://pic.imgdb.cn/item/608bef5dd1a9ae528f268767.png" referrerpolicy="no-referrer">
             </div><p>设计模式第三弹，设计模式<strong>行为型模式</strong>中的模板方法，也比较简单。</p>
@@ -1268,9 +1268,9 @@ $$
 </item><item>
     <title>Adapter模式精解（C&#43;&#43;版本）</title>
     <link>https://bugxch.github.io/dp_2/</link>
-    <pubDate>Thu, 29 Apr 2021 22:39:41 &#43;0800</pubDate>
-    <author>bugxch</author>
-    <guid>https://bugxch.github.io/dp_2/</guid>
+    <pubDate>Thu, 29 Apr 2021 22:39:41 &#43;0800</pubDate><author>
+        <name>bugxch</name>
+    </author><guid>https://bugxch.github.io/dp_2/</guid>
     <description><![CDATA[<div class="featured-image">
                 <img src="https://pic.imgdb.cn/item/608ac85bd1a9ae528fde126e.png" referrerpolicy="no-referrer">
             </div><p>本篇是设计模式第二篇，适配器模式，比较好理解。</p>
@@ -1438,9 +1438,9 @@ $$
 </item><item>
     <title>Iterator模式精解（C&#43;&#43;版本）</title>
     <link>https://bugxch.github.io/dp_1/</link>
-    <pubDate>Sat, 10 Apr 2021 22:15:09 &#43;0800</pubDate>
-    <author>bugxch</author>
-    <guid>https://bugxch.github.io/dp_1/</guid>
+    <pubDate>Sat, 10 Apr 2021 22:15:09 &#43;0800</pubDate><author>
+        <name>bugxch</name>
+    </author><guid>https://bugxch.github.io/dp_1/</guid>
     <description><![CDATA[<div class="featured-image">
                 <img src="https://pic.imgdb.cn/item/6086d967d1a9ae528f307ce1.jpg" referrerpolicy="no-referrer">
             </div><p>从本文章开始，参考结城浩的<a href="https://www.ituring.com.cn/book/1811" target="_blank" rel="noopener noreffer">《图解设计模式》</a>写23种设计模式的系列介绍文章，结合网络上其他的设计模式的内容，使用C++的语言编写这些设计模式，记录自己的设计模式的心得。</p>
@@ -2198,9 +2198,9 @@ $$
 </item><item>
     <title>[转载]表驱动法代码实践</title>
     <link>https://bugxch.github.io/c_driven_table/</link>
-    <pubDate>Fri, 22 Jan 2021 08:07:14 &#43;0800</pubDate>
-    <author>bugxch</author>
-    <guid>https://bugxch.github.io/c_driven_table/</guid>
+    <pubDate>Fri, 22 Jan 2021 08:07:14 &#43;0800</pubDate><author>
+        <name>bugxch</name>
+    </author><guid>https://bugxch.github.io/c_driven_table/</guid>
     <description><![CDATA[<div class="featured-image">
                 <img src="https://pic.imgdb.cn/item/600a17e53ffa7d37b3da9d49.jpg" referrerpolicy="no-referrer">
             </div><p>这是一篇转载，点击查看<a href="https://www.cnblogs.com/clover-toeic/p/3730362.html" target="_blank" rel="noopener noreffer">原文链接</a>。</p>
@@ -3816,9 +3816,9 @@ $$
 </item><item>
     <title>请回答2020</title>
     <link>https://bugxch.github.io/%E8%AF%B7%E5%9B%9E%E7%AD%942020/</link>
-    <pubDate>Sat, 02 Jan 2021 22:26:25 &#43;0800</pubDate>
-    <author>bugxch</author>
-    <guid>https://bugxch.github.io/%E8%AF%B7%E5%9B%9E%E7%AD%942020/</guid>
+    <pubDate>Sat, 02 Jan 2021 22:26:25 &#43;0800</pubDate><author>
+        <name>bugxch</name>
+    </author><guid>https://bugxch.github.io/%E8%AF%B7%E5%9B%9E%E7%AD%942020/</guid>
     <description><![CDATA[<div class="featured-image">
                 <img src="https://cdn.pixabay.com/photo/2020/12/10/09/21/face-mask-5819709_960_720.jpg" referrerpolicy="no-referrer">
             </div><p>每个人的一生由记忆组成，但是记忆会随着时间模糊甚至消逝，幸好我们有相机，回望这一年，在人生的长河里给它打个鲜亮的标签。</p>
@@ -4065,9 +4065,9 @@ $$
 </item><item>
     <title>LeetCode区间问题总结</title>
     <link>https://bugxch.github.io/intersection/</link>
-    <pubDate>Sun, 16 Aug 2020 22:31:31 &#43;0800</pubDate>
-    <author>bugxch</author>
-    <guid>https://bugxch.github.io/intersection/</guid>
+    <pubDate>Sun, 16 Aug 2020 22:31:31 &#43;0800</pubDate><author>
+        <name>bugxch</name>
+    </author><guid>https://bugxch.github.io/intersection/</guid>
     <description><![CDATA[<div class="featured-image">
                 <img src="https://cdn.pixabay.com/photo/2013/07/18/20/26/sea-164989_960_720.jpg" referrerpolicy="no-referrer">
             </div><p>上周五考试没有过，其中专业级第二题是关于区间的问题，在leetcode上找到类似的题目，总结复习下。</p>
@@ -4213,9 +4213,9 @@ $$
 </item><item>
     <title>C&#43;&#43;中的sort函数详解</title>
     <link>https://bugxch.github.io/sort_intro/</link>
-    <pubDate>Sat, 15 Aug 2020 21:25:46 &#43;0800</pubDate>
-    <author>作者</author>
-    <guid>https://bugxch.github.io/sort_intro/</guid>
+    <pubDate>Sat, 15 Aug 2020 21:25:46 &#43;0800</pubDate><author>
+        <name>作者</name>
+    </author><guid>https://bugxch.github.io/sort_intro/</guid>
     <description><![CDATA[<div class="featured-image">
                 <img src="https://pic.imgdb.cn/item/6002ed073ffa7d37b305c866.jpg" referrerpolicy="no-referrer">
             </div><p>公司认证的leetcode题目中经常会用到sort函数，不是很熟悉，今天系统学习总结下。</p>
@@ -4674,9 +4674,9 @@ $$
 </item><item>
     <title>广度优先搜索详解</title>
     <link>https://bugxch.github.io/dfs_intro/</link>
-    <pubDate>Sat, 08 Aug 2020 11:24:24 &#43;0800</pubDate>
-    <author>bugxch</author>
-    <guid>https://bugxch.github.io/dfs_intro/</guid>
+    <pubDate>Sat, 08 Aug 2020 11:24:24 &#43;0800</pubDate><author>
+        <name>bugxch</name>
+    </author><guid>https://bugxch.github.io/dfs_intro/</guid>
     <description><![CDATA[<p>总结一下广度优先搜索的原理和用法。</p>
 <p></p>
 <h2 id="引子">引子</h2>

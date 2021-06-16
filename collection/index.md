@@ -25,4 +25,15 @@
 - [现代 C++ 教程: 高速上手 C++ 11/14/17/20](https://changkun.de/modern-cpp/)，现代C++高速上手
 [Problem Solving with Algorithms and Data Structures using Python — Problem Solving with Algorithms and Data Structures](https://runestone.academy/runestone/books/published/pythonds/index.html)，python数据结构与算法
 - [Rust 程序设计语言 - Rust 程序设计语言 简体中文版](https://kaisery.github.io/trpl-zh-cn/title-page.html)，Rust语言教程
+- [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#main)，C++核心指南
+- [凤凰架构：构筑可靠的大型分布式系统 | 凤凰架构](http://icyfenix.cn/)，凤凰架构在线电子书
+- [Learn CSS](https://web.dev/learn/css/)，google的CSS教程
+- [Problem Solving with Algorithms and Data Structures using Python — Problem Solving with Algorithms and Data Structures](https://runestone.academy/runestone/books/published/pythonds/index.html)，python的数据结构与算法
+
+
+
+## 其他网站
+
+- [必应壁纸｜必应美图 -超高质量的必应壁纸4K无水印下载](https://www.todaybing.com/)
+-
 
