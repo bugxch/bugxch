@@ -2,9 +2,9 @@
     xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
     ><url>
-            <loc>https://bugxch.github.io/read/</loc><lastmod>2021-05-30T22:08:04&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url><url>
+            <loc>https://bugxch.github.io/read/</loc><lastmod>2021-05-30T22:08:04&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url><url>
             <loc>https://bugxch.github.io/tags/algorithm/</loc><lastmod>2021-05-11T22:23:10&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://bugxch.github.io/categories/</loc><lastmod>2021-05-24T23:06:25&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.6</priority><xhtml:link
+            <loc>https://bugxch.github.io/categories/</loc><lastmod>2021-05-24T23:06:25&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
                         rel="alternate"
                         hreflang="en"
                         href="https://bugxch.github.io/en/categories/"
@@ -14,8 +14,8 @@
                     href="https://bugxch.github.io/categories/"
                     /></url><url>
             <loc>https://bugxch.github.io/tags/leetcode/</loc><lastmod>2021-05-11T22:23:10&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://bugxch.github.io/posts/</loc><lastmod>2021-05-24T23:06:25&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url><url>
-            <loc>https://bugxch.github.io/tags/</loc><lastmod>2021-05-24T23:06:25&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.6</priority><xhtml:link
+            <loc>https://bugxch.github.io/posts/</loc><lastmod>2021-05-24T23:06:25&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://bugxch.github.io/tags/</loc><lastmod>2021-05-24T23:06:25&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
                         rel="alternate"
                         hreflang="en"
                         href="https://bugxch.github.io/en/tags/"
@@ -25,8 +25,8 @@
                     href="https://bugxch.github.io/tags/"
                     /></url><url>
             <loc>https://bugxch.github.io/binary_search/</loc><lastmod>2021-05-11T22:23:10&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://bugxch.github.io/categories/%E6%8A%80%E8%89%BA/</loc><lastmod>2021-05-24T23:06:25&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url><url>
-            <loc>https://bugxch.github.io/</loc><lastmod>2021-05-24T23:06:25&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.6</priority><xhtml:link
+            <loc>https://bugxch.github.io/categories/%E6%8A%80%E8%89%BA/</loc><lastmod>2021-05-24T23:06:25&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://bugxch.github.io/</loc><lastmod>2021-05-24T23:06:25&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
                         rel="alternate"
                         hreflang="en"
                         href="https://bugxch.github.io/en/"
@@ -35,8 +35,8 @@
                     hreflang="zh-cn"
                     href="https://bugxch.github.io/"
                     /></url><url>
-            <loc>https://bugxch.github.io/dp_4/</loc><lastmod>2021-05-22T22:31:41&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url><url>
-            <loc>https://bugxch.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</loc><lastmod>2021-05-22T22:31:41&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url><url>
+            <loc>https://bugxch.github.io/dp_4/</loc><lastmod>2021-05-22T22:31:41&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://bugxch.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</loc><lastmod>2021-05-22T22:31:41&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://bugxch.github.io/dp_3/</loc><lastmod>2021-05-11T22:23:10&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://bugxch.github.io/dp_2/</loc><lastmod>2021-05-11T22:23:10&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://bugxch.github.io/dp_1/</loc><lastmod>2021-05-11T22:23:10&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
@@ -48,12 +48,12 @@
             <loc>https://bugxch.github.io/tags/%E6%80%BB%E7%BB%93/</loc><lastmod>2021-01-02T22:26:25&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://bugxch.github.io/categories/%E7%94%9F%E6%B4%BB/</loc><lastmod>2021-01-02T22:26:25&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://bugxch.github.io/%E8%AF%B7%E5%9B%9E%E7%AD%942020/</loc><lastmod>2021-01-02T22:26:25&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://bugxch.github.io/tags/c&#43;&#43;/</loc><lastmod>2021-05-24T23:06:25&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url><url>
+            <loc>https://bugxch.github.io/tags/c&#43;&#43;/</loc><lastmod>2021-05-24T23:06:25&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://bugxch.github.io/intersection/</loc><lastmod>2021-05-11T22:11:10&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://bugxch.github.io/tags/%E5%8C%BA%E9%97%B4/</loc><lastmod>2021-05-11T22:11:10&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://bugxch.github.io/sort_intro/</loc><lastmod>2021-05-24T23:06:25&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url><url>
-            <loc>https://bugxch.github.io/tags/stl/</loc><lastmod>2021-05-24T23:06:25&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url><url>
-            <loc>https://bugxch.github.io/tags/%E8%BD%AC%E8%BD%BD/</loc><lastmod>2021-05-24T23:06:25&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url><url>
+            <loc>https://bugxch.github.io/sort_intro/</loc><lastmod>2021-05-24T23:06:25&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://bugxch.github.io/tags/stl/</loc><lastmod>2021-05-24T23:06:25&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://bugxch.github.io/tags/%E8%BD%AC%E8%BD%BD/</loc><lastmod>2021-05-24T23:06:25&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://bugxch.github.io/tags/bfs/</loc><lastmod>2021-01-01T18:35:26&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://bugxch.github.io/dfs_intro/</loc><lastmod>2021-01-01T18:35:26&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://bugxch.github.io/tags/sliding-window/</loc><lastmod>2021-01-01T18:35:26&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
@@ -72,7 +72,7 @@
             <loc>https://bugxch.github.io/tags/pytorch/</loc><lastmod>2019-12-06T21:53:20&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://bugxch.github.io/tensorboad%E6%9F%A5%E7%9C%8Bpytorch%E6%A8%A1%E5%9E%8B/</loc><lastmod>2019-12-06T21:53:20&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://bugxch.github.io/about/</loc><lastmod>2021-05-10T22:33:48&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://bugxch.github.io/collection/</loc><lastmod>2021-06-17T07:34:40&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url><url>
+            <loc>https://bugxch.github.io/collection/</loc><lastmod>2021-06-17T07:34:40&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url><url>
             <loc>https://bugxch.github.io/tags/kindle/</loc><lastmod>2019-05-04T08:31:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://bugxch.github.io/kindle%E6%9C%80%E4%BD%B3%E6%8E%92%E7%89%88%E8%AE%B0%E5%BD%95/</loc><lastmod>2019-05-04T08:31:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://bugxch.github.io/manjaro%E6%B7%BB%E5%8A%A0%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8%E8%84%9A%E6%9C%AC/</loc><lastmod>2019-02-24T20:48:23&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>

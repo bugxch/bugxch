@@ -5,9 +5,12 @@
 
 ---
 
-
 | 书籍 | 状态 | 类别 | 阅读年份 | 读书笔记 | 推荐星级 |
 | :--: | :--: | :----------: | :------: | :------: | ---- |
+| [Python 树莓派编程](https://book.douban.com/subject/26934017/) | 想读 |  硬件编程 | 2021 | 待输出 | ⭐⭐⭐⭐⭐ |
+| [树莓派开发实战（第2版）](https://book.douban.com/subject/27169446/) | 想读 |  硬件编程 | 2021 | 待输出 | ⭐⭐⭐⭐⭐ |
+| [传感器实战全攻略](https://book.douban.com/subject/30208792/) | 想读 |  硬件编程 | 2021 | 待输出 | ⭐⭐⭐⭐⭐ |
+| [Python编程（第2版） (豆瓣)](https://book.douban.com/subject/35196328/) | 想读 |  编程语言 | 2021 | 待输出 | ⭐⭐⭐⭐⭐ |
 | [C++语言导学](https://book.douban.com/subject/26416562/) | 想读 |  编程语言 | 2021 | 待输出 | ⭐⭐⭐⭐⭐ |
 | [构建之法](https://book.douban.com/subject/27069503/) | 想读 | 软件工程 | 2021 | 待输出 | ⭐⭐⭐⭐⭐ |
 | [Effective Modern C++](https://book.douban.com/subject/25923597/) | 想读 | 编程语言 | 2021 | 待输出 | ⭐⭐⭐⭐⭐ |
