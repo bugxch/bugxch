@@ -1,0 +1,132 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>shell - 标签 - 致力于把技术要点写清楚</title>
+        <link>https://bugxch.github.io/tags/shell/</link>
+        <description>shell - 标签 - 致力于把技术要点写清楚</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>bugxch@126.com (bugxch)</managingEditor>
+            <webMaster>bugxch@126.com (bugxch)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 03 Nov 2018 20:47:24 &#43;0000</lastBuildDate><atom:link href="https://bugxch.github.io/tags/shell/" rel="self" type="application/rss+xml" /><item>
+    <title>\$(cd \$(dirname $0);pwd)的解释</title>
+    <link>https://bugxch.github.io/shell%E7%9A%84%E8%A7%A3%E9%87%8A/</link>
+    <pubDate>Sat, 03 Nov 2018 20:47:24 &#43;0000</pubDate><author>
+        <name>bugxch</name>
+    </author><guid>https://bugxch.github.io/shell%E7%9A%84%E8%A7%A3%E9%87%8A/</guid>
+    <description><![CDATA[<p>I love shell.</p>
+<p></p>
+<p>在很多shell脚本中，经常可以看到下面的语句</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">rootDir</span><span class="o">=</span><span class="k">$(</span><span class="nb">cd</span> <span class="k">$(</span>dirname <span class="nv">$0</span><span class="k">)</span><span class="p">;</span> <span class="nb">pwd</span><span class="k">)</span>
+...
+</code></pre></td></tr></table>
+</div>
+</div><p>这个语句的作用是获取shell脚本所在目录的绝对路径，这个语句怎么理解？为什么不直接用<code>pwd</code>来获取当前路径呢？</p>
+<h3 id="语句解释">语句解释</h3>
+<p>参考<a href="https://explainshell.com/explain?cmd=cd&#43;%24%28dirname&#43;%240%29%3B&#43;pwd" target="_blank" rel="noopener noreffer">explainshell.com - cd $(dirname $0); pwd</a>的解释，拆解如下。</p>
+<ul>
+<li>
+<p><code>dirname</code>的功能是去掉文件路径名中的从右往左数的第一个<code>/</code>及其之后的所有文字，查看<code>dirname</code>的help信息可以看到如下的例子</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">dirname /usr/bin/          -&gt; <span class="s2">&#34;/usr&#34;</span>
+dirname dir1/str dir2/str  -&gt; <span class="s2">&#34;dir1&#34;</span> followed by <span class="s2">&#34;dir2&#34;</span>
+dirname stdio.h            -&gt; <span class="s2">&#34;.&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p><code>$0</code>，这是bash shell脚本中的位置参数，用来表明输入到命令行中的命令本身。其余的还有<code>$1，$2</code>等等，分别表示输入到命令行中的命令后面带有的第一个参数和第二个参数，依次类推。比如下面的命令</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">bash test9.sh <span class="m">10</span> <span class="m">9</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>其中的<code>$0</code>就是<code>test9.sh</code>，10和9分别是<code>$1</code>和<code>$2</code>。</p>
+</li>
+<li>
+<p><code>pwd</code>，这个命令已经很熟悉了，就是打印当前的绝对路径。</p>
+</li>
+</ul>
+<hr>
+<p>有了上面的分析，那<strong>整个命令怎么理解呢</strong>？举例说明，假如我们有如下的脚本<code>test.sh</code>在目录<code>~/DTS/code</code>下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1">#/bin/bash</span>
+<span class="nv">rootDir</span><span class="o">=</span><span class="k">$(</span><span class="nb">cd</span> <span class="k">$(</span>dirname <span class="nv">$0</span><span class="k">)</span><span class="p">;</span> <span class="nb">pwd</span><span class="k">)</span>
+<span class="nb">echo</span> <span class="s2">&#34;rootDir </span><span class="nv">$rootDir</span><span class="s2">&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>该脚本的功能就是寻找脚本所在目录下的所有的<code>.cc</code>文件。我们在命令行中运行该命令<code>./test.sh</code>，输出的结果是</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">bugxch@opensuse:~/DTS/code$ ./test.sh
+rootDir /home/bugxch/DTS/code
+</code></pre></td></tr></table>
+</div>
+</div><p>请留意运行该脚本的时候的几个关键要素</p>
+<ul>
+<li>
+<p>调用脚本的路径。我们在目录<code>~/DTS/code/</code>下调用该脚本，也就是<strong>当前目录</strong>了。</p>
+</li>
+<li>
+<p>调用脚本的命令。我们的命令是<code>./test.sh</code>.</p>
+</li>
+</ul>
+<p>结合上面的两条，此时<code>$(dirname $0)</code>的结果就是<code>.</code>，那么<code>cd $(dirname $0)</code>就是<code>cd .</code>，也就是切换命令到<code>~/DTS/code</code>，之后运行<code>pwd</code>，此时获得的就是脚本所在的绝对路径了。</p>
+<h3 id="为什么不用pwd">为什么不用pwd？</h3>
+<p>请注意以下的基本事实</p>
+<blockquote>
+<p>调用shell脚本，就是在调用脚本的<strong>当前目录</strong>下，<strong>逐行执行</strong>脚本中的<strong>每一个命令</strong>。</p>
+</blockquote>
+<p>如果我们修改上面的脚本如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1">#/bin/bash</span>
+<span class="nv">rootDir</span><span class="o">=</span><span class="k">$(</span><span class="nb">cd</span> <span class="k">$(</span>dirname <span class="nv">$0</span><span class="k">)</span><span class="p">;</span> <span class="nb">pwd</span><span class="k">)</span>
+<span class="nb">echo</span> <span class="s2">&#34;rootDir </span><span class="nv">$rootDir</span><span class="s2">&#34;</span>
+<span class="nb">echo</span> <span class="s2">&#34;pwd </span><span class="nv">$pwd</span><span class="s2">&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>并且在<code>~/DTS</code>下输入命令<code>code/test.sh</code>来运行这个脚本，输出结果如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">bugxch@opensuse:~/DTS$ code/test.sh
+rootDir /home/bugxch/DTS/code
+<span class="nb">pwd</span> /home/bugxch/DTS
+</code></pre></td></tr></table>
+</div>
+</div><p>第2个pwd不是脚本所在的目录，而是<strong>我们输入命令的目录</strong>。正如那个基本事实所示，在该目录下运行该脚本相当于逐行敲入脚本中每一句之后执行，所以在<code>~/DTS</code>调用脚本中的<code>pwd</code>，就相当于在该目录下敲入<code>pwd</code>，因此结果就是当前路径。</p>
+<p>之所以不能直接使用<code>pwd</code>获取脚本所在目录，是因为如果在脚本目录之外调用该脚本，返回的是调用命令所在的目录而不是脚本所在目录。</p>]]></description>
+</item></channel>
+</rss>

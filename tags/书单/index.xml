@@ -1,0 +1,51 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>书单 - 标签 - 致力于把技术要点写清楚</title>
+        <link>https://bugxch.github.io/tags/%E4%B9%A6%E5%8D%95/</link>
+        <description>书单 - 标签 - 致力于把技术要点写清楚</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>bugxch@126.com (bugxch)</managingEditor>
+            <webMaster>bugxch@126.com (bugxch)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Thu, 26 Jul 2018 06:38:02 &#43;0000</lastBuildDate><atom:link href="https://bugxch.github.io/tags/%E4%B9%A6%E5%8D%95/" rel="self" type="application/rss+xml" /><item>
+    <title>2018阅读书单</title>
+    <link>https://bugxch.github.io/2018%E9%98%85%E8%AF%BB%E4%B9%A6%E5%8D%95/</link>
+    <pubDate>Thu, 26 Jul 2018 06:38:02 &#43;0000</pubDate><author>
+        <name>bugxch</name>
+    </author><guid>https://bugxch.github.io/2018%E9%98%85%E8%AF%BB%E4%B9%A6%E5%8D%95/</guid>
+    <description><![CDATA[<blockquote>
+<p>烂熟于心，两三本书。</p>
+</blockquote>
+<p></p>
+<h2 id="操作系统">操作系统</h2>
+<ul>
+<li><i class="far fa-square fa-fw"></i> <a href="https://book.douban.com/subject/25813550/" target="_blank" rel="noopener noreffer"><strong>《计算机组成与设计：硬件/软件接口》</strong></a>，从硬件和软件接口的角度讲述计算机运行的基本原理，结合矩阵运算的例子，从编译器，代码，芯片内部并行处理等角度大大提高了程序运行的效率。书籍侧重从软硬件的角度如何提高程序运行的效率，降低功耗，和当前的AI core中的加速算子的工作联系紧密，值得细读。</li>
+<li><i class="far fa-square fa-fw"></i> <a href="https://book.douban.com/subject/20152598/" target="_blank" rel="noopener noreffer">操作系统 (豆瓣)</a>，掌握计算机操作系统的好书</li>
+<li><i class="far fa-square fa-fw"></i> <a href="https://www.bilibili.com/video/av6538245/" target="_blank" rel="noopener noreffer">操作系统</a>，bilibili上的一个非常不错的清华操作系统公开课</li>
+<li><i class="far fa-square fa-fw"></i> <a href="https://akaedu.github.io/book/" target="_blank" rel="noopener noreffer"><strong>Linux C编程一站式学习</strong></a>，结合C语言学习</li>
+</ul>
+<h2 id="深度学习">深度学习</h2>
+<ul>
+<li><i class="far fa-square fa-fw"></i> <a href="https://zh.gluon.ai/index.html" target="_blank" rel="noopener noreffer">动手学深度学习</a>，新的深度学习框架</li>
+<li><i class="far fa-square fa-fw"></i> <a href="http://neuralnetworksanddeeplearning.com/" target="_blank" rel="noopener noreffer"><strong>《神经网络与深度学习》</strong></a>，结合实际的代码简明扼要的<a href="https://github.com/mnielsen/neural-networks-and-deep-learning" target="_blank" rel="noopener noreffer">代码</a>介绍了<strong>深度学习以及卷积神经网络</strong>的核心概念，需要仔细研读，结合代码理解其中的所有关键概念。</li>
+<li><i class="far fa-square fa-fw"></i> <a href="https://developers.google.cn/machine-learning/crash-course/" target="_blank" rel="noopener noreffer">机器学习速成课程</a>，谷歌与2018年3月1日推出的在线机器学习速成教程。</li>
+<li><i class="far fa-square fa-fw"></i> <a href="http://lamda.nju.edu.cn/weixs/book/CNN_book.html" target="_blank" rel="noopener noreffer"><strong>《解析卷积神经网络—深度学习实践手册》</strong></a>，学习卷积神经网络的必读书目</li>
+</ul>
+<h2 id="编程基础">编程基础</h2>
+<ul>
+<li><i class="far fa-square fa-fw"></i> <a href="https://book.douban.com/subject/1319751/" target="_blank" rel="noopener noreffer"><strong>《C++Primer Plus》</strong></a>，C++学习经典书籍，我在github上建立了个仓库，专门上传本书中的各章的答案，精读</li>
+<li><i class="far fa-square fa-fw"></i> <a href="https://www.git-tower.com/learn/git/ebook/cn/command-line" target="_blank" rel="noopener noreffer">Git教程</a>，网上找的git教程，读起来还不错</li>
+<li><i class="far fa-square fa-fw"></i> <a href="https://book.douban.com/subject/19930393/" target="_blank" rel="noopener noreffer">老码识途</a>，结合C语言以及VS软件的汇编显示功能，自底层往上逐层剖析程序的运行之道，建立“猜测——实证——构建”的系统观，深入读读</li>
+<li><i class="far fa-square fa-fw"></i> <a href="https://seisman.github.io/how-to-write-makefile/" target="_blank" rel="noopener noreffer">跟我一起写Makefile</a>，编写大型C/C++工程的必备技能</li>
+<li><i class="far fa-square fa-fw"></i> <a href="https://book.douban.com/subject/25779298/" target="_blank" rel="noopener noreffer"><strong>《利用Python进行数据分析》</strong></a>，掌握python中编程的基础课程，其中包括numpy/pandas等非常重要的python数据分析库</li>
+<li><i class="far fa-square fa-fw"></i> <a href="http://zh-google-styleguide.readthedocs.io/en/latest/" target="_blank" rel="noopener noreffer">Google 开源项目风格指南</a>，google发布的C++/python/json编程风格指南</li>
+<li><i class="far fa-square fa-fw"></i> <a href="http://translations.readthedocs.io/en/latest/hacker_howto.html" target="_blank" rel="noopener noreffer">如何成为一名黑客</a>，学习计算机的奇技淫巧</li>
+<li><i class="far fa-square fa-fw"></i> <a href="https://github.com/NapleC/Coding-Developer-Book/blob/master/C%E8%AF%AD%E8%A8%80/%E6%9E%97%E9%94%90%C2%B7%E9%AB%98%E8%B4%A8%E9%87%8FC%20%20%E7%BC%96%E7%A8%8B%E6%8C%87%E5%8D%97.pdf" target="_blank" rel="noopener noreffer">林锐·高质量C 编程指南</a>，不错的编程指导</li>
+<li><i class="far fa-square fa-fw"></i> <a href="https://www.oreilly.com/openbook/make3/book/index.csp" target="_blank" rel="noopener noreffer">《make projects with GNU》</a>，系统学习makefile工程的好书</li>
+</ul>
+<h2 id="社科">社科</h2>
+<ul>
+<li><i class="far fa-check-square fa-fw"></i> <a href="https://book.douban.com/subject/26824237/" target="_blank" rel="noopener noreffer">《大国大城》</a>，2017年初在上海书城看到的描述城市化发展的好书</li>
+<li><i class="far fa-check-square fa-fw"></i> <a href="https://book.douban.com/subject/1115353/" target="_blank" rel="noopener noreffer">奇特的一生 </a>，博物学家的传记</li>
+<li><i class="far fa-square fa-fw"></i> <a href="https://book.douban.com/subject/27608239/" target="_blank" rel="noopener noreffer">原则</a>，桥水基金老大的生活工作之道</li>
+<li><i class="far fa-square fa-fw"></i> <a href="https://book.douban.com/subject/30246792/" target="_blank" rel="noopener noreffer">认识身体 (豆瓣)</a></li>
+</ul>]]></description>
+</item></channel>
+</rss>

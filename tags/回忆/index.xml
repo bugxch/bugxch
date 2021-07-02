@@ -1,0 +1,257 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>回忆 - 标签 - 致力于把技术要点写清楚</title>
+        <link>https://bugxch.github.io/tags/%E5%9B%9E%E5%BF%86/</link>
+        <description>回忆 - 标签 - 致力于把技术要点写清楚</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>bugxch@126.com (bugxch)</managingEditor>
+            <webMaster>bugxch@126.com (bugxch)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 02 Jan 2021 22:26:25 &#43;0800</lastBuildDate><atom:link href="https://bugxch.github.io/tags/%E5%9B%9E%E5%BF%86/" rel="self" type="application/rss+xml" /><item>
+    <title>请回答2020</title>
+    <link>https://bugxch.github.io/%E8%AF%B7%E5%9B%9E%E7%AD%942020/</link>
+    <pubDate>Sat, 02 Jan 2021 22:26:25 &#43;0800</pubDate><author>
+        <name>bugxch</name>
+    </author><guid>https://bugxch.github.io/%E8%AF%B7%E5%9B%9E%E7%AD%942020/</guid>
+    <description><![CDATA[<div class="featured-image">
+                <img src="https://cdn.pixabay.com/photo/2020/12/10/09/21/face-mask-5819709_960_720.jpg" referrerpolicy="no-referrer">
+            </div><p>每个人的一生由记忆组成，但是记忆会随着时间模糊甚至消逝，幸好我们有相机，回望这一年，在人生的长河里给它打个鲜亮的标签。</p>
+<p>看到<a href="https://www.cnfeat.com/2021/01/01/question2020/" target="_blank" rel="noopener noreffer">Question2020 - 笨方法学写作</a>的这篇文章，有感而发，我也写一篇2020的年终总结。文章里面写下的答案都是凭第一感觉，每个人的记忆都会有偏差，但是在2021年初的这个当下它们是我此时脑中真实的反应。</p>
+<h3 id="问题清单">问题清单</h3>
+<p>在过去的一年里，</p>
+<p><div class="details admonition question open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-question-circle fa-fw"></i>问题<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">你的什么观念发生了改变？</div>
+        </div>
+    </div>
+以可信考试为例，有四点感触比较深。</p>
+<p>第一，如果想要在某个技能上有所突破，必须以<strong>咬定青山不放松的毅力持续投入有效的时间和精力</strong>，这意味着为了将技能磨练到足够高的水平，必须有足量有效的投入，甚至在<strong>必要的时候放弃休息娱乐的时间</strong>。比如因为公司的可信考试，我投入大量时间刷leetcode题目，从之前不知道c++的stl为何物，到现在也能熟练完成中等题目，甚至有勇气参加周赛挑战自己，靠的是8月份以来连续3个月的持续不断的刷题。下图就是今年的力扣的年度总结，当前leetcode的排名是全球27000名左右，希望今年还能更进一层，进入到5000以内吧。</p>
+<p></p>
+<p>第二，工作之后的学习与学生时代不同，白天大部分时间用于完成日常的工作，而且没有整块的时间预留给你做持续深入的学习，但是又要面临持续提升工作技能的压力，以我学习C++的经历体会，最有效的方法是“<strong>以考促训，预留不被打扰的两小时</strong>”。如果要想有效精进，每天一定要预留不被打扰的整段时间用于练习，最好是早起后上班前或者下班后睡觉前，腾出时间好好学习和思考。</p>
+<p>第三，相信<strong>功不唐捐</strong>。持续的微小的积累达到一定的程度之后，往往会发生质变。技能训练尤为明显，借用《为学》的那一段</p>
+<blockquote>
+<p>天下事有难易乎？为之，则难者亦易矣；不为，则易者亦难矣。人之为学有难易乎？学之，则难者亦易矣；不学，则易者亦难矣。
+不问年龄，不求结果，持续投入，水平必然会有提升。</p>
+</blockquote>
+<p>第四，做一件事情要达到极致，你做到level B是不够的，下定决心之后一定要做到level A。职场上只有惊艳到给别人留下深刻的印象，晋升的机会才会更青睐于你，平平凡凡虽然也没有错，但是如果真的笃定升职，全力以赴做到顶尖才是效率最高的方法。比如，如果要你想给人技术很厉害的印象，那么可信考试科目一做出来两道题是不够的，必须3道全部完成，只有这样的shock才能让别人在心里留下“编程NB”的印象。</p>
+<p><div class="details admonition question open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-question-circle fa-fw"></i>问题<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">你的生活有什么大的变化吗？最大的幸福感来自哪里?</div>
+        </div>
+    </div>
+应该说从2019年开始，有两件事情，<strong>养育小孩</strong>和<strong>拥有属于自己的房子</strong>。</p>
+<p>在有小孩之前，老婆觉得生小孩就是完成女性的生育任务，她的人生是金融界大佬、保代人和投行精英，哪成想生下果果的那一刻起就母性大发，现在恨不得辞职在家天天在家带娃，果果带给我们的快乐确实很多，小孩子天真烂漫，成长中的小趣事能解大人的多重烦忧啊。果果带给我很多<strong>惊奇时刻</strong>，现在回想起来有两件事情我印象深刻。今年过年之后他第一次回上海，那时候大概14个月大刚学着走路，不会说话，当时我、丫丫和妈妈都在卧室，妈妈问果果“哪个是妈妈呀？”，我以为他不知道，结果他指着丫丫，然后又问“哪个是爸爸？”，他又指着我，问“谁是奶奶？”，指着妈妈。那一刻我直接被shock了，虽然他不会说话，但是实际上已经可以分清楚爸爸、妈妈和奶奶了。</p>
+<figure><figcaption>
+            <h4>5月份，14个月大的果果</h4>
+        </figcaption>
+</figure>
+
+<p>今年6月底回湖北最多只能说两个词，9月份回到上海的时候就已经是成天指着这个问“这个是什么？”的好奇宝宝了，耳朵也异常灵敏，听到洗衣机运转的声音就会问，“什么东西响呀？”。我惊叹于人类小孩大脑发育的速度之快，短短几个月语言功能就发展到惊人的程度，有一次他自己在沙发上玩小汽车，玩弄了半天终于把车门打开了，顺口说出“终于打开了”，“终于”这个词语之前没有人跟他提起过，就算是他无意间听到了，也没人教他什么意思怎么用，他正确无误得把这个词语用得恰到好处，我和丫丫、妈妈觉得又可爱又惊讶。</p>
+<figure><figcaption>
+            <h4>9月份，在家乐福，三代同框</h4>
+        </figcaption>
+</figure>
+
+<p>我小时候因为照片很少，不能知道自己小时候的样子，非常遗憾。我现在随手会给果果拍照片或者录视频，他不会有第2个2岁、3岁和5岁，人生就是一把开弓离弦的箭，不断奔向时间的前方，他长大后回看这些曾经的照片视频，应该是很有意思的一件事情。初步计划会在我的公众号给他开一个专栏，就叫<strong>果果成长记</strong>系列，不定期更新他的照片和视频，将来就是给他最好的礼物之一。打个广告，请扫描文末的二维码关注我的公众号。</p>
+<p>买房子之后最大的幸福感来自于可以敞开钱包购置自己想买的那些大件商品，比如一个好床垫，一个好书桌，一台好电视。</p>
+<p><figure><figcaption>
+            <h4>5月份，逛小区</h4>
+        </figcaption>
+</figure>
+
+我们在3月份签订了购房居间合同，按照正常的流程应该在贷款下来之后就可以交接入住了，但是房东由于坐月子所以延迟两个月交房，中间我会突然兴起去看小区，经常想着入住之后的样子，幸好房东近两年刚装修完，而且装修风格简洁明快，风格不错，有自己的小窝感觉还是很幸福的。交接之后，我们去宜家挑了书桌、床垫和餐桌，购置了新冰箱，双十一换了新燃气热水器，房子虽小，好好收拾了下书房，不过当下住着还是蛮舒服的。
+<figure><figcaption>
+            <h4>9月份，书房刚收拾好时的样子</h4>
+        </figcaption>
+</figure>
+</p>
+<p><div class="details admonition question open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-question-circle fa-fw"></i>问题<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">你有哪些有意思的发现？比如公众号，综艺节目或者一本书？</div>
+        </div>
+    </div>
+在之前我有一个习惯，发现有意思的网站，都会放在我博客的<a href="https://bugxch.github.io/collection/" target="_blank" rel="noopener noreffer">杂记</a>的页面，2018年收集了很多，但是后来博客迁来迁去丢失了，现在又在慢慢攒。当前我时常浏览的博客就是下面几个，</p>
+<ul>
+<li>
+<p><a href="https://pmthinking.com/" target="_blank" rel="noopener noreffer">产品沉思录 · Product Thinking</a>，2020年发现的比较好的&gt; 产品的网站</p>
+</li>
+<li>
+<p><a href="https://hugoloveit.com/zh-cn/" target="_blank" rel="noopener noreffer">LoveIt</a>，当前网站的主题介绍文章，可以参考文章插入图片、视频和音乐</p>
+</li>
+<li>
+<p><a href="http://www.sharetechnote.com/" target="_blank" rel="noopener noreffer">ShareTechnote</a>，一个韩国高级工程师搭建的专业知识共享网站</p>
+</li>
+<li>
+<p><a href="https://coolshell.cn/" target="_blank" rel="noopener noreffer">酷壳 – CoolShell.cn</a>，左耳朵耗子的官方博客，对我影响比较大的技术大佬</p>
+</li>
+<li>
+<p><a href="https://spaces.ac.cn/" target="_blank" rel="noopener noreffer">科学空间|Scientific Spaces</a>，非常不错的后生，天文、数学、AI、竞赛，博文质量极高，在这么小的年龄以十年的尺度更新不辍，非常难得</p>
+</li>
+<li>
+<p><a href="https://www.ruanyifeng.com/blog/" target="_blank" rel="noopener noreffer">阮一峰的网络日志</a>，IT圈子中小有名气的大佬，比较喜欢他每周一推的科技爱好者周刊系列
+推荐搞IT的同学关注。
+另外，推荐腾讯视频的<a href="https://v.qq.com/x/cover/mzc002006bujgo5/c3217pq213q.html?" target="_blank" rel="noopener noreffer">《十三邀》</a>节目，当前最新一期是去年的五条人乐队，这些访谈采访比较随意，不通过制造噱头可以拉高收视率，率真自然，推荐观看。去年没怎么看书，依然推荐老六的<a href="http://www.duku.cn/" target="_blank" rel="noopener noreffer">《读库》</a>系列，最近好像涨价了，不过品质一直没变。我最近有强烈的感受，现在我已经对之前大学时期的偏文学社科的书目不太感兴趣了，更多的将精力投入到职业技能的提升上，我去年C++的书籍买了一堆，计划今年攻克这些大部头，愚公移山，犹未为晚也。
+</p>
+</li>
+<li>
+<p>今年完整看过极力推荐的两部电视剧都改编自紫金陈的小说，<a href="https://movie.douban.com/subject/33404425/?from=subject-page" target="_blank" rel="noopener noreffer">隐秘的角落 (豆瓣)</a>和<a href="https://movie.douban.com/subject/33447642/" target="_blank" rel="noopener noreffer">沉默的真相 (豆瓣)</a>，第二部豆瓣给出了9.2的高分，国产电视剧能到8.0以上就值得花时间看了，第二部我是在国庆的客厅沙发上几乎通宵追完的，为此还买了一个月的爱奇艺会员，确实值得。不过今年有一部好剧烂尾了，改编自孙皓晖的<a href="https://book.douban.com/subject/3079029/" target="_blank" rel="noopener noreffer">《大秦帝国》</a>的终章<a href="https://movie.douban.com/subject/26413293/" target="_blank" rel="noopener noreffer">《大秦赋 》</a>，情节冗长拖沓，剧本被资方改得七零八碎，追了大概20集弃剧了，不建议入坑。</p>
+</li>
+</ul>
+<p><div class="details admonition question open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-question-circle fa-fw"></i>问题<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">你买到了什么好东西，可以推荐给大家吗？</div>
+        </div>
+    </div>
+今年最大支出是房子，这个就不多谈了，我在设备更新上花钱比较多，年中给我的整体升级了我的小黑硬件配置</p>
+<ul>
+<li>500大洋的<a href="https://item.jd.com/6212482.html" target="_blank" rel="noopener noreffer">三星（SAMSUNG）500GB SSD固态硬盘 SATA3.0接口 860 EVO（MZ-76E500B）</a>把原来的机械硬盘换到固态硬盘</li>
+<li>200大洋将当前的内存从4G升级到16G，<a href="https://item.jd.com/26139216296.html" target="_blank" rel="noopener noreffer">三星SAMSUNG内存条4g8g16g32g ddr4 ddr3l</a>
+仅仅700大洋，之前的电脑卡死现象改善明显，开始时间由原来的1分钟降到10秒钟，打开大型文档或者多任务并行也不卡了，电脑体验的大幅改善肉眼可见，幸福感爆棚，建议大家也早点升级自己的硬件装备，早买早享受。</li>
+<li>老婆将自己原来的T460电脑给了岳父，我转手4000大洋在公司内购了一台华为的2019 MateBook 14，内存小了点（8G），512G的固态硬盘，对于老婆这种重文档处理的情景用起来也足够，打开文档嗖嗖快。</li>
+<li>我现在在用公司内测机的Mate 30 Pro，之前一直用iphone SE，今年上半年还曾动过买iphone SE 2的念头，不过现在完全喜欢上手上的这部手机了，华为手机最大优点是续航，但是别的方便做的也不错，很结实耐用，真的是钢铁直男做出来的手机，如果内测机折价卖给我，那肯定就这部了。</li>
+<li>1600大洋，8月份手痒买了<a href="https://time.geekbang.org/" target="_blank" rel="noopener noreffer">《极客时间》</a>的算法训练营课程，现在想来稍微有点贵，因为他视频的课程在3个月之后是要失效的，不能永久保存，上这门课最大的收获是养成了正确的算法练习方法，这个可以再单独写一篇感想。</li>
+<li>剩下的大件就是购置新家的家具，零零碎碎加上电器购置下来也有1w大洋左右了，主要选宜家，这里推荐<strong>宜家</strong>，质量和售后有保证，9月份买的床垫短了，我在12月份退掉买了个新的，过程有点波折，但是总体感受还可以。
+在消费上，在满足自己需求的条件下，我坚持下面两个原则，</li>
+</ul>
+<ol>
+<li><strong>不看贵贱，买价格和价值最匹配的</strong>，有可能这个东西比较贵，但是如果他贵的有道理，那就值得它的价格；</li>
+<li><strong>对于长期需要使用的商品，在可承受的范围之内，我宁可买个贵而且好用的，也不会将就买便宜的</strong>，比如床垫，冰箱，键盘。</li>
+</ol>
+<p><div class="details admonition question open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-question-circle fa-fw"></i>问题<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">你的养成了什么好习惯或者坏习惯？</div>
+        </div>
+    </div>
+最大的好习惯包括坚持刷题，勤耕不辍，题目做不出来茶饭不思。
+坏习惯包括，</p>
+<ul>
+<li>喜欢躺在床上看手机，这个既对颈椎不好而且晚上看久了也影响第二天工作的精力，必须改；</li>
+<li>没有坚持健身，今年体检就有脂肪肝了，问题比往年要多一些，今年也要改善，老婆买了划船机也要定期用起来。</li>
+<li>之前使用随手记记账的习惯也丢了，去年因为买房所以花销肯定比较大，今年从元旦开始重新记账。</li>
+</ul>
+<p><div class="details admonition question open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-question-circle fa-fw"></i>问题<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">你最大的变化是什么？来年你期待有什么变化？</div>
+        </div>
+    </div>
+相信努力的效果，在强手如林的我司，尤其是我们团队，相信自己能精进技能而且可以找到自己的定位。来年期待可以花更多精力在育儿上，果果慢慢大了，到了狗都嫌的2岁了，现在性格有些胆小，虽然不知道什么原因，但是我发现只要我陪伴多一点他就快乐胆大些。多读些育儿书籍，多与果果互动。还有一个，加强锻炼，已经到了不投入时间健身疾病就会找上门来的年龄了，以长远计，健康的体魄是迎接挑战享受日后人生的保障那~</p>
+<h3 id="年度照片">年度照片</h3>
+<p>下面是我的年度照片，每个月挑选1到2张有代表性的意思一下（右键 -&gt; 在新标签页中打开图片可以看到高清大图，博客不知道为什么不能显示最大的清晰度），</p>
+<figure><figcaption>
+            <h4>1月下旬，因为新冠爆发，我和丫丫只能在上海过年，家乐福购物归来</h4>
+        </figcaption>
+</figure>
+
+<figure><figcaption>
+            <h4>2月份，work at home，自制办公桌，后来不小心把显示器掉下来摔坏右上角</h4>
+        </figcaption>
+</figure>
+
+<figure><figcaption>
+            <h4>2月份，疫情期间在家坚持学习的易老师</h4>
+        </figcaption>
+</figure>
+
+<figure><figcaption>
+            <h4>2月份，第一个上班日，公司严正以待</h4>
+        </figcaption>
+</figure>
+
+<figure><figcaption>
+            <h4>2月份，同上，连按压取水都要用纸巾衬着</h4>
+        </figcaption>
+</figure>
+
+<figure><figcaption>
+            <h4>3月份，与易老师去高行看房，拍照留念小发卡</h4>
+        </figcaption>
+</figure>
+
+<figure><figcaption>
+            <h4>4月份，老树发新芽的博兴路</h4>
+        </figcaption>
+</figure>
+
+<figure><figcaption>
+            <h4>5月份，不记得在哪里拍的了</h4>
+        </figcaption>
+</figure>
+
+<figure><figcaption>
+            <h4>5月份，一家人逛滨江大道</h4>
+        </figcaption>
+</figure>
+
+<figure><figcaption>
+            <h4>5月份，有起床气的某宝宝</h4>
+        </figcaption>
+</figure>
+
+<figure><figcaption>
+            <h4>5月份，有了自己的房子</h4>
+        </figcaption>
+</figure>
+
+<figure><figcaption>
+            <h4>6月份，不肯睡觉喜欢玩妈妈化妆品的某宝宝</h4>
+        </figcaption>
+</figure>
+
+<figure><figcaption>
+            <h4>7月份，疫情期间装修停滞的西西弗书店金桥国际店开了</h4>
+        </figcaption>
+</figure>
+
+<figure><figcaption>
+            <h4>8月份，和易老师骑行黄浦滨江，美哉</h4>
+        </figcaption>
+</figure>
+
+<figure><figcaption>
+            <h4>8月份，易老师骑行黄浦滨江的曼妙身影</h4>
+        </figcaption>
+</figure>
+
+<figure><figcaption>
+            <h4>8月份，搬离最后的出租屋，迁入新家</h4>
+        </figcaption>
+</figure>
+
+<figure><figcaption>
+            <h4>9月份，新家阳台所摄，很喜欢满眼的绿色，远处是上海中心大厦</h4>
+        </figcaption>
+</figure>
+
+<figure><figcaption>
+            <h4>9月份，和易老师到杨浦宜家购置新家具</h4>
+        </figcaption>
+</figure>
+
+<figure><figcaption>
+            <h4>10月份，爸爸第一次来上海，祖孙三代合影</h4>
+        </figcaption>
+</figure>
+
+<figure><figcaption>
+            <h4>12月份，初冬的博兴路</h4>
+        </figcaption>
+</figure>
+
+<hr>]]></description>
+</item></channel>
+</rss>

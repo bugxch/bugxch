@@ -1,0 +1,836 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>sliding window - 标签 - 致力于把技术要点写清楚</title>
+        <link>https://bugxch.github.io/tags/sliding-window/</link>
+        <description>sliding window - 标签 - 致力于把技术要点写清楚</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>bugxch@126.com (bugxch)</managingEditor>
+            <webMaster>bugxch@126.com (bugxch)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 02 Aug 2020 15:40:45 &#43;0800</lastBuildDate><atom:link href="https://bugxch.github.io/tags/sliding-window/" rel="self" type="application/rss+xml" /><item>
+    <title>滑动窗口技巧</title>
+    <link>https://bugxch.github.io/slidingwindow/</link>
+    <pubDate>Sun, 02 Aug 2020 15:40:45 &#43;0800</pubDate><author>
+        <name>作者</name>
+    </author><guid>https://bugxch.github.io/slidingwindow/</guid>
+    <description><![CDATA[<p>今天主要刷leetcode的滑动窗口的题目，需要完成如下题目，本文主要记录解题思路和方法，以便加深理解记忆，答案到处都是，只有消化了才是自己的。</p>
+<p></p>
+<h2 id="引子">引子</h2>
+<p>首先来看leetcode中No. 3的<strong>无重复字符的最长子串</strong>这个题目，参考<a href="https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/" target="_blank" rel="noopener noreffer">题目链接</a>，题目很简单</p>
+<blockquote>
+<p>给定一个字符串，请你找出其中不含有重复字符的 <strong>最长子串</strong> 的长度。</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">输入: <span class="s2">&#34;abcabcbb&#34;</span>
+输出: <span class="m">3</span> 
+解释: 因为无重复字符的最长子串是 <span class="s2">&#34;abc&#34;</span>，所以其长度为 3。
+</code></pre></td></tr></table>
+</div>
+</div><p>拿到题目的第一反应就是暴力解法，</p>
+<ol>
+<li>
+<p>先暴力穷举所有的子串$S_i = [S[left], S[right])$；</p>
+</li>
+<li>
+<p>判断这个子串，如果不含重复字符就记录子串长度$l_i$，此处判断是否有重复字串的时间复杂度是$O(n)$；</p>
+</li>
+<li>
+<p>找出所有记录的子串长度的最大值$max_i{l_i}$。
+一段伪代码如下，</p>
+</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="kt">int</span> <span class="n">maxlen</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">left</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">left</span> <span class="o">&lt;</span> <span class="n">S</span><span class="p">.</span><span class="n">length</span><span class="p">();</span> <span class="n">left</span><span class="o">++</span><span class="p">)</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">right</span> <span class="o">=</span> <span class="n">left</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="n">right</span> <span class="o">&lt;</span> <span class="n">S</span><span class="p">.</span><span class="n">length</span><span class="p">();</span> <span class="n">right</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+     <span class="k">if</span><span class="p">(</span><span class="n">window</span><span class="p">[</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span> <span class="n">contain</span> <span class="err">重复字符</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+     <span class="k">if</span><span class="p">(</span><span class="n">right</span> <span class="o">-</span> <span class="n">left</span> <span class="o">&gt;</span> <span class="n">maxlen</span><span class="p">)</span> <span class="p">{</span>
+         <span class="n">maxlen</span> <span class="o">=</span> <span class="n">right</span> <span class="o">-</span><span class="n">left</span><span class="p">;</span>
+     <span class="p">}</span>
+    <span class="p">}</span>
+<span class="k">return</span> <span class="n">maxlen</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>很明显，该方法的时间复杂度是$O(n^3)$，非常费时。这个算法的复杂度主要来自于第一步，仔细想想那个子串伪代码中的第3行有点问题，伪代码可以看作我们用一个窗口截取所有子串，left表示窗口的左边界（包含），right表示窗口的右边界（不包含），如果窗口中含有重复子串，那么不应该继续扩展右边界的，所以right不能一直向右<strong>扩展</strong>，此时应该向右移动左边界，<strong>缩小</strong>窗口的长度。以示例中给出的字符串为例，参考下面的示意图</p>
+<p></p>
+<p>所以我们有一个更通用的实现框架。</p>
+<h2 id="通用框架">通用框架</h2>
+<p>维护一个<strong>滑动窗口</strong>，</p>
+<blockquote>
+<ol>
+<li>窗口的边界是$[left, right)$，刚开始窗口的长度为0，即left = right = 0；</li>
+<li>维护一个哈希表table，用于记录窗口中的字符的统计情况，比如上面的图一中就<code>table['a'] = 2, table['b'] = 1, table['c'] = 1</code>；</li>
+<li>窗口可<strong>扩展</strong>可<strong>收缩</strong>，</li>
+</ol>
+<ul>
+<li>如果当前窗口中没有重复字符，则窗口扩展，<code>right++</code>，更新哈希表；</li>
+<li>如果当前窗口中有重复字符，那么窗口收缩，<code>left++</code>，更新哈希表；</li>
+</ul>
+<ol start="4">
+<li>直到<code>right</code>超过需要遍历的字符串的边界为止。</li>
+</ol>
+</blockquote>
+<p>需要注意，上面的扩展和收缩的时机，对于当前的这个程序，如何判断当前的窗口中是否有重复字符呢？一般的想法是遍历每个键的值，如果有大于1的值就认为有重复字符，而且是在窗口位置发生变化的时候触发遍历动作。其实，这里有一个小技巧，<strong>键值只有在向右扩展的时候才会增长</strong>，刚开始窗口是没有键的，或者即便有也只能是1，所以在窗口扩展的时候，只要去查看新加入的<code>right</code>位置的字符的键值是否超过1即可。通过以上分析，我们有了下面的新的伪代码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-C++" data-lang="C++"><span class="kt">int</span> <span class="n">left</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">maxlen</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+
+<span class="k">while</span> <span class="p">(</span><span class="n">right</span> <span class="o">&lt;</span> <span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">())</span> <span class="p">{</span>
+    <span class="c1">// 增大窗口
+</span><span class="c1"></span>    <span class="n">window</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">right</span><span class="p">]);</span>
+    <span class="n">right</span><span class="o">++</span><span class="p">;</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">window</span> <span class="n">doesnot</span> <span class="n">contain</span> <span class="n">repeat</span> <span class="n">charactor</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">maxlen</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">maxlen</span><span class="p">,</span> <span class="n">right</span> <span class="o">-</span> <span class="n">left</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">while</span> <span class="p">(</span><span class="n">window</span> <span class="n">needs</span> <span class="n">shrink</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// 缩小窗口
+</span><span class="c1"></span>        <span class="n">window</span><span class="p">.</span><span class="n">remove</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">left</span><span class="p">]);</span>
+        <span class="n">left</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">return</span> <span class="n">maxlen</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>将上面的伪代码翻译成最后的c++代码，列示如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="kt">int</span> <span class="nf">lengthOfLongestSubstring</span><span class="p">(</span><span class="n">string</span> <span class="n">s</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">maxlen</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">unordered_map</span><span class="o">&lt;</span><span class="kt">char</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">window</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">right</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">left</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">right</span> <span class="o">&lt;</span> <span class="n">s</span><span class="p">.</span><span class="n">length</span><span class="p">())</span>
+    <span class="p">{</span>
+        <span class="k">auto</span> <span class="n">rch</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="n">right</span><span class="p">];</span>
+        <span class="n">right</span><span class="o">++</span><span class="p">;</span>
+        <span class="n">window</span><span class="p">[</span><span class="n">rch</span><span class="p">]</span><span class="o">++</span><span class="p">;</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="n">window</span><span class="p">[</span><span class="n">rch</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">maxlen</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">maxlen</span><span class="p">,</span> <span class="n">right</span> <span class="o">-</span> <span class="n">left</span><span class="p">);</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="k">while</span> <span class="p">(</span><span class="n">window</span><span class="p">[</span><span class="n">rch</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="k">auto</span> <span class="n">lch</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="n">left</span><span class="p">];</span>
+                <span class="n">left</span><span class="o">++</span><span class="p">;</span>
+                <span class="n">window</span><span class="p">[</span><span class="n">lch</span><span class="p">]</span><span class="o">--</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">maxlen</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="类似题目">类似题目</h2>
+<p>下面使用上面的框架解答一下其他的滑动窗口的类似题目</p>
+<h3 id="最小覆盖子串---力扣leetcode">最小覆盖子串 - 力扣（LeetCode）</h3>
+<p>题目见<a href="https://leetcode-cn.com/problems/minimum-window-substring/" target="_blank" rel="noopener noreffer">76. 最小覆盖子串 - 力扣（LeetCode）</a>：给你一个字符串 S、一个字符串 T，请在字符串 S 里面找出：包含 T 所有字符的最小子串。</p>
+<p>示例：</p>
+<blockquote>
+<p><strong>输入:</strong> S = &ldquo;ADOBECODEBANC&rdquo;, T = &ldquo;ABC&rdquo;
+<strong>输出:</strong> &ldquo;BANC&rdquo;</p>
+</blockquote>
+<p>也是同样的做法，但是需要搞清楚几个问题</p>
+<h4 id="何时扩展窗口">何时扩展窗口？</h4>
+<p>如果窗口中没有将所有的T中的字符包含，那么向右扩展窗口。</p>
+<h4 id="何时更新长度">何时更新长度？</h4>
+<p>扩展窗口之后，检查窗口的字符集合。如果当前窗口包含了所有的T中的字符，那么更新子串的起始位置id及长度。</p>
+<h4 id="何时缩减窗口">何时缩减窗口？</h4>
+<p>更新长度之后，窗口的左端右移，缩减窗口。于是有了下面的代码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="c1">// No. 76
+</span><span class="c1"></span><span class="n">string</span> <span class="nf">minWindow</span><span class="p">(</span><span class="n">string</span> <span class="n">s</span><span class="p">,</span> <span class="n">string</span> <span class="n">t</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">startId</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">rightId</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">minLen</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">left</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="kt">int</span>  <span class="n">matchCount</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="c1">// record the only need characters
+</span><span class="c1"></span>    <span class="n">unordered_map</span><span class="o">&lt;</span><span class="kt">char</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">window</span><span class="p">;</span>
+    <span class="n">unordered_map</span><span class="o">&lt;</span><span class="kt">char</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">need</span><span class="p">;</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="nl">ch</span> <span class="p">:</span> <span class="n">t</span><span class="p">)</span>
+        <span class="n">need</span><span class="p">[</span><span class="n">ch</span><span class="p">]</span><span class="o">++</span><span class="p">;</span>
+    
+    <span class="k">while</span> <span class="p">(</span><span class="n">right</span> <span class="o">&lt;</span> <span class="n">s</span><span class="p">.</span><span class="n">length</span><span class="p">())</span>
+    <span class="p">{</span>
+        <span class="k">auto</span> <span class="n">rch</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="n">right</span><span class="p">];</span>
+        <span class="n">right</span><span class="o">++</span><span class="p">;</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">need</span><span class="p">.</span><span class="n">count</span><span class="p">(</span><span class="n">rch</span><span class="p">))</span> <span class="p">{</span>
+            <span class="c1">// expand window
+</span><span class="c1"></span>            <span class="n">window</span><span class="p">[</span><span class="n">rch</span><span class="p">]</span><span class="o">++</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">window</span><span class="p">[</span><span class="n">rch</span><span class="p">]</span> <span class="o">==</span> <span class="n">need</span><span class="p">[</span><span class="n">rch</span><span class="p">])</span> <span class="p">{</span>
+                <span class="n">matchCount</span><span class="o">++</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>       
+
+        <span class="c1">// shrink the window
+</span><span class="c1"></span>        <span class="k">while</span> <span class="p">(</span><span class="n">matchCount</span> <span class="o">==</span> <span class="n">need</span><span class="p">.</span><span class="n">size</span><span class="p">())</span>
+        <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">right</span> <span class="o">-</span> <span class="n">left</span> <span class="o">&lt;</span> <span class="n">minLen</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">startId</span> <span class="o">=</span> <span class="n">left</span><span class="p">;</span>
+                <span class="n">rightId</span> <span class="o">=</span> <span class="n">right</span><span class="p">;</span>
+                <span class="n">minLen</span> <span class="o">=</span> <span class="n">right</span> <span class="o">-</span> <span class="n">left</span><span class="p">;</span>
+            <span class="p">}</span>
+
+            <span class="k">auto</span> <span class="n">lch</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="n">left</span><span class="p">];</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">need</span><span class="p">.</span><span class="n">count</span><span class="p">(</span><span class="n">lch</span><span class="p">))</span> <span class="p">{</span>
+                <span class="n">window</span><span class="p">[</span><span class="n">lch</span><span class="p">]</span><span class="o">--</span><span class="p">;</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">window</span><span class="p">[</span><span class="n">lch</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">need</span><span class="p">[</span><span class="n">lch</span><span class="p">])</span> <span class="p">{</span>
+                    <span class="n">matchCount</span><span class="o">--</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>            
+            <span class="n">left</span><span class="o">++</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">rightId</span> <span class="o">-</span> <span class="n">startId</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">?</span> <span class="n">s</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="n">startId</span><span class="p">,</span> <span class="n">rightId</span> <span class="o">-</span> <span class="n">startId</span><span class="p">)</span> <span class="o">:</span> <span class="s">&#34;&#34;</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>上面的写法中，需要注意几个问题</p>
+<ol>
+<li><code>window</code>仅仅记录了<code>[left, right)</code>的子串中的出现在need窗口中的字符的情况，并没有对窗口中所有的字符都做统计，其实也没有必要做，因为我们并不关心其他的字符；</li>
+<li><code>minLen</code>用来记录最短的子串长度，刚开始初始化为字符串的长度+1；</li>
+<li>我们用<code>matchCount</code>标记匹配的字符的个数，如果匹配了一个字符就加一，否则减一，匹配的标准是该字符的出现次数在window中<strong>不少于</strong>在need中出现的次数。注意，这个<strong>参数在扩展窗口时增加，在缩减窗口时减少</strong>，增加或减少之后即刻与need比较判断。</li>
+</ol>
+<h3 id="424-替换后的最长重复字符">424. 替换后的最长重复字符</h3>
+<p>题目见<a href="https://leetcode-cn.com/problems/longest-repeating-character-replacement/" target="_blank" rel="noopener noreffer">424. 替换后的最长重复字符 - 力扣（LeetCode）</a>，题目也比较简单，维护滑动窗口，每次在扩展窗口时候检查当前的窗口中的最多的字符的个数与替换的数量k的和是否大于等于窗口的长度？</p>
+<ol>
+<li>如果是，则更新窗口的长度，窗口继续扩展；</li>
+<li>如果否，则缩减窗口的长度；</li>
+</ol>
+<p>循环往复，直到窗口的右边界超过了字符串的长度。代码如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="kt">int</span> <span class="n">characterReplacement</span><span class="p">(</span><span class="n">string</span> <span class="n">s</span><span class="p">,</span> <span class="kt">int</span> <span class="n">k</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">maxLen</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">left</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="n">unordered_map</span><span class="o">&lt;</span><span class="kt">char</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">window</span><span class="p">;</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">right</span> <span class="o">&lt;</span> <span class="n">s</span><span class="p">.</span><span class="n">length</span><span class="p">())</span> <span class="p">{</span>
+            <span class="k">auto</span> <span class="n">rch</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="n">right</span><span class="p">];</span>
+            <span class="n">window</span><span class="p">[</span><span class="n">rch</span><span class="p">]</span><span class="o">++</span><span class="p">;</span>
+            <span class="n">right</span><span class="o">++</span><span class="p">;</span>
+
+            <span class="c1">// find max count char
+</span><span class="c1"></span>            <span class="kt">int</span> <span class="n">maxCount</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+            <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="n">iter</span> <span class="o">=</span> <span class="n">window</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span> <span class="n">iter</span> <span class="o">!=</span> <span class="n">window</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="n">iter</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">maxCount</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">maxCount</span><span class="p">,</span> <span class="n">iter</span><span class="o">-&gt;</span><span class="n">second</span><span class="p">);</span>
+            <span class="p">}</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">maxCount</span> <span class="o">+</span> <span class="n">k</span> <span class="o">&gt;=</span> <span class="n">right</span> <span class="o">-</span> <span class="n">left</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">maxLen</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">right</span> <span class="o">-</span> <span class="n">left</span><span class="p">,</span> <span class="n">maxLen</span><span class="p">);</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="k">auto</span> <span class="n">lch</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="n">left</span><span class="p">];</span>
+                <span class="n">window</span><span class="p">[</span><span class="n">lch</span><span class="p">]</span><span class="o">--</span><span class="p">;</span>
+                <span class="n">left</span><span class="o">++</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">maxLen</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="1004-最大连续1的个数-iii">1004. 最大连续1的个数 III</h3>
+<p>题目见<a href="https://leetcode-cn.com/problems/max-consecutive-ones-iii/" target="_blank" rel="noopener noreffer">1004. 最大连续1的个数 III - 力扣（LeetCode）</a>，与上一题目类似，直接看代码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="kt">int</span> <span class="n">longestOnes</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">A</span><span class="p">,</span> <span class="kt">int</span> <span class="n">K</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">maxLen</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">left</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="n">unordered_map</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">window</span><span class="p">;</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">right</span> <span class="o">&lt;</span> <span class="n">A</span><span class="p">.</span><span class="n">size</span><span class="p">())</span> <span class="p">{</span>
+            <span class="k">auto</span> <span class="n">rnum</span> <span class="o">=</span> <span class="n">A</span><span class="p">[</span><span class="n">right</span><span class="p">];</span>
+            <span class="n">window</span><span class="p">[</span><span class="n">rnum</span><span class="p">]</span><span class="o">++</span><span class="p">;</span>
+            <span class="n">right</span><span class="o">++</span><span class="p">;</span>
+                        
+            <span class="k">if</span> <span class="p">(</span><span class="n">window</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">K</span> <span class="o">&gt;=</span> <span class="n">right</span> <span class="o">-</span> <span class="n">left</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">maxLen</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">right</span> <span class="o">-</span> <span class="n">left</span><span class="p">,</span> <span class="n">maxLen</span><span class="p">);</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="k">auto</span> <span class="n">lnum</span> <span class="o">=</span> <span class="n">A</span><span class="p">[</span><span class="n">left</span><span class="p">];</span>
+                <span class="n">window</span><span class="p">[</span><span class="n">lnum</span><span class="p">]</span><span class="o">--</span><span class="p">;</span>
+                <span class="n">left</span><span class="o">++</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">maxLen</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>可以看出这个代码与上一题目非常相似，通用框架都是默认扩展窗口，如果不满足某些条件再缩减窗口。</p>
+<h3 id="992-k个不同整数的数组">992. K个不同整数的数组</h3>
+<p>题目见<a href="https://leetcode-cn.com/problems/subarrays-with-k-different-integers/" target="_blank" rel="noopener noreffer">992. K 个不同整数的子数组 - 力扣（LeetCode）</a>，这个比上面的两道题要复杂点，两次使用双指针解决，基本思路是：</p>
+<ol>
+<li>维护像之前一样的滑动窗口，如果当前的窗口不满足条件，那么向右扩张；</li>
+<li>如果窗口满足条件了，停止向右扩张，右边界不变，左边界向右移动（收缩窗口），开始计算满足条件的窗口数目。注意，这里的动作，在满足条件的窗口上再开一个滑动窗口，但是该窗口的右边界不变，不停右移左边界，遍历满足条件的总数；</li>
+<li>如此这般往复循环，直到滑动窗口的右边缘到达字符串的右边界为止。</li>
+</ol>
+<p>我第一次提交的代码如下，</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="kt">int</span> <span class="nf">subarraysWithKDistinct</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">A</span><span class="p">,</span> <span class="kt">int</span> <span class="n">K</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">left</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="n">unordered_map</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">window</span><span class="p">;</span>
+
+        <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">right</span> <span class="o">&lt;</span> <span class="n">A</span><span class="p">.</span><span class="n">size</span><span class="p">())</span> <span class="p">{</span>
+            <span class="k">auto</span> <span class="n">rnum</span> <span class="o">=</span> <span class="n">A</span><span class="p">[</span><span class="n">right</span><span class="p">];</span>
+            <span class="n">window</span><span class="p">[</span><span class="n">rnum</span><span class="p">]</span><span class="o">++</span><span class="p">;</span>
+            <span class="n">right</span><span class="o">++</span><span class="p">;</span>
+            
+			<span class="c1">// 如果当前的窗口中超过了K个不同的整数，那么需要缩小左边缘（即窗口左移）
+</span><span class="c1"></span>            <span class="k">while</span> <span class="p">(</span><span class="n">window</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">K</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">auto</span> <span class="n">lnum</span> <span class="o">=</span> <span class="n">A</span><span class="p">[</span><span class="n">left</span><span class="p">];</span>
+                <span class="n">window</span><span class="p">[</span><span class="n">lnum</span><span class="p">]</span><span class="o">--</span><span class="p">;</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">window</span><span class="p">[</span><span class="n">lnum</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="n">window</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">lnum</span><span class="p">);</span>
+                <span class="p">}</span>
+                <span class="n">left</span><span class="o">++</span><span class="p">;</span>
+            <span class="p">}</span> 
+            
+            <span class="c1">// 当前的窗口有K个不同的整数，移动左边缘，遍历所有满足条件的窗口
+</span><span class="c1"></span>            <span class="k">if</span> <span class="p">(</span><span class="n">window</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span> <span class="n">K</span><span class="p">)</span> <span class="p">{</span>                
+                <span class="n">unordered_map</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">subWindow</span><span class="p">(</span><span class="n">window</span><span class="p">);</span>
+                <span class="kt">int</span> <span class="n">tmpLeft</span> <span class="o">=</span> <span class="n">left</span><span class="p">;</span>
+
+                <span class="k">while</span> <span class="p">(</span><span class="n">subWindow</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span> <span class="n">K</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="n">count</span><span class="o">++</span><span class="p">;</span>
+                    <span class="n">subWindow</span><span class="p">[</span><span class="n">A</span><span class="p">[</span><span class="n">tmpLeft</span><span class="p">]]</span><span class="o">--</span><span class="p">;</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">subWindow</span><span class="p">[</span><span class="n">A</span><span class="p">[</span><span class="n">tmpLeft</span><span class="p">]]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+                        <span class="n">subWindow</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="n">tmpLeft</span><span class="p">]);</span>
+                    <span class="p">}</span>
+                    <span class="n">tmpLeft</span><span class="o">++</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">count</span><span class="p">;</span>
+    <span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>计算结果正确，但是超时了，仔细想想，其实不需要在创建一个subWindow窗口，可以复用原来的窗口，但是遍历完毕需要记得恢复，适当修改代码如下，</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="kt">int</span> <span class="nf">subarraysWithKDistinct</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">A</span><span class="p">,</span> <span class="kt">int</span> <span class="n">K</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">left</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="n">unordered_map</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">window</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">right</span> <span class="o">&lt;</span> <span class="n">A</span><span class="p">.</span><span class="n">size</span><span class="p">())</span> <span class="p">{</span>
+            <span class="k">auto</span> <span class="n">rnum</span> <span class="o">=</span> <span class="n">A</span><span class="p">[</span><span class="n">right</span><span class="p">];</span>
+            <span class="n">window</span><span class="p">[</span><span class="n">rnum</span><span class="p">]</span><span class="o">++</span><span class="p">;</span>
+            <span class="n">right</span><span class="o">++</span><span class="p">;</span>
+
+            <span class="k">while</span> <span class="p">(</span><span class="n">window</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">K</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">auto</span> <span class="n">lnum</span> <span class="o">=</span> <span class="n">A</span><span class="p">[</span><span class="n">left</span><span class="p">];</span>
+                <span class="n">window</span><span class="p">[</span><span class="n">lnum</span><span class="p">]</span><span class="o">--</span><span class="p">;</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">window</span><span class="p">[</span><span class="n">lnum</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="n">window</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">lnum</span><span class="p">);</span>
+                <span class="p">}</span>
+                <span class="n">left</span><span class="o">++</span><span class="p">;</span>
+            <span class="p">}</span> 
+            
+             
+            <span class="kt">int</span> <span class="n">tmpLeft</span> <span class="o">=</span> <span class="n">left</span><span class="p">;</span>
+            <span class="k">while</span> <span class="p">(</span><span class="n">window</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span> <span class="n">K</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">count</span><span class="o">++</span><span class="p">;</span>
+                <span class="n">window</span><span class="p">[</span><span class="n">A</span><span class="p">[</span><span class="n">tmpLeft</span><span class="p">]]</span><span class="o">--</span><span class="p">;</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">window</span><span class="p">[</span><span class="n">A</span><span class="p">[</span><span class="n">tmpLeft</span><span class="p">]]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="n">window</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="n">tmpLeft</span><span class="p">]);</span>
+                <span class="p">}</span>
+                <span class="n">tmpLeft</span><span class="o">++</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="c1">// recover the window
+</span><span class="c1"></span>            <span class="k">while</span> <span class="p">(</span><span class="n">tmpLeft</span> <span class="o">&gt;</span> <span class="n">left</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">window</span><span class="p">[</span><span class="n">A</span><span class="p">[</span><span class="n">tmpLeft</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span><span class="o">++</span><span class="p">;</span>
+                <span class="n">tmpLeft</span><span class="o">--</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">count</span><span class="p">;</span>
+    <span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="数据结构">数据结构</h2>
+<h3 id="哈希表">哈希表</h3>
+<p>上面的示例都用到了哈希表，又称为散列表，具体的定义可以参考<a href="https://www.wikiwand.com/zh/%E5%93%88%E5%B8%8C%E8%A1%A8" target="_blank" rel="noopener noreffer">哈希表</a>。与一般的顺序访问的数组等数据结构不同，哈希表将查询的数据映射到表中的位置来记录，加快了查询的速度（类似于数组的下表和数组的值的映射关系）。一般而言，哈希表的查询，插入和删除的性能是$O(1)$。</p>
+<h3 id="c-stl-中的哈希表">C++ STL 中的哈希表</h3>
+<p>C++在stl中使用<code>unordered_map</code>的数据结构保存哈希表，基本的用法如下所示</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="c1">// C++ program to demonstrate functionality of unordered_map 
+</span><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt; </span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;unordered_map&gt;  // </span><span class="cp">
+</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span> 
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> 
+<span class="p">{</span> 
+	<span class="c1">// Declaring umap to be of &lt;string, int&gt; type 
+</span><span class="c1"></span>	<span class="c1">// key will be of string type and mapped value will 
+</span><span class="c1"></span>	<span class="c1">// be of double type 
+</span><span class="c1"></span>	<span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">umap</span><span class="p">;</span> 
+
+	<span class="c1">// inserting values by using [] operator 
+</span><span class="c1"></span>	<span class="n">umap</span><span class="p">[</span><span class="s">&#34;GeeksforGeeks&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span> 
+	<span class="n">umap</span><span class="p">[</span><span class="s">&#34;Practice&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span> 
+	<span class="n">umap</span><span class="p">[</span><span class="s">&#34;Contribute&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">30</span><span class="p">;</span> 
+
+	<span class="c1">// Traversing an unordered map 
+</span><span class="c1"></span>	<span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="nl">x</span> <span class="p">:</span> <span class="n">umap</span><span class="p">)</span> 
+	<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">x</span><span class="p">.</span><span class="n">first</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">x</span><span class="p">.</span><span class="n">second</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span> 
+
+<span class="p">}</span> 
+</code></pre></td></tr></table>
+</div>
+</div><p>创建一个哈希表格，在哈希表中添加“键-值”对。</p>
+<ul>
+<li>
+<p><code>unordered_map</code>和<code>unordered_set</code>有什么区别？</p>
+<p><code>unordered_set</code>中只保存了键，主要用于查看某元素是否在集合中，不能保存每个键出现的次数。</p>
+</li>
+<li>
+<p><code>unordered_map</code>和<code>map</code>有什么区别？</p>
+<ol>
+<li>
+<p><code>map</code>中的键值是按序保存的，但是<code>unorederd_map</code>的键值是无序保存的；</p>
+</li>
+<li>
+<p>二者底层实现的数据结构不同，<code>map</code>使用的是<a href="https://zh.wikipedia.org/zh-my/%E7%BA%A2%E9%BB%91%E6%A0%91" target="_blank" rel="noopener noreffer">红黑树</a>，操作性能分别是$O(logn)$和$O(1)$</p>
+</li>
+</ol>
+</li>
+</ul>
+<p>常见的操作如下面的代码所示</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="c1">// C++ program to demonstrate functionality of unordered_map 
+</span><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt; </span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;unordered_map&gt; </span><span class="cp">
+</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span> 
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="c1">// Declaring umap to be of &lt;string, double&gt; type 
+</span><span class="c1"></span>    <span class="c1">// key will be of string type and mapped value will 
+</span><span class="c1"></span>    <span class="c1">// be of double type 
+</span><span class="c1"></span>    <span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span> <span class="kt">double</span><span class="o">&gt;</span> <span class="n">umap</span><span class="p">;</span>
+
+    <span class="c1">// 新增键值对
+</span><span class="c1"></span>    <span class="n">umap</span><span class="p">[</span><span class="s">&#34;PI&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">3.14</span><span class="p">;</span>
+    <span class="n">umap</span><span class="p">[</span><span class="s">&#34;root2&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.414</span><span class="p">;</span>
+    <span class="n">umap</span><span class="p">[</span><span class="s">&#34;root3&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.732</span><span class="p">;</span>
+    <span class="n">umap</span><span class="p">[</span><span class="s">&#34;log10&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">2.302</span><span class="p">;</span>
+    <span class="n">umap</span><span class="p">[</span><span class="s">&#34;loge&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
+
+    <span class="c1">// 插入键值对，可以使用c++的make_pair函数
+</span><span class="c1"></span>    <span class="n">umap</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">make_pair</span><span class="p">(</span><span class="s">&#34;e&#34;</span><span class="p">,</span> <span class="mf">2.718</span><span class="p">));</span>
+
+    <span class="n">string</span> <span class="n">key</span> <span class="o">=</span> <span class="s">&#34;PI&#34;</span><span class="p">;</span>
+
+    <span class="c1">// 查询方法一
+</span><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="n">umap</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">==</span> <span class="n">umap</span><span class="p">.</span><span class="n">end</span><span class="p">())</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">key</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; not found</span><span class="se">\n\n</span><span class="s">&#34;</span><span class="p">;</span>
+
+    <span class="c1">// If key found then iterator to that key is returned 
+</span><span class="c1"></span>    <span class="k">else</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Found &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">key</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n\n</span><span class="s">&#34;</span><span class="p">;</span>
+
+    <span class="c1">// 查询方法二 
+</span><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="n">umap</span><span class="p">.</span><span class="n">count</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">)</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">key</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; not found</span><span class="se">\n\n</span><span class="s">&#34;</span><span class="p">;</span>
+
+    <span class="c1">// If key found then iterator to that key is returned 
+</span><span class="c1"></span>    <span class="k">else</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Found &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">key</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n\n</span><span class="s">&#34;</span><span class="p">;</span>
+
+    <span class="c1">// 遍历方法一
+</span><span class="c1"></span>    <span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span> <span class="kt">double</span><span class="o">&gt;::</span><span class="n">iterator</span> <span class="n">itr</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">All Elements : </span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">itr</span> <span class="o">=</span> <span class="n">umap</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span> <span class="n">itr</span> <span class="o">!=</span> <span class="n">umap</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="n">itr</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">// itr works as a pointer to pair&lt;string, double&gt; 
+</span><span class="c1"></span>        <span class="c1">// type itr-&gt;first stores the key part and 
+</span><span class="c1"></span>        <span class="c1">// itr-&gt;second stroes the value part 
+</span><span class="c1"></span>        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">itr</span><span class="o">-&gt;</span><span class="n">first</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">itr</span><span class="o">-&gt;</span><span class="n">second</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 遍历方法二
+</span><span class="c1"></span>    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="nl">iter</span> <span class="p">:</span> <span class="n">umap</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">iter</span><span class="p">.</span><span class="n">first</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">iter</span><span class="p">.</span><span class="n">second</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>需要格外注意，除了上面的<code>find</code>方法之外，查询某个键是否在哈希表中，还可以通过如下代码查询某个键值<code>key</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">if</span> <span class="p">(</span><span class="n">umap</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">key</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; is found</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Not found</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>如果哈希表中没有这个键值，<strong>那么它会自动添加进去，并赋给它初值</strong>，所以在查询某个键是否存在时，不要用这样的方法。</p>
+<h2 id="参考资料">参考资料</h2>
+<ul>
+<li><a href="https://labuladong.gitbook.io/algo/di-ling-zhang-bi-du-xi-lie/hua-dong-chuang-kou-ji-qiao-jin-jie" target="_blank" rel="noopener noreffer">我写了首诗，把滑动窗口算法算法变成了默写题 - labuladong的算法小抄</a>，非常通俗易懂的算法说明，基本上按照这个顺序来刷题的</li>
+<li><a href="https://www.geeksforgeeks.org/unordered_map-in-cpp-stl/" target="_blank" rel="noopener noreffer">unordered_map in C++ STL - GeeksforGeeks</a>，C++ stl中的unordered_map</li>
+<li><a href="https://www.geeksforgeeks.org/hashing-set-1-introduction/" target="_blank" rel="noopener noreffer">Hashing | Set 1 (Introduction) - GeeksforGeeks</a>，哈希表的介绍</li>
+</ul>]]></description>
+</item></channel>
+</rss>

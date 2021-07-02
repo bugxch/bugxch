@@ -1,0 +1,2348 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>leetcode - 标签 - 致力于把技术要点写清楚</title>
+        <link>https://bugxch.github.io/tags/leetcode/</link>
+        <description>leetcode - 标签 - 致力于把技术要点写清楚</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>bugxch@126.com (bugxch)</managingEditor>
+            <webMaster>bugxch@126.com (bugxch)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Thu, 06 May 2021 22:33:59 &#43;0800</lastBuildDate><atom:link href="https://bugxch.github.io/tags/leetcode/" rel="self" type="application/rss+xml" /><item>
+    <title>二分搜索——从入门到精通</title>
+    <link>https://bugxch.github.io/binary_search/</link>
+    <pubDate>Thu, 06 May 2021 22:33:59 &#43;0800</pubDate><author>
+        <name>bugxch</name>
+    </author><guid>https://bugxch.github.io/binary_search/</guid>
+    <description><![CDATA[<div class="featured-image">
+                <img src="https://pic.imgdb.cn/item/60940147d1a9ae528fdc3a1d.png" referrerpolicy="no-referrer">
+            </div><p>最近在准备考试，做了一些二分搜索的题目，感觉有点意思，记录下做题的心得😁。</p>
+<h2 id="文章目标">文章目标</h2>
+<p>通过阅读本文，可以彻底搞懂二分查找的基本原理及各种变体，可以独立完成下面的力扣题目</p>
+<table>
+<thead>
+<tr>
+<th>力扣题目</th>
+<th>考查点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://leetcode-cn.com/problems/guess-number-higher-or-lower/" target="_blank" rel="noopener noreffer">374. 猜数字大小</a></td>
+<td>基本模板</td>
+</tr>
+<tr>
+<td><a href="https://leetcode-cn.com/problems/sqrtx/" target="_blank" rel="noopener noreffer">69. x 的平方根</a></td>
+<td>基本模板</td>
+</tr>
+<tr>
+<td><a href="https://leetcode-cn.com/problems/first-bad-version/?utm_source=LCUS&amp;utm_medium=ip_redirect&amp;utm_campaign=transfer2china" target="_blank" rel="noopener noreffer">278. 第一个错误的版本</a></td>
+<td>查找左边界</td>
+</tr>
+<tr>
+<td><a href="https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/" target="_blank" rel="noopener noreffer">153. 寻找旋转排序数组中的最小值</a></td>
+<td>寻找旋转数组中的目标值（无重复元素）</td>
+</tr>
+<tr>
+<td><a href="https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array-ii/" target="_blank" rel="noopener noreffer">154. 寻找旋转排序数组中的最小值 II</a></td>
+<td>寻找旋转数组中的目标值（包含重复元素）</td>
+</tr>
+<tr>
+<td><a href="https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/" target="_blank" rel="noopener noreffer">34. 在排序数组中查找元素的第一个和最后一个位置</a></td>
+<td>查找左右边界</td>
+</tr>
+</tbody>
+</table>
+<h2 id="基本原理">基本原理</h2>
+<p>在计算机科学中，二分搜索又被成为<strong>半区间</strong>搜索，对数搜索或者二分chop，它用于在排序数列中找到目标值的位置。算法不断比较数列中间元素与目标值，</p>
+<ol>
+<li>如果目标值与中间元素匹配，那直接返回中间的位置；</li>
+<li>如果目标值比中间元素小，继续搜索低半边的数列；</li>
+<li>如果目标值比中间元素大，那么继续搜索高半边</li>
+</ol>
+<p>注意到<strong>每次在比较元素之后搜索的区间会减少一半（去掉目标值不可能在的那一半区间）</strong>，所以在最坏的情况下，算法的复杂度是$O(logn)$。下面是二分搜索与线性搜索的比较示意图，以<strong>严格单调增且无重复元素</strong>的序列为例，查找目标值为37的序列值。</p>
+<p></p>
+<p>序列长度是17，</p>
+<ol>
+<li>二分查找第一次寻找整个搜索区间的中间的index（从0开始计数）为(0 + 16) / 2 = 8的数字23，23比37小，所以<strong>更新查找区间为</strong>[9,16]；</li>
+<li>查找新区间的中间index = (9 + 16) /2 = 12，结果是数字41，比37大，<strong>更新查找区间</strong>为[9, 11];</li>
+<li>查找新区间的中间index = (9 + 11) / 2 = 10，结果是数字31，比37大，继续<strong>更新查找区间</strong>为[11, 11]，此时中间元素就是第11号元素，即37，找到目标值，查找结束。</li>
+</ol>
+<p>根据以上算法步骤，很顺利就可以写出下面的伪代码，</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">// basic template
+<span class="k">function</span> binary_search<span class="o">(</span>A, n, T<span class="o">)</span> is
+    L :<span class="o">=</span> <span class="m">0</span>
+    R :<span class="o">=</span> n − <span class="m">1</span>
+    <span class="k">while</span> L ≤ R <span class="k">do</span>
+        m :<span class="o">=</span> floor<span class="o">((</span>L + R<span class="o">)</span> / 2<span class="o">)</span>
+        <span class="k">if</span> A<span class="o">[</span>m<span class="o">]</span> &lt; T <span class="k">then</span>
+            L :<span class="o">=</span> m + <span class="m">1</span>
+        <span class="k">else</span> <span class="k">if</span> A<span class="o">[</span>m<span class="o">]</span> &gt; T <span class="k">then</span>
+            R :<span class="o">=</span> m − <span class="m">1</span>
+        <span class="k">else</span>:
+            <span class="k">return</span> m
+    <span class="k">return</span> unsuccessful
+</code></pre></td></tr></table>
+</div>
+</div><p>使用上面的基本模板我们就可以解答文章开始列出的第一道题目了，<a href="https://leetcode-cn.com/problems/guess-number-higher-or-lower/" target="_blank" rel="noopener noreffer">374. 猜数字大小</a>题目，给出二分查找的基本模板。这道题目就是最传统的猜大小的谜题，标准的解答模板的代码如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cm">/**
+</span><span class="cm"> * Forward declaration of guess API.
+</span><span class="cm"> * @param  num   your guess
+</span><span class="cm"> * @return 	     -1 if num is lower than the guess number
+</span><span class="cm"> *			      1 if num is higher than the guess number
+</span><span class="cm"> *               otherwise return 0
+</span><span class="cm"> * int guess(int num);
+</span><span class="cm"> */</span>
+
+<span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="kt">int</span> <span class="n">guessNumber</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">left</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">right</span> <span class="o">=</span> <span class="n">n</span><span class="p">;</span>
+
+        <span class="k">while</span> <span class="p">(</span><span class="n">left</span> <span class="o">&lt;=</span> <span class="n">right</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// detail 1
+</span><span class="c1"></span>            <span class="kt">int</span> <span class="n">mid</span> <span class="o">=</span> <span class="n">left</span> <span class="o">+</span> <span class="p">((</span><span class="n">right</span> <span class="o">-</span> <span class="n">left</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span><span class="p">);</span> <span class="c1">// detail 2
+</span><span class="c1"></span>            <span class="kt">int</span> <span class="n">rlt</span> <span class="o">=</span> <span class="n">guess</span><span class="p">(</span><span class="n">mid</span><span class="p">);</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">rlt</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="n">mid</span><span class="p">;</span>
+            <span class="p">}</span>
+			<span class="c1">// detail 3
+</span><span class="c1"></span>            <span class="k">if</span> <span class="p">(</span><span class="n">rlt</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">right</span> <span class="o">=</span> <span class="n">mid</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="p">}</span>  <span class="k">else</span> <span class="p">{</span>
+                <span class="n">left</span> <span class="o">=</span> <span class="n">mid</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="关键技术细节">关键技术细节</h3>
+<blockquote>
+<p><em>Although the basic idea of binary search is comparatively straightforward, the details can be surprisingly tricky</em>  &ndash; <strong>Donald Knuth</strong></p>
+</blockquote>
+<p>就像高德纳所说，二分法的思想简单且易于理解，但是二分法的细节却藏了很多坑，<strong>魔鬼就在细节中</strong>。为了透彻理解二分法的实现，有必要对上面的代码的下面3个技术细节（标记为<code>detail</code>注释的地方）进行深究。</p>
+<h4 id="循环的入口条件">循环的入口条件</h4>
+<p>代码16行，为什么循环的入口条件是<code>left &lt;= right</code>？</p>
+<blockquote>
+<p>无论何时$[left, right]$表示<strong>可能包含目标值</strong>的搜索区间</p>
+</blockquote>
+<p>注意这是个<strong>左闭右闭</strong>的闭区间，单纯从数学角度出发，这个区间<strong>最短的长度就是1</strong>，也就是$left = right$的时候。如果$left &gt;  right$了，那$[left, right]$就是<strong>空集</strong>，这个集合<strong>肯定不包含目标值</strong>，也就<strong>没有继续搜索的必要</strong>了，所以循环退出。</p>
+<h4 id="中点计算">中点计算</h4>
+<p>为什么是<code>mid = left + ((right - left) &gt;&gt; 1)</code>，也就是数学的$floor((left + right) / 2)$?
+这里的中点转换成数学表示就是
+$$
+\begin{align}
+mid = \left \lfloor\frac{left + right}{2}  \right \rfloor
+\end{align}
+$$
+其实，我们还有另外一种选择，将中间值定为
+$$
+\begin{align}
+mid = \left \lceil\frac{left + right}{2}  \right \rceil
+\end{align}
+$$
+第2种方式的中点值的选择是否可行？从后面的分析，**其实是可行的。**那这两个计算公式有什么区别？最大的区别在于$right = left + 1$的时候，也就是搜索区间长度为2左右端点挨着的时候，如下图所示，下一次循环计算mid，第1个公式结果是$mid = 4$，而第2个公式的结果是$mid = 5$，</p>
+<p></p>
+<p>，第1个公式$mid = \left \lfloor\frac{left + right}{2}  \right \rfloor = \left \lfloor\frac{left + left + 1}{2}  \right \rfloor = left$，而第2个公式$mid = \left \lceil\frac{left + right}{2}  \right \rceil = \left \lceil\frac{left + left + 1}{2}  \right \rceil = left + \lceil 0.5\rceil = left + 1 = right$，请记住这个重要的结论。</p>
+<blockquote>
+<p>当搜索区间的<strong>左右两端点挨着</strong>的时候（即$right = left + 1)$，floor函数计算的中点mid是left，ceil函数计算的中点mid是right</p>
+</blockquote>
+<p>请记住这个<strong>特殊的区间情况</strong>，至于为何基础模板选择floor而没有选择ceil，在后面的变化类型一节很关键。</p>
+<h4 id="搜索区间调整">搜索区间调整</h4>
+<p>在每次判断与target的差距之后，搜索区间为什么是这么调整的？
+二分法另一个容易搞错的问题是区间调整，$left$和$right$好像可以选择$mid$的3个边界值$mid, mid - 1, mid + 1$中的任意一个，其实<strong>调整的原则</strong>很简单，</p>
+<blockquote>
+<ol>
+<li><strong>排除</strong>target不可能存在的区间，<strong>保留</strong>可能存在的区间</li>
+<li>保证<strong>任意判断分支为true时最后都可以跳出循环，尤其当$right = left + 1$时</strong></li>
+</ol>
+</blockquote>
+<p>先看第1条原则，基础模板中，根据mid的值与目标值的差距，搜索区间$[left, right]$的调整有3个判断分支：</p>
+<ol>
+<li>如果和目标值相同$A[mid] = A[target]$，直接<strong>跳出循环</strong>，返回mid(代码第21行)；</li>
+<li>如果比目标值大$A[mid] &gt; A[target]$，那么肯定$target &lt; mid$，所以$target \le mid - 1$，因此$target$位于区间$[left, mid - 1]$上，更新$right = mid - 1$；</li>
+<li>如果比目标值小$A[mid] &lt; A[target]$，那么肯定$target &gt; mid$，所以$target \ge mid + 1$，因此$target$位于区间$[mid + 1， right]$上更新$left = mid + 1$。</li>
+</ol>
+<p>区间的调整仅仅保留了$target$可能存在的部分。</p>
+<p>分支3的调整情况，看如下图示</p>
+<p></p>
+<p>考察第2条原则，<strong>是否可以退出循环</strong>？这个循环的退出条件是$left &gt; right$。对照上面的3个判断分支分别为true的情况：</p>
+<ol>
+<li>第1个判断分支直接退出循环，符合条件；</li>
+<li>同理，第2个判断分支每次判断之后$right$在变小，所以必然在若干次之后比$left$小，直至退出循环</li>
+<li>第3个判断分支每次调整之后$left$在变大，所以所以必然在若干次之后比$right$大，直至退出循环</li>
+</ol>
+<p>所以随着区间的调整，必然会在某一步满足退出的条件。<strong>特别的</strong>，当$right = left + 1$时，$mid = left$；</p>
+<ul>
+<li>第2个判断分支，$right = mid - 1 = left - 1 = right - 2 &lt; left = right - 1$，跳出循环</li>
+<li>第3个判断分支，$left = mid + 1 = left + 1 = right$，再次进入循环，此时$mid = left = right$，$left = mid + 1 = right + 1 &gt; right$，可以看到在迭代2次之后也退出循环</li>
+</ul>
+<p>第2条原则满足。</p>
+<hr>
+<p>结合上面的分析，二分法的步骤包括：</p>
+<p>从$A[mid]$与$target$的大小判断入手，判断它们的各种大小关系分支，确定每个判断分支的区间调整策略，需要满足下面的两条原则</p>
+<blockquote>
+<ol>
+<li><strong>排除</strong>target不可能存在的区间，<strong>保留</strong>可能存在的区间</li>
+<li>保证<strong>任意判断分支为true时最后都可以跳出循环，尤其当$right = left + 1$时</strong></li>
+</ol>
+</blockquote>
+<h3 id="深入探究">深入探究</h3>
+<p>上一小节讨论了3个关键技术细节，循环入口条件、中点计算和搜索区间调整，下面可以看到在满足上面的原则基础上，它们都可以变化。</p>
+<h4 id="分支合并">分支合并</h4>
+<p>当前的基础代码有3个判断分支，是否可以将3个分支合并成2个呢？下面的基础模板就可以。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="kt">int</span> <span class="n">guessNumber</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">left</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">right</span> <span class="o">=</span> <span class="n">n</span><span class="p">;</span>
+
+        <span class="k">while</span> <span class="p">(</span><span class="n">left</span> <span class="o">&lt;</span> <span class="n">right</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 退出条件变了
+</span><span class="c1"></span>            <span class="kt">int</span> <span class="n">mid</span> <span class="o">=</span> <span class="n">left</span> <span class="o">+</span> <span class="p">((</span><span class="n">right</span> <span class="o">-</span> <span class="n">left</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span><span class="p">);</span>
+            <span class="c1">// 调整策略的分支从3个变成了2个
+</span><span class="c1"></span>            <span class="k">if</span> <span class="p">(</span><span class="n">guess</span><span class="p">(</span><span class="n">mid</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">right</span> <span class="o">=</span> <span class="n">mid</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="k">else</span> <span class="p">{</span>
+                <span class="n">left</span> <span class="o">=</span> <span class="n">mid</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+		<span class="c1">// 返回的条件也变了
+</span><span class="c1"></span>        <span class="k">if</span> <span class="p">(</span><span class="n">guess</span><span class="p">(</span><span class="n">left</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="n">left</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>再仔细考察一下，上面的代码，3个地方发生变化（已经在注释种标出）依然可以通过测试，其实还是按照上面的2个原则来看。</p>
+<ol>
+<li>
+<p>每次调整区间，<strong>排除</strong>target不可能存在的区间，<strong>保留</strong>可能存在的区间</p>
+<p>重新分析之前的3个判断分支，比较特殊是第1点，如果$A[mid] = A[target]$，那么$mid = target$，很明显</p>
+<ul>
+<li>判断分支1与判断分支2合并，当$A[mid] \ge A[target]$，$target \le mid$，所以$target$<strong>可能位于</strong>$[left, mid]$区间，调整$right = mid$，注意此处$right \ne mid -1$</li>
+<li>判断分支1与判断分支3合并，当$A[mid] \le A[target]$，$target \ge mid$，所以$target$<strong>可能位于</strong>$[mid, right]$区间，调整$left = mid$，注意此处$left \ne mid +1$</li>
+</ul>
+<p>这两个策略看起来似乎都可以，结合其他两种情况，如果将3个分支合并为2个，应该有2种调整策略</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># solution 1，另一种正确的方案</span>
+<span class="k">function</span> binary_search_alternative<span class="o">(</span>A, n, T<span class="o">)</span> is
+    L :<span class="o">=</span> <span class="m">0</span>
+    R :<span class="o">=</span> n − <span class="m">1</span>
+    <span class="k">while</span> L &lt; R <span class="k">do</span>
+        m :<span class="o">=</span> floor<span class="o">((</span>L + R<span class="o">)</span> / 2<span class="o">)</span>
+        <span class="k">if</span> A<span class="o">[</span>m<span class="o">]</span> &gt;<span class="o">=</span> T <span class="k">then</span>
+            R :<span class="o">=</span> m
+        <span class="k">else</span>:
+            L :<span class="o">=</span> m + <span class="m">1</span>
+    <span class="k">if</span> A<span class="o">[</span>L<span class="o">]</span> <span class="o">=</span> T <span class="k">then</span>
+        <span class="k">return</span> L
+    <span class="k">return</span> unsuccessful
+</code></pre></td></tr></table>
+</div>
+</div><p>或者</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># solution 2，错误示范</span>
+<span class="k">function</span> binary_search_alternative<span class="o">(</span>A, n, T<span class="o">)</span> is
+    L :<span class="o">=</span> <span class="m">0</span>
+    R :<span class="o">=</span> n − <span class="m">1</span>
+    <span class="k">while</span> L &lt; R <span class="k">do</span>
+        m :<span class="o">=</span> floor<span class="o">((</span>L + R<span class="o">)</span> / 2<span class="o">)</span>
+        <span class="k">if</span> A<span class="o">[</span>m<span class="o">]</span> &lt;<span class="o">=</span> T <span class="k">then</span>
+            L :<span class="o">=</span> m
+        <span class="k">else</span>:
+            R :<span class="o">=</span> m - <span class="m">1</span>
+    <span class="k">if</span> A<span class="o">[</span>L<span class="o">]</span> <span class="o">=</span> T <span class="k">then</span>
+        <span class="k">return</span> L
+    <span class="k">return</span> unsuccessful
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>保证<strong>任意判断分支为true时最后都可以跳出循环，尤其当$right = left + 1$时</strong></p>
+<p>我们再看上面的两种伪代码，退出的条件是$left &gt;= right$，直接考察$left = right -1$的情况，如果在搜索的若干步之后搜索的区间变成下面的情况</p>
+<p></p>
+<p>下一步搜索的$mid = 4$，按照方案2，如果此时</p>
+<ol>
+<li>第2个判断分支为true，$right = mid - 1 = 3 &lt; left$，退出循环；</li>
+<li>第1个判断分支为true（代码第7~8行），那么调整$left = mid = 4$，再次进入之后<strong>会发现陷入死循环</strong>，核心原因在于中点的选择上，因为使用的是floor函数，导致left永远恒等于mid，换句或说，$left$永远不再增加，而且也进不到更新$right$的分支，陷入死循环，考察方案1就没有这种情况。</li>
+</ol>
+<p>所以方案2的结果是错的。</p>
+</li>
+</ol>
+<h4 id="中点计算变更">中点计算变更</h4>
+<p>上面的方案2，因为不满足第2条原则而失败，那有没有办法通过改变其他部分而满足原则呢？第1个判断分支如果为true，当$right = left + 1$时，根据代码第6行，$mid = left$，所以进入分支之后$left = mid = left$，那可以将第6行的代码改成下面这样，</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># solution 3，solution 2的改造</span>
+<span class="k">function</span> binary_search_alternative<span class="o">(</span>A, n, T<span class="o">)</span> is
+    L :<span class="o">=</span> <span class="m">0</span>
+    R :<span class="o">=</span> n − <span class="m">1</span>
+    <span class="k">while</span> L &lt; R <span class="k">do</span>
+        m :<span class="o">=</span> ceil<span class="o">((</span>L + R<span class="o">)</span> / 2<span class="o">)</span> <span class="c1"># ceil取代floor函数</span>
+        <span class="k">if</span> A<span class="o">[</span>m<span class="o">]</span> &lt;<span class="o">=</span> T <span class="k">then</span>
+            L :<span class="o">=</span> m
+        <span class="k">else</span>:
+            R :<span class="o">=</span> m - <span class="m">1</span>
+    <span class="k">if</span> A<span class="o">[</span>L<span class="o">]</span> <span class="o">=</span> T <span class="k">then</span>
+        <span class="k">return</span> L
+    <span class="k">return</span> unsuccessful
+</code></pre></td></tr></table>
+</div>
+</div><p>再考察一下上面的搜索区间左右端点相邻的情况，下一次搜索的$mid = 5$，无论走哪一个判断分支，最终$left = right$，跳出循环，所以对于第2条原则需要补充</p>
+<blockquote>
+<p>可以通过调整中点的计算方式，满足原则2，从而避免死循环</p>
+</blockquote>
+<h4 id="判断条件变更">判断条件变更</h4>
+<p>需要注意，其他2个的模板的循环条件为$left &lt; right$，当$left \ge right$时退出，如果$left = right$，那么搜索的区间只剩下一个元素，跳出循环之后别忘了要检查这个元素是否满足条件。如果最后的这个元素依然不是target，那么所有的元素也不是了，所以在最后我们加了一个判断，</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">    <span class="k">if</span> A<span class="o">[</span>L<span class="o">]</span> <span class="o">=</span> T <span class="k">then</span>
+        <span class="k">return</span> L
+    <span class="k">return</span> unsuccessful
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="变种题目">变种题目</h2>
+<p>理解上面的分析过程之后，进入进阶版的二分法题目。</p>
+<h3 id="重复元素左边界">重复元素左边界</h3>
+<p>参考<a href="https://leetcode-cn.com/problems/first-bad-version/?utm_source=LCUS&amp;utm_medium=ip_redirect&amp;utm_campaign=transfer2china" target="_blank" rel="noopener noreffer">278. 第一个错误的版本</a>，从某个版本开始，版本就已经不可用了，但是在这个版本之前，所有的版本均可用，需要找出第一个不可用的版本。假如说，我们有100个版本，从第70个版本开始不用，那么怎么快速找到70呢？如下所示</p>
+<p></p>
+<p>题目要找到最左边第一个true对应的下标70，也是找到重复的<code>true</code>区间的左边界。初始化$left = 0, right = 100$，我们还是<strong>从判断分支入手</strong>，</p>
+<ol>
+<li>如果$A[mid] = true$，那么$target$可能位于$[mid + 1, right]$区间，调整$left = mid + 1$；</li>
+<li>如果$A[mid] = false$，$mid$可能是$target$，但是$mid + 1$不会是$target$（因为我们要找的是最左边的那个FALSE），那么$target$可能位于$[left, mid]$区间，调整$right = mid$</li>
+</ol>
+<p>结合中点的计算原则$mid = floor((left + right)/ 2)$，判断$right = left + 1$时候，2个判断分支最终都可以跳出循环。最终代码如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="c1">// The API isBadVersion is defined for you.
+</span><span class="c1">// bool isBadVersion(int version);
+</span><span class="c1"></span>
+<span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="kt">int</span> <span class="n">firstBadVersion</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">left</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">right</span> <span class="o">=</span> <span class="n">n</span><span class="p">;</span>
+
+        <span class="k">while</span> <span class="p">(</span><span class="n">left</span> <span class="o">&lt;</span> <span class="n">right</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">mid</span> <span class="o">=</span> <span class="n">left</span> <span class="o">+</span> <span class="p">((</span><span class="n">right</span> <span class="o">-</span> <span class="n">left</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span><span class="p">);</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">isBadVersion</span><span class="p">(</span><span class="n">mid</span><span class="p">)</span> <span class="o">==</span> <span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">left</span> <span class="o">=</span> <span class="n">mid</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="n">right</span> <span class="o">=</span> <span class="n">mid</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">left</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>更一般的，假如我们要查找序列$[1,2,3,4,4,5,6,6,7,7,9,10,10,10]$中的<strong>最左边</strong>的10的index，该如何处理？从分支判断入手，</p>
+<ol>
+<li>如果$A[mid] \lt 10$，那么10可能位于区间$[mid + 1, right]$区间，调整$left = mid + 1$；</li>
+<li>如果$A[mid] =  10$，那么10可能位于区间$[left, mid]$区间，调整$right = mid$；</li>
+<li>如果$A[mid] \gt  10$，那么10可能位于区间$[left, mid - 1]$区间，调整$right = mid - 1$</li>
+</ol>
+<p>合并分支2和分支3，变成</p>
+<ol>
+<li>如果$A[mid] \lt 10$，那么10可能位于区间$[mid + 1, right]$区间，调整$left = mid + 1$；</li>
+<li>如果$A[mid] \ge  10$，那么10可能位于区间$[left, mid]$区间，调整$right = mid$</li>
+</ol>
+<p>判断当$left = right - 1$时，两个分支都可以顺利退出。代码如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="kt">int</span> <span class="n">CheckVal</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">left</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">right</span> <span class="o">=</span> <span class="n">n</span><span class="p">;</span>
+
+        <span class="k">while</span> <span class="p">(</span><span class="n">left</span> <span class="o">&lt;</span> <span class="n">right</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">mid</span> <span class="o">=</span> <span class="n">left</span> <span class="o">+</span> <span class="p">((</span><span class="n">right</span> <span class="o">-</span> <span class="n">left</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span><span class="p">);</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">left</span> <span class="o">=</span> <span class="n">mid</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="n">right</span> <span class="o">=</span> <span class="n">mid</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="n">left</span><span class="p">]</span> <span class="o">==</span> <span class="mi">10</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="n">left</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="重复元素右边界">重复元素右边界</h3>
+<p>假如我们要查找序列$[1,2,3,4,4,5,6,6,7,7,9,10,10,10]$中的<strong>最右边</strong>的10的index，该如何处理？从分支判断入手，</p>
+<ol>
+<li>如果$A[mid] \lt 10$，那么最右边的10可能位于区间$[mid + 1, right]$区间，调整$left = mid + 1$；</li>
+<li>如果$A[mid] =  10$，这个$A[mid]$可能是最右边的10，也可能不是，但是$A[mid - 1]$肯定不是最右边的10了，所以目标值可能位于区间$[mid, right]$区间，调整$left = mid$；</li>
+<li>如果$A[mid] \gt  10$，那么最右边的10可能位于区间$[left, mid - 1]$区间，调整$right = mid - 1$</li>
+</ol>
+<p>合并分支1和分支2，变成</p>
+<ol>
+<li>如果$A[mid] \le 10$，那么10可能位于区间$[mid, right]$区间，调整$left = mid$；</li>
+<li>如果$A[mid] \gt  10$，那么10可能位于区间$[left, mid - 1]$区间，调整$right = mid - 1$</li>
+</ol>
+<p>判断当$left = right - 1$时，按照floor函数计算，第1个分支会陷入死循环，所以需要调整中点的计算方式为ceil，判断两个分支都可以顺利退出，所以代码如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="kt">int</span> <span class="n">CheckVal</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">left</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">right</span> <span class="o">=</span> <span class="n">n</span><span class="p">;</span>
+
+        <span class="k">while</span> <span class="p">(</span><span class="n">left</span> <span class="o">&lt;</span> <span class="n">right</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">mid</span> <span class="o">=</span> <span class="n">left</span> <span class="o">+</span> <span class="p">((</span><span class="n">right</span> <span class="o">-</span> <span class="n">left</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">left</span> <span class="o">=</span> <span class="n">mid</span><span class="p">;</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="n">right</span> <span class="o">=</span> <span class="n">mid</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="n">left</span><span class="p">]</span> <span class="o">==</span> <span class="mi">10</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="n">left</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="旋转数组无重复元素">旋转数组（无重复元素）</h3>
+<p>来做文章目标中的<a href="https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/" target="_blank" rel="noopener noreffer">153. 寻找旋转排序数组中的最小值</a>这道题，具体看看示例2中的题目怎么做</p>
+<p></p>
+<p>具体的值和index的分布如下所示</p>
+<p></p>
+<ol>
+<li>
+<p>初始化搜索范围，$left = 0, right = n - 1 = 6$；</p>
+</li>
+<li>
+<p>$mid = 3$，从判断$A[3] = 7$与$target$的值入手，但是比较棘手的是$target$是多少呢（我们不知道最小值是0，仅仅知道这是一个旋转序列）？那我们根据什么判断$target$存在的可能区间呢？注意下面这幅图
+</p>
+</li>
+</ol>
+<p>这个旋转数组分为前后两个区间，前面区间每一个数字都比后面区间的数字大（因为没有重复数字），分别称为高半区间和低半区间。很明显，</p>
+<ol>
+<li>最小值一定在低半区间，且位于低半区间的起始点上；</li>
+<li>我们不知道低半区间的起始点在哪里，也不知道高半区间的终点在哪里；</li>
+<li>我们可以根据当前元素与数组最后一个元素（想想为什么不是第一个元素）的大小确认出具体位于哪个半区间，如果$A[id] &gt; A[n - 1]$，那么在高半区间，否则在低半区间。</li>
+</ol>
+<p>那这个和判断$target$所在区间有什么关系呢？如果$mid$位于高半区间，那么可以肯定最小值肯定不在$[left, mid]$中，更新$left = mid + 1$，如果位于低半区间，可以肯定$[mid+ 1, right]$不可能是最小值，更新$right = mid$。于是有下面的代码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="kt">int</span> <span class="n">findMin</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="k">return</span> <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+        <span class="kt">int</span> <span class="n">left</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">right</span> <span class="o">=</span> <span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">left</span> <span class="o">&lt;</span> <span class="n">right</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">mid</span> <span class="o">=</span> <span class="n">left</span> <span class="o">+</span> <span class="p">((</span><span class="n">right</span> <span class="o">-</span> <span class="n">left</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span><span class="p">);</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">nums</span><span class="p">[</span><span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span> <span class="p">{</span>
+                <span class="n">left</span> <span class="o">=</span> <span class="n">mid</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="n">right</span> <span class="o">=</span> <span class="n">mid</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">nums</span><span class="p">[</span><span class="n">left</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><ol start="3">
+<li>判断是否在$right = left +1$时，每个分支可以跳出循环，可以👍，完毕。</li>
+</ol>
+<h3 id="旋转数组-包含重复元素左边界">旋转数组（ 包含重复元素）左边界</h3>
+<p>再来看<a href="https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array-ii/" target="_blank" rel="noopener noreffer">154. 寻找旋转排序数组中的最小值 II - 力扣（LeetCode）</a>，这个题目与上面有点区别，就是它有重复元素，如下图</p>
+<p></p>
+<p>看起来可以按照上面的题目如法炮制，判断$A[mid]$与$A[n -1]$的大小，</p>
+<ol>
+<li>
+<p>如果$A[mid] &gt; A[n -1]$，$mid$位于高半区间，则最小值肯定不在$[left, mid]$里面，更新$left = mid + 1$；</p>
+</li>
+<li>
+<p>如果$A[mid] &lt; A[n -1]$，$mid$位于低半区间，则最小值肯定不在$[mid +1, right]$里面，更新$right = mid$；</p>
+</li>
+<li>
+<p>如果$A[mid] = A[n-1]$，这个时候就说不清楚$mid$是在高区间还是低区间了。因为可能有下面的情况</p>
+<p></p>
+<p>再仔细想想，其实在这一步，我们不需要知道我们位于哪个区间，我们要清楚$mid$跟最小值的index的关系，参考下面的图</p>
+<p></p>
+<p>考虑数组中的最后一个元素$A[right]$，在最小值右侧的元素，它们的值一定都小于等于$A[right]$；而在最小值左侧的元素，它们的值一定都大于等于 $A[right]$。假定中点为$pilot$，比较$A[pilot]$与$A[right]$的大小，可以间接判断出$pilot$和$target$的位置关系。</p>
+<p>第一种情况，$A[pilot]&lt;A[high]$，说明此时最小的点位于$pilot$的左边，所以更新$right = pilot$；</p>
+<p></p>
+<p>第二种情况，$A[pilot]&gt;A[high]$，说明此时最小的点位于$pilot$的右边，所以更新$left = pilot + 1$；</p>
+<p></p>
+<p>第三种情况，$A[pilot]=A[high]$，此时唯一可以确定的是最小值在$high$的左边，所以更新$right = right - 1$</p>
+<p></p>
+</li>
+</ol>
+<p>则有如下的答案</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="kt">int</span> <span class="n">findMin</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">low</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">high</span> <span class="o">=</span> <span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">low</span> <span class="o">&lt;</span> <span class="n">high</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">pivot</span> <span class="o">=</span> <span class="n">low</span> <span class="o">+</span> <span class="p">(</span><span class="n">high</span> <span class="o">-</span> <span class="n">low</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="n">pivot</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">nums</span><span class="p">[</span><span class="n">high</span><span class="p">])</span> <span class="p">{</span>
+                <span class="n">high</span> <span class="o">=</span> <span class="n">pivot</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="n">pivot</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">nums</span><span class="p">[</span><span class="n">high</span><span class="p">])</span> <span class="p">{</span>
+                <span class="n">low</span> <span class="o">=</span> <span class="n">pivot</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="k">else</span> <span class="p">{</span>
+                <span class="n">high</span> <span class="o">-=</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">nums</span><span class="p">[</span><span class="n">low</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>考察$right = left + 1$时候，三个分支都可以顺利跳出循环，搞定👍</p>
+<h2 id="参考资料">参考资料</h2>
+<ol>
+<li><a href="https://segmentfault.com/a/1190000016825704" target="_blank" rel="noopener noreffer">二分查找、二分边界查找算法的模板代码总结 - SegmentFault 思否</a>，给我很多启发的一篇文章</li>
+<li><a href="https://en.wikipedia.org/wiki/Binary_search_algorithm" target="_blank" rel="noopener noreffer">Binary search algorithm</a>，维基百科页面，英文版里面的内容很详尽</li>
+</ol>
+<hr>]]></description>
+</item><item>
+    <title>LeetCode区间问题总结</title>
+    <link>https://bugxch.github.io/intersection/</link>
+    <pubDate>Sun, 16 Aug 2020 22:31:31 &#43;0800</pubDate><author>
+        <name>bugxch</name>
+    </author><guid>https://bugxch.github.io/intersection/</guid>
+    <description><![CDATA[<div class="featured-image">
+                <img src="https://cdn.pixabay.com/photo/2013/07/18/20/26/sea-164989_960_720.jpg" referrerpolicy="no-referrer">
+            </div><p>上周五考试没有过，其中专业级第二题是关于区间的问题，在leetcode上找到类似的题目，总结复习下。</p>
+<h2 id="引子">引子</h2>
+<p>先看这道题，<a href="https://leetcode-cn.com/problems/corporate-flight-bookings/" target="_blank" rel="noopener noreffer">1109. 航班预订统计</a>，题目是这样的</p>
+<p>这里有<code>n</code> 个航班，它们分别从 1 到 n 进行编号。</p>
+<p>我们这儿有一份航班预订表，表中第 <code>i</code> 条预订记录 <code>bookings[i] = [i, j, k]</code> 意味着我们在从 <code>i</code> 到<code> j</code> 的每个航班上预订了 <code>k</code> 个座位。</p>
+<p>请你返回一个长度为 n 的数组 <code>answer</code>，按航班编号顺序返回每个航班上预订的座位数。参考示例如下，</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="err">输入：</span><span class="n">bookings</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">10</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">20</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">25</span><span class="p">]],</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="err">输出：</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">55</span><span class="p">,</span><span class="mi">45</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">25</span><span class="p">]</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="解题思路">解题思路</h3>
+<p>将这道题的示例画一张表格表示一下，就是下面的结果</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">booking</th>
+<th style="text-align:center">1</th>
+<th style="text-align:center">2</th>
+<th style="text-align:center">3</th>
+<th style="text-align:center">4</th>
+<th style="text-align:center">5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">10</td>
+<td style="text-align:center">10</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">20</td>
+<td style="text-align:center">20</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">25</td>
+<td style="text-align:center">25</td>
+<td style="text-align:center">25</td>
+<td style="text-align:center">25</td>
+</tr>
+<tr>
+<td style="text-align:center">total</td>
+<td style="text-align:center">10</td>
+<td style="text-align:center">55</td>
+<td style="text-align:center">45</td>
+<td style="text-align:center">25</td>
+<td style="text-align:center">25</td>
+</tr>
+</tbody>
+</table>
+<p>常规思路就是以航班号为基本坐标，计算每一个航班增加的座位数，然后逐项汇总相加即可。</p>
+<ol>
+<li>设置初始结果<code>vector&lt;int&gt; res(n, 0)</code>;</li>
+<li>遍历<code>bookings</code>，每次取其中的航班的预定数，添加到<code>res</code>对应的数组中，比如第1个booking，那么<code>res[0]+=10; res[1]+=10</code>，依次类推，直到遍历截止。</li>
+</ol>
+<p>上面的算法比较简单直观，但是可以分析发现，算法的复杂度有点高，两层遍历算法时间复杂度是$O(n^2)$，空间复杂度是$O(n)$不甚理想。</p>
+<p>有没有复杂度更简单的思路呢？这里有一个类比<strong>公交站的思路</strong>，可以将航班号码比作公交站牌，比如1号公交站，2号公交站，假定这些公交站是依次按顺序分布在一条直线公路上，<strong>第<code>i</code>个航班的飞机的预定数目就是公交车在第<code>i</code>个公交站发车时候的乘客数目（包括了上车和下车的乘客数</strong>）。</p>
+<p>举例说明，第1行表示，第1站交车上人数是10，说明公交车行驶到第1站时上车10人，到第2站时候车上的乘客仍然是10人，说明没有乘客上下车，到第3站时候车上乘客0人，说明此时有10人下车。如果使用长度为<code>N</code>的数组<code>count</code>表示每一站<strong>上下乘客的变化量</strong>(<code>count[i]</code> 表示第<code>i + 1</code>站上下车的乘客变化量），</p>
+<blockquote>
+<p>对于<code>booking = [i,j,k]</code>，</p>
+<ol>
+<li>表示在公交站第<code>i</code>站上车<code>k</code>人，<code>count[i - 1] += k</code>；</li>
+<li>第<code>i + 1</code>站直到第<code>j</code>站都没有乘客上下车，<code>count[i],...,count[j - 1]</code>无操作；</li>
+<li>在第<code>j + 1</code>站下车<code>k</code>人，所以<code>count[j] -= k</code></li>
+</ol>
+</blockquote>
+<p>为了方便起见，<strong>我们缩小问题的规模，以具体的数字代替抽象的代数字母</strong>，假如我们就只有3个公交站，取示例中的前2行，</p>
+<ol>
+<li>公交车刚开始上的人数是0，<code>vector&lt;int&gt; count(4, 0)</code>；</li>
+<li>读取第1行，到达第1站，公交车上10人，说明<strong>上车10人，无人下车，<code>count[0]+= 10</code></strong>，到达第2站公交车上依然是10人，说明也<strong>无人上车和下车</strong>，到达第3站，公交车上0人，说明<strong>10人下车，<code>count[2] -= 10</code></strong>；</li>
+<li>读取第2行，公交车到达第2站，公交车上20人，说明<strong>上车20人无人下车，<code>count[1] += 20</code></strong>，第3站车上20人，说明<strong>无人下车</strong>，第4站车上0人，说明<strong>有20人下车, <code>count[3]-=20</code></strong>。</li>
+</ol>
+<p>遍历结束，得到<code>count = {10, 20, -10，-20}</code>，那么最后每个站点的乘客数就很清楚了，到达第1站前车上乘客0人，到达后上车10人，所以第1站发车前车上10人，第2站到站后上车20人，所以第2站发车前车上乘客10 + 20  = 30人，第3站到站后下车10人，所以发车前车上乘客 30 - 10 = 20人。意思搞清楚之后，代码就很好写了。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">corpFlightBookings</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;&amp;</span> <span class="n">bookings</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">res</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+        <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">counter</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+        <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="o">&amp;</span><span class="nl">booking</span> <span class="p">:</span> <span class="n">bookings</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">start</span> <span class="o">=</span> <span class="n">booking</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+            <span class="kt">int</span> <span class="n">end</span> <span class="o">=</span> <span class="n">booking</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+			<span class="c1">// 记录每个booking的开始和结尾即可，中间的站点人数无变化
+</span><span class="c1"></span>            <span class="n">counter</span><span class="p">[</span><span class="n">start</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">booking</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span> <span class="c1">// start站上车
+</span><span class="c1"></span>            <span class="n">counter</span><span class="p">[</span><span class="n">end</span><span class="p">]</span> <span class="o">-=</span> <span class="n">booking</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span> <span class="c1">// end + 1站下车
+</span><span class="c1"></span>        <span class="p">}</span>
+        <span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">counter</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">res</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">counter</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+    <span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>时间复杂度为$O(n)$。</p>
+<h2 id="通用框架">通用框架</h2>
+<p>「待补充」</p>
+<h2 id="典型题目">典型题目</h2>
+<p>「待补充」</p>
+<h3 id="no-986-区间列表交集">No. 986 区间列表交集</h3>
+<p>题目的链接参考<a href="https://leetcode-cn.com/problems/interval-list-intersections/" target="_blank" rel="noopener noreffer">986. 区间列表的交集 - 力扣（LeetCode）</a>，</p>
+<h3 id="no-452-引爆气球">No. 452 引爆气球</h3>
+<p>题目链接参考<a href="https://leetcode-cn.com/problems/minimum-number-of-arrows-to-burst-balloons/" target="_blank" rel="noopener noreffer">452. 用最少数量的箭引爆气球 - 力扣（LeetCode）</a>，这道题目使用<strong>贪心法</strong>，将气球的坐标放在坐标轴上，然后从0开始从左到右逐气球扫描，查看是否有交集，图示如下。</p>
+<h2 id="参考资料">参考资料</h2>
+<p>「待补充」</p>]]></description>
+</item><item>
+    <title>广度优先搜索详解</title>
+    <link>https://bugxch.github.io/dfs_intro/</link>
+    <pubDate>Sat, 08 Aug 2020 11:24:24 &#43;0800</pubDate><author>
+        <name>bugxch</name>
+    </author><guid>https://bugxch.github.io/dfs_intro/</guid>
+    <description><![CDATA[<p>总结一下广度优先搜索的原理和用法。</p>
+<p></p>
+<h2 id="引子">引子</h2>
+<p>先看这道题<a href="https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/" target="_blank" rel="noopener noreffer">104. 二叉树的最大深度</a>，题目中给出一个二叉树，求这个二叉树的最大深度。例子中给出下面的二叉树</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">    <span class="m">3</span>
+   / <span class="se">\
+</span><span class="se"></span>  <span class="m">9</span>  <span class="m">20</span>
+    /  <span class="se">\
+</span><span class="se"></span>   <span class="m">15</span>   <span class="m">7</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这个如何解决呢？肉眼可见，最大深度是3。</p>
+<h3 id="构建二叉树">构建二叉树</h3>
+<p>首先为了便于调试，需要构建一颗二叉树，题目中的给出的是二叉树的层序遍历的结果，我们用<code>INT_MAX</code>代替null，使用如下函数构造二叉树</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="kt">void</span> <span class="nf">ConstructBinTree</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">nodes</span><span class="p">,</span> <span class="n">TreeNode</span> <span class="o">*</span><span class="n">root</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">nodes</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">INT_MAX</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">root</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">queue</span><span class="o">&lt;</span><span class="n">TreeNode</span> <span class="o">*&gt;</span> <span class="n">iq</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">id</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">root</span><span class="o">-&gt;</span><span class="n">val</span> <span class="o">=</span> <span class="n">nodes</span><span class="p">[</span><span class="n">id</span><span class="o">++</span><span class="p">];</span>
+    <span class="n">iq</span><span class="p">.</span><span class="n">emplace</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
+
+    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">iq</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">id</span> <span class="o">&lt;</span> <span class="n">nodes</span><span class="p">.</span><span class="n">size</span><span class="p">())</span>
+    <span class="p">{</span>
+        <span class="n">TreeNode</span> <span class="o">*</span><span class="n">node</span> <span class="o">=</span> <span class="n">iq</span><span class="p">.</span><span class="n">front</span><span class="p">();</span>
+        <span class="n">iq</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+
+        <span class="c1">// check vectors for left node
+</span><span class="c1"></span>        <span class="k">if</span> <span class="p">(</span><span class="n">nodes</span><span class="p">[</span><span class="n">id</span><span class="p">]</span> <span class="o">!=</span> <span class="n">INT_MAX</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">TreeNode</span> <span class="o">*</span><span class="n">leftNode</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TreeNode</span><span class="p">;</span>
+            <span class="n">leftNode</span><span class="o">-&gt;</span><span class="n">val</span> <span class="o">=</span> <span class="n">nodes</span><span class="p">[</span><span class="n">id</span><span class="p">];</span>
+            <span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">=</span> <span class="n">leftNode</span><span class="p">;</span>
+            <span class="n">iq</span><span class="p">.</span><span class="n">emplace</span><span class="p">(</span><span class="n">leftNode</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">else</span>
+        <span class="p">{</span>
+            <span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="n">id</span><span class="o">++</span><span class="p">;</span>
+		
+        <span class="c1">// add right node
+</span><span class="c1"></span>        <span class="k">if</span> <span class="p">(</span><span class="n">nodes</span><span class="p">[</span><span class="n">id</span><span class="p">]</span> <span class="o">!=</span> <span class="n">INT_MAX</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">TreeNode</span> <span class="o">*</span><span class="n">rightNode</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TreeNode</span><span class="p">;</span>
+            <span class="n">rightNode</span><span class="o">-&gt;</span><span class="n">val</span> <span class="o">=</span> <span class="n">nodes</span><span class="p">[</span><span class="n">id</span><span class="p">];</span>
+            <span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">=</span> <span class="n">rightNode</span><span class="p">;</span>
+            <span class="n">iq</span><span class="p">.</span><span class="n">emplace</span><span class="p">(</span><span class="n">rightNode</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">else</span>
+        <span class="p">{</span>
+            <span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="n">id</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>下面是中序遍历二叉树</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="kt">void</span> <span class="nf">ScanBinMiddle</span><span class="p">(</span><span class="n">TreeNode</span> <span class="o">*</span><span class="n">tree</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">tree</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// handle value
+</span><span class="c1"></span>    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">tree</span><span class="o">-&gt;</span><span class="n">val</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; &#34;</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">ScanBinMiddle</span><span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">ScanBinMiddle</span><span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="递归解法">递归解法</h3>
+<p>二叉树的比较普遍的解法是使用递归，我们需要找出递归的关系式，然后用程序写出来。递归解决问题的思路包括下面两点</p>
+<h4 id="描述变量">描述变量</h4>
+<p>我们有一个关于目标变量的描述，在这个题目中目标变量是整棵树的最大深度，放弃整体的概念，假设你站在根节点往下看，会看到它有左右两个子树，每棵树又有自己的节点和深度。所以假定推导的变量是</p>
+<blockquote>
+<p><code>maxdepth[node]</code>表示以<code>node</code>为根节点的树的最大深度</p>
+</blockquote>
+<h4 id="递归关系式">递归关系式</h4>
+<p>查看这个值和左右子树的关系是什么？3这个node的最大深度是9这个node最大深度和20这个node的最大深度的最大值 + 1，重新表述下就是下面的关系式<code>maxD[node] = max(maxD[node-&gt;left], maxD[node-&gt;right]) + 1</code>。</p>
+<h4 id="终止条件">终止条件</h4>
+<p>终止条件比较简单，在访问到null节点的时候返回0即可，因为以这个节点为根的树是不存在的，所以深度为0。于是有下面的代码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="kt">int</span> <span class="nf">maxDepth</span><span class="p">(</span><span class="n">TreeNode</span><span class="o">*</span> <span class="n">root</span><span class="p">)</span> 
+<span class="p">{</span>	
+    <span class="c1">// 终止条件
+</span><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="n">root</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span>
+	<span class="c1">// 关系式
+</span><span class="c1"></span>    <span class="k">return</span> <span class="n">max</span><span class="p">(</span><span class="n">maxDepth</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">),</span> <span class="n">maxDepth</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="广度优先搜索算法bfs">广度优先搜索算法（BFS）</h3>
+<p>不使用递归，还有另一种解法，一层层观察整棵树，第一层1个节点，第二层2个节点，第三层2个节点。每一层的节点之间使用左右子树联系起来，所以根据第1层的节点可以访问第2层的节点，根据第2层的节点可以访问第3层的节点，所以可以这么做。记录整棵树最深的深度是<code>maxdepth = 0</code>，</p>
+<ol>
+<li>访问第一层的根节点，如果非空则<code>maxdepth++</code>，否则返回；</li>
+<li>查看第一层的根节点是否有左右子树，有的话再分别访问左子树和右子树，<code>maxdepth++</code>；</li>
+<li>循环步骤2，直到所有的节点都被访问到。</li>
+</ol>
+<p>这里可以使用<strong>队列</strong>保存需要被访问的节点，如下图所示，分别在头和尾弹出和插入节点，</p>
+<p></p>
+<p>结合上面的步骤，<code>depth = 1</code>，将root的根节点添加到队列结尾</p>
+<ol>
+<li>我们一次将一层的节点放入到队列中；</li>
+<li>判断当前队列是否为空。
+<ul>
+<li>如果当前的队列不为空，那么将队列中的每个节点pop出来之后再考察这个节点的左右子树，如果有就将它们插入到队列的尾巴，<code>depth++</code>；</li>
+<li>如果当前队列为空，return</li>
+</ul>
+</li>
+</ol>
+<p>所以有了下面的代码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="kt">int</span> <span class="nf">maxDepth</span><span class="p">(</span><span class="n">TreeNode</span><span class="o">*</span> <span class="n">root</span><span class="p">)</span> 
+<span class="p">{</span>
+    <span class="c1">// 如果为空，那么返回0
+</span><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="n">root</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">queue</span><span class="o">&lt;</span><span class="n">TreeNode</span> <span class="o">*&gt;</span> <span class="n">qu</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">depth</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="c1">// 添加根节点
+</span><span class="c1"></span>    <span class="n">qu</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
+    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">qu</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">qz</span> <span class="o">=</span> <span class="n">qu</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">qz</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 考察队列中的每个节点，是否有左子树和右子树
+</span><span class="c1"></span>            <span class="n">TreeNode</span> <span class="o">*</span> <span class="n">node</span> <span class="o">=</span> <span class="n">qu</span><span class="p">.</span><span class="n">front</span><span class="p">();</span>
+            <span class="n">qu</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+            <span class="c1">// 如果有左右子节点，那么添加到队列中
+</span><span class="c1"></span>            <span class="k">if</span> <span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">qu</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>
+            <span class="p">}</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">qu</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="n">depth</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">depth</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>下图是资料3中的图示过程，简单明了。</p>
+<p></p>
+<h2 id="数据结构">数据结构</h2>
+<h3 id="队列">队列</h3>
+<p>使用<strong>队列</strong>保存每一层的节点，如下图所示，队列是先进先出的数据结构，包括如下的属性和方法</p>
+<p></p>
+<ul>
+<li>队列头（front），表示队列最开始的元素；</li>
+<li>队列尾（rear），表示队列最后加入的元素；</li>
+<li>队列长度，当前的队列长度，就是rear - front + 1；</li>
+<li>出队（pop），队列头弹出，队列长度-1，front++；</li>
+<li>入队（push），队列尾添加元素，队列长度+1，rear++</li>
+</ul>
+<h3 id="stl中的queue">STL中的queue</h3>
+<p>C++的stl使用queue表示队列，常用的操作和属性如下表所示</p>
+<ul>
+<li><code>front()</code>：返回 queue 中第一个元素的引用。如果 queue 是常量，就返回一个常引用；如果 queue 为空，返回值是未定义的。</li>
+<li><code>back()</code>：返回 queue 中最后一个元素的引用。如果 queue 是常量，就返回一个常引用；如果 queue 为空，返回值是未定义的。</li>
+<li><code>push(const T&amp; obj)</code>：在 queue 的尾部添加一个元素的副本。这是通过调用底层容器的成员函数 push_back() 来完成的。</li>
+<li><code>push(T&amp;&amp; obj)</code>：以移动的方式在 queue 的尾部添加元素。这是通过调用底层容器的具有右值引用参数的成员函数 push_back() 来完成的。</li>
+<li><code>pop()</code>：删除 queue 中的第一个元素。</li>
+<li><code>size()</code>：返回 queue 中元素的个数。</li>
+<li><code>empty()</code>：如果 queue 中没有元素的话，返回 true。</li>
+<li><code>emplace()</code>：用传给 emplace() 的参数调用 T 的构造函数，在 queue 的尾部生成对象。</li>
+<li><code>swap(queue&lt;T&gt; &amp;other_q)</code>：将当前 queue 中的元素和参数 queue 中的元素交换。它们需要包含相同类型的元素。也可以调用全局函数模板 swap() 来完成同样的操作。</li>
+</ul>
+<p>典型的使用方法如下，</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="c1">// CPP program to illustrate 
+</span><span class="c1">// Application of push() and pop() function 
+</span><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt; </span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;queue&gt; </span><span class="cp">
+</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span> 
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> 
+<span class="p">{</span> 
+	<span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> 
+	<span class="c1">// Empty Queue 
+</span><span class="c1"></span>	<span class="n">queue</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">myqueue</span><span class="p">;</span> 
+	<span class="n">myqueue</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span> 
+	<span class="n">myqueue</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="mi">13</span><span class="p">);</span> 
+	<span class="n">myqueue</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> 
+	<span class="n">myqueue</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="mi">9</span><span class="p">);</span> 
+	<span class="n">myqueue</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span> 
+	<span class="c1">// queue becomes 5, 13, 0, 9, 4 
+</span><span class="c1"></span>
+	<span class="c1">// Counting number of elements in queue 
+</span><span class="c1"></span>	<span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">myqueue</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span> 
+		<span class="n">myqueue</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span> 
+		<span class="n">c</span><span class="o">++</span><span class="p">;</span> 
+	<span class="p">}</span> 
+	<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">c</span><span class="p">;</span> 
+<span class="p">}</span> 
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="典型题目">典型题目</h2>
+<h3 id="二叉树的右视图">二叉树的右视图</h3>
+<p>题目链接见<a href="https://leetcode-cn.com/problems/binary-tree-right-side-view/" target="_blank" rel="noopener noreffer">199. 二叉树的右视图 - 力扣（LeetCode）</a>，如果有了上面题目的框架，这个题目其实很简单，既然每次遍历队列保存的<strong>这一层所有节点</strong>，而且节点的顺序是从左到右保存的，所以可以在每一层遍历的时候将队列的最后一个node加入到这个vector中，代码如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">rightSideView</span><span class="p">(</span><span class="n">TreeNode</span><span class="o">*</span> <span class="n">root</span><span class="p">)</span> 
+<span class="p">{</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">rlt</span><span class="p">;</span>
+    <span class="c1">// empty rlt for empty tree
+</span><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="n">root</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">rlt</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">queue</span><span class="o">&lt;</span><span class="n">TreeNode</span> <span class="o">*&gt;</span> <span class="n">qu</span><span class="p">;</span>
+    <span class="n">qu</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
+    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">qu</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">qz</span> <span class="o">=</span> <span class="n">qu</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+        <span class="c1">// add the last node in the current queue
+</span><span class="c1"></span>        <span class="n">rlt</span><span class="p">.</span><span class="n">emplace_back</span><span class="p">(</span><span class="n">qu</span><span class="p">.</span><span class="n">back</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">val</span><span class="p">);</span>
+        <span class="c1">// add nodes of next layer into the queue
+</span><span class="c1"></span>        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">qz</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">TreeNode</span> <span class="o">*</span> <span class="n">node</span> <span class="o">=</span> <span class="n">qu</span><span class="p">.</span><span class="n">front</span><span class="p">();</span>
+            <span class="n">qu</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">qu</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>
+            <span class="p">}</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">qu</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">rlt</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="二叉树中所有距离为-k-的结点">二叉树中所有距离为 K 的结点</h3>
+<p>题目见<a href="https://leetcode-cn.com/problems/all-nodes-distance-k-in-binary-tree/" target="_blank" rel="noopener noreffer">863. 二叉树中所有距离为 K 的结点 - 力扣（LeetCode）</a>，这道题稍微有点复杂，观察给出的例子（如下图），与5的节点距离为2的节点除了4和7之外还有1，如果仅仅给出4和7是比较简单的，只要以5为根节点，记录depth = 1，套用引子中的程序，将depth = K + 1的所有的节点列出来即可。</p>
+<p></p>
+<p>但是往上回溯比较难，换一个思路，我们遍历整个二叉树，</p>
+<ol>
+<li>记录每个节点的<code>father</code>节点，<code>left</code>节点和<code>right</code>节点，将二叉树变成图，表示A与这3个节点的任意一个都是连通的；</li>
+<li>初始化目标节点的<code>depth = 1</code>，以该节点为圆心，遍历所有的节点，打印出来所有<code>depth = K + 1</code>的节点</li>
+</ol>
+<p>第2步实际上是对BFS算法的升维，将二叉树转换为图，代码如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">distanceK</span><span class="p">(</span><span class="n">TreeNode</span> <span class="o">*</span><span class="n">root</span><span class="p">,</span> <span class="n">TreeNode</span> <span class="o">*</span><span class="n">target</span><span class="p">,</span> <span class="kt">int</span> <span class="n">K</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">TreeNode</span> <span class="o">*</span><span class="p">,</span> <span class="n">TreeNode</span> <span class="o">*&gt;</span> <span class="n">umap</span><span class="p">;</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">rlt</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">root</span> <span class="o">==</span> <span class="k">nullptr</span> <span class="o">||</span> <span class="n">target</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="n">rlt</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="cm">/************ PART 1 ************/</span>
+    <span class="c1">// find the father node of all the nodes in the tree
+</span><span class="c1"></span>    <span class="n">queue</span><span class="o">&lt;</span><span class="n">TreeNode</span> <span class="o">*&gt;</span> <span class="n">qu</span><span class="p">;</span>
+    <span class="n">umap</span><span class="p">[</span><span class="n">root</span><span class="p">]</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+    <span class="n">qu</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
+    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">qu</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span>
+    <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">qz</span> <span class="o">=</span> <span class="n">qu</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">qz</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">TreeNode</span> <span class="o">*</span><span class="n">node</span> <span class="o">=</span> <span class="n">qu</span><span class="p">.</span><span class="n">front</span><span class="p">();</span>
+            <span class="n">qu</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">qu</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>
+                <span class="c1">// father node
+</span><span class="c1"></span>                <span class="n">umap</span><span class="p">[</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">]</span> <span class="o">=</span> <span class="n">node</span><span class="p">;</span>
+            <span class="p">}</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">qu</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
+                <span class="c1">// father node
+</span><span class="c1"></span>                <span class="n">umap</span><span class="p">[</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">]</span> <span class="o">=</span> <span class="n">node</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="cm">/************ PART 2 ************/</span>
+    <span class="c1">// find the node with depth of K
+</span><span class="c1"></span>    <span class="n">queue</span><span class="o">&lt;</span><span class="n">TreeNode</span> <span class="o">*&gt;</span> <span class="n">newQ</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">depth</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">TreeNode</span> <span class="o">*</span><span class="p">,</span> <span class="kt">bool</span><span class="o">&gt;</span> <span class="n">usedmap</span><span class="p">;</span>
+    <span class="n">usedmap</span><span class="p">[</span><span class="n">target</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="n">newQ</span><span class="p">.</span><span class="n">emplace</span><span class="p">(</span><span class="n">target</span><span class="p">);</span>
+    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">newQ</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">depth</span> <span class="o">&lt;=</span> <span class="n">K</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">qz</span> <span class="o">=</span> <span class="n">newQ</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">qz</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">TreeNode</span> <span class="o">*</span><span class="n">node</span> <span class="o">=</span> <span class="n">newQ</span><span class="p">.</span><span class="n">front</span><span class="p">();</span>
+            <span class="n">usedmap</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+            <span class="n">newQ</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">depth</span> <span class="o">==</span> <span class="n">K</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">rlt</span><span class="p">.</span><span class="n">emplace_back</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">val</span><span class="p">);</span>
+                <span class="k">continue</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">usedmap</span><span class="p">.</span><span class="n">count</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span>
+            <span class="p">{</span>
+                <span class="n">newQ</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>
+            <span class="p">}</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">usedmap</span><span class="p">.</span><span class="n">count</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span>
+            <span class="p">{</span>
+                <span class="n">newQ</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
+            <span class="p">}</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">umap</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">!=</span> <span class="k">nullptr</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">usedmap</span><span class="p">.</span><span class="n">count</span><span class="p">(</span><span class="n">umap</span><span class="p">[</span><span class="n">node</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span>
+            <span class="p">{</span>
+                <span class="n">newQ</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">umap</span><span class="p">[</span><span class="n">node</span><span class="p">]);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="n">depth</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">//BFS for final rlt
+</span><span class="c1"></span>    <span class="k">return</span> <span class="n">rlt</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这个程序分为前后两大部分，</p>
+<ol>
+<li>第一部分遍历二叉树的每一个节点，记录每个节点的父节点，这里我们使用了哈希表来保存每个节点和它的父节点；</li>
+<li>第二部分就是核心代码，以target为圆心，将二叉树当作图来遍历，如果这个node有左右节点或者父节点，则表示它跟其他的节点之间联通，则使用BFS算法访问整个图网络。这里尤其要注意，遍<strong>历图需要标记当前图中的节点是否被访问过</strong>，否则会被多次重复遍历而陷入到死循环中，在这个程序里面，使用<code>usedmap</code>来做这件事，其实也可以使用<code>vector&lt;TreeNode *&gt;</code>来记录。</li>
+</ol>
+<p>为了方便调试，再补一个寻找target node的程序</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="n">TreeNode</span> <span class="o">*</span><span class="nf">FindTargetNode</span><span class="p">(</span><span class="n">TreeNode</span> <span class="o">*</span><span class="n">root</span><span class="p">,</span> <span class="kt">int</span> <span class="n">targetVal</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">root</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="k">nullptr</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">queue</span><span class="o">&lt;</span><span class="n">TreeNode</span> <span class="o">*&gt;</span> <span class="n">qu</span><span class="p">;</span>
+    <span class="n">qu</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
+    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">qu</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span>
+    <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">qz</span> <span class="o">=</span> <span class="n">qu</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">qz</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">TreeNode</span> <span class="o">*</span><span class="n">node</span> <span class="o">=</span> <span class="n">qu</span><span class="p">.</span><span class="n">front</span><span class="p">();</span>
+            <span class="n">qu</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">val</span> <span class="o">==</span> <span class="n">targetVal</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="k">return</span> <span class="n">node</span><span class="p">;</span>
+            <span class="p">}</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">qu</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>
+            <span class="p">}</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">qu</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="颜色交替的最短路径">颜色交替的最短路径</h3>
+<p>题目见<a href="https://leetcode-cn.com/problems/shortest-path-with-alternating-colors/" target="_blank" rel="noopener noreffer">1129. 颜色交替的最短路径 - 力扣（LeetCode）</a>，这道题难度要大一点，但是后面的方法仍然是BFS，代码如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span><span class="lnt">84
+</span><span class="lnt">85
+</span><span class="lnt">86
+</span><span class="lnt">87
+</span><span class="lnt">88
+</span><span class="lnt">89
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+    <span class="k">enum</span> <span class="nc">color</span> <span class="p">{</span><span class="n">RED</span><span class="p">,</span> <span class="n">BLUE</span><span class="p">};</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">shortestAlternatingPaths</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;&amp;</span> <span class="n">red_edges</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;&amp;</span> <span class="n">blue_edges</span><span class="p">)</span> <span class="p">{</span>
+
+        <span class="c1">// 由于存在自环或者平行边，所以定义哈希表保存每个结点对应的多条边并初始化
+</span><span class="c1"></span>        <span class="n">unordered_map</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">redGraph</span><span class="p">;</span>
+        <span class="n">unordered_map</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">blueGraph</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="k">auto</span><span class="o">&amp;</span> <span class="nl">red</span> <span class="p">:</span> <span class="n">red_edges</span><span class="p">)</span> <span class="n">redGraph</span><span class="p">[</span><span class="n">red</span><span class="p">[</span><span class="mi">0</span><span class="p">]].</span><span class="n">push_back</span><span class="p">(</span><span class="n">red</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+        <span class="k">for</span> <span class="p">(</span><span class="k">auto</span><span class="o">&amp;</span> <span class="nl">blue</span> <span class="p">:</span> <span class="n">blue_edges</span><span class="p">)</span> <span class="n">blueGraph</span><span class="p">[</span><span class="n">blue</span><span class="p">[</span><span class="mi">0</span><span class="p">]].</span><span class="n">push_back</span><span class="p">(</span><span class="n">blue</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+
+        <span class="k">const</span> <span class="kt">int</span> <span class="n">colorNum</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+        <span class="k">const</span> <span class="kt">int</span> <span class="n">maxNode</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+
+        <span class="c1">// 由于存在环和平行边，用数组 visit[x][y][color]=true 代表从节点x到节点y的且颜色为color的边被访问过，防止重复访问
+</span><span class="c1"></span>        <span class="c1">// 第三维[2]有两维，第0维代表红色是否访问，第1维代表蓝色是否访问
+</span><span class="c1"></span>        <span class="c1">// 所有的点初始化为0代表为被访问过
+</span><span class="c1"></span>        <span class="kt">bool</span> <span class="n">visited</span><span class="p">[</span><span class="n">maxNode</span><span class="p">][</span><span class="n">maxNode</span><span class="p">][</span><span class="n">colorNum</span><span class="p">];</span>
+        <span class="n">memset</span><span class="p">(</span><span class="n">visited</span><span class="p">,</span> <span class="nb">false</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">visited</span><span class="p">));</span>
+
+        <span class="c1">// step用于记录当前的步长，即从节点0到各节点的步长，从0逐渐+1自增
+</span><span class="c1"></span>        <span class="c1">// res代表节点 0 到节点 X 的最短路径的长度，初始化为最大值
+</span><span class="c1"></span>        <span class="kt">int</span> <span class="n">step</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">res</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">INT_MAX</span><span class="p">);</span>
+
+        <span class="c1">// 定义队列进行BFS，并进行初始化，pair&lt;int, int&gt;的意思是 &lt;当前节点, 路径上颜色&gt;
+</span><span class="c1"></span>        <span class="c1">// 队列初始化先进&lt;0, 1&gt;, 再进&lt;0, 0&gt;，即我们先访问蓝色，再访问红色。
+</span><span class="c1"></span>        <span class="n">queue</span><span class="o">&lt;</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="n">color</span><span class="o">&gt;&gt;</span> <span class="n">myQue</span><span class="p">;</span> <span class="c1">// &lt;node, color&gt; means start from node and select the edge with color
+</span><span class="c1"></span>        <span class="n">myQue</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">make_pair</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">BLUE</span><span class="p">));</span>
+        <span class="n">myQue</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">make_pair</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">RED</span><span class="p">));</span>
+
+        <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">myQue</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span>
+        <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">size</span> <span class="o">=</span> <span class="n">myQue</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+            <span class="o">++</span><span class="n">step</span><span class="p">;</span>
+
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="c1">// 队首元素出队列，得到其节点，以及颜色
+</span><span class="c1"></span>                <span class="kt">int</span> <span class="n">curNode</span> <span class="o">=</span> <span class="n">myQue</span><span class="p">.</span><span class="n">front</span><span class="p">().</span><span class="n">first</span><span class="p">;</span>
+                <span class="kt">int</span> <span class="n">curColor</span> <span class="o">=</span> <span class="n">myQue</span><span class="p">.</span><span class="n">front</span><span class="p">().</span><span class="n">second</span><span class="p">;</span>
+                <span class="n">myQue</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+
+                <span class="c1">//若当前已访问的为蓝色边，希望下一个节点的边是红色；反之亦然
+</span><span class="c1"></span>                <span class="k">if</span> <span class="p">(</span><span class="n">curColor</span> <span class="o">==</span> <span class="n">BLUE</span><span class="p">)</span>
+                <span class="p">{</span>
+                    <span class="c1">// 遍历当前节点每一个相邻的节点，寻找相连的红色边
+</span><span class="c1"></span>                    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span><span class="o">&amp;</span> <span class="nl">nextNode</span> <span class="p">:</span> <span class="n">blueGraph</span><span class="p">[</span><span class="n">curNode</span><span class="p">])</span>
+                    <span class="p">{</span>
+                        <span class="c1">// 如果 curNode 和 nextNode 相连的红色边未被访问过，访问并加入队列
+</span><span class="c1"></span>                        <span class="c1">// 同时需要更新两点之间的最短路径
+</span><span class="c1"></span>                        <span class="k">if</span> <span class="p">(</span><span class="n">visited</span><span class="p">[</span><span class="n">curNode</span><span class="p">][</span><span class="n">nextNode</span><span class="p">][</span><span class="n">RED</span><span class="p">]</span> <span class="o">==</span> <span class="nb">false</span><span class="p">)</span>
+                        <span class="p">{</span>
+                            <span class="n">res</span><span class="p">[</span><span class="n">nextNode</span><span class="p">]</span> <span class="o">=</span> <span class="n">min</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="n">nextNode</span><span class="p">],</span> <span class="n">step</span><span class="p">);</span>
+
+                            <span class="c1">// make_pair&lt;nextNode, 0&gt; 的含义是标记当前访问的边为红色，下次应该访问蓝色的
+</span><span class="c1"></span>                            <span class="n">myQue</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">make_pair</span><span class="p">(</span><span class="n">nextNode</span><span class="p">,</span> <span class="n">RED</span><span class="p">));</span>
+                            <span class="n">visited</span><span class="p">[</span><span class="n">curNode</span><span class="p">][</span><span class="n">nextNode</span><span class="p">][</span><span class="n">RED</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+                        <span class="p">}</span>
+                    <span class="p">}</span>
+                <span class="p">}</span>
+                <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">curColor</span> <span class="o">==</span> <span class="n">RED</span><span class="p">)</span>
+                <span class="p">{</span>
+                    <span class="c1">// 遍历当前节点每一个相邻的节点，寻找相连的蓝色边
+</span><span class="c1"></span>                    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span><span class="o">&amp;</span> <span class="nl">nextNode</span> <span class="p">:</span> <span class="n">redGraph</span><span class="p">[</span><span class="n">curNode</span><span class="p">])</span>
+                    <span class="p">{</span>
+                        <span class="c1">// 如果 curNode 和 nextNode 相连的蓝色边未被访问过，访问并加入队列
+</span><span class="c1"></span>                        <span class="c1">// 同时需要更新两点之间的最短路径
+</span><span class="c1"></span>                        <span class="k">if</span> <span class="p">(</span><span class="n">visited</span><span class="p">[</span><span class="n">curNode</span><span class="p">][</span><span class="n">nextNode</span><span class="p">][</span><span class="n">BLUE</span><span class="p">]</span> <span class="o">==</span> <span class="nb">false</span><span class="p">)</span>
+                        <span class="p">{</span>
+                            <span class="n">res</span><span class="p">[</span><span class="n">nextNode</span><span class="p">]</span> <span class="o">=</span> <span class="n">min</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="n">nextNode</span><span class="p">],</span> <span class="n">step</span><span class="p">);</span>
+
+                            <span class="c1">// make_pair&lt;nextNode, 1&gt; 的含义是标记当前访问的边为蓝色，下次应该访问红色的
+</span><span class="c1"></span>                            <span class="n">myQue</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">make_pair</span><span class="p">(</span><span class="n">nextNode</span><span class="p">,</span> <span class="n">BLUE</span><span class="p">));</span>
+                            <span class="n">visited</span><span class="p">[</span><span class="n">curNode</span><span class="p">][</span><span class="n">nextNode</span><span class="p">][</span><span class="n">BLUE</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+                        <span class="p">}</span>
+                    <span class="p">}</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="c1">// 根据题意，0 到自身的距离为0；在上述操作后，若 0 到其他节点距离仍为INT_MAX，说明不存在符合要求的路径，设置为-1；
+</span><span class="c1"></span>        <span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="k">if</span> <span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">INT_MAX</span><span class="p">)</span> <span class="n">res</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+
+        <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>从代码可以看出，</p>
+<ol>
+<li>使用<code>blueGraph/redGraph</code>保存图中的节点，数据结构是哈希 +  vector，哈希的键是节点，值是和该节点直接相连的其他节点；</li>
+<li>使用<code>visited</code>三维数组标识节点是否被访问过的信息；</li>
+<li>使用队列<code>myQueue</code>保存BFS中的node，这个队列中的元素是<code>&lt;node, expectColor&gt;</code>，即从<code>node</code>出发，从<code>node</code>起始的边的颜色，如果存在这样的边，那么将这条边的终点node和它的下一条不同颜色的边push进队列，循环往复直到所有的边都被访问到为止。</li>
+</ol>
+<h3 id="接雨水-ii">接雨水 II</h3>
+<p>题目见<a href="https://leetcode-cn.com/problems/trapping-rain-water-ii/" target="_blank" rel="noopener noreffer">407. 接雨水 II - 力扣（LeetCode）</a>，「待补充」。</p>
+<h2 id="参考资料">参考资料</h2>
+<ul>
+<li><a href="https://www.wikiwand.com/zh-hans/%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2" target="_blank" rel="noopener noreffer">深度优先搜索 - Wikiwand</a>，维基百科介绍</li>
+<li><a href="https://labuladong.gitbook.io/algo/di-ling-zhang-bi-du-xi-lie/bfs-kuang-jia" target="_blank" rel="noopener noreffer">BFS 算法解题套路框架 - labuladong的算法小抄</a>，非常直观富有启发性的介绍文章</li>
+<li><a href="https://www.cnblogs.com/python27/archive/2011/12/09/2282486.html" target="_blank" rel="noopener noreffer">【算法16】递归算法的时间复杂度终结篇 - python27 - 博客园</a>，如何评价递归算法的复杂度</li>
+<li><a href="https://developer.aliyun.com/article/756316" target="_blank" rel="noopener noreffer">图文详解 DFS 和 BFS | 算法必看系列知识二十四-阿里云开发者社区</a>，图解DFS和BFS的过程</li>
+</ul>]]></description>
+</item><item>
+    <title>01背包问题详解</title>
+    <link>https://bugxch.github.io/01%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%E8%AF%A6%E8%A7%A3/</link>
+    <pubDate>Sat, 22 Feb 2020 00:00:00 &#43;0000</pubDate><author>
+        <name>bugxch</name>
+    </author><guid>https://bugxch.github.io/01%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%E8%AF%A6%E8%A7%A3/</guid>
+    <description><![CDATA[<p>背包问题是非常经典的动态规划问题，但是中文书籍和资料很少有把这个问题说得清晰明了的，问题表述不清，递推公式错误，不一而足，我在彻底想清楚这个问题后，觉得很有必要记录下整个思考过程。</p>
+<h2 id="原始问题">原始问题</h2>
+<p>当前有$n$件物品，第$i$件物品的重量为$w_i$，价值为$p_i$，当前有一个容量为$C$的背包。此处物品的重量，价值以及背包的容量都是非负整数。从这些物品中精心挑选若干件装入包中，这若干件被挑选的物品<strong>总重量不超过背包容量$C$，总价值尽量大</strong>，那么所有可能的挑选方法得到的</p>
+<ol>
+<li>最大值为多少？</li>
+<li>放进去哪些物件得到这个最大值？</li>
+</ol>
+<p>问题的表述比较抽象，如果上面的问题有统一的算法，那么即便问题的规模缩小，问题解决的逻辑也不会有变化，所以从规模比较小的情形入手，更容易分析出来。假设背包容量是4kg，我们有3件物品，每件物品的价格以及重量见下表</p>
+<table>
+<thead>
+<tr>
+<th>物品</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>重量/kg</td>
+<td>1</td>
+<td>3</td>
+<td>4</td>
+</tr>
+<tr>
+<td>价格/$</td>
+<td>8</td>
+<td>9</td>
+<td>10</td>
+</tr>
+</tbody>
+</table>
+<p>我相信大多数人看到这个问题，会使用如下的<strong>贪婪算法</strong>。</p>
+<h2 id="贪婪算法">贪婪算法</h2>
+<ol>
+<li>
+<p>第1个想法是将物品按照价格从高到低进行排序，如果背包的空余容量可以容纳该物品，则将它放入背包。按照这个方法处理对于上面的例子，结果应该是仅仅放入第3件物品，价值是10，但是明显是错的，因为放入物品1和2的价值更大（17），所以<strong>这个方法行不通</strong>。</p>
+</li>
+<li>
+<p>与上面的方法类似，可以按照重量从轻到重装入背包，但是对于下面的情形一样行不通</p>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>重量/kg</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+</tr>
+<tr>
+<td>价格/$</td>
+<td>8</td>
+<td>9</td>
+<td>18</td>
+</tr>
+</tbody>
+</table>
+<p>放入背包的重量是物品1和2，总重是3，价值是17，正确答案是放入1和3，总价值是26，所以这种方法<strong>明显是错误的</strong>。</p>
+<ol start="3">
+<li>另一种改进的方法，定义物品的价值密度为</li>
+</ol>
+<p>$$
+\rho_i = p_i/w_i
+$$
+按照价值密度由高到低排序，依次核验后放入背包，但是按照该算法处理下面的情形依然是失败的</p>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>重量/kg</td>
+<td>1</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>价格/$</td>
+<td>8</td>
+<td>9</td>
+<td>18</td>
+</tr>
+<tr>
+<td>$\rho_i$</td>
+<td>8</td>
+<td>4.5</td>
+<td>9</td>
+</tr>
+</tbody>
+</table>
+<p>该方法的结果是放入1和3，但是明显2和3号的价值更大。</p>
+<p>所以，无论是按照重量，大小，还是密度排序，这样的方法都是错误的。其实考虑最周全的方法，求$n$件物品的是否放入背包的全部组合，记录所有总重量可以放入背包的组合的价值，然后选一个最大值即可，但是对于$n$件物品，需要考虑的组合有$2^n$组，算法的复杂度很高，当$n$比较大的时候就很不实际。</p>
+<p>上面的三种方法使用贪婪算法，下面是《算法的乐趣》中对贪婪算法的描述，</p>
+<blockquote>
+<p>贪婪算法是寻找最优解的常用方法，该方法将求解的过程分成若干步骤，在每个步骤都应用贪心原则，选取当前状态下最好的或者最优的选择（局部最有利的选择），并以此希望最后堆叠出的结果是最好的或者最优的解。</p>
+</blockquote>
+<p>之前的算法将物品的选择分解为依次挑选物品，这里的次序可以是价值从高到低，重量从低到高或者密度从大到小，并且希冀于每一步结束之后，整体上的价值是最高的，重量是最轻的或者密度是最大的。这个就是明显的贪婪算法思想，但是<strong>局部最优不等于全部最优</strong>，因此这样的算法是失败的。</p>
+<h2 id="动态规划">动态规划</h2>
+<h3 id="重新定义问题">重新定义问题</h3>
+<p>重新思考这个问题，换一个角度将其理解为<strong>有限空间利用价值最大化</strong>的问题，我们更清晰的描述一下这个问题，有助于我们进一步思考。<strong>从$n$个物品中挑选出其中的$m(m \le n)$个，用于填充大小为$C$的空间，</strong></p>
+<blockquote>
+<ol>
+<li>使得$m$个物件的的总重量不超过$C$，即$ \sum_{k=1}^{m}{w_k} \le C$</li>
+<li>在满足条件1的情况下，$m$个物件的总价值在所有可能的挑选组合中<strong>最大</strong>。</li>
+</ol>
+</blockquote>
+<p>我们用$V[i, C]$表示这$m$个物件的总价值，即
+$$
+V[i,C] = \max_{s.t.}{\sum_{k=1}^{m}{p_k}}，m \le n
+$$
+重申一下$V[i,C]$的含义，它表示**使用$i$个物件充分填充空间$C$得到的最大价值，**所以，这个问题就需要找到两样答案，</p>
+<ol>
+<li>$V[i,C]$的值；</li>
+<li>得到$V[i,C]$的值对应的$m$个物件的集合$M_i$</li>
+</ol>
+<p><strong>很多文章根本就没有把$V[i,C]$的含义说清楚！</strong></p>
+<p><strong>很多文章根本就没有把$V[i,C]$的含义说清楚！</strong></p>
+<p><strong>很多文章根本就没有把$V[i,C]$的含义说清楚！</strong></p>
+<p><strong>请注意，这个含义非常重要，在后面的推导和计算过程中会反复使用，请务必深刻理解！</strong></p>
+<hr>
+<h3 id="递推思路">递推思路</h3>
+<p>注意前方高能，<strong>下面是这个算法的关键</strong>, 假定我们已经得到上面两个问题的答案，**如果此时再有第$i + 1$个物品加进来，该怎么处理？**此时，问题转换为求</p>
+<blockquote>
+<ol>
+<li>使用$i + 1$个物件充分填充空间C得到的最大价值$V[i + 1,C]$</li>
+<li>以及$V[i + 1,C]$对应的物件的组合$M_{i+1}$</li>
+</ol>
+</blockquote>
+<p>当你手里拿着这个重量为$w_{i+1}$的物品，准备填充容量为$C$的**空包**时候（**注意此处的空包，不要想当然得以为包里面已经有前面的$i - 1$中挑选的物件**了），有下面两种情形，</p>
+<ol>
+<li>该物件的重量大于背包的容量，即$w_{i+1} \gt C$，那么这个物品无论如何也放不进背包，因此这个物品不会被选中，所以只能**使用前面$i$个物件填充$C$**，得出$V[i + 1,C] = V[i, C]，M_{i + 1} = M_{i}$。</li>
+<li>该物件的重量小于等于背包容量，即$w_{i+1} \le C$，这个时候你有两种选择，</li>
+</ol>
+<ul>
+<li>
+<p>先将这个物件放入背包，此处背包的可用空间还有$C-w_{i+1}$，那么可以使用之前的$i$件物品去充分填充这个剩余空间。注意，此时背包空间由两部分的物件充分填充，</p>
+<p></p>
+<ol>
+<li>
+<p>物件$i+1$充分填充空间$w_{i+1}$，该空间的最大价值为$p_{i+1}$</p>
+</li>
+<li>
+<p>之前的$i$个物件充分填充剩余的空间$C - w_{i+1}$，该空间的最大价值为$V[i-1, C-w_{i+1}]$
+所以，当前的情形下**使用$i+1$个物件填充空间$C$**的最大价值是上述二者的和，即$V[i+1, C] = V[i, C-w_{i+1}] + p_{i+1}，M_{i+1} = M_i\bigcup  i+1$。</p>
+</li>
+</ol>
+</li>
+<li>
+<p>不放入背包，那结果和之前的第一种情形一样，空间$C$由前面的$i$件物品充分填充，那么$V[i + 1,C] = V[i, C]，M_{i + 1} = M_{i}$。
+因此，结合上面的分析，对于这种可以放入背包的情形，取二者的最大值，有$V[i+1, C]=\max {V[i, C-w_{i+1}] + p_{i+1}，V[i, C]}$。</p>
+</li>
+</ul>
+<p>综合以上分析，我们得到了一个递推关系式，</p>
+<p></p>
+<p>**终于水落石出！**将递推关系式中的$i$换成$i-1$，于是得到如下的结果</p>
+<p></p>
+<hr>
+<h3 id="初始条件及推导方法">初始条件及推导方法</h3>
+<p>根据上面的推导式，就可以求出最后的结果，最后还有两点需要明确：</p>
+<ol>
+<li>
+<p><strong>$V[i, C]$的最初的值是什么？</strong></p>
+<p>回想一下这个值表示的含义，<strong>使用$i$个物件充分填充空间$C$得到的最大价值</strong>，仔细考虑这个含义可以得到</p>
+<ul>
+<li>$V[0,0] = 0$，使用0个物件填充大小为0的空间的最大价值肯定是0</li>
+<li>$V[0,C] = 0$，使用0个物件填充大小为C的空间的最大价值肯定是0，背包空空如也，价值为0</li>
+<li>$V[i,0] = 0$，使用$i$个物件填充大小为0的空间的最大价值肯定是0，背包空空如也，价值为0</li>
+</ul>
+</li>
+<li>
+<p><strong>如何根据最初的值，一步步推导出最终的结果$V[i, C]$？</strong></p>
+<p>再观察上面的递推公式，$i$个物件总的最大价值依赖于前$i-1$个物件总的最大价值以及当前第$i$个物件本身的重量以及价值，换句话说，如果<strong>我知道了前$i-1$个物件总的最大价值以及当前第$i$个物件本身的重量以及价值，那么我也能推导出$i$个物件总的最大价值。</strong></p>
+<p>更仔细的观察公式里面的max的公式，我们不仅需要知道$V[i-1, C]$，还需要知道$V[i-1, C-w_i]$，特别地，这里的$w_i$表示第$i$个物件的重量，它可以是任意的非负整数，因此我们需要知道$V[i-1,0]$到$V[i-1,C]$的所有值，于是下面的<strong>二维数组</strong>填充就呼之欲出。</p>
+</li>
+</ol>
+<h3 id="二维数组">二维数组</h3>
+<p>我们使用二维数组记录$V[i,C]$，二维数组的行数为物件的总数$i$，二维数组的列数是背包的容量$C+1$（<strong>注意此处多加了一列，因为从上面的推导看出我们需要知道$V[i-1,0]$的值，所以多加一列作为第0列</strong>），我们使用之前的问题，使用4Kg容量的背包挑选下面的物件</p>
+<table>
+<thead>
+<tr>
+<th>物品</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>重量/kg</td>
+<td>1</td>
+<td>3</td>
+<td>4</td>
+</tr>
+<tr>
+<td>价格/$</td>
+<td>8</td>
+<td>9</td>
+<td>10</td>
+</tr>
+</tbody>
+</table>
+<p>我们一步步看看这个表格怎么填充，</p>
+<ol>
+<li>
+<p>建立空的二维数组，行数是3，列数是5，表格中的所有值都是未知数（<strong>注意此表从第0列开始，我们数第0列，第1列直到第4列</strong>），</p>
+<p></p>
+</li>
+<li>
+<p>根据之前的推论$V[i,0] = 0,i = 1,2,3$，所有行的<strong>第0列都是0</strong>，得到如下的表格</p>
+<p></p>
+</li>
+<li>
+<p>计算<strong>第1行</strong>的值$V[1,k],k=1,2,3,4$，再回想一下这个含义的意思，<strong>使用1个物件填充空间为$k$的最大价值</strong>，第一个物件的重量是1，价值为8，那么</p>
+<ul>
+<li>可以填充大小为1的空间，填充后的剩余空间为0，总价值为8，即$V[1,1]= 8$；</li>
+<li>可以填充大小为2的空间，填充后的剩余空间为1，<strong>但是此时你手上没有别的物件了，所以填充到此为止</strong>，总价值为8，即$V[1,2]= 8$；</li>
+<li>可以填充大小为3的空间，填充后的剩余空间为2，但是此时你手上没有别的物件了，所以填充到此为止，总价值为8，即$V[1,3]= 8$；</li>
+<li>可以填充大小为4的空间，填充后的剩余空间为3，但是此时你手上没有别的物件了，所以填充到此为止，总价值为8，即$V[1,4]= 8$；</li>
+</ul>
+<p>于是，我们得到第一行的值如下表所示</p>
+<p></p>
+</li>
+<li>
+<p>有了<strong>第2行</strong>的值，就可以根据之前的递推公式机械式得计算，第2件物品的重量为$w_2=3$，价值为$p_2=9$，</p>
+<ul>
+<li>第2件物品的$w_2&gt;1$，所以<strong>根据递推公式</strong>计算$V[2,1]=V[1,1]=8$，这件物品不放入包中；</li>
+<li>第2件物品的$w_2&gt;2$，所以<strong>根据递推公式</strong>计算$V[2,2]=V[1,2]=8$，这件物品不放入包中；</li>
+<li>第2件物品的$w_2=3$，所以<strong>根据递推公式</strong>计算$V[2,3]=\max {V[1, 3-w_2] + p_{2}，V[1, 3]}=\max {V[1,0] + 9，V[1, 3]}=9$，这件物品放入包中；</li>
+<li>第2件物品的$w_2&lt;4$，所以<strong>根据递推公式</strong>计算$V[2,4]=\max{V[1, 4-w_2] + p_{2}，V[1, 4]}=\max{V[1, 1] + 9，V[1, 4]}=17$，这件物品放入包中；</li>
+</ul>
+<p>于是得到第二行的结果如下</p>
+<p></p>
+</li>
+<li>
+<p>按照计算第2行值的方法，计算第3行的值，结果如下</p>
+<p></p>
+<p>所以最终的结果是用3个物件填充空间为4的背包，得到的最大价值为$V[3,4] = 17$。</p>
+</li>
+</ol>
+<h3 id="放入哪些物件">放入哪些物件</h3>
+<p>但是且慢，文章的开头还有一个问题，我们放进去哪些物件，得到这个最大值的呢？请注意之前的递推思路那一小节中的物件集合$M_i$的变化，**当且仅当$V[i, C] = V[i-1, C-w{i}] + p_{i}$时，第$i$件物品才会被放进来**。再仔细观察一下递推公式，我们可以看到$V[i,C]$的值要么等于$V[i-1, C-w{i}] + p_{i}$，要么等于$V[i-1,C]$，所以可以确认</p>
+<blockquote>
+<p>如果$V[i, C] = V[i-1, C]$，那么第$i$件物品没有被放入背包中</p>
+</blockquote>
+<p>但是仅仅有这个条件判断是不是已经足够了，如果第$i$个物品是被放入背包中的，下一步回溯还是考察$V[i-1,C]$是否与$V[i-2,C]$的值相等吗？回到之前的那幅图</p>
+<p></p>
+<p>总的问题与子问题有相同的结构，如果第$i+1$个物品已经验证放入背包中了，更小的问题是**使用$i$个物件填充大小为$C-w_{i+1}$空间**，那么我们应该考察$V[i,C-w_{i}]$是否与$V[i-1,C-w_{i}]$的值相等。所以回溯的算法如下：</p>
+<ol>
+<li>从二维数组的$V[i, C]$开始，检查$V[i, C]$的值是否与$V[i-1, C]$相同；</li>
+<li>考察第1步的结果</li>
+</ol>
+<ul>
+<li>
+<p>如果相同，那么第$i$件物品没有被放入背包，令$i-1\rightarrow i$，即继续检查$V[i-1, C]$的值是否与$V[i-2, C]$相同；</p>
+</li>
+<li>
+<p>如果不同，那么第$i$件物品被放入背包，令$i-1\rightarrow i, C-w_i\rightarrow C$，即继续检查$V[i-1, C-w_i]$的值是否与$V[i-2, C-w_i]$相同；</p>
+</li>
+</ul>
+<ol start="3">
+<li>不停使用步骤2的逻辑，直到考察到$i=0$为止。</li>
+</ol>
+<p>那么，就可以逐行倒着回溯二维数组，</p>
+<ol>
+<li>
+<p>我们先看第3行，$V[3,4]=V[2,4]$，所以第3件物品没有放入背包；</p>
+<p></p>
+</li>
+<li>
+<p>第2行，$V[2,4]\ne V[1,4]$，所以<strong>第2件</strong>物品放入背包，接下来需要检查$V[1,4-w_2]$是否与$V[0,4-w_2]$相同；</p>
+<p></p>
+</li>
+<li>
+<p>第1行，$V[1,1]\ne V[0,1]$，所以<strong>第1件</strong>物品放入背包（注意此处$V[0,4] = 0$，二维表格没有第0行，但是我们初始条件中推导过这个值），检查结束。
+</p>
+</li>
+</ol>
+<h3 id="编程代码">编程代码</h3>
+<p>下面是C++的程序代码，</p>
+<p>定义一个背包的类，默认有10物件，每个物件大重量为6，最高价格为35。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="c1">// knapsack.h
+</span><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;ctime&gt;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="p">;</span>
+
+<span class="k">typedef</span> <span class="k">struct</span> <span class="nc">tagObj</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">weight</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">price</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">Obj</span><span class="p">;</span>
+
+<span class="kr">inline</span> <span class="kt">int</span> <span class="nf">max</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">a</span> <span class="o">&gt;</span> <span class="n">b</span> <span class="o">?</span> <span class="nl">a</span> <span class="p">:</span> <span class="n">b</span><span class="p">;</span> <span class="p">}</span>
+
+<span class="k">class</span> <span class="nc">Knapsack</span>
+<span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="n">Knapsack</span><span class="p">(</span><span class="k">const</span> <span class="kt">int</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">maxWeight</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">maxPrice</span> <span class="o">=</span> <span class="mi">35</span><span class="p">);</span>
+    <span class="kt">void</span> <span class="nf">SolvePro</span><span class="p">(</span><span class="k">const</span> <span class="kt">int</span> <span class="n">totalW</span><span class="p">);</span>
+    <span class="k">friend</span> <span class="n">std</span><span class="o">::</span><span class="n">ostream</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">&lt;&lt;</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">ostream</span><span class="o">&amp;</span> <span class="n">os</span><span class="p">,</span> <span class="k">const</span> <span class="n">Knapsack</span><span class="o">&amp;</span> <span class="n">nap</span><span class="p">);</span>
+<span class="k">private</span><span class="o">:</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">Obj</span><span class="o">&gt;</span> <span class="n">knapsack_</span><span class="p">;</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">index_</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">totalPrice_</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>方法如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="c1">// knapsack.cpp
+</span><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&#34;knapsack.h&#34;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;ctime&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;algorithm&gt;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="n">Knapsack</span><span class="o">::</span><span class="n">Knapsack</span><span class="p">(</span><span class="k">const</span> <span class="kt">int</span> <span class="n">size</span><span class="p">,</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">maxWeight</span><span class="p">,</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">minPrice</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">srand</span><span class="p">(</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">unsigned</span> <span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">time</span><span class="p">(</span><span class="k">nullptr</span><span class="p">)));</span>
+    <span class="n">Obj</span> <span class="n">obj</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+         <span class="c1">// 随机生成价值和重量
+</span><span class="c1"></span>        <span class="n">obj</span><span class="p">.</span><span class="n">weight</span> <span class="o">=</span> <span class="n">rand</span><span class="p">()</span> <span class="o">%</span> <span class="n">maxWeight</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="n">obj</span><span class="p">.</span><span class="n">price</span> <span class="o">=</span> <span class="n">rand</span><span class="p">()</span> <span class="o">%</span> <span class="n">minPrice</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="n">knapsack_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">obj</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="n">totalPrice_</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">std</span><span class="o">::</span><span class="n">ostream</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">&lt;&lt;</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">ostream</span><span class="o">&amp;</span> <span class="n">os</span><span class="p">,</span> <span class="k">const</span> <span class="n">Knapsack</span><span class="o">&amp;</span> <span class="n">nap</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">os</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Dispaly knapsack list</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+    <span class="n">os</span> <span class="o">&lt;&lt;</span> <span class="n">nap</span><span class="p">.</span><span class="n">knapsack_</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; object as below</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nap</span><span class="p">.</span><span class="n">knapsack_</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">os</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;: weight &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">nap</span><span class="p">.</span><span class="n">knapsack_</span><span class="p">.</span><span class="n">at</span><span class="p">(</span><span class="n">i</span><span class="p">).</span><span class="n">weight</span> <span class="o">&lt;&lt;</span> \
+            <span class="s">&#34;, price &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">nap</span><span class="p">.</span><span class="n">knapsack_</span><span class="p">.</span><span class="n">at</span><span class="p">(</span><span class="n">i</span><span class="p">).</span><span class="n">price</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">os</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">Knapsack</span><span class="o">::</span><span class="n">SolvePro</span><span class="p">(</span><span class="k">const</span> <span class="kt">int</span> <span class="n">totalW</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">const</span> <span class="kt">int</span> <span class="n">row</span> <span class="o">=</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">knapsack_</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+    <span class="k">const</span> <span class="kt">int</span> <span class="n">col</span> <span class="o">=</span> <span class="n">totalW</span><span class="p">;</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">matrix</span><span class="p">(</span><span class="n">row</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">col</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">row</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">col</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">matrix</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">j</span> <span class="o">&gt;=</span> <span class="n">knapsack_</span><span class="p">.</span><span class="n">at</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">).</span><span class="n">weight</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">matrix</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">matrix</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">],</span> \
+                    <span class="n">matrix</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span> <span class="o">-</span> <span class="n">knapsack_</span><span class="p">.</span><span class="n">at</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">).</span><span class="n">weight</span><span class="p">]</span> <span class="o">+</span> \
+                    <span class="n">knapsack_</span><span class="p">.</span><span class="n">at</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">).</span><span class="n">price</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="n">totalPrice_</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">col</span><span class="p">];</span>
+
+    <span class="kt">int</span> <span class="n">startRow</span> <span class="o">=</span> <span class="n">row</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">startCol</span> <span class="o">=</span> <span class="n">col</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">startRow</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">matrix</span><span class="p">[</span><span class="n">startRow</span><span class="p">][</span><span class="n">startCol</span><span class="p">]</span> <span class="o">==</span> <span class="n">matrix</span><span class="p">[</span><span class="n">startRow</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">startCol</span><span class="p">])</span> <span class="p">{</span>
+            <span class="n">startRow</span><span class="o">--</span><span class="p">;</span>
+            <span class="k">continue</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="n">index_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">startRow</span><span class="p">);</span>
+        <span class="n">startCol</span> <span class="o">-=</span> <span class="n">knapsack_</span><span class="p">.</span><span class="n">at</span><span class="p">(</span><span class="n">startRow</span> <span class="o">-</span> <span class="mi">1</span><span class="p">).</span><span class="n">weight</span><span class="p">;</span>
+        <span class="n">startRow</span><span class="o">--</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">reverse</span><span class="p">(</span><span class="n">index_</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">index_</span><span class="p">.</span><span class="n">end</span><span class="p">());</span>
+
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">Weight capacity is &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">totalW</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;, and totalPrice is &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">matrix</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">col</span><span class="p">]</span> <span class="o">&lt;&lt;</span> \
+        <span class="s">&#34;, selected obj index is: &#34;</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">index_</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">index_</span><span class="p">.</span><span class="n">at</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; &#34;</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>使用main函数，调用如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&#34;knapsack.h&#34;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">Knapsack</span> <span class="n">nap1</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span> <span class="c1">// 我们有10个物品，最大重量为6，最大价值为10，价值和重量都是随机生成的
+</span><span class="c1"></span>    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">nap1</span><span class="p">;</span>
+    <span class="n">nap1</span><span class="p">.</span><span class="n">SolvePro</span><span class="p">(</span><span class="mi">30</span><span class="p">);</span> <span class="c1">// 背包容量30
+</span><span class="c1"></span>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>结果如下</p>
+<p></p>
+<h2 id="参考资料">参考资料</h2>
+<ul>
+<li><a href="https://www.jianshu.com/p/a66d5ce49df5" target="_blank" rel="noopener noreffer">0-1背包问题 - 简书</a>，描述《算法图解》中对该问题的解法，比较有趣</li>
+<li><a href="https://www.cnblogs.com/Christal-R/p/Dynamic_programming.html" target="_blank" rel="noopener noreffer">动态规划解决01背包问题 - Christal_R - 博客园</a>，中文博客写得不错的文章</li>
+<li><a href="https://oi-wiki.org/dp/knapsack/" target="_blank" rel="noopener noreffer">背包 DP - OI Wiki</a>，在没有Google下搜索出来的总结比较全面的文章</li>
+<li><a href="https://www.kancloud.cn/kancloud/pack" target="_blank" rel="noopener noreffer">背包问题九讲 · 看云</a>，非常系统的背包问题的解释</li>
+</ul>]]></description>
+</item></channel>
+</rss>
