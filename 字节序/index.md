@@ -21,7 +21,7 @@ big endian 存放顺序是最高有效位，次高有效位，一直顺序存储
 
 附上 C 语言测试字节序的程序
 
-```
+```cpp
 void judge_endian(void)
 {
     int a = 1; //存储0x00000001到内存

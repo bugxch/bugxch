@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-    <head>
+
+<head>
 	<meta name="generator" content="Hugo 0.83.1" />
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="robots" content="noodp" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>致力于把技术要点写清楚</title><meta name="Description" content="博观而约取，厚积而薄发"><meta property="og:title" content="致力于把技术要点写清楚" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noodp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>致力于把技术要点写清楚</title><meta name="Description" content="博观而约取，厚积而薄发"><meta property="og:title" content="致力于把技术要点写清楚" />
 <meta property="og:description" content="博观而约取，厚积而薄发" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://bugxch.github.io/" /><meta property="og:image" content="https://bugxch.github.io/static/android-chrome-512x512.png"/>
@@ -34,48 +35,22 @@
             },"description": "博观而约取，厚积而薄发","image": "https:\/\/bugxch.github.io\/images\/Apple-Devices-Preview.png","thumbnailUrl": "https:\/\/bugxch.github.io\/images\/screenshot.png","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","name": "致力于把技术要点写清楚"
     }
     </script></head>
-    <body header-desktop="auto" header-mobile="auto"><script type="text/javascript">
-            if (window.localStorage && localStorage.getItem('theme')) {
-                let theme = localStorage.getItem('theme');
-                if (theme === 'light' || theme === 'dark' || theme === 'black') {
-                    document.body.setAttribute('theme', theme);
-                } else {
-                    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                        document.body.setAttribute('theme', 'dark');
-                    }
-                    else {
-                        document.body.setAttribute('theme', 'light');
-                    }
-                }
-            } else {
-                if ('auto' === 'light' || 'auto' === 'dark' || 'auto' === 'black') {
-                    document.body.setAttribute('auto');
-                    window.localStorage && localStorage.setItem('theme', 'auto');
-                } else {
-                    window.localStorage && localStorage.setItem('theme', 'auto');
-                    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                        document.body.setAttribute('theme', 'dark');
-                    }
-                    else {
-                        document.body.setAttribute('theme', 'light');
-                    }
-                }
-            }
-            function getMeta(metaName) {
-                const metas = document.getElementsByTagName('meta'); 
-                for (let i = 0; i < metas.length; i++) {
-                    if (metas[i].getAttribute('name') === metaName) {
-                        return metas[i];
-                    }
-                }
-                return '';
-            }
-            let themeColorMeta = getMeta('theme-color');
-            if (document.body.getAttribute('theme') != 'light') {
-                themeColorMeta.content = '#000000';
-            }
-        </script>
-        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+
+<body header-desktop="auto" header-mobile="auto"><script type="text/javascript">
+        function setTheme(theme) {document.body.setAttribute('theme', theme);}
+        function saveTheme(theme) {window.localStorage && localStorage.setItem('theme', theme);}
+        function getMeta(metaName) {
+            const metas = document.getElementsByTagName('meta');
+            for (let i = 0; i < metas.length; i++)
+                if (metas[i].getAttribute('name') === metaName)
+                    return metas[i];
+            return '';
+        }
+        if (window.localStorage && localStorage.getItem('theme')) {let theme = localStorage.getItem('theme');theme === 'light' || theme === 'dark' || theme === 'black' ? setTheme(theme) : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light')); } else { if ('auto' === 'light' || 'auto' === 'dark' || 'auto' === 'black') setTheme('auto'), saveTheme('auto'); else saveTheme('auto'), window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light');}
+        let themeColorMeta = getMeta('theme-color');
+        if (document.body.getAttribute('theme') != 'light') themeColorMeta.content = '#000000';
+    </script>
+    <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
     <div class="header-wrapper">
         <div class="header-title">
             <a href="/" title="致力于把技术要点写清楚"><span class="header-title-pre"><i class='fa fa-feather-alt'></i></span>Dive Into Think</a>
@@ -139,7 +114,7 @@
     <div id="search-dropdown-mobile"></div>
 </div>
 <main class="main">
-                <div class="container"><div class="page home" posts><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
+            <div class="container"><div class="page home" posts><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
             <a href="/binary_search/" aria-label=二分搜索——从入门到精通><img
         class="lazyload"
         data-src="https://pic.imgdb.cn/item/60940147d1a9ae528fdc3a1d.png"
@@ -152,7 +127,7 @@
         <a href="/binary_search/">二分搜索——从入门到精通</a>
     </h1><div class="post-meta">
         <span class="post-author"><a href="https://bugxch.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="author fas fa-user-circle fa-fw"></i>bugxch</a>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="2021-05-06">2021-05-06</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%8A%80%E8%89%BA/"><i class="far fa-folder fa-fw"></i>技艺</a></span></div><div class="content"><p>最近在准备考试，做了一些二分搜索的题目，感觉有点意思，记录下做题的心得😁。</p></div><div class="post-footer">
+        </span>&nbsp;<span class="post-publish">发布于 <time datetime="2021-05-06">2021-05-06</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/%E6%8A%80%E8%89%BA/"><i class="far fa-folder fa-fw"></i>技艺</a></span></div><div class="content"><p>最近在准备考试，做了一些二分搜索的题目，感觉有点意思，记录下做题的心得😁。</p></div><div class="post-footer">
         <a href="/binary_search/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/c/c&#43;&#43;/">C/C&#43;&#43;</a>,&nbsp;<a href="/tags/leetcode/">leetcode</a>,&nbsp;<a href="/tags/algorithm/">algorithm</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
@@ -168,7 +143,7 @@
         <a href="/dp_4/">Factory Method模式精解（C&#43;&#43;版本）</a>
     </h1><div class="post-meta">
         <span class="post-author"><a href="https://bugxch.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="author fas fa-user-circle fa-fw"></i>bugxch</a>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="2021-05-02">2021-05-02</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%8A%80%E8%89%BA/"><i class="far fa-folder fa-fw"></i>技艺</a></span></div><div class="content"><p>继续之前的设计模式第四弹，这次是大名鼎鼎的工厂方法模式。</p></div><div class="post-footer">
+        </span>&nbsp;<span class="post-publish">发布于 <time datetime="2021-05-02">2021-05-02</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/%E6%8A%80%E8%89%BA/"><i class="far fa-folder fa-fw"></i>技艺</a></span></div><div class="content"><p>继续之前的设计模式第四弹，这次是大名鼎鼎的工厂方法模式。</p></div><div class="post-footer">
         <a href="/dp_4/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/c/c&#43;&#43;/">C/C&#43;&#43;</a>,&nbsp;<a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
@@ -184,7 +159,7 @@
         <a href="/dp_3/">Template Method模式精解（C&#43;&#43;版本）</a>
     </h1><div class="post-meta">
         <span class="post-author"><a href="https://bugxch.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="author fas fa-user-circle fa-fw"></i>bugxch</a>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="2021-04-30">2021-04-30</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%8A%80%E8%89%BA/"><i class="far fa-folder fa-fw"></i>技艺</a></span></div><div class="content"><p>设计模式第三弹，设计模式<strong>行为型模式</strong>中的模板方法，也比较简单。</p></div><div class="post-footer">
+        </span>&nbsp;<span class="post-publish">发布于 <time datetime="2021-04-30">2021-04-30</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/%E6%8A%80%E8%89%BA/"><i class="far fa-folder fa-fw"></i>技艺</a></span></div><div class="content"><p>设计模式第三弹，设计模式<strong>行为型模式</strong>中的模板方法，也比较简单。</p></div><div class="post-footer">
         <a href="/dp_3/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/c/c&#43;&#43;/">C/C&#43;&#43;</a>,&nbsp;<a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
@@ -200,7 +175,7 @@
         <a href="/dp_2/">Adapter模式精解（C&#43;&#43;版本）</a>
     </h1><div class="post-meta">
         <span class="post-author"><a href="https://bugxch.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="author fas fa-user-circle fa-fw"></i>bugxch</a>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="2021-04-29">2021-04-29</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%8A%80%E8%89%BA/"><i class="far fa-folder fa-fw"></i>技艺</a></span></div><div class="content"><p>本篇是设计模式第二篇，适配器模式，比较好理解。</p></div><div class="post-footer">
+        </span>&nbsp;<span class="post-publish">发布于 <time datetime="2021-04-29">2021-04-29</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/%E6%8A%80%E8%89%BA/"><i class="far fa-folder fa-fw"></i>技艺</a></span></div><div class="content"><p>本篇是设计模式第二篇，适配器模式，比较好理解。</p></div><div class="post-footer">
         <a href="/dp_2/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/c/c&#43;&#43;/">C/C&#43;&#43;</a>,&nbsp;<a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
@@ -216,7 +191,7 @@
         <a href="/dp_1/">Iterator模式精解（C&#43;&#43;版本）</a>
     </h1><div class="post-meta">
         <span class="post-author"><a href="https://bugxch.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="author fas fa-user-circle fa-fw"></i>bugxch</a>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="2021-04-10">2021-04-10</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%8A%80%E8%89%BA/"><i class="far fa-folder fa-fw"></i>技艺</a></span></div><div class="content"><p>从本文章开始，参考结城浩的<a href="https://www.ituring.com.cn/book/1811" target="_blank" rel="noopener noreffer">《图解设计模式》</a>写23种设计模式的系列介绍文章，结合网络上其他的设计模式的内容，使用C++的语言编写这些设计模式，记录自己的设计模式的心得。</p></div><div class="post-footer">
+        </span>&nbsp;<span class="post-publish">发布于 <time datetime="2021-04-10">2021-04-10</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/%E6%8A%80%E8%89%BA/"><i class="far fa-folder fa-fw"></i>技艺</a></span></div><div class="content"><p>从本文章开始，参考结城浩的<a href="https://www.ituring.com.cn/book/1811" target="_blank" rel="noopener noreffer">《图解设计模式》</a>写23种设计模式的系列介绍文章，结合网络上其他的设计模式的内容，使用C++的语言编写这些设计模式，记录自己的设计模式的心得。</p></div><div class="post-footer">
         <a href="/dp_1/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/c/c&#43;&#43;/">C/C&#43;&#43;</a>,&nbsp;<a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>,&nbsp;<a href="/tags/%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F/">迭代器模式</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
@@ -232,7 +207,7 @@
         <a href="/c_driven_table/">[转载]表驱动法代码实践</a>
     </h1><div class="post-meta">
         <span class="post-author"><a href="https://bugxch.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="author fas fa-user-circle fa-fw"></i>bugxch</a>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="2021-01-22">2021-01-22</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%8A%80%E8%89%BA/"><i class="far fa-folder fa-fw"></i>技艺</a></span></div><div class="content"><p>这是一篇转载，点击查看<a href="https://www.cnblogs.com/clover-toeic/p/3730362.html" target="_blank" rel="noopener noreffer">原文链接</a>。</p></div><div class="post-footer">
+        </span>&nbsp;<span class="post-publish">发布于 <time datetime="2021-01-22">2021-01-22</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/%E6%8A%80%E8%89%BA/"><i class="far fa-folder fa-fw"></i>技艺</a></span></div><div class="content"><p>这是一篇转载，点击查看<a href="https://www.cnblogs.com/clover-toeic/p/3730362.html" target="_blank" rel="noopener noreffer">原文链接</a>。</p></div><div class="post-footer">
         <a href="/c_driven_table/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/c/c&#43;&#43;/">C/C&#43;&#43;</a>,&nbsp;<a href="/tags/%E9%87%8D%E6%9E%84/">重构</a>,&nbsp;<a href="/tags/%E8%AE%BE%E8%AE%A1/">设计</a></div></div>
 </article><ul class="pagination"><li class="page-item active">
@@ -254,15 +229,16 @@
                         <a href="/page/9/">9</a>
                     </span>
                 </li></ul></div></div>
-            </main><footer class="footer">
+        </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.83.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.10"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2016 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank" rel="noopener noreferrer">bugxch</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div></footer></div>
 
-        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
-                <i class="fas fa-arrow-up fa-fw"></i>
-            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
-                <i class="fas fa-comment fa-fw"></i>
-            </a>
-        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.9/dist/katex.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.9/dist/contrib/copy-tex.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.0/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.9.1/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.4.1/sharer.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.13.9/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.13.9/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.13.9/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.13.9/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"ROWPFW1USO","algoliaIndex":"index_json","algoliaSearchKey":"d0a8ab43cf24071544b25506aa08ba89","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+    <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+            <i class="fas fa-arrow-up fa-fw"></i>
+        </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+            <i class="fas fa-comment fa-fw"></i>
+        </a>
+    </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/contrib/copy-tex.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.0/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.10.2/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.4.1/sharer.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"ROWPFW1USO","algoliaIndex":"index_json","algoliaSearchKey":"d0a8ab43cf24071544b25506aa08ba89","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+
 </html>

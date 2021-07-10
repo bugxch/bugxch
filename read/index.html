@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="robots" content="noodp" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>罗马不是一天建成的 - 致力于把技术要点写清楚</title><meta name="Description" content="博观而约取，厚积而薄发"><meta property="og:title" content="罗马不是一天建成的" />
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noodp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>罗马不是一天建成的 - 致力于把技术要点写清楚</title><meta name="Description" content="博观而约取，厚积而薄发"><meta property="og:title" content="罗马不是一天建成的" />
 <meta property="og:description" content="书籍 状态 类别 阅读年份 读书笔记 推荐星级 Python 树莓派编程 想读 硬件编程 2021 待输出 ⭐⭐⭐⭐⭐ 树莓派开发实战（第2版） 想读 硬件编程 2021 待输出 ⭐⭐⭐⭐⭐ 传感器实" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://bugxch.github.io/read/" /><meta property="og:image" content="https://bugxch.github.io/static/android-chrome-512x512.png"/><meta property="article:section" content="" />
 <meta property="article:published_time" content="2021-05-10T07:22:05&#43;08:00" />
-<meta property="article:modified_time" content="2021-05-30T22:08:04&#43;08:00" />
+<meta property="article:modified_time" content="2021-07-03T07:04:53&#43;08:00" />
 
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://bugxch.github.io/static/android-chrome-512x512.png"/>
@@ -34,7 +35,7 @@
             "@type": "WebPage",
             "@id": "https:\/\/bugxch.github.io\/read\/"
         },"image": ["https:\/\/bugxch.github.io\/images\/Apple-Devices-Preview.png"],"genre": "page","wordcount":  739 ,
-        "url": "https:\/\/bugxch.github.io\/read\/","datePublished": "2021-05-10T07:22:05+08:00","dateModified": "2021-05-30T22:08:04+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+        "url": "https:\/\/bugxch.github.io\/read\/","datePublished": "2021-05-10T07:22:05+08:00","dateModified": "2021-07-03T07:04:53+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "xxxx","logo": "https:\/\/bugxch.github.io\/images\/avatar.png"},"author": {
                 "@type": "Person",
@@ -42,48 +43,22 @@
             },"description": ""
     }
     </script></head>
-    <body header-desktop="auto" header-mobile="auto"><script type="text/javascript">
-            if (window.localStorage && localStorage.getItem('theme')) {
-                let theme = localStorage.getItem('theme');
-                if (theme === 'light' || theme === 'dark' || theme === 'black') {
-                    document.body.setAttribute('theme', theme);
-                } else {
-                    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                        document.body.setAttribute('theme', 'dark');
-                    }
-                    else {
-                        document.body.setAttribute('theme', 'light');
-                    }
-                }
-            } else {
-                if ('auto' === 'light' || 'auto' === 'dark' || 'auto' === 'black') {
-                    document.body.setAttribute('auto');
-                    window.localStorage && localStorage.setItem('theme', 'auto');
-                } else {
-                    window.localStorage && localStorage.setItem('theme', 'auto');
-                    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                        document.body.setAttribute('theme', 'dark');
-                    }
-                    else {
-                        document.body.setAttribute('theme', 'light');
-                    }
-                }
-            }
-            function getMeta(metaName) {
-                const metas = document.getElementsByTagName('meta'); 
-                for (let i = 0; i < metas.length; i++) {
-                    if (metas[i].getAttribute('name') === metaName) {
-                        return metas[i];
-                    }
-                }
-                return '';
-            }
-            let themeColorMeta = getMeta('theme-color');
-            if (document.body.getAttribute('theme') != 'light') {
-                themeColorMeta.content = '#000000';
-            }
-        </script>
-        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+
+<body header-desktop="auto" header-mobile="auto"><script type="text/javascript">
+        function setTheme(theme) {document.body.setAttribute('theme', theme);}
+        function saveTheme(theme) {window.localStorage && localStorage.setItem('theme', theme);}
+        function getMeta(metaName) {
+            const metas = document.getElementsByTagName('meta');
+            for (let i = 0; i < metas.length; i++)
+                if (metas[i].getAttribute('name') === metaName)
+                    return metas[i];
+            return '';
+        }
+        if (window.localStorage && localStorage.getItem('theme')) {let theme = localStorage.getItem('theme');theme === 'light' || theme === 'dark' || theme === 'black' ? setTheme(theme) : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light')); } else { if ('auto' === 'light' || 'auto' === 'dark' || 'auto' === 'black') setTheme('auto'), saveTheme('auto'); else saveTheme('auto'), window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light');}
+        let themeColorMeta = getMeta('theme-color');
+        if (document.body.getAttribute('theme') != 'light') themeColorMeta.content = '#000000';
+    </script>
+    <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
     <div class="header-wrapper">
         <div class="header-title">
             <a href="/" title="致力于把技术要点写清楚"><span class="header-title-pre"><i class='fa fa-feather-alt'></i></span>Dive Into Think</a>
@@ -147,7 +122,7 @@
     <div id="search-dropdown-mobile"></div>
 </div>
 <main class="main">
-                <div class="container"><div class="page single special"><h1 class="single-title animate__animated animate__pulse animate__faster">罗马不是一天建成的</h1><h2 class="single-subtitle">通过阅读和笔记系统探究知识的精微</h2><div class="content" id="content"><p><img
+            <div class="container"><div class="page single special"><h1 class="single-title animate__animated animate__pulse animate__faster">罗马不是一天建成的</h1><h2 class="single-subtitle">通过阅读和笔记系统探究知识的精微</h2><div class="content" id="content"><p><img
         class="lazyload"
         data-src="https://pic.imgdb.cn/item/60986fa0d1a9ae528f5f4fb0.jpg"
         data-srcset="https://pic.imgdb.cn/item/60986fa0d1a9ae528f5f4fb0.jpg, https://pic.imgdb.cn/item/60986fa0d1a9ae528f5f4fb0.jpg 1.5x, https://pic.imgdb.cn/item/60986fa0d1a9ae528f5f4fb0.jpg 2x"
@@ -422,15 +397,16 @@
 </div><div id="comments"><div id="disqus_thread" class="comment"></div><noscript>
                 Please enable JavaScript to view the comments powered by <a href="https://disqus.com/?ref_noscript">Disqus</a>.
             </noscript></div></div></div>
-            </main><footer class="footer">
+        </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.83.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.10"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2016 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank" rel="noopener noreferrer">bugxch</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div></footer></div>
 
-        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
-                <i class="fas fa-arrow-up fa-fw"></i>
-            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
-                <i class="fas fa-comment fa-fw"></i>
-            </a>
-        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.9/dist/katex.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.9/dist/contrib/copy-tex.min.css"><script type="text/javascript" src="https://bugxch.disqus.com/embed.js" defer></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.0/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.9.1/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.4.1/sharer.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.13.9/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.13.9/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.13.9/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.13.9/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"ROWPFW1USO","algoliaIndex":"index_json","algoliaSearchKey":"d0a8ab43cf24071544b25506aa08ba89","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+    <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+            <i class="fas fa-arrow-up fa-fw"></i>
+        </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+            <i class="fas fa-comment fa-fw"></i>
+        </a>
+    </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/contrib/copy-tex.min.css"><script type="text/javascript" src="https://bugxch.disqus.com/embed.js" defer></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.0/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.10.2/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.4.1/sharer.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"ROWPFW1USO","algoliaIndex":"index_json","algoliaSearchKey":"d0a8ab43cf24071544b25506aa08ba89","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+
 </html>
